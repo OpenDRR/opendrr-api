@@ -131,17 +131,19 @@ You should see something similar to:
         "timeStamp": "2020-03-25T19:21:13.065240Z"
     }
 
-## Querying specific attributes
+## Querying PygeoAPI
 
 Refer to the PygeoAPI documentation for general guidance: 
 
     http://localhost:5000/openapi?f=html
 
+> NOTE: querying is currently limited to spatial extent and exact value queries. For more complex querying use Elasticsearch (see below).
+
 ### To filter on a specfic attribute
 
     http://localhost:5000/collections/economic_loss/items?Magnitude=6.8
 
-## Query Elasticsearch directly
+## Querying Elasticsearch
 
 ### Range query
 
