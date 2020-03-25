@@ -140,3 +140,32 @@ Refer to the PygeoAPI documentation for general guidance:
 ### To filter on a specfic attribute
 
     http://localhost:5000/collections/economic_loss/items?Magnitude=6.8
+
+## Query Elasticsearch directly
+
+### Range query
+
+    curl -XGET "http://localhost:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view/_search" -H 'Content-Type: 
+    application/json' -d'
+    {  
+        "query": {    
+            "range": {      
+                "properties.sL_AssetLoss": {        
+                    "gte": 1800000,        
+                    "lte": 2000000      
+                }    
+            }  
+        }
+    }'
+
+### Specific value
+
+    curl -XGET "http://localhost:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view/_search" -H 'Content-Type: 
+    application/json' -d'
+    {  
+        "query": {    
+            "match": {      
+                "properties.sL_AssetLoss": 1888058    
+            }  
+        }
+    }'
