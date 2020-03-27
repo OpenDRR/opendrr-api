@@ -51,7 +51,7 @@ def flatten_json(input_json):
             for subfield in input_json['properties']:
                 out[subfield] = input_json['properties'][subfield]
         elif field =='geometry':
-            out['coordinates'] = input_json['geometry']
+            out['geometry'] = input_json['geometry']
             
     return out
 
@@ -62,9 +62,9 @@ settings = {
         'number_of_shards': 1,
         'number_of_replicas': 0
     },
-    "mappings": {
+    'mappings': {
         'properties': {
-            'coordinates': {
+            'geometry': {
                 'type': 'geo_shape'
             }
         }
