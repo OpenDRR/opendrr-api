@@ -175,3 +175,26 @@ Refer to the PygeoAPI documentation for general guidance:
             }  
         }
     }'
+
+### Bounding box query
+
+    curl -XGET "http://localhost:9200/economic_loss_agg_view/_search" -H 'Content-Type: 
+    application/json' -d'
+    {  
+        "query": {
+            "bool": {
+            "filter": [
+                {
+                    "geo_shape": {
+                        "geometry": {
+                            "shape": {
+                                "type": "envelope",
+                                "coordinates": [ [ -119, 49 ], [ -118, 48 ] ]
+                            },
+                            "relation": "intersects"
+                        }
+                    }
+                }
+            ]
+        }
+    }'
