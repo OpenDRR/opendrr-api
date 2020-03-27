@@ -38,7 +38,7 @@ Add `dataset` to PygeoAPI using the Elasticsearch provider
                     end: null  # or empty (either means open ended)
             provider:
                 name: Elasticsearch
-                data: http://localhost:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view
+                data: http://localhost:9200/economic_loss_agg_view
                 id_field: Sauid
 
 > NOTE: a sample configuration is provided in `configuration/local.config.yml`
@@ -49,7 +49,7 @@ Start PygeoAPI on localhost
 
 Run `load_es_data.py` script passing in a property that you want to use as the `id` (e.g. Sauid)
 
-    $ python scripts/load_es_data.py sample_data/economic_oss_agg.geojson Sauid
+    $ python scripts/load_es_data.py sample-data/economic_loss_agg_view.geojson Sauid
 
 Check Elasticsearch to ensure that the index was created
 
@@ -58,7 +58,7 @@ Check Elasticsearch to ensure that the index was created
 You should see something similar to:
 
     health status index ...
-    green  open   dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view XnIFL7LNTBWupGSXJOFjig ...
+    green  open   economic_loss_agg_view XnIFL7LNTBWupGSXJOFjig ...
 
 Check PygeoAPI to make sure that the feature collection can be acccesed
 
@@ -133,7 +133,7 @@ You should see something similar to:
 
 ## Querying PygeoAPI
 
-Refer to the PygeoAPI documentation for general guidance: 
+Refer to the PygeoAPI documentation for general guidance:
 
     http://localhost:5000/openapi?f=html
 
@@ -143,11 +143,15 @@ Refer to the PygeoAPI documentation for general guidance:
 
     http://localhost:5000/collections/economic_loss/items?Magnitude=6.8
 
+### To filter using a bounding box
+
+    http://localhost:5000/collections/economic_loss/items?bbox=-119,48,-118,49&f=json
+
 ## Querying Elasticsearch
 
 ### Range query
 
-    curl -XGET "http://localhost:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view/_search" -H 'Content-Type: 
+    curl -XGET "http://localhost:9200/economic_loss_agg_view/_search" -H 'Content-Type: 
     application/json' -d'
     {  
         "query": {    
@@ -162,7 +166,7 @@ Refer to the PygeoAPI documentation for general guidance:
 
 ### Specific value
 
-    curl -XGET "http://localhost:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view/_search" -H 'Content-Type: 
+    curl -XGET "http://localhost:9200/economic_loss_agg_view/_search" -H 'Content-Type: 
     application/json' -d'
     {  
         "query": {    

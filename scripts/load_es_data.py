@@ -52,7 +52,7 @@ settings = {
     },
     'mappings': {
         'properties': {
-            'coordinates': {
+            'geometry': {
                 'type': 'geo_shape'
             },
             'properties': {
