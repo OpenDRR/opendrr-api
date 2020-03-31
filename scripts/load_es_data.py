@@ -48,8 +48,7 @@ def flatten_json(input_json):
     out = {}
     for field in input_json:
         if field == 'properties':
-            for subfield in input_json['properties']:
-                out[subfield] = input_json['properties'][subfield]
+            out['properties'] = input_json['properties']
         elif field =='geometry':
             out['geometry'] = input_json['geometry']
             
@@ -81,10 +80,10 @@ with open(sys.argv[1]) as fh:
 for fRaw in d['features']:
     f = flatten_json(fRaw)
     try:
-        f[id_field] = int(f[id_field])
+        f['properties'][id_field] = int(f['properties'][id_field])
     except ValueError:
-        f[id_field] = f[id_field]
+        f['properties'][id_field] = f['properties'][id_field]
     try:
-        res = es.index(index=index_name, id=f[id_field], body=f)
+        res = es.index(index=index_name, id=f['properties'][id_field], body=f)
     except:
-        print("Sauid: "+str(f[id_field])+" not loaded correctly")
+        print("Sauid: "+str(f['properties'][id_field])+" not loaded correctly")
