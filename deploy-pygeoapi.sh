@@ -2,14 +2,36 @@
 # -*- coding: utf-8 -*-
 
 ROOT=$( pwd )
+OPTIND=1
 
-while getopts "c" opt; do
+function print_help
+{
+  echo '
+    Deploy the application.
+
+    Usage:
+    -c          clean install
+    -h          show help
+    '
+}
+
+while getopts "ch" opt; do
   case ${opt} in
     c)
       clean=1
       ;;
+    \?|h)
+      print_help
+      exit 0
+      ;;
   esac
 done
+
+# clean up previous cloned repo
+if [  "${clean}" ]; then
+    echo "Starting a clean install..."
+    rm -r -f pygeoapi
+fi
 
 # Stop any running process
 lsof -ti:5000 | xargs kill
@@ -23,7 +45,8 @@ cd venv-pygeoapi
 . bin/activate
 
 # clean up previous cloned repo
-if [ "${clean}" ]; then
+if [  "${clean}" ]; then
+    echo "Starting a clean install..."
     rm -r -f pygeoapi
 fi
 
@@ -34,15 +57,18 @@ if [ ! -d "pygeoapi" ]; then
     pip install -r requirements.txt
     pip install -r requirements-dev.txt
     pip install -r requirements-provider.txt
-    # install starlette requirements accordingly from requirements-starlette.txt
     pip install -e .
-    # create local configuration
-    cp $ROOT/configuration/local.config.yml local.config.yml
-    export PYGEOAPI_CONFIG=$(pwd)/local.config.yml
     # generate OpenAPI Document
     pygeoapi generate-openapi-document -c local.config.yml > openapi.yml
-    export PYGEOAPI_OPENAPI=$(pwd)/openapi.yml
 
 fi
 
+# copy local configuration
+cp $ROOT/configuration/local.config.yml local.config.yml
+
+export PYGEOAPI_CONFIG=$(pwd)/local.config.yml
+export PYGEOAPI_OPENAPI=$(pwd)/openapi.yml
+
 pygeoapi serve
+
+# docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.6.2

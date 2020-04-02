@@ -11,7 +11,11 @@ REST API for OpenDRR data
 
 ## Setup
 
-Start Elasticsearch on localhost
+Install and start Elasticsearch on localhost
+
+    $ docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+
+> NOTE: if you have Elasticsearch installed on localhost already simply start it:
 
     $ elasticsearch
 
@@ -43,13 +47,13 @@ Add `dataset` to PygeoAPI using the Elasticsearch provider
 
 > NOTE: a sample configuration is provided in `configuration/local.config.yml`
 
-Start PygeoAPI on localhost
+Install and start PygeoAPI on localhost
 
-    $ pygeoapi serve
+    $ . deploy-pygeoapi.sh
 
 Run `load_es_data.py` script passing in a property that you want to use as the `id` (e.g. Sauid)
 
-    $ python scripts/load_es_data.py sample_data/economic_oss_agg.geojson Sauid
+    $ python scripts/load_es_data.py sample-data/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view.geojson Sauid
 
 Check Elasticsearch to ensure that the index was created
 
