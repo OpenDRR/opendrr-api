@@ -50,7 +50,7 @@ Add `dataset` to pygeoapi using the Elasticsearch provider
                     end: null  # or empty (either means open ended)
             provider:
                 name: Elasticsearch
-                data: http://localhost:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view
+                data: http://localhost:9200/economic_loss_agg_view
                 id_field: Sauid
 
 > NOTE: a sample configuration is provided in `configuration/local.config.yml`
@@ -70,7 +70,7 @@ Check Elasticsearch to ensure that the index was created
 You should see something similar to:
 
     health status index ...
-    green  open   dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view XnIFL7LNTBWupGSXJOFjig ...
+    green  open   economic_loss_agg_view XnIFL7LNTBWupGSXJOFjig ...
 
 Check pygeoapi to make sure that the feature collection can be acccesed
 
@@ -155,11 +155,15 @@ Refer to the pygeoapi documentation for general guidance:
 
     http://localhost:5000/collections/economic_loss/items?Magnitude=6.8
 
+### To filter using a bounding box
+
+    http://localhost:5000/collections/economic_loss/items?bbox=-119,48,-118,49&f=json
+
 ## Querying Elasticsearch
 
 ### Range query
 
-    curl -XGET "http://localhost:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view/_search" -H 'Content-Type: 
+    curl -XGET "http://localhost:9200/economic_loss_agg_view/_search" -H 'Content-Type: 
     application/json' -d'
     {  
         "query": {    
@@ -174,12 +178,35 @@ Refer to the pygeoapi documentation for general guidance:
 
 ### Specific value
 
-    curl -XGET "http://localhost:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view/_search" -H 'Content-Type: 
+    curl -XGET "http://localhost:9200/economic_loss_agg_view/_search" -H 'Content-Type: 
     application/json' -d'
     {  
         "query": {    
             "match": {      
                 "properties.sL_AssetLoss": 1888058    
             }  
+        }
+    }'
+
+### Bounding box query
+
+    curl -XGET "http://localhost:9200/economic_loss_agg_view/_search" -H 'Content-Type: 
+    application/json' -d'
+    {  
+        "query": {
+            "bool": {
+            "filter": [
+                {
+                    "geo_shape": {
+                        "geometry": {
+                            "shape": {
+                                "type": "envelope",
+                                "coordinates": [ [ -119, 49 ], [ -118, 48 ] ]
+                            },
+                            "relation": "intersects"
+                        }
+                    }
+                }
+            ]
         }
     }'
