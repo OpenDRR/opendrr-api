@@ -70,7 +70,6 @@ settings = {
     }
 }
 
-
 # create index
 es.indices.create(index=index_name, body=settings, request_timeout=90)
 

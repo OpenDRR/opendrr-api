@@ -36,12 +36,12 @@ fi
 # Stop any running process
 lsof -ti:5000 | xargs kill
 
-if [ ! -d "$ROOT/venv-pygeoapi" ]; then
-    python3 -m venv "venv-pygeoapi"
+if [ ! -d "$ROOT/venv" ]; then
+    python3 -m venv "venv"
 fi
-source "$ROOT/venv-pygeoapi/bin/activate"
+source "$ROOT/venv/bin/activate"
 
-cd venv-pygeoapi
+cd venv
 . bin/activate
 
 # clean up previous cloned repo
@@ -70,5 +70,3 @@ export PYGEOAPI_CONFIG=$(pwd)/local.config.yml
 export PYGEOAPI_OPENAPI=$(pwd)/openapi.yml
 
 pygeoapi serve
-
-# docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.6.2

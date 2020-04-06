@@ -4,12 +4,20 @@ REST API for OpenDRR data
 ## Prerequisites
  - Elasticsearch 7.1.0+ running locally on port 9200
     - E.g. http://localhost:9200/
-- PygeoAPI 0.7.0+ with Elasticsearch provider running locally
+- pygeoapi 0.7.0+ with Elasticsearch provider running locally
     - E.g. http://localhost:5000/
 - GeoJSON file(s)
     - Sample provided in `sample-data` directory
 
 ## Setup
+
+### Deploy stack using Docker (Recommended)
+
+Easiest way to get the API stack setup is to use `deploy-stack.sh`. This script will deploy Elasticsearch and pygeoapi in Docker containers and load the sample data.
+
+    $ . deploy-stack.sh
+  
+### Deploy stack components seperately
 
 Install and start Elasticsearch on localhost
 
@@ -19,7 +27,7 @@ Install and start Elasticsearch on localhost
 
     $ elasticsearch
 
-Add `dataset` to PygeoAPI using the Elasticsearch provider
+Add `dataset` to pygeoapi using the Elasticsearch provider
 
     datasets:
         economic_loss:
@@ -47,7 +55,7 @@ Add `dataset` to PygeoAPI using the Elasticsearch provider
 
 > NOTE: a sample configuration is provided in `configuration/local.config.yml`
 
-Install and start PygeoAPI on localhost
+Install and start pygeoapi on localhost
 
     $ . deploy-pygeoapi.sh
 
@@ -64,7 +72,7 @@ You should see something similar to:
     health status index ...
     green  open   dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view XnIFL7LNTBWupGSXJOFjig ...
 
-Check PygeoAPI to make sure that the feature collection can be acccesed
+Check pygeoapi to make sure that the feature collection can be acccesed
 
     $ http://localhost:5000/collections/economic_loss/items?f=json&limit=1
 
@@ -135,9 +143,9 @@ You should see something similar to:
         "timeStamp": "2020-03-25T19:21:13.065240Z"
     }
 
-## Querying PygeoAPI
+## Querying pygeoapi
 
-Refer to the PygeoAPI documentation for general guidance: 
+Refer to the pygeoapi documentation for general guidance:
 
     http://localhost:5000/openapi?f=html
 
