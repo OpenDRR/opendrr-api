@@ -163,7 +163,7 @@ Refer to the pygeoapi documentation for general guidance:
 
 ### Range query
 
-    curl -XGET "http://localhost:9200/economic_loss_agg_view/_search" -H 'Content-Type: 
+    curl -XGET "http://localhost:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view/_search" -H 'Content-Type: 
     application/json' -d'
     {  
         "query": {    
@@ -178,7 +178,7 @@ Refer to the pygeoapi documentation for general guidance:
 
 ### Specific value
 
-    curl -XGET "http://localhost:9200/economic_loss_agg_view/_search" -H 'Content-Type: 
+    curl -XGET "http://localhost:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view/_search" -H 'Content-Type: 
     application/json' -d'
     {  
         "query": {    
@@ -190,7 +190,7 @@ Refer to the pygeoapi documentation for general guidance:
 
 ### Bounding box query
 
-    curl -XGET "http://localhost:9200/economic_loss_agg_view/_search" -H 'Content-Type: 
+    curl -XGET "http://localhost:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view/_search" -H 'Content-Type: 
     application/json' -d'
     {  
         "query": {
