@@ -1,6 +1,8 @@
 # opendrr-api
 REST API for OpenDRR data
 
+![image description](https://github.com/OpenDRR/documentation/blob/master/models/OpenDRR%20API.png)
+
 ## Prerequisites
  - Elasticsearch 7.1.0+ running locally on port 9200
     - E.g. http://localhost:9200/
