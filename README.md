@@ -3,7 +3,9 @@ REST API for OpenDRR data
 
 ![image description](https://github.com/OpenDRR/documentation/blob/master/models/OpenDRR%20API.png)
 
-## Prerequisites
+## Setup in your local environment
+
+### Prerequisites
  - Elasticsearch 7.1.0+ running locally on port 9200
     - E.g. http://localhost:9200/
 - pygeoapi 0.7.0+ with Elasticsearch provider running locally
@@ -11,15 +13,15 @@ REST API for OpenDRR data
 - GeoJSON file(s)
     - Sample provided in `sample-data` directory
 
-## Setup
+### Setup
 
-### Deploy stack using Docker (Recommended)
+#### Deploy stack using Docker (Recommended)
 
 Easiest way to get the API stack setup is to use `deploy-stack.sh`. This script will deploy Elasticsearch and pygeoapi in Docker containers and load the sample data.
 
     $ . deploy-stack.sh
   
-### Deploy stack components seperately
+#### Deploy stack components seperately
 
 Install and start Elasticsearch on localhost
 
@@ -145,7 +147,7 @@ You should see something similar to:
         "timeStamp": "2020-03-25T19:21:13.065240Z"
     }
 
-## Querying pygeoapi
+### Querying pygeoapi
 
 Refer to the pygeoapi documentation for general guidance:
 
@@ -153,17 +155,17 @@ Refer to the pygeoapi documentation for general guidance:
 
 > NOTE: querying is currently limited to spatial extent and exact value queries. For more complex querying use Elasticsearch (see below).
 
-### To filter on a specfic attribute
+#### To filter on a specfic attribute
 
     http://localhost:5000/collections/economic_loss/items?Magnitude=6.8
 
-### To filter using a bounding box
+#### To filter using a bounding box
 
     http://localhost:5000/collections/economic_loss/items?bbox=-119,48,-118,49&f=json
 
-## Querying Elasticsearch
+### Querying Elasticsearch
 
-### Range query
+#### Range query
 
     curl -XGET "http://localhost:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view/_search" -H 'Content-Type: 
     application/json' -d'
@@ -178,7 +180,7 @@ Refer to the pygeoapi documentation for general guidance:
         }
     }'
 
-### Specific value
+#### Specific value
 
     curl -XGET "http://localhost:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view/_search" -H 'Content-Type: 
     application/json' -d'
@@ -190,7 +192,7 @@ Refer to the pygeoapi documentation for general guidance:
         }
     }'
 
-### Bounding box query
+#### Bounding box query
 
     curl -XGET "http://localhost:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view/_search" -H 'Content-Type: 
     application/json' -d'
