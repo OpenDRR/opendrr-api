@@ -17,6 +17,11 @@ REST API for OpenDRR data
 
 #### Deploy stack using Docker (Recommended)
 
+##### Prerequisites
+
+- Docker engine installed and running
+- Curl installed
+
 Easiest way to get the API stack setup is to use `deploy-stack.sh`. This script will deploy Elasticsearch and pygeoapi in Docker containers and load the sample data.
 
     $ . deploy-stack.sh
