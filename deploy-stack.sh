@@ -32,9 +32,24 @@ else
     printf "\r "
     
     # load sample data into Elasticsearch
+    if [ ! -d "$ROOT/venv" ]; then
+        python3 -m venv "venv"
+    fi
+    source "$ROOT/venv/bin/activate"
+
+    cd venv
+    printf "\nActivating virtualenv...\n"
+    . bin/activate
+
+    printf "\nInstalling dependencies...\n"
+    pip3 install elasticsearch &&
+    
     printf "\nLoading data into Elasticsearch...\n"
     python3 $ROOT/scripts/load_es_data.py $ROOT/sample-data/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view.geojson Sauid  &&
     printf "\nData load complete!\n"
+
+    printf "\nDeactivating virtualenv...\n"
+    deactivate
 
     # start pygeoapi
     container_pygeoapi=opendrr-api-pygeoapi
