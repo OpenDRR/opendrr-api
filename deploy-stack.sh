@@ -43,10 +43,6 @@ if [ ! -d "$ROOT/venv" ]; then
 fi
 source "$ROOT/venv/bin/activate"
 
-cd venv
-printf "\nActivating virtualenv...\n"
-. bin/activate
-
 printf "\nInstalling dependencies...\n"
 pip3 install elasticsearch &&
 
