@@ -63,4 +63,4 @@ fi
 docker rm $container_pygeoapi > /dev/null 2>&1
 printf "\nInitializing pygeoapi container...\n\n"
 docker pull geopython/pygeoapi
-docker run --network opendrr-net --name $container_pygeoapi -p 5000:80 -v $ROOT/configuration/local.config.yml:/pygeoapi/local.config.yml -it geopython/pygeoapi
+docker run -d --network opendrr-net --name $container_pygeoapi -p 5000:80 -v $ROOT/configuration/local.config.yml:/pygeoapi/local.config.yml -it geopython/pygeoapi

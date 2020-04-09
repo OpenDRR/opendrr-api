@@ -75,4 +75,4 @@ def gendata(data):
             "_source": item
         }
 
-helpers.bulk(es, gendata(d))
+helpers.bulk(es, gendata(d), raise_on_error=False)
