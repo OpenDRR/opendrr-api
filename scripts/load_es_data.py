@@ -32,6 +32,8 @@ import os
 import sys
 
 from elasticsearch import Elasticsearch
+from elasticsearch import helpers
+
 es = Elasticsearch()
 
 if len(sys.argv) < 3:
@@ -43,17 +45,6 @@ id_field = sys.argv[2]
 
 if es.indices.exists(index_name):
     es.indices.delete(index_name)
-
-def flatten_json(input_json):
-    out = {}
-    for field in input_json:
-        if field == 'properties':
-            out['properties'] = input_json['properties']
-        elif field =='geometry':
-            out['geometry'] = input_json['geometry']
-            
-    return out
-
 
 # index settings
 settings = {
@@ -76,13 +67,12 @@ es.indices.create(index=index_name, body=settings, request_timeout=90)
 with open(sys.argv[1]) as fh:
     d = json.load(fh)
 
-for fRaw in d['features']:
-    f = flatten_json(fRaw)
-    try:
-        f['properties'][id_field] = int(f['properties'][id_field])
-    except ValueError:
-        f['properties'][id_field] = f['properties'][id_field]
-    try:
-        res = es.index(index=index_name, id=f['properties'][id_field], body=f)
-    except:
-        print("Sauid: "+str(f['properties'][id_field])+" not loaded correctly")
+def gendata(data):
+    for item in data['features']:
+        yield {
+            "_index": index_name,
+            "_id": item['properties'][id_field],
+            "_source": item
+        }
+
+helpers.bulk(es, gendata(d))
