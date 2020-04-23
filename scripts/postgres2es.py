@@ -32,9 +32,105 @@ import os
 import sys
 import psycopg2
 import configparser
+import logging
+import argparse
 
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
+
+'''
+Script to convert DSRA indicator views to ElasticSearch Index
+Can be run from the command line with mandatory arguments 
+Run this script with a command like:
+python3 postgres2es.py --eqScenario="sim6p8_cr2022_rlz_1" --retrofitPrefix="b0" --dbview=casualties_agg_view --idField="Sauid"
+'''
+
+#Main Function
+def main():
+    logging.basicConfig(level=logging.INFO,
+                        format='%(asctime)s - %(levelname)s - %(message)s', 
+                        handlers=[logging.FileHandler('{}.log'.format(os.path.splitext(sys.argv[0])[0])),
+                                  logging.StreamHandler()])
+    auth = get_config_params('config.ini')
+    args = parse_args()
+    view = "dsra_{eq_scenario}_{retrofit_prefix}_{dbview}".format(**{'eq_scenario':args.eqScenario, 'retrofit_prefix':args.retrofitPrefix, 'dbview':args.dbview})
+    id_field = args.idField    
+    
+    #es = Elasticsearch()
+    #es = Elasticsearch([auth.get('es', 'es_endpoint')], http_auth=(auth.get('es', 'es_un'), auth.get('es', 'es_pw')))
+    es = Elasticsearch([auth.get('es', 'es_endpoint')], http_auth=("admin", "jL1hDw77^j"))
+    sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) FROM "results_float"."{}"'.format(view)
+    connection = None
+    try:
+        #Connect to the PostGIS database hosted on RDS
+        connection = psycopg2.connect(user = auth.get('rds', 'postgres_un'),
+                                        password = auth.get('rds', 'postgres_pw'),
+                                        host = auth.get('rds', 'postgres_host'),
+                                        port = auth.get('rds', 'postgres_port'),
+                                        database = auth.get('rds', 'postgres_db'))
+        #Query the entire view with the geometries in geojson format
+        cur = connection.cursor()
+        cur.execute(sqlquerystring)
+        rows = cur.fetchall()
+        columns = [name[0] for name in cur.description]
+        geomIndex = columns.index('st_asgeojson')
+        feature_collection = {'type': 'FeatureCollection', 'features': []}
+        
+        #Format the table into a geojson format for ES/Kibana consumption
+        for row in rows:
+            feature = {
+                'type': 'Feature',
+                'geometry': json.loads(row[geomIndex]),
+                'properties': {},
+            }
+            for index, column in enumerate(columns):
+                if column != "st_asgeojson":
+                    value =row[index]
+                    feature['properties'][column] = value
+            feature_collection['features'].append(feature)
+        geojsonobject = json.dumps(feature_collection, indent=2)
+
+    except (Exception, psycopg2.Error) as error :
+        logging.error(error)
+
+    finally:
+        if(connection):
+            # cursor.close()
+            connection.close()
+
+    # index settings
+    settings = {
+        'settings': {
+            'number_of_shards': 1,
+            'number_of_replicas': 0
+        },
+        'mappings': {
+            'properties': {
+                'geometry': {
+                    'type': 'geo_shape'
+                }
+            }
+        }
+    }
+    # create index
+    if es.indices.exists(view):
+        es.indices.delete(view)
+
+    es.indices.create(index=view, body=settings, request_timeout=90)
+
+    d = json.loads(geojsonobject)
+
+    helpers.bulk(es, gendata(d, view, id_field), raise_on_error=False)
+
+    return
+
+def gendata(data, view, id_field):
+    for item in data['features']:
+        yield {
+            "_index": view,
+            "_id": item['properties'][id_field],
+            "_source": item
+        }
 
 def get_config_params(args):
     """
@@ -44,98 +140,15 @@ def get_config_params(args):
     configParseObj.read(args)
     return configParseObj
 
-auth = get_config_params('config.ini')
+def parse_args():
+    parser = argparse.ArgumentParser(description="script description")
+    parser.add_argument("--eqScenario", type=str, help="Earthquake scenario id", required=True)
+    parser.add_argument("--retrofitPrefix", type=str, help="Retrofit Prefix. Allowable values: (b0, r1, r2)", required=True)
+    parser.add_argument("--dbview", type=str, help=" Thematic Database View. Allowable values: (casualties, damage_state, economic_loss, functional_state, recovery, scenario_hazard, scenario_hazard_threat,scenario_rupture, social_disruption)", required=True)
+    parser.add_argument("--idField", type=str, help="Field to use as ElasticSearch Index ID", required=True)
+    args = parser.parse_args()
+    
+    return args
 
-es = Elasticsearch([auth.get('es', 'es_endpoint')])
-
-
-
-#if len(sys.argv) < 3:
-#    print('Usage: {} <path/to/data.geojson> <id-field>'.format(sys.argv[0]))
-#    sys.exit(1)
-
-#index_name = os.path.splitext(os.path.basename(sys.argv[1]))[0].lower()
-id_field = "Sauid" #sys.argv[2]
-
-view = "dsra_sim6p8_cr2022_rlz_1_r1_economic_loss_agg_view"
-index_name = view
-#sqlquerystring = 'SELECT * from "results"."{}"'.format(view)
-sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) FROM "results_float"."{}"'.format(view)
-connection = None
-try:
-    connection = psycopg2.connect(user = auth.get('rds', 'postgres_un'),
-                                    password = auth.get('rds', 'postgres_pw'),
-                                    host = auth.get('rds', 'postgres_host'),
-                                    port = auth.get('rds', 'postgres_port'),
-                                    database = auth.get('rds', 'postgres_db'))
-    #pgdf = geopandas.GeoDataFrame.from_postgis(sqlquerystring, connection, geom_col='geom_poly')
-    #pgdf.to_file(view+'.json', driver="GeoJSON")
-    cur = connection.cursor()
-    cur.execute(sqlquerystring)
-    rows = cur.fetchall()
-    columns = [name[0] for name in cur.description]
-    geomIndex = columns.index('st_asgeojson')
-
-    feature_collection = {'type': 'FeatureCollection', 'features': []}
-
-    for row in rows:
-        feature = {
-            'type': 'Feature',
-            'geometry': json.loads(row[geomIndex]),
-            'properties': {},
-        }
-
-        for index, column in enumerate(columns):
-            if column != "st_asgeojson":
-                value =row[index]
-                feature['properties'][column] = value
-
-        feature_collection['features'].append(feature)
-
-    geojsonobject = json.dumps(feature_collection, indent=2)#, default=)
-
-except (Exception, psycopg2.Error) as error :
-    print ("Error while connecting to PostgreSQL", error)
-
-finally:
-    if(connection):
-        # cursor.close()
-        connection.close()
-
-
-if es.indices.exists(index_name):
-    es.indices.delete(index_name)
-
-# index settings
-settings = {
-    'settings': {
-        'number_of_shards': 1,
-        'number_of_replicas': 0
-    },
-    'mappings': {
-        'properties': {
-            'geometry': {
-                'type': 'geo_shape'
-            }
-        }
-    }
-}
-
-# create index
-es.indices.create(index=index_name, body=settings, request_timeout=90)
-
-#with open(sys.argv[1]) as fh:
-#    d = json.load(fh)
-d = json.loads(geojsonobject)
-
-def gendata(data):
-    for item in data['features']:
-        yield {
-            "_index": index_name,
-            "_id": item['properties'][id_field],
-            "_source": item
-        }
-
-
-
-helpers.bulk(es, gendata(d), raise_on_error=False)
+if __name__ == '__main__':
+    main() 
