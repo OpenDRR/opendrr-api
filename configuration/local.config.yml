@@ -81,8 +81,9 @@ metadata:
         instructions: During hours of service. Off on weekends.
         role: pointOfContact
 
-datasets:
+resources:
     economic_loss:
+        type: collection
         title: Economic Loss
         description: Economic consequences aggregated
         keywords:
@@ -105,7 +106,7 @@ datasets:
             data: http://opendrr-api-elasticsearch:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view
             id_field: Sauid
 
-processes:
     hello-world:
+        type: process
         processor:
             name: HelloWorld
