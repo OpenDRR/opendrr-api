@@ -56,9 +56,8 @@ def main():
     view = "dsra_{eq_scenario}_{retrofit_prefix}_{dbview}".format(**{'eq_scenario':args.eqScenario, 'retrofit_prefix':args.retrofitPrefix, 'dbview':args.dbview})
     id_field = args.idField    
     
-    #es = Elasticsearch()
+    es = Elasticsearch()
     #es = Elasticsearch([auth.get('es', 'es_endpoint')], http_auth=(auth.get('es', 'es_un'), auth.get('es', 'es_pw')))
-    es = Elasticsearch([auth.get('es', 'es_endpoint')], http_auth=("admin", "jL1hDw77^j"))
     sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) FROM "results_float"."{}"'.format(view)
     connection = None
     try:
@@ -108,6 +107,9 @@ def main():
             'properties': {
                 'geometry': {
                     'type': 'geo_shape'
+                },
+                'geom_point': {
+                    'type': 'geo_point'
                 }
             }
         }
