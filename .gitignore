@@ -2,3 +2,4 @@
 venv/
 venv-pygeoapi/
 scripts/config.ini
+*.log
