@@ -37,12 +37,14 @@ import argparse
 
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
+from decimal import Decimal
+from tqdm import tqdm
 
 '''
-Script to convert DSRA indicator views to ElasticSearch Index
+Script to convert Physical Exposure Views to ElasticSearch Index
 Can be run from the command line with mandatory arguments 
 Run this script with a command like:
-python3 postgres2es.py --eqScenario="sim6p8_cr2022_rlz_1" --retrofitPrefix="b0" --dbview=casualties_agg_view --idField="Sauid"
+python3 exposure_postgres2es.py --type="buildings" --aggregation="building" --geometry=geom_point --idField="AssetID"
 '''
 
 #Main Function
@@ -51,14 +53,45 @@ def main():
                         format='%(asctime)s - %(levelname)s - %(message)s', 
                         handlers=[logging.FileHandler('{}.log'.format(os.path.splitext(sys.argv[0])[0])),
                                   logging.StreamHandler()])
+    tracer = logging.getLogger('elasticsearch')
+    tracer.setLevel(logging.ERROR)
+    tracer.addHandler(logging.FileHandler('{}.log'.format(os.path.splitext(sys.argv[0])[0])))
     auth = get_config_params('config.ini')
     args = parse_args()
-    view = "dsra_{eq_scenario}_{retrofit_prefix}_{dbview}".format(**{'eq_scenario':args.eqScenario, 'retrofit_prefix':args.retrofitPrefix, 'dbview':args.dbview})
+
+    if args.geometry == "geom_point":
+        geoType = "geo_point"
+    elif args.geometry =="geom_poly":
+        geoType = "geo_shape"
+    else:
+        raise Exception("Unrecognized Geometry Type")
+
+    # index settings
+    settings = {
+        'settings': {
+            'number_of_shards': 1,
+            'number_of_replicas': 0
+        },
+        'mappings': {
+            'properties': {
+                'geometry': {
+                    'type': '{}'.format(geoType)
+                }
+            }
+        }
+    }
+
+    view = "canada_exposure_{type}_{aggregation}".format(**{'type':args.type, 'aggregation':args.aggregation})
     id_field = args.idField    
     
     es = Elasticsearch()
     #es = Elasticsearch([auth.get('es', 'es_endpoint')], http_auth=(auth.get('es', 'es_un'), auth.get('es', 'es_pw')))
-    sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) FROM "results_float"."{}"'.format(view)
+    # create index
+    if es.indices.exists(view):
+        es.indices.delete(view)
+    es.indices.create(index=view, body=settings, request_timeout=90)
+
+    sqlquerystring = 'SELECT *, ST_AsGeoJSON({geometry}) FROM "results_canada_exposure"."{view}"'.format(**{'geometry':args.geometry, 'view':view})
     connection = None
     try:
         #Connect to the PostGIS database hosted on RDS
@@ -76,7 +109,8 @@ def main():
         feature_collection = {'type': 'FeatureCollection', 'features': []}
         
         #Format the table into a geojson format for ES/Kibana consumption
-        for row in rows:
+        i = 0
+        for row in tqdm(rows):
             feature = {
                 'type': 'Feature',
                 'geometry': json.loads(row[geomIndex]),
@@ -85,9 +119,21 @@ def main():
             for index, column in enumerate(columns):
                 if column != "st_asgeojson":
                     value =row[index]
+                    if isinstance(value, Decimal):
+                        value = float(value)
                     feature['properties'][column] = value
-            feature_collection['features'].append(feature)
+            feature_collection['features'].append(feature)    
+            i+=1
+            if i==10000:
+                geojsonobject = json.dumps(feature_collection, indent=2)
+                d = json.loads(geojsonobject)
+                helpers.bulk(es, gendata(d, view, id_field), raise_on_error=False, request_timeout=30)
+                feature_collection = {'type': 'FeatureCollection', 'features': []}
+                i=0
         geojsonobject = json.dumps(feature_collection, indent=2)
+        d = json.loads(geojsonobject)
+        helpers.bulk(es, gendata(d, view, id_field), raise_on_error=False, request_timeout=30)
+        feature_collection = {'type': 'FeatureCollection', 'features': []}
 
     except (Exception, psycopg2.Error) as error :
         logging.error(error)
@@ -96,34 +142,6 @@ def main():
         if(connection):
             # cursor.close()
             connection.close()
-
-    # index settings
-    settings = {
-        'settings': {
-            'number_of_shards': 1,
-            'number_of_replicas': 0
-        },
-        'mappings': {
-            'properties': {
-                'geometry': {
-                    'type': 'geo_shape'
-                },
-                'geom_point': {
-                    'type': 'geo_point'
-                }
-            }
-        }
-    }
-    # create index
-    if es.indices.exists(view):
-        es.indices.delete(view)
-
-    es.indices.create(index=view, body=settings, request_timeout=90)
-
-    d = json.loads(geojsonobject)
-
-    helpers.bulk(es, gendata(d, view, id_field), raise_on_error=False)
-
     return
 
 def gendata(data, view, id_field):
@@ -143,11 +161,11 @@ def get_config_params(args):
     return configParseObj
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="script description")
-    parser.add_argument("--eqScenario", type=str, help="Earthquake scenario id", required=True)
-    parser.add_argument("--retrofitPrefix", type=str, help="Retrofit Prefix. Allowable values: (b0, r1, r2)", required=True)
-    parser.add_argument("--dbview", type=str, help=" Thematic Database View. Allowable values: (casualties, damage_state, economic_loss, functional_state, recovery, scenario_hazard, scenario_hazard_threat,scenario_rupture, social_disruption)", required=True)
-    parser.add_argument("--idField", type=str, help="Field to use as ElasticSearch Index ID", required=True)
+    parser = argparse.ArgumentParser(description="load exposure data from PostGIS to ElasticSearch Index")
+    parser.add_argument("--type", type=str, help="buildings or people", required=True)
+    parser.add_argument("--aggregation", type=str, help="building or Sauid", required=True)
+    parser.add_argument("--geometry", type=str, help="geom_point or geom_poly", required=True)
+    parser.add_argument("--idField", type=str, help="Field to use as ElasticSearch Index ID. AssetID or Sauid", required=True)
     args = parser.parse_args()
     
     return args
