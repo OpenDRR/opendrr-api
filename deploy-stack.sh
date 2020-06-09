@@ -74,7 +74,7 @@ if [ $(docker inspect -f '{{.State.Running}}' $container_kibana) = "true" ]; the
 fi
 docker rm $container_kibana > /dev/null 2>&1
 printf "\nInitializing Kibana container...\n\n"
-docker run -i --network opendrr-net --name $container_kibana -p 5601:5601 -e "ELASTICSEARCH_URL=http://opendrr-api-elasticsearch:9200" docker.elastic.co/kibana/kibana:7.7.1
+docker run -i --network opendrr-net --name $container_kibana -p 5601:5601 docker.elastic.co/kibana/kibana:7.7.1
 
 spin='-\|/'
 i=0
