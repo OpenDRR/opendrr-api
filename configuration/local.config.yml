@@ -103,7 +103,7 @@ resources:
                 end: null  # or empty (either means open ended)
         provider:
             name: Elasticsearch
-            data: http://opendrr-api-elasticsearch:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view
+            data: http://elasticsearch:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view
             id_field: Sauid
 
     hello-world:
