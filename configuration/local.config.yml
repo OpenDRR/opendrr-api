@@ -82,17 +82,41 @@ metadata:
         role: pointOfContact
 
 resources:
-    economic_loss:
+    # economic_loss:
+    #     type: collection
+    #     title: Economic Loss
+    #     description: Economic consequences aggregated
+    #     keywords:
+    #         - earthquake
+    #     links:
+    #         - type: text/html
+    #           rel: canonical
+    #           title: information
+    #           href: http://www.riskprofiler.ca/
+    #           hreflang: en-US
+    #     extents:
+    #         spatial:
+    #             bbox: [-180,-90,180,90]
+    #             crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+    #         temporal:
+    #             begin: 2011-11-11
+    #             end: null  # or empty (either means open ended)
+    #     provider:
+    #         name: Elasticsearch
+    #         data: http://opendrr-api-elasticsearch:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view
+    #         id_field: Sauid
+
+    lakes:
         type: collection
-        title: Economic Loss
-        description: Economic consequences aggregated
+        title: Large Lakes
+        description: lakes of the world, public domain
         keywords:
-            - earthquake
+            - lakes
         links:
             - type: text/html
               rel: canonical
               title: information
-              href: http://www.riskprofiler.ca/
+              href: http://www.naturalearthdata.com/
               hreflang: en-US
         extents:
             spatial:
@@ -102,9 +126,9 @@ resources:
                 begin: 2011-11-11
                 end: null  # or empty (either means open ended)
         provider:
-            name: Elasticsearch
-            data: http://opendrr-api-elasticsearch:9200/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view
-            id_field: Sauid
+            name: GeoJSON
+            data: sample-data/ne_110m_lakes.geojson
+            id_field: id
 
     hello-world:
         type: process
