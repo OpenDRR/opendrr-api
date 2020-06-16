@@ -4,23 +4,21 @@ volumes:
     pg-data:
 
 services:
-    # kibana-opendrr:
-    #     image: kibana:7.7.1
-    #     container_name: kibana-opendrr
+    kibana-opendrr:
+        image: kibana:7.7.1
         
-    #     environment:
-    #         - "ELASTICSEARCH_URL=http://elasticsearch-opendrr:9200"
-    #     ports: 
-    #         - 5601:5601
+        environment:
+            ELASTICSEARCH_HOSTS: http://elasticsearch-opendrr:9200
+
+        ports: 
+            - 5601:5601
         
-    #     depends_on: 
-    #         - elasticsearch-opendrr
+        depends_on: 
+            - elasticsearch-opendrr
     
     elasticsearch-opendrr: 
         image: elasticsearch:7.7.1
         build: ./elasticsearch
-        
-        container_name: elasticsearch-opendrr
         
         environment:
             - discovery.type=single-node
@@ -28,42 +26,35 @@ services:
         ports: 
             - 9200:9200
     
-    # pygeoapi-opendrr:
-    #     image: geopython/pygeoapi
-    #     build: ./pygeoapi
+    pygeoapi-opendrr:
+        image: geopython/pygeoapi
+        build: ./pygeoapi
         
-    #     container_name: pygeoapi-opendrr
+        ports:
+            - 5000:80
         
-    #     ports:
-    #         - 5000:80
+        depends_on:
+            - elasticsearch-opendrr
         
-    #     depends_on:
-    #         - elasticsearch-opendrr
-        
-    #     links:
-    #         - elasticsearch-opendrr
-        
-    #     restart: unless-stopped
+        restart: unless-stopped
     
-    # db-opendrr:
-    #     image: postgis/postgis
-        
-    #     container_name: db-opendrr
+    db-opendrr:
+        image: postgis/postgis
 
-    #     env_file:
-    #         - .env
+        env_file:
+            - .env
         
-    #     volumes: 
-    #         - pg-data:/var/lib/postgresql
+        volumes: 
+            - pg-data:/var/lib/postgresql
 
-    #     ports: 
-    #         - 5433:5432
+        ports: 
+            - 5433:5432
 
-    #     environment: 
-    #         - POSTGRES_HOST_AUTH_METHOD=trust
-    #         - POSTGRES_USER=${POSTGRES_USER}
-    #         - POSTGRES_PASS=${POSTGRES_PASS}
-    #         - POSTGRES_DBNAME=opendrr 
-    #         - ALLOW_IP_RANGE=0.0.0.0/0 
+        environment: 
+            POSTGRES_HOST_AUTH_METHOD: trust
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASS: ${POSTGRES_PASS}
+            POSTGRES_DBNAME: opendrr 
+            ALLOW_IP_RANGE: 0.0.0.0/0 
         
-    #     restart: on-failure
+        restart: on-failure

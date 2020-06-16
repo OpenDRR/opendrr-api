@@ -38,7 +38,7 @@ LABEL maintainer="Joost van Ulden <joost.vanulden@canada.ca>"
 ARG DATA_FOLDER=/usr/share/elasticsearch/data
 ARG DATASET=dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view.geojson
 
-ENV PIP_PACKAGES="elasticsearch numpy urllib3" \
+ENV PIP_PACKAGES="elasticsearch" \
 	YUM_PACKAGES="python-pip python-setuptools wget"
 
 USER root
