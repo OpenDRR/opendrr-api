@@ -6,71 +6,15 @@ REST API for OpenDRR data
 ## Setup in your local environment
 
 ### Prerequisites
- - Elasticsearch 7.1.0+ running locally on port 9200
-    - E.g. http://localhost:9200/
-- pygeoapi 0.7.0+ with Elasticsearch provider running locally
-    - E.g. http://localhost:5000/
-- GeoJSON file(s)
-    - Sample provided in `sample-data` directory
-
-### Setup
-
-#### Deploy stack using Docker (Recommended)
-
-##### Prerequisites
 
 - Docker engine installed and running
 - Curl installed
 
-Easiest way to get the API stack setup is to use `deploy-stack.sh`. This script will deploy Elasticsearch and pygeoapi in Docker containers and load the sample data.
+### Run docker-compose
 
-    $ . deploy-stack.sh
+    $ docker-compose up --build
   
-#### Deploy stack components seperately
-
-Install and start Elasticsearch on localhost
-
-    $ docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.6.2
-
-> NOTE: if you have Elasticsearch installed on localhost already simply start it:
-
-    $ elasticsearch
-
-Add `dataset` to pygeoapi using the Elasticsearch provider
-
-    datasets:
-        economic_loss:
-            title: Economic Loss
-            description: Economic consequences aggregated
-            keywords:
-                - earthquake
-            links:
-                - type: text/html
-                rel: canonical
-                title: information
-                href: http://www.riskprofiler.ca/
-                hreflang: en-US
-            extents:
-                spatial:
-                    bbox: [-180,-90,180,90]
-                    crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-                temporal:
-                    begin: 2011-11-11
-                    end: null  # or empty (either means open ended)
-            provider:
-                name: Elasticsearch
-                data: http://localhost:9200/economic_loss_agg_view
-                id_field: Sauid
-
-> NOTE: a sample configuration is provided in `configuration/local.config.yml`
-
-Install and start pygeoapi on localhost
-
-    $ . deploy-pygeoapi.sh
-
-Run `load_es_data.py` script passing in a property that you want to use as the `id` (e.g. Sauid)
-
-    $ python scripts/load_es_data.py sample-data/dsra_sim6p8_cr2022_rlz_1_b0_economic_loss_agg_view.geojson Sauid
+### Verify that everything is working
 
 Check Elasticsearch to ensure that the index was created
 
