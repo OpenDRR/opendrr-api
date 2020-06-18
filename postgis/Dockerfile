@@ -33,9 +33,14 @@ LABEL maintainer="Joost van Ulden <joost.vanulden@canada.ca>"
 
 USER root
 
+RUN apt-get update && apt-get -qq -y install curl \
+    && apt update && apt install -y python3-pip \
+    && pip3 install certifi chardet elasticsearch idna numpy pandas python-dateutil pytz requests six SQLAlchemy urllib3 \
+    && curl -O https://raw.githubusercontent.com/OpenDRR/model-factory/master/scripts/DSRA_outputs2postgres_lfs.py
+
 COPY create_db.sh /docker-entrypoint-initdb.d/create_db.sh
 COPY schema.sql /schema.sql
-COPY test_data.sql /test_data.sql
+# COPY test_data.sql /test_data.sql
 # COPY load_data.py /load_data.py
 # RUN chmod +x /docker-entrypoint-initdb.d/create_db /load_data.py
 RUN chmod +x /docker-entrypoint-initdb.d/create_db.sh
