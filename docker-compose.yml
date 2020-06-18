@@ -40,6 +40,7 @@ services:
     
     db-opendrr:
         image: postgis/postgis
+        build: ./postgis
 
         env_file:
             - .env
@@ -48,13 +49,12 @@ services:
             - pg-data:/var/lib/postgresql
 
         ports: 
-            - 5433:5432
+            - 5432:5432
 
         environment: 
             POSTGRES_HOST_AUTH_METHOD: trust
             POSTGRES_USER: ${POSTGRES_USER}
             POSTGRES_PASS: ${POSTGRES_PASS}
-            POSTGRES_DBNAME: opendrr 
-            ALLOW_IP_RANGE: 0.0.0.0/0 
+            POSTGRES_DB: ${DB_NAME}
         
         restart: on-failure
