@@ -2,3 +2,4 @@
 venv/
 venv-pygeoapi/
 .env
+postgis/config.ini

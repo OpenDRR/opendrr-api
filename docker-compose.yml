@@ -42,6 +42,9 @@ services:
         image: postgis/postgis
         build: ./postgis
 
+        # DISABLE IN PROD! - Working around python logfile write permissions
+        # privileged: true
+
         env_file:
             - .env
         
@@ -49,7 +52,7 @@ services:
             - pg-data:/var/lib/postgresql
 
         ports: 
-            - 5432:5432
+            - 5433:5432
 
         environment: 
             POSTGRES_HOST_AUTH_METHOD: trust

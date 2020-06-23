@@ -43,5 +43,5 @@ if [ ${POPULATE_DB} -eq 1 ]; then
     echo "Populating database..."
     # psql -d ${DB_NAME} -a  -U${POSTGRES_USER} -f /test_data.sql
 
-    python3 DSRA_outputs2postgres_lfs.py
+    python3 DSRA_outputs2postgres_lfs.py --dsraModelDir="https://github.com/OpenDRR/openquake-models/tree/master/deterministic/outputs" --columnsINI="DSRA_outputs2postgres.ini"
 fi

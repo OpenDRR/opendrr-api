@@ -34,15 +34,34 @@ LABEL maintainer="Joost van Ulden <joost.vanulden@canada.ca>"
 USER root
 
 RUN apt-get update && apt-get -qq -y install curl \
+    && apt-get -y install --reinstall libpq-dev \
     && apt update && apt install -y python3-pip \
-    && pip3 install certifi chardet elasticsearch idna numpy pandas python-dateutil pytz requests six SQLAlchemy urllib3 \
-    && curl -O https://raw.githubusercontent.com/OpenDRR/model-factory/master/scripts/DSRA_outputs2postgres_lfs.py
+    && pip3 install \
+    certifi \
+    chardet \
+    elasticsearch \
+    idna \
+    numpy \
+    pandas \
+    psycopg2 \
+    python-dateutil \
+    pytz \
+    requests \
+    six \
+    SQLAlchemy \
+    urllib3 \
+    && curl -O https://raw.githubusercontent.com/OpenDRR/model-factory/master/scripts/DSRA_outputs2postgres_lfs.py \
+    && curl -O https://raw.githubusercontent.com/OpenDRR/model-factory/master/scripts/DSRA_outputs2postgres.ini
 
 COPY create_db.sh /docker-entrypoint-initdb.d/create_db.sh
 COPY schema.sql /schema.sql
+COPY config.ini /config.ini
 # COPY test_data.sql /test_data.sql
 # COPY load_data.py /load_data.py
 # RUN chmod +x /docker-entrypoint-initdb.d/create_db /load_data.py
 RUN chmod +x /docker-entrypoint-initdb.d/create_db.sh
 
-EXPOSE 5432
+# Assign necessary permisssions to folders
+# RUN useradd appuser && chown -R appuser /app
+
+EXPOSE 5433
