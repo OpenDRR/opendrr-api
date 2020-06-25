@@ -16,17 +16,17 @@ services:
     #         - elasticsearch-opendrr
     #         - db-opendrr
 
-    # kibana-opendrr:
-    #     image: kibana:7.7.1
+    kibana-opendrr:
+        image: kibana:7.7.1
         
-    #     environment:
-    #         ELASTICSEARCH_HOSTS: http://elasticsearch-opendrr:9200
+        environment:
+            ELASTICSEARCH_HOSTS: http://elasticsearch-opendrr:9200
 
-    #     ports: 
-    #         - 5601:5601
+        ports: 
+            - 5601:5601
         
-    #     depends_on: 
-    #         - elasticsearch-opendrr
+        depends_on: 
+            - elasticsearch-opendrr
     
     elasticsearch-opendrr: 
         image: elasticsearch:7.7.1
