@@ -35,4 +35,4 @@ RUN pip3 install --upgrade pip && pip install -r requirements.txt
 
 ENV PYTHONUNBUFFERED 1
 
-RUN chmod +x /add_data.sh
+RUN chmod +x add_data.sh && ./add_data.sh
