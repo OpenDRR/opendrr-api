@@ -12,9 +12,10 @@ services:
         env_file:
             - .env
 
-        # depends_on: 
+        depends_on: 
+            - db-opendrr
             # - elasticsearch-opendrr
-            # - db-opendrr
+
 
     # kibana-opendrr:
     #     image: kibana:7.7.1
@@ -50,23 +51,23 @@ services:
         
     #     restart: unless-stopped
     
-    # db-opendrr:
-    #     image: postgis/postgis
-    #     build: ./postgis
+    db-opendrr:
+        image: postgis/postgis
+        build: ./postgis
  
-    #     env_file:
-    #         - .env
+        env_file:
+            - .env
         
-    #     volumes: 
-    #         - pg-data:/var/lib/postgresql
+        volumes: 
+            - pg-data:/var/lib/postgresql
 
-    #     ports: 
-    #         - 5432:5432
+        ports: 
+            - 5432:5432
 
-    #     environment: 
-    #         POSTGRES_HOST_AUTH_METHOD: trust
-    #         POSTGRES_USER: ${POSTGRES_USER}
-    #         POSTGRES_PASS: ${POSTGRES_PASS}
-    #         POSTGRES_DB: ${DB_NAME}
+        environment: 
+            POSTGRES_HOST_AUTH_METHOD: trust
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASS: ${POSTGRES_PASS}
+            POSTGRES_DB: ${DB_NAME}
         
-    #     restart: on-failure
+        restart: on-failure

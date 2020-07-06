@@ -8,6 +8,7 @@ WORKDIR /usr/src/app
 RUN apt-get update && apt-get install -y libpq-dev gcc
 RUN pip3 install psycopg2~=2.6
 RUN apt-get autoremove -y gcc
+RUN apt-get install -y postgresql-client-11
 
 # get populate data scripts
 ADD https://raw.githubusercontent.com/OpenDRR/model-factory/master/scripts/DSRA_outputs2postgres_lfs.py /usr/src/app
@@ -35,4 +36,4 @@ RUN pip3 install --upgrade pip && pip install -r requirements.txt
 
 ENV PYTHONUNBUFFERED 1
 
-RUN chmod +x add_data.sh && ./add_data.sh
+CMD chmod +x add_data.sh && ./add_data.sh
