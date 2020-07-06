@@ -8,40 +8,37 @@ services:
     lambda-opendrr:
         image: lambci/lambda:python3.7
 
-        environment: 
-            POSTGRES_HOST_AUTH_METHOD: trust
-            POSTGRES_USER: ${POSTGRES_USER}
-            POSTGRES_PASS: ${POSTGRES_PASS}
-            POSTGRES_DB: ${DB_NAME}
+    python-opendrr:
+        image: python:3-slim
+        build: ./python
 
-    # python-opendrr:
-    #     image: python:3-slim
-    #     build: ./python
+        env_file:
+            - .env
 
+        depends_on: 
+            # - elasticsearch-opendrr
+            - db-opendrr
+
+    # kibana-opendrr:
+    #     image: kibana:7.7.1
+        
+    #     environment:
+    #         ELASTICSEARCH_HOSTS: http://elasticsearch-opendrr:9200
+
+    #     ports: 
+    #         - 5601:5601
+        
     #     depends_on: 
     #         - elasticsearch-opendrr
-    #         - db-opendrr
-
-    kibana-opendrr:
-        image: kibana:7.7.1
-        
-        environment:
-            ELASTICSEARCH_HOSTS: http://elasticsearch-opendrr:9200
-
-        ports: 
-            - 5601:5601
-        
-        depends_on: 
-            - elasticsearch-opendrr
     
-    elasticsearch-opendrr: 
-        image: elasticsearch:7.7.1
+    # elasticsearch-opendrr: 
+    #     image: elasticsearch:7.7.1
         
-        environment:
-            - discovery.type=single-node
+    #     environment:
+    #         - discovery.type=single-node
         
-        ports: 
-            - 9200:9200
+    #     ports: 
+    #         - 9200:9200
     
     # pygeoapi-opendrr:
     #     image: geopython/pygeoapi
@@ -55,23 +52,23 @@ services:
         
     #     restart: unless-stopped
     
-    db-opendrr:
-        image: postgis/postgis
-        build: ./postgis
+    # db-opendrr:
+    #     image: postgis/postgis
+    #     build: ./postgis
  
-        env_file:
-            - .env
+    #     env_file:
+    #         - .env
         
-        volumes: 
-            - pg-data:/var/lib/postgresql
+    #     volumes: 
+    #         - pg-data:/var/lib/postgresql
 
-        ports: 
-            - 5433:5432
+    #     ports: 
+    #         - 5432:5432
 
-        environment: 
-            POSTGRES_HOST_AUTH_METHOD: trust
-            POSTGRES_USER: ${POSTGRES_USER}
-            POSTGRES_PASS: ${POSTGRES_PASS}
-            POSTGRES_DB: ${DB_NAME}
+    #     environment: 
+    #         POSTGRES_HOST_AUTH_METHOD: trust
+    #         POSTGRES_USER: ${POSTGRES_USER}
+    #         POSTGRES_PASS: ${POSTGRES_PASS}
+    #         POSTGRES_DB: ${DB_NAME}
         
-        restart: on-failure
+    #     restart: on-failure
