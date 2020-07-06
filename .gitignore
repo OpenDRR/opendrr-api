@@ -1,4 +1,2 @@
-
-venv/
-venv-pygeoapi/
 .env
+python/config.ini
