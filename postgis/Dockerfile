@@ -35,9 +35,5 @@ USER root
 
 COPY create_db.sh /docker-entrypoint-initdb.d/create_db.sh
 COPY schema.sql /schema.sql
-COPY test_data.sql /test_data.sql
-# COPY load_data.py /load_data.py
-# RUN chmod +x /docker-entrypoint-initdb.d/create_db /load_data.py
-RUN chmod +x /docker-entrypoint-initdb.d/create_db.sh
 
-EXPOSE 5432
+RUN chmod +x /docker-entrypoint-initdb.d/create_db.sh
