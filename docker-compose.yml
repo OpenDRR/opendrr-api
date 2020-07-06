@@ -6,7 +6,13 @@ volumes:
 services:
 
     lambda-opendrr:
-        image: lambci/lambda
+        image: lambci/lambda:python3.7
+
+        environment: 
+            POSTGRES_HOST_AUTH_METHOD: trust
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASS: ${POSTGRES_PASS}
+            POSTGRES_DB: ${DB_NAME}
 
     # python-opendrr:
     #     image: python:3-slim
@@ -60,7 +66,7 @@ services:
             - pg-data:/var/lib/postgresql
 
         ports: 
-            - 5432:5432
+            - 5433:5432
 
         environment: 
             POSTGRES_HOST_AUTH_METHOD: trust

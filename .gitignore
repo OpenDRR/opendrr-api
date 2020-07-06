@@ -4,3 +4,5 @@ venv-pygeoapi/
 .env
 postgis/config.ini
 python/config.ini
+lambda/OpenDRR-Create_Scenario_Risk_bldg_Indicators_DSRA/config.ini
+lambda/OpenDRR-Create_Scenario_Risk_bldg_Indicators_DSRA/.DS_Store
