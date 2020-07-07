@@ -5,7 +5,7 @@ LABEL maintainer="Joost van Ulden <joost.vanulden@canada.ca>"
 WORKDIR /usr/src/app
 
 # install psycopg2
-RUN apt-get update && apt-get install -y libpq-dev gcc
+RUN apt-get update && apt-get install -y libpq-dev gcc curl
 RUN pip3 install psycopg2~=2.6
 RUN apt-get autoremove -y gcc
 RUN apt-get install -y postgresql-client-11
@@ -28,9 +28,6 @@ ADD https://raw.githubusercontent.com/OpenDRR/opendrr-api/postgis-sync/scripts/d
 
 # copy required files
 COPY . .
-
-# DEBUG - list files in working directory
-RUN ls
 
 RUN pip3 install --upgrade pip && pip install -r requirements.txt
 

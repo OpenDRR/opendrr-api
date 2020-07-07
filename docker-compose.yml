@@ -14,7 +14,7 @@ services:
 
         depends_on: 
             - db-opendrr
-            # - elasticsearch-opendrr
+            - elasticsearch-opendrr
 
 
     # kibana-opendrr:
@@ -29,15 +29,14 @@ services:
     #     depends_on: 
     #         - elasticsearch-opendrr
     
-    # elasticsearch-opendrr: 
-    #     image: elasticsearch:7.7.1
-    #     build: ./elasticsearch
+    elasticsearch-opendrr: 
+        image: elasticsearch:7.7.1
         
-    #     environment:
-    #         - discovery.type=single-node
+        environment:
+            - discovery.type=single-node
         
-    #     ports: 
-    #         - 9200:9200
+        ports: 
+            - 9200:9200
     
     # pygeoapi-opendrr:
     #     image: geopython/pygeoapi
@@ -62,7 +61,7 @@ services:
             - pg-data:/var/lib/postgresql
 
         ports: 
-            - 5432:5432
+            - ${POSTGRES_PORT}:5432
 
         environment: 
             POSTGRES_HOST_AUTH_METHOD: trust
