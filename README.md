@@ -8,7 +8,6 @@ REST API for OpenDRR data
 ### Prerequisites
 
 - Docker engine installed and running
-- Curl installed
 
 ### Run docker-compose
 
