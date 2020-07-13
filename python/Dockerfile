@@ -1,14 +1,14 @@
-FROM python:3-slim
+FROM debian:sid-slim
 
 LABEL maintainer="Joost van Ulden <joost.vanulden@canada.ca>"
 
 WORKDIR /usr/src/app
 
 # install psycopg2
-RUN apt-get update && apt-get install -y libpq-dev gcc curl git-lfs gdal-bin
+RUN apt-get update && apt-get install -y libpq-dev gcc curl git-lfs gdal-bin python3-pip
 RUN pip3 install psycopg2~=2.6
 RUN apt-get autoremove -y gcc
-RUN apt-get install -y postgresql-client-11
+RUN apt-get install -y postgresql-client
 
 # get populate data scripts
 ADD https://raw.githubusercontent.com/OpenDRR/model-factory/master/scripts/DSRA_outputs2postgres_lfs.py /usr/src/app

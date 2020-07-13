@@ -29,14 +29,14 @@ services:
     #     depends_on: 
     #         - elasticsearch-opendrr
     
-    # elasticsearch-opendrr: 
-    #     image: elasticsearch:7.7.1
+    elasticsearch-opendrr: 
+        image: elasticsearch:7.7.1
         
-    #     environment:
-    #         - discovery.type=single-node
+        environment:
+            - discovery.type=single-node
         
-    #     ports: 
-    #         - 9200:9200
+        ports: 
+            - 9200:9200
     
     # pygeoapi-opendrr:
     #     image: geopython/pygeoapi
