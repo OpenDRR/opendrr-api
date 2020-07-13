@@ -21,9 +21,7 @@ python DSRA_outputs2postgres_lfs.py --dsraModelDir https://github.com/OpenDRR/op
 
 echo "\nGenerating indicator views..."
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_scenario_risk_building_indicators_ALL.psql &&
-psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_scenario_risk_building_indicators_ALL_tables.psql &&
-psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_scenario_risk_sauid_indicators_ALL.psql &&
-psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_scenario_risk_sauid_indicators_ALL_tables.psql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_scenario_risk_sauid_indicators_ALL.psql
 
 # make sure Elasticsearch is ready prior to creating indexes
 until $(curl -sSf -XGET --insecure 'http://elasticsearch-opendrr:9200/_cluster/health?wait_for_status=yellow' > /dev/null); do

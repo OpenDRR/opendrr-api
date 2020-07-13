@@ -1,7 +1,6 @@
 FROM debian:sid-slim
 
-LABEL maintainer="Joost van Ulden <joost.vanulden@canada.ca>"
-
+LABEL maintainer="Joost van Ulden <joost.vanulden@canada.ca>" 
 WORKDIR /usr/src/app
 
 # install psycopg2
@@ -18,18 +17,11 @@ ADD https://raw.githubusercontent.com/OpenDRR/model-factory/master/scripts/DSRA_
 RUN git clone https://github.com/OpenDRR/boundaries.git --depth 1 || (cd boundaries ; git pull)
 
 # get scenario views scripts
-# ADD https://raw.githubusercontent.com/OpenDRR/opendrr-data-store/master/scripts/Sandbox/Indicators/3.0%20Earthquake%20Scenario%20Risk%20(DSRA)/1.scenario_risk/v5%20updated%20metrics/6dp%20numeric/Create_scenario_risk_building_indicators_ALL.psql /usr/src/app
-# ADD https://raw.githubusercontent.com/OpenDRR/opendrr-data-store/master/scripts/Sandbox/Indicators/3.0%20Earthquake%20Scenario%20Risk%20(DSRA)/1.scenario_risk/v5%20updated%20metrics/6dp%20numeric/Create_scenario_risk_building_indicators_ALL_tables.psql /usr/src/app
-# ADD https://raw.githubusercontent.com/OpenDRR/opendrr-data-store/master/scripts/Sandbox/Indicators/3.0%20Earthquake%20Scenario%20Risk%20(DSRA)/1.scenario_risk/v5%20updated%20metrics/6dp%20numeric/Create_scenario_risk_sauid_indicators_ALL.psql /usr/src/app
-# ADD https://raw.githubusercontent.com/OpenDRR/opendrr-data-store/master/scripts/Sandbox/Indicators/3.0%20Earthquake%20Scenario%20Risk%20(DSRA)/1.scenario_risk/v5%20updated%20metrics/6dp%20numeric/Create_scenario_risk_sauid_indicators_ALL_tables.psql /usr/src/app
+ADD https://raw.githubusercontent.com/OpenDRR/opendrr-data-store/master/scripts/Indicators/3.0%20Earthquake%20Scenario%20Risk%20(DSRA)/3.Final/Create_scenario_risk_building_indicators_ALL.psql /usr/src/app
+ADD https://raw.githubusercontent.com/OpenDRR/opendrr-data-store/master/scripts/Indicators/3.0%20Earthquake%20Scenario%20Risk%20(DSRA)/3.Final/Create_scenario_risk_sauid_indicators_ALL.psql /usr/src/app
 
 # copy required files
 COPY . .
-
-# DEBUG - list files
-RUN ls -l *
-
-RUN ogr2ogr --version
 
 RUN pip3 install --upgrade pip && pip install -r requirements.txt
 
