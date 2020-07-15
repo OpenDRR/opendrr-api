@@ -7,7 +7,7 @@ volumes:
 services:
 
     python-opendrr:
-        image: python:3-slim
+        image: debian:sid-slim
         build: ./python
 
         env_file:
