@@ -2,6 +2,7 @@ version: "3"
 
 volumes:
     pg-data:
+    opendrr-scripts:
 
 services:
 
@@ -16,6 +17,9 @@ services:
             - db-opendrr
         #     - elasticsearch-opendrr
 
+        volumes:
+            - opendrr-scripts:/usr/src/app
+
 
     # kibana-opendrr:
     #     image: kibana:7.7.1
@@ -29,14 +33,14 @@ services:
     #     depends_on: 
     #         - elasticsearch-opendrr
     
-    elasticsearch-opendrr: 
-        image: elasticsearch:7.7.1
+    # elasticsearch-opendrr: 
+    #     image: elasticsearch:7.7.1
         
-        environment:
-            - discovery.type=single-node
+    #     environment:
+    #         - discovery.type=single-node
         
-        ports: 
-            - 9200:9200
+    #     ports: 
+    #         - 9200:9200
     
     # pygeoapi-opendrr:
     #     image: geopython/pygeoapi
@@ -59,6 +63,7 @@ services:
         
         volumes: 
             - pg-data:/var/lib/postgresql
+            - opendrr-scripts:/usr/src/app
 
         ports: 
             - ${POSTGRES_PORT}:5432
