@@ -29,11 +29,6 @@ RUN chmod 777 /usr/src/app/vs30_BC_site_model.csv
 ADD https://raw.githubusercontent.com/OpenDRR/opendrr-data-store/master/scripts/Indicators/3.0%20Earthquake%20Scenario%20Risk%20(DSRA)/3.Final/Create_scenario_risk_building_indicators_ALL.psql /usr/src/app
 ADD https://raw.githubusercontent.com/OpenDRR/opendrr-data-store/master/scripts/Indicators/3.0%20Earthquake%20Scenario%20Risk%20(DSRA)/3.Final/Create_scenario_risk_sauid_indicators_ALL.psql /usr/src/app
 
-# copy required files
-COPY . .
-
-RUN pip3 install --upgrade pip && pip install -r requirements.txt
-
 ENV PYTHONUNBUFFERED 1 
 
 CMD chmod +x add_data.sh && ./add_data.sh
