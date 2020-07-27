@@ -30,7 +30,28 @@ echo "\nImporting GMF Model"
 
 echo "\nImporting Rupture Model"
 
+<<<<<<< HEAD
+echo "\n Importing Sovi"
+#need to source tables
+curl -H "Authorization: token ${GITHUB_TOKEN}" \
+  -O \
+  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/social-vulnerability/social-vulnerability-census.csv
+DOWNLOAD_URL=`grep -o '"download_url": *.*' social-vulnerability-census.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
+curl -o social-vulnerability-census.csv \
+  -L $DOWNLOAD_URL
+
+curl -H "Authorization: token ${GITHUB_TOKEN}" \
+  -O \
+  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/social-vulnerability/social-vulnerability-index.csv
+DOWNLOAD_URL=`grep -o '"download_url": *.*' social-vulnerability-index.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
+curl -o social-vulnerability-index.csv \
+  -L $DOWNLOAD_URL
+
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_sovi_index_canada_v2.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_sovi_census_canada.sql
+=======
 echo "\nImporting Census Data"
+>>>>>>> parent of ecd3bcc... Add additional source data to run indicators
 
 echo "\nImporting Census Boundaries"
 
