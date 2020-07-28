@@ -9,7 +9,7 @@ done
 
 GITHUB_TOKEN=`grep -o 'github_token = *.*' config.ini | cut -f2- -d=`
 
-ls model-factory/scripts/ -ltr
+#ls model-factory/scripts/ -ltr
 
 cp model-factory/scripts/*.* .
 
@@ -48,6 +48,12 @@ psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_BC
 
 echo "\n Importing GMF Model"
 python3 DSRA_gmf2postgres_lfs.py --gmfDir="https://github.com/OpenDRR/openquake-models/tree/master/deterministic/outputs"  --eqScenario=AFM7p2_LRDMF
+
+echo "\n Importing Sitemesh"
+python3 DSRA_sitemesh2postgres_lfs.py --sitemeshDir="https://github.com/OpenDRR/openquake-models/tree/master/deterministic/outputs" --eqScenario=AFM7p2_LRDMF
+
+echo "\n Creating GMF Sitemesh xref"
+python3 DSRA_sitemesh_gmf_xref.py  --eqScenario=afm7p2_lrdmf
 
 echo "\n Importing Rupture Model"
 python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenDRR/openquake-models/tree/master/deterministic/ruptures" 
