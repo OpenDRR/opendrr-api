@@ -9,9 +9,15 @@ done
 
 GITHUB_TOKEN=`grep -o 'github_token = *.*' config.ini | cut -f2- -d=`
 
-#ls model-factory/scripts/ -ltr
+# get model-factory scripts
+git clone https://github.com/OpenDRR/model-factory.git --depth 1
 
+# get boundary files
+git clone https://github.com/OpenDRR/boundaries.git --depth 1
+
+# copy model-factory scripts to working directory
 cp model-factory/scripts/*.* .
+rm -rf model-factory
 
 echo "\n Importing Census Boundaries"
 # create boundaries schema geometry tables from default geopackages.  Change ogr2ogr PATH / geopackage path if nessessary to run.
