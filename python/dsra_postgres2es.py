@@ -42,7 +42,7 @@ from elasticsearch import helpers
 Script to convert DSRA indicator views to ElasticSearch Index
 Can be run from the command line with mandatory arguments 
 Run this script with a command like:
-python3 dsra_postgres2es.py --eqScenario="sim6p8_cr2022_rlz_1" --retrofitPrefix="b0" --dbview=casualties_agg_view --idField="Sauid"
+python3 dsra_postgres2es.py --eqScenario="sim6p8_cr2022_rlz_1" --dbview=casualties_agg_view --idField="Sauid"
 '''
 
 #Main Function
@@ -53,12 +53,12 @@ def main():
                                   logging.StreamHandler()])
     auth = get_config_params('config.ini')
     args = parse_args()
-    view = "dsra_{eq_scenario}_{retrofit_prefix}_{dbview}".format(**{'eq_scenario':args.eqScenario, 'retrofit_prefix':args.retrofitPrefix, 'dbview':args.dbview})
+    view = "{eq_scenario}_{dbview}_{idField}".format(**{'eq_scenario':args.eqScenario, 'dbview':args.dbview, 'idField':args.idField})
     id_field = args.idField    
     
     es = Elasticsearch()
     #es = Elasticsearch([auth.get('es', 'es_endpoint')], http_auth=(auth.get('es', 'es_un'), auth.get('es', 'es_pw')))
-    sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) FROM "results_float"."{}"'.format(view)
+    sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) FROM "results_{eqScenario}.{view}"'.format(**{'eqScenario':args.eqScenario, 'view':view})
     connection = None
     try:
         #Connect to the PostGIS database hosted on RDS
@@ -145,7 +145,6 @@ def get_config_params(args):
 def parse_args():
     parser = argparse.ArgumentParser(description="script description")
     parser.add_argument("--eqScenario", type=str, help="Earthquake scenario id", required=True)
-    parser.add_argument("--retrofitPrefix", type=str, help="Retrofit Prefix. Allowable values: (b0, r1, r2)", required=True)
     parser.add_argument("--dbview", type=str, help=" Thematic Database View. Allowable values: (casualties, damage_state, economic_loss, functional_state, recovery, scenario_hazard, scenario_hazard_threat,scenario_rupture, social_disruption)", required=True)
     parser.add_argument("--idField", type=str, help="Field to use as ElasticSearch Index ID", required=True)
     args = parser.parse_args()
