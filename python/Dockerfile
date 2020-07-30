@@ -42,10 +42,10 @@ RUN apt-get update && apt-get install -y libpq-dev gcc curl git-lfs gdal-bin pyt
 #ADD https://raw.githubusercontent.com/OpenDRR/model-factory/master/scripts/DSRA_ruptures2postgres.py /usr/src/app
 
 # get model-factory scripts
-RUN git clone https://github.com/OpenDRR/model-factory.git 
+# RUN git clone https://github.com/OpenDRR/model-factory.git 
 
 # get boundary files
-RUN git clone https://github.com/OpenDRR/boundaries.git --depth 1 || (cd boundaries ; git pull)
+# RUN git clone https://github.com/OpenDRR/boundaries.git --depth 1 || (cd boundaries ; git pull)
 
 # get scenario views scripts
 #ADD https://raw.githubusercontent.com/OpenDRR/opendrr-data-store/master/scripts/Indicators/3.0%20Earthquake%20Scenario%20Risk%20(DSRA)/3.Final/Create_scenario_risk_building_indicators_ALL.psql /usr/src/app
