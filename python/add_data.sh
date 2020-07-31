@@ -10,10 +10,10 @@ done
 GITHUB_TOKEN=`grep -o 'github_token = *.*' config.ini | cut -f2- -d=`
 
 # get model-factory scripts
-git clone https://github.com/OpenDRR/model-factory.git --depth 1
+git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; git pull)
 
 # get boundary files
-git clone https://github.com/OpenDRR/boundaries.git --depth 1
+git clone https://github.com/OpenDRR/boundaries.git --depth 1 || (cd boundaries ; git pull)
 
 # copy model-factory scripts to working directory
 cp model-factory/scripts/*.* .
@@ -21,13 +21,15 @@ rm -rf model-factory
 
 echo "\n Importing Census Boundaries"
 # create boundaries schema geometry tables from default geopackages.  Change ogr2ogr PATH / geopackage path if nessessary to run.
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_ADAUID.gpkg" -nln boundaries."Geometry ADAUID" -lco LAUNDER=NO 
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CANADA.gpkg" -nln boundaries."Geometry CANADA" -lco LAUNDER=NO 
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CDUID.gpkg" -nln boundaries."Geometry CDUID" -lco LAUNDER=NO 
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CSDUID.gpkg" -nln boundaries."Geometry CSDUID" -lco LAUNDER=NO 
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_ERUID.gpkg" -nln boundaries."Geometry ERUID" -lco LAUNDER=NO 
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_FSAUID.gpkg" -nln boundaries."Geometry FSAUID" -lco LAUNDER=NO 
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_SAUID.gpkg" -nln boundaries."Geometry SAUID" -lco LAUNDER=NO 
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_ADAUID.gpkg" -nln boundaries."Geometry_ADAUID" -lco LAUNDER=NO 
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CANADA.gpkg" -nln boundaries."Geometry_CANADA" -lco LAUNDER=NO 
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CDUID.gpkg" -nln boundaries."Geometry_CDUID" -lco LAUNDER=NO 
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CSDUID.gpkg" -nln boundaries."Geometry_CSDUID" -lco LAUNDER=NO 
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_ERUID.gpkg" -nln boundaries."Geometry_ERUID" -lco LAUNDER=NO 
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_FSAUID.gpkg" -nln boundaries."Geometry_FSAUID" -lco LAUNDER=NO 
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_SAUID.gpkg" -nln boundaries."Geometry_SAUID" -lco LAUNDER=NO 
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Update_boundaries_SAUID_table.sql
+
 
 echo "\n Importing scenario outputs into PostGIS..."
 python3 DSRA_outputs2postgres_lfs.py --dsraModelDir=https://github.com/OpenDRR/openquake-models/tree/master/deterministic/outputs --columnsINI=DSRA_outputs2postgres.ini 
@@ -120,11 +122,24 @@ python3 DSRA_createRiskProfileIndicators.py --eqScenario=afm7p2_lrdmf --aggregat
 python3 DSRA_createRiskProfileIndicators.py --eqScenario=afm7p2_lrdmf --aggregation=sauid
 
 # make sure Elasticsearch is ready prior to creating indexes
-# until $(curl -sSf -XGET --insecure 'http://elasticsearch-opendrr:9200/_cluster/health?wait_for_status=yellow' > /dev/null); do
-#     printf 'No status yellow from Elasticsearch, trying again in 10 seconds \n'
-#     sleep 10
-# done
+until $(curl -sSf -XGET --insecure 'http://elasticsearch-opendrr:9200/_cluster/health?wait_for_status=yellow' > /dev/null); do
+    printf 'No status yellow from Elasticsearch, trying again in 10 seconds \n'
+    sleep 10
+done
 
 echo "\nCreating elasticsearch indexes..."
-# python dsra_postgres2es.py --eqScenario="sim6p8_cr2022_rlz_1" --retrofitPrefix="b0" --dbview="casualties_agg_view" --idField="Sauid" &&
-# python exposure.py --type="buildings" --aggregation="building" --geometry=geom_point --idField="AssetID"
+python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="casualties" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="damage_state" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="economic_loss" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="recovery_time" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="scenario_shakemap_intensity" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="social_disruption" --idField="building"
+
+# python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="casualties" --idField="sauid"
+# python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="damage_state" --idField="sauid"
+# python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="economic_loss" --idField="sauid"
+# python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="recovery_time" --idField="sauid"
+# python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="scenario_shakemap_intensity" --idField="sauid"
+# python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="social_disruption" --idField="sauid"
+
+#python3 exposure_postgres2es.py --type="buildings" --aggregation="building" --geometry=geom_point --idField="AssetID"

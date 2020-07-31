@@ -7,7 +7,7 @@ volumes:
 services:
 
     python-opendrr:
-        image: debian:sid-slim
+        image: opendrr/python-env
         build: ./python
 
         env_file:
@@ -15,32 +15,32 @@ services:
 
         depends_on: 
             - db-opendrr
-        #     - elasticsearch-opendrr
+            - elasticsearch-opendrr
 
         volumes:
             - opendrr-scripts:/usr/src/app
 
 
-    # kibana-opendrr:
-    #     image: kibana:7.7.1
+    kibana-opendrr:
+        image: kibana:7.7.1
         
-    #     environment:
-    #         ELASTICSEARCH_HOSTS: http://elasticsearch-opendrr:9200
+        environment:
+            ELASTICSEARCH_HOSTS: http://elasticsearch-opendrr:9200
 
-    #     ports: 
-    #         - 5601:5601
+        ports: 
+            - 5601:5601
         
-    #     depends_on: 
-    #         - elasticsearch-opendrr
+        depends_on: 
+            - elasticsearch-opendrr
     
-    # elasticsearch-opendrr: 
-    #     image: elasticsearch:7.7.1
+    elasticsearch-opendrr: 
+        image: elasticsearch:7.7.1
         
-    #     environment:
-    #         - discovery.type=single-node
+        environment:
+            - discovery.type=single-node
         
-    #     ports: 
-    #         - 9200:9200
+        ports: 
+            - 9200:9200
     
     # pygeoapi-opendrr:
     #     image: geopython/pygeoapi
@@ -57,6 +57,7 @@ services:
     db-opendrr:
         image: postgis/postgis
         build: ./postgis
+        shm_size: 1g
  
         env_file:
             - .env

@@ -1,4 +1,4 @@
-FROM debian:sid-slim
+FROM opendrr/python-env
 
 LABEL maintainer="Joost van Ulden <joost.vanulden@canada.ca>" 
 
@@ -7,12 +7,14 @@ WORKDIR /usr/src/app
 # copy required files
 COPY . .
 
+CMD chmod +x add_data.sh && ./add_data.sh
+
 # install psycopg2
-RUN apt-get update && apt-get install -y libpq-dev gcc curl git-lfs gdal-bin python3-pip && \
-    pip3 install psycopg2~=2.6 && \
-    apt-get autoremove -y gcc && \
-    apt-get install -y postgresql-client && \
-    pip3 install --upgrade pip && pip install -r requirements.txt
+# RUN apt-get update && apt-get install -y libpq-dev gcc curl git-lfs gdal-bin python3-pip && \
+#     pip3 install psycopg2~=2.6 && \
+#     apt-get autoremove -y gcc && \
+#     apt-get install -y postgresql-client && \
+#     pip3 install --upgrade pip && pip install -r requirements.txt
 
 
 ########## get populate data scripts ##########
@@ -52,12 +54,13 @@ RUN apt-get update && apt-get install -y libpq-dev gcc curl git-lfs gdal-bin pyt
 #ADD https://raw.githubusercontent.com/OpenDRR/opendrr-data-store/master/scripts/Indicators/3.0%20Earthquake%20Scenario%20Risk%20(DSRA)/3.Final/Create_scenario_risk_sauid_indicators_ALL.psql /usr/src/app
 
 # copy required files
-COPY . .
+#COPY . .
 
-RUN pip3 install --upgrade pip && pip install -r requirements.txt
+#RUN pip3 install --upgrade pip && pip install -r requirements.txt
     #chmod 777 /usr/src/app/vs30_BC_site_model.csv && \
     #chmod 777 /usr/src/app/BldgExp_Canada.csv
 
-ENV PYTHONUNBUFFERED 1 
+#ENV PYTHONUNBUFFERED 1 
 
-CMD chmod +x add_data.sh && ./add_data.sh
+
+#CMD tail -f /dev/null
