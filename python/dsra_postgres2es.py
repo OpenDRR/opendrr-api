@@ -34,7 +34,6 @@ import psycopg2
 import configparser
 import logging
 import argparse
-import decimal
 
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
@@ -55,14 +54,11 @@ def main():
     auth = get_config_params('config.ini')
     args = parse_args()
     view = "{eq_scenario}_{dbview}_{idField}".format(**{'eq_scenario':args.eqScenario, 'dbview':args.dbview, 'idField':args.idField})
-    if args.idField == 'sauid':
-        id_field = 'Sauid'
-    elif args.idField == 'building':
-        id_field = 'AssetID'  
+    id_field = args.idField    
     
     #es = Elasticsearch()
     es = Elasticsearch([auth.get('es', 'es_endpoint')], http_auth=(auth.get('es', 'es_un'), auth.get('es', 'es_pw')))
-    sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) FROM results_{eqScenario}.{view}'.format(**{'eqScenario':args.eqScenario, 'view':view})
+    sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) FROM "results_{eqScenario}.{view}"'.format(**{'eqScenario':args.eqScenario, 'view':view})
     connection = None
     try:
         #Connect to the PostGIS database hosted on RDS
@@ -91,7 +87,7 @@ def main():
                     value =row[index]
                     feature['properties'][column] = value
             feature_collection['features'].append(feature)
-        geojsonobject = json.dumps(feature_collection, indent=2, default=decimal_default)
+        geojsonobject = json.dumps(feature_collection, indent=2)
 
     except (Exception, psycopg2.Error) as error :
         logging.error(error)
@@ -137,12 +133,6 @@ def gendata(data, view, id_field):
             "_id": item['properties'][id_field],
             "_source": item
         }
-
-#Function to handle decimal encoder error
-def decimal_default(obj):
-    if isinstance(obj, decimal.Decimal):
-        return float(obj)
-    raise TypeError
 
 def get_config_params(args):
     """
