@@ -56,8 +56,8 @@ def main():
     view = "{eq_scenario}_{dbview}_{idField}".format(**{'eq_scenario':args.eqScenario, 'dbview':args.dbview, 'idField':args.idField})
     id_field = args.idField    
     
-    es = Elasticsearch()
-    #es = Elasticsearch([auth.get('es', 'es_endpoint')], http_auth=(auth.get('es', 'es_un'), auth.get('es', 'es_pw')))
+    #es = Elasticsearch()
+    es = Elasticsearch([auth.get('es', 'es_endpoint')], http_auth=(auth.get('es', 'es_un'), auth.get('es', 'es_pw')))
     sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) FROM "results_{eqScenario}.{view}"'.format(**{'eqScenario':args.eqScenario, 'view':view})
     connection = None
     try:

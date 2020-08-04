@@ -10,10 +10,10 @@ done
 GITHUB_TOKEN=`grep -o 'github_token = *.*' config.ini | cut -f2- -d=`
 
 # get model-factory scripts
-git clone https://github.com/OpenDRR/model-factory.git --depth 1
+git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; git pull)
 
 # get boundary files
-git clone https://github.com/OpenDRR/boundaries.git --depth 1
+git clone https://github.com/OpenDRR/boundaries.git --depth 1 || (cd boundaries ; git pull)
 
 # copy model-factory scripts to working directory
 cp model-factory/scripts/*.* .
@@ -32,8 +32,7 @@ ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NA
 echo "\n Importing scenario outputs into PostGIS..."
 python3 DSRA_outputs2postgres_lfs.py --dsraModelDir=https://github.com/OpenDRR/openquake-models/tree/master/deterministic/outputs --columnsINI=DSRA_outputs2postgres.ini 
 
-
-
+rm -rf boundaries
 
 echo "\n Importing Physical Exposure Model into PostGIS"
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
@@ -120,11 +119,11 @@ python3 DSRA_createRiskProfileIndicators.py --eqScenario=afm7p2_lrdmf --aggregat
 python3 DSRA_createRiskProfileIndicators.py --eqScenario=afm7p2_lrdmf --aggregation=sauid
 
 # make sure Elasticsearch is ready prior to creating indexes
-# until $(curl -sSf -XGET --insecure 'http://elasticsearch-opendrr:9200/_cluster/health?wait_for_status=yellow' > /dev/null); do
-#     printf 'No status yellow from Elasticsearch, trying again in 10 seconds \n'
-#     sleep 10
-# done
+until $(curl -sSf -XGET --insecure 'http://elasticsearch-opendrr:9200/_cluster/health?wait_for_status=yellow' > /dev/null); do
+    printf 'No status yellow from Elasticsearch, trying again in 10 seconds \n'
+    sleep 10
+done
 
 echo "\nCreating elasticsearch indexes..."
-# python dsra_postgres2es.py --eqScenario="sim6p8_cr2022_rlz_1" --retrofitPrefix="b0" --dbview="casualties_agg_view" --idField="Sauid" &&
+python3 dsra_postgres2es.py --eqScenario="sim6p8_cr2022_rlz_1" --dbview="casualties_agg_view" --idField="Sauid"
 # python exposure.py --type="buildings" --aggregation="building" --geometry=geom_point --idField="AssetID"
