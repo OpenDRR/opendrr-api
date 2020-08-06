@@ -6,4 +6,5 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-CMD chmod +x add_data.sh && ./add_data.sh
+RUN chmod +x docker-entrypoint.sh && chmod +x add_data.sh
+ENTRYPOINT ["docker-entrypoint.sh"]

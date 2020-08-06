@@ -1,0 +1,61 @@
+version: "3"
+
+volumes:
+    pg-data:
+
+services:
+
+    kibana-opendrr:
+        image: kibana:7.7.1
+        
+        environment:
+            ELASTICSEARCH_HOSTS: http://elasticsearch-opendrr:9200
+
+        ports: 
+            - 5601:5601
+        
+        depends_on: 
+            - elasticsearch-opendrr
+    
+    elasticsearch-opendrr: 
+        image: elasticsearch:7.7.1
+        
+        environment:
+            - discovery.type=single-node
+        
+        ports: 
+            - 9200:9200
+    
+    # pygeoapi-opendrr:
+    #     image: geopython/pygeoapi
+    #     build: ./pygeoapi
+        
+    #     ports:
+    #         - 5000:80
+        
+    #     depends_on:
+    #         - elasticsearch-opendrr
+        
+    #     restart: unless-stopped
+    
+    db-opendrr:
+        image: postgis/postgis
+        build: ./postgis
+        shm_size: 1g
+ 
+        env_file:
+            - .env
+        
+        volumes: 
+            - pg-data:/var/lib/postgresql
+
+        ports: 
+            - ${POSTGRES_PORT}:5432
+
+        environment: 
+            POSTGRES_HOST_AUTH_METHOD: trust
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASS: ${POSTGRES_PASS}
+            POSTGRES_DB: ${DB_NAME}
+        
+        restart: on-failure
