@@ -95,6 +95,8 @@ You should see something similar to:
         "timeStamp": "2020-03-25T19:21:13.065240Z"
     }
 
+## Interacting with the endpoints
+
 ### Querying pygeoapi
 
 Refer to the pygeoapi documentation for general guidance:
@@ -162,3 +164,13 @@ Refer to the pygeoapi documentation for general guidance:
             ]
         }
     }'
+
+## Start/Stop the stack
+
+To stop the stack `Ctrl-C`. If you are running it in the background:
+
+    $ docker-compose stop
+
+To start the stack:
+
+    $ docker-compose -f docker-compose-start.yml start

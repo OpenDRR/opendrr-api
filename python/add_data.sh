@@ -1,3 +1,5 @@
+#!/bin/bash
+
 set -e
 
 # make sure PostGIS is ready to accept connections
