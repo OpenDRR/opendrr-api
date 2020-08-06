@@ -12,6 +12,8 @@ REST API for OpenDRR data
 ### Run docker-compose
 
     $ docker-compose up --build
+
+Once the stack is built (~20min) you can stop it with `Ctrl-C`. See below on how you can bring the stack back up without re-building.
   
 ### Verify that everything is working
 
@@ -167,10 +169,14 @@ Refer to the pygeoapi documentation for general guidance:
 
 ## Start/Stop the stack
 
-To stop the stack `Ctrl-C`. If you are running it in the background:
-
-    $ docker-compose stop
+Once the stack is built you only need to re-build when there is new data. The `docker-compose-run.yml` script is an override that you can use to run the built stack - it doesn't create the python container that pulls the latest code and data from GitHub to populate the stack. 
 
 To start the stack:
 
-    $ docker-compose -f docker-compose-start.yml start
+    $ docker-compose -f docker-compose-run.yml start
+
+To stop the stack:
+
+    $ docker-compose -f docker-compose-run.yml stop
+
+
