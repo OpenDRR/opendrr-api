@@ -9,7 +9,19 @@ do
   sleep 2;
 done
 
+#get github token
 GITHUB_TOKEN=`grep -o 'github_token = *.*' config.ini | cut -f2- -d=`
+
+#get list of earthquake scenarios
+curl -H "Authorization: token ${GITHUB_TOKEN}" \
+  -O \
+  -L https://api.github.com/repos/OpenDRR/openquake-models/contents/deterministic/outputs
+EQSCENARIO_LIST=`grep -P -o '"name": "s_lossesbyasset_*.*r2' outputs | cut -f3- -d_`
+EQSCENARIO_LIST=($(echo $EQSCENARIO_LIST | tr ' ' '\n'))
+for item in ${!EQSCENARIO_LIST[@]}
+do
+EQSCENARIO_LIST[item]=${EQSCENARIO_LIST[item]:0:${#EQSCENARIO_LIST[item]}-3} 
+done
 
 # get model-factory scripts
 git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; git pull)
@@ -38,8 +50,9 @@ rm -rf boundaries
 
 echo "\n Importing Physical Exposure Model into PostGIS"
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -O \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/general-building-stock/BldgExp_Canada.csv 
+  -o BldgExp_Canada.csv \
+  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/general-building-stock/BldgExp_Canada.csv?ref=ab1b2d58dcea80a960c079ad2aff337bc22487c5
+
 DOWNLOAD_URL=`grep -o '"download_url": *.*' BldgExp_Canada.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
 curl -o BldgExp_Canada.csv \
   -L $DOWNLOAD_URL
