@@ -128,10 +128,21 @@ psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_retrofit_costs
 
 
 echo "\n Generating indicator views..."
-#psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_scenario_risk_building_indicators_ALL.psql &&
-#psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_scenario_risk_sauid_indicators_ALL.psql
-python3 DSRA_createRiskProfileIndicators.py --eqScenario=afm7p2_lrdmf --aggregation=building
-python3 DSRA_createRiskProfileIndicators.py --eqScenario=afm7p2_lrdmf --aggregation=sauid
+# python dsra_postgres2es.py --eqScenario="sim6p8_cr2022_rlz_1" --retrofitPrefix="b0" --dbview="casualties_agg_view" --idField="Sauid" &&
+# python exposure.py --type="buildings" --aggregation="building" --geometry=geom_point --idField="AssetID"
+python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="casualties" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="damage_state" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="economic_loss" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="recovery_time" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="scenario_shakemap_intensity" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="social_disruption" --idField="building"
+
+# python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="casualties" --idField="sauid"
+# python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="damage_state" --idField="sauid"
+# python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="economic_loss" --idField="sauid"
+# python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="recovery_time" --idField="sauid"
+# python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="scenario_shakemap_intensity" --idField="sauid"
+# python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="social_disruption" --idField="sauid"
 
 # make sure Elasticsearch is ready prior to creating indexes
 until $(curl -sSf -XGET --insecure 'http://elasticsearch-opendrr:9200/_cluster/health?wait_for_status=yellow' > /dev/null); do
