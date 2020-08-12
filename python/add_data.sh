@@ -84,9 +84,8 @@ python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenDRR/o
 
 echo "\n Importing Census Data"
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -O \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/census-ref-sauid/census-attributes-2016.csv
-  
+  -o census-attributes-2016.csv \
+  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/census-ref-sauid/census-attributes-2016.csv?ref=ab1b2d58dcea80a960c079ad2aff337bc22487c5
 DOWNLOAD_URL=`grep -o '"download_url": *.*' census-attributes-2016.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
 curl -o census-attributes-2016.csv \
   -L $DOWNLOAD_URL
@@ -115,16 +114,16 @@ psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_sovi_cen
 echo "\n Importing LUTs"
 #Collapse Probability
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -O \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/general-building-stock/documentation/collapse_probability.csv
+  -o collapse_probability.csv \
+  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/general-building-stock/documentation/collapse_probability.csv?ref=73d15ca7e48291ee98d8a8dd7fb49ae30548f34e
 DOWNLOAD_URL=`grep -o '"download_url": *.*' collapse_probability.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
 curl -o collapse_probability.csv \
   -L $DOWNLOAD_URL
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_collapse_probability_table.sql
 #Retrofit Costs
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -O \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/general-building-stock/documentation/retrofit_costs.csv
+  -o retrofit_costs.csv \
+  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/general-building-stock/documentation/retrofit_costs.csv?ref=73d15ca7e48291ee98d8a8dd7fb49ae30548f34e
 DOWNLOAD_URL=`grep -o '"download_url": *.*' retrofit_costs.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
 curl -o retrofit_costs.csv \
   -L $DOWNLOAD_URL
