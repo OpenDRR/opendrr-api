@@ -20,7 +20,8 @@ EQSCENARIO_LIST=`grep -P -o '"name": "s_lossesbyasset_*.*r2' outputs | cut -f3- 
 EQSCENARIO_LIST=($(echo $EQSCENARIO_LIST | tr ' ' '\n'))
 for item in ${!EQSCENARIO_LIST[@]}
 do
-EQSCENARIO_LIST[item]=${EQSCENARIO_LIST[item]:0:${#EQSCENARIO_LIST[item]}-3} 
+EQSCENARIO_LIST[item]=${EQSCENARIO_LIST[item]:0:${#EQSCENARIO_LIST[item]}-3}
+EQSCENARIO_LIST[item]=${EQSCENARIO_LIST[item],,}
 done
 
 # get model-factory scripts
@@ -67,13 +68,16 @@ psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_BC
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_BC_site_model_update.sql
 
 echo "\n Importing GMF Model"
-python3 DSRA_gmf2postgres_lfs.py --gmfDir="https://github.com/OpenDRR/openquake-models/tree/master/deterministic/outputs"  --eqScenario=AFM7p2_LRDMF
+for eqscenario in ${EQSCENARIO_LIST[*]}
+do
+python3 DSRA_gmf2postgres_lfs.py --gmfDir="https://github.com/OpenDRR/openquake-models/tree/master/deterministic/outputs"  --eqScenario=$eqscenario
 
 echo "\n Importing Sitemesh"
-python3 DSRA_sitemesh2postgres_lfs.py --sitemeshDir="https://github.com/OpenDRR/openquake-models/tree/master/deterministic/outputs" --eqScenario=AFM7p2_LRDMF
+python3 DSRA_sitemesh2postgres_lfs.py --sitemeshDir="https://github.com/OpenDRR/openquake-models/tree/master/deterministic/outputs" --eqScenario=$eqscenario
 
 echo "\n Creating GMF Sitemesh xref"
-python3 DSRA_sitemesh_gmf_xref.py  --eqScenario=afm7p2_lrdmf
+python3 DSRA_sitemesh_gmf_xref.py  --eqScenario=$eqscenario
+done
 
 echo "\n Importing Rupture Model"
 python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenDRR/openquake-models/tree/master/deterministic/ruptures" 
@@ -128,21 +132,24 @@ psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_retrofit_costs
 
 
 echo "\n Generating indicator views..."
+for eqscenario in ${EQSCENARIO_LIST[*]}
+do
 # python dsra_postgres2es.py --eqScenario="sim6p8_cr2022_rlz_1" --retrofitPrefix="b0" --dbview="casualties_agg_view" --idField="Sauid" &&
 # python exposure.py --type="buildings" --aggregation="building" --geometry=geom_point --idField="AssetID"
-python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="casualties" --idField="building"
-python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="damage_state" --idField="building"
-python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="economic_loss" --idField="building"
-python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="recovery_time" --idField="building"
-python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="scenario_shakemap_intensity" --idField="building"
-python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="social_disruption" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="casualties" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="damage_state" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="economic_loss" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="recovery_time" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="scenario_shakemap_intensity" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="social_disruption" --idField="building"
 
-# python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="casualties" --idField="sauid"
-# python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="damage_state" --idField="sauid"
-# python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="economic_loss" --idField="sauid"
-# python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="recovery_time" --idField="sauid"
-# python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="scenario_shakemap_intensity" --idField="sauid"
-# python3 dsra_postgres2es.py --eqScenario=afm7p2_lrdmf --dbview="social_disruption" --idField="sauid"
+# python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="casualties" --idField="sauid"
+# python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="damage_state" --idField="sauid"
+# python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="economic_loss" --idField="sauid"
+# python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="recovery_time" --idField="sauid"
+# python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="scenario_shakemap_intensity" --idField="sauid"
+# python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="social_disruption" --idField="sauid"
+done 
 
 # make sure Elasticsearch is ready prior to creating indexes
 until $(curl -sSf -XGET --insecure 'http://elasticsearch-opendrr:9200/_cluster/health?wait_for_status=yellow' > /dev/null); do
