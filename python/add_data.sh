@@ -43,11 +43,13 @@ ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NA
 ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_ERUID.gpkg" -nln boundaries."Geometry ERUID" -lco LAUNDER=NO 
 ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_FSAUID.gpkg" -nln boundaries."Geometry FSAUID" -lco LAUNDER=NO 
 ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_SAUID.gpkg" -nln boundaries."Geometry SAUID" -lco LAUNDER=NO 
+rm -rf boundaries
 
 echo "\n Importing scenario outputs into PostGIS..."
-python3 DSRA_outputs2postgres_lfs.py --dsraModelDir=https://github.com/OpenDRR/openquake-models/tree/master/deterministic/outputs --columnsINI=DSRA_outputs2postgres.ini 
-
-rm -rf boundaries
+for eqscenario in ${EQSCENARIO_LIST[*]}
+do
+python3 DSRA_outputs2postgres_lfs.py --dsraModelDir=https://github.com/OpenDRR/openquake-models/tree/master/deterministic/outputs --columnsINI=DSRA_outputs2postgres.ini --eqScenario=$eqscenario
+done
 
 echo "\n Importing Physical Exposure Model into PostGIS"
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
@@ -124,6 +126,7 @@ psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_collapse_proba
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -o retrofit_costs.csv \
   -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/general-building-stock/documentation/retrofit_costs.csv?ref=73d15ca7e48291ee98d8a8dd7fb49ae30548f34e
+
 DOWNLOAD_URL=`grep -o '"download_url": *.*' retrofit_costs.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
 curl -o retrofit_costs.csv \
   -L $DOWNLOAD_URL
@@ -156,6 +159,13 @@ until $(curl -sSf -XGET --insecure 'http://elasticsearch-opendrr:9200/_cluster/h
     sleep 10
 done
 
+for eqscenario in ${EQSCENARIO_LIST[*]}
+do
 echo "\nCreating elasticsearch indexes..."
-python3 dsra_postgres2es.py --eqScenario="sim6p8_cr2022_rlz_1" --dbview="casualties_agg_view" --idField="Sauid"
-# python exposure.py --type="buildings" --aggregation="building" --geometry=geom_point --idField="AssetID"
+python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="casualties" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="damage_state" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="economic_loss" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="recovery_time" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="scenario_shakemap_intensity" --idField="building"
+python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="social_disruption" --idField="building"
+done
