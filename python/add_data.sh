@@ -2,6 +2,11 @@
 
 set -e
 
+POSTGRES_USER=$1
+POSTGRES_PASS=$2
+POSTGRES_PORT=$3
+DB_NAME=$4
+
 # make sure PostGIS is ready to accept connections
 until pg_isready -h db-opendrr -p 5432 -U ${POSTGRES_USER}
 do
