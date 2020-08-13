@@ -55,7 +55,9 @@ services:
     #     restart: unless-stopped
     
     db-opendrr:
+        image: postgis/postgis
         build: ./postgis
+        shm_size: 1g
  
         env_file:
             - .env
