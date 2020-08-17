@@ -26,7 +26,7 @@ You should see something similar to:
     health status index ...
     green  open   economic_loss_agg_view XnIFL7LNTBWupGSXJOFjig ...
 
-Check pygeoapi to make sure that the feature collection can be acccesed
+Check pygeoapi to make sure that the feature collection can be accessed
 
     $ http://localhost:5000/collections/economic_loss/items?f=json&limit=1
 

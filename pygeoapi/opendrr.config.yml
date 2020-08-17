@@ -35,7 +35,7 @@ server:
     mimetype: application/json; charset=UTF-8
     encoding: utf-8
     language: en-US
-    # cors: true
+    cors: true
     pretty_print: true
     limit: 10
     # templates: /path/to/templates
@@ -50,21 +50,21 @@ logging:
 
 metadata:
     identification:
-        title: pygeoapi default instance
-        description: pygeoapi provides an API to geospatial data
+        title: OpenDRR Geospatial API
+        description: Geospatial API for Open Disaster Risk Reduction data
         keywords:
             - geospatial
             - data
             - api
         keywords_type: theme
         terms_of_service: null
-        url: http://example.org
+        url: https://github.com/OpenDRR
     license:
         name: CC-BY 4.0 license
         url: https://creativecommons.org/licenses/by/4.0/
     provider:
-        name: Organization Name
-        url: https://pygeoapi.io
+        name: Geological Survey of Canada
+        url: https://www.nrcan.gc.ca/science-data/research-centres-labs/geological-survey-canada/17100
     contact:
         name: Lastname, Firstname
         position: Position Title
