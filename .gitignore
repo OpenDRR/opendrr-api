@@ -1,3 +1,4 @@
-
-venv/
-venv-pygeoapi/
+.env
+postgis/config.ini
+python/config.ini
+.DS_Store
