@@ -26,17 +26,17 @@ services:
         ports: 
             - 9200:9200
     
-    # pygeoapi-opendrr:
-    #     image: geopython/pygeoapi
-    #     build: ./pygeoapi
+    pygeoapi-opendrr:
+        image: geopython/pygeoapi
+        build: ./pygeoapi
         
-    #     ports:
-    #         - 5000:80
+        ports:
+            - 5000:80
         
-    #     depends_on:
-    #         - elasticsearch-opendrr
+        depends_on:
+            - elasticsearch-opendrr
         
-    #     restart: unless-stopped
+        restart: unless-stopped
     
     db-opendrr:
         image: postgis/postgis
