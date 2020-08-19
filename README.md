@@ -41,7 +41,7 @@ You should see something similar to:
                     "Sauid": 59007611,
                     "Source_Type": "simpleFaultRupture",
                     "Rupture_Name": "SIM6p8_CR2022",
-                    "Magnitude": "6.8",
+                    "Magnitude": 6.8,
                     "Retrofit": "b0",
                     "AssetCostT": "465568966",
                     "BldgCostT": "317463008",
