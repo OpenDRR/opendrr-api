@@ -36,11 +36,15 @@ You should see something similar to:
     green  open   afm7p2_lrdmf_casualties_building
     green  open   .kibana_1
 
-You can explore the indexes in Elasticsearch using Kibana:
+You can explore the indexes in Elasticsearch using Kibana
 
      $ http://localhost:5601
 
-Check pygeoapi to make sure that a feature collection can be accessed
+Check pygeoapi to make sure the collections can be accessed
+
+    $ http://localhost:5000/collections
+
+Feature collections can be accessed as follows or by clicking on the links provided on the collections page
 
     $ http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=json&limit=1
 
