@@ -20,7 +20,7 @@ Once the stack is built (~20min) you can stop it with `Ctrl-C`. See below on how
 
 Check Elasticsearch to ensure that the indexes were created
 
-    $ http://localhost:9200/_cat/indices?v&pretty
+http://localhost:9200/_cat/indices?v&pretty
 
 You should see something similar to:
 
@@ -38,15 +38,15 @@ You should see something similar to:
 
 You can explore the indexes in Elasticsearch using Kibana
 
-     $ http://localhost:5601
+http://localhost:5601
 
 Check pygeoapi to make sure the collections can be accessed
 
-    $ http://localhost:5000/collections
+http://localhost:5000/collections
 
 Feature collections can be accessed as follows or by clicking on the links provided on the collections page
 
-    $ http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=json&limit=1
+http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=json&limit=1
 
 You should see something similar to:
 
@@ -133,17 +133,17 @@ You should see something similar to:
 
 Refer to the pygeoapi documentation for general guidance:
 
-    http://localhost:5000/openapi?f=html
+http://localhost:5000/openapi?f=html
 
 > NOTE: querying is currently limited to spatial extent and exact value queries. For more complex querying use Elasticsearch (see below).
 
 #### To filter on a specfic attribute
 
-    http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?sH_Mag=7.2
+http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?sH_Mag=7.2
 
 #### To filter using a bounding box
 
-    http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?bbox=-119,48.8,-118.9,49.8&f=json
+http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?bbox=-119,48.8,-118.9,49.8&f=json
 
 ### Querying Elasticsearch
 
