@@ -56,6 +56,7 @@ metadata:
             - geospatial
             - data
             - api
+            - earthquakes
         keywords_type: theme
         terms_of_service: null
         url: https://github.com/OpenDRR
@@ -66,18 +67,18 @@ metadata:
         name: Geological Survey of Canada
         url: https://www.nrcan.gc.ca/science-data/research-centres-labs/geological-survey-canada/17100
     contact:
-        name: Lastname, Firstname
-        position: Position Title
-        address: Mailing Address
-        city: City
-        stateorprovince: Administrative Area
-        postalcode: Zip or Postal Code
-        country: Country
-        phone: +xx-xxx-xxx-xxxx
-        fax: +xx-xxx-xxx-xxxx
-        email: you@example.org
+        name: Hastings, Nicky
+        position: Project Lead
+        address: 1500-605 Robson Street
+        city: Vancouver
+        stateorprovince: British Columbia
+        postalcode: V6B 5J3
+        country: Canada
+        phone: +01-604-666-3955
+        fax: +01-604-666-1124
+        email: nicky.hastings@canada.ca
         url: Contact URL
-        hours: Mo-Fr 08:00-17:00
+        hours: Mo-Fr 08:30-16:30
         instructions: During hours of service. Off on weekends.
         role: pointOfContact
 
@@ -105,7 +106,7 @@ resources:
             - type: feature
               name: Elasticsearch
               data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_economic_loss_building
-              id_field: Sauid
+              id_field: AssetID
 
     afm7p2_lrdmf_damage_state_building:
         type: collection
@@ -130,7 +131,7 @@ resources:
             - type: feature
               name: Elasticsearch
               data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_damage_state_building
-              id_field: Sauid
+              id_field: AssetID
 
     afm7p2_lrdmf_social_disruption_building:
         type: collection
@@ -155,7 +156,7 @@ resources:
             - type: feature
               name: Elasticsearch
               data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_social_disruption_building
-              id_field: Sauid
+              id_field: AssetID
 
     afm7p2_lrdmf_recovery_time_building:
         type: collection
@@ -180,7 +181,7 @@ resources:
             - type: feature
               name: Elasticsearch
               data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_recovery_time_building
-              id_field: Sauid
+              id_field: AssetID
 
     afm7p2_lrdmf_scenario_shakemap_intensity_building:
         type: collection
@@ -205,7 +206,7 @@ resources:
             - type: feature
               name: Elasticsearch
               data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building
-              id_field: Sauid
+              id_field: AssetID
 
     afm7p2_lrdmf_casualties_building:
         type: collection
@@ -230,4 +231,4 @@ resources:
             - type: feature
               name: Elasticsearch
               data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_casualties_building
-              id_field: Sauid
+              id_field: AssetID
