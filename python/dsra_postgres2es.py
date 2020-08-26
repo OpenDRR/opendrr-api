@@ -61,9 +61,9 @@ def main():
     if args.idField == 'sauid':
         id_field = 'Sauid'
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
-                            FROM results_{eqScenario}.{view}'.format(**{
-                            'eqScenario': args.eqScenario,
-                            'view': view})
+                        FROM results_{eqScenario}.{view}'.format(**{
+                        'eqScenario': args.eqScenario,
+                        'view': view})
         settings = {
             'settings': {
                 'number_of_shards': 1,
@@ -83,9 +83,9 @@ def main():
     elif args.idField == 'building':
         id_field = 'AssetID'
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
-                            FROM results_{eqScenario}.{view}'.format(**{
-                            'eqScenario': args.eqScenario,
-                            'view': view})
+                        FROM results_{eqScenario}.{view}'.format(**{
+                        'eqScenario': args.eqScenario,
+                        'view': view})
         settings = {
             'settings': {
                 'number_of_shards': 1,
