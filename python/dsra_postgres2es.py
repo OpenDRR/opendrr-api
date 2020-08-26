@@ -54,10 +54,14 @@ def main():
                                   logging.StreamHandler()])
     auth = get_config_params('config.ini')
     args = parse_args()
-    view = "{eq_scenario}_{dbview}_{idField}".format(**{'eq_scenario':args.eqScenario, 'dbview':args.dbview, 'idField':args.idField}).lower()
+    view = "{eq_scenario}_{dbview}_{idField}".format(**{'eq_scenario': args.eqScenario,
+                                                        'dbview': args.dbview,
+                                                        'idField': args.idField}).lower()
     if args.idField == 'sauid':
         id_field = 'Sauid'
-        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) FROM results_{eqScenario}.{view}'.format(**{'eqScenario':args.eqScenario, 'view':view})
+        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) FROM results_{eqScenario}.{view}'.format(**{
+                            'eqScenario': args.eqScenario,
+                            'view': view})
         settings = {
             'settings': {
                 'number_of_shards': 1,
@@ -76,7 +80,9 @@ def main():
         }
     elif args.idField == 'building':
         id_field = 'AssetID'
-        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) FROM results_{eqScenario}.{view}'.format(**{'eqScenario':args.eqScenario, 'view':view})
+        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) FROM results_{eqScenario}.{view}'.format(**{
+                            'eqScenario': args.eqScenario,
+                            'view': view})
         settings = {
             'settings': {
                 'number_of_shards': 1,
@@ -93,7 +99,7 @@ def main():
                 }
             }
         }
-      
+
     #es = Elasticsearch()
     es = Elasticsearch([auth.get('es', 'es_endpoint')], http_auth=(auth.get('es', 'es_un'), auth.get('es', 'es_pw')))
     connection = None
