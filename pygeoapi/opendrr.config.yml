@@ -84,8 +84,8 @@ metadata:
 resources:
     afm7p2_lrdmf_economic_loss_building:
         type: collection
-        title: Economic loss buildings
-        description: Economic consequences aggregated
+        title: Economic loss (Magnitude 7.0)
+        description: Economic consequences aggregated at building level
         keywords:
             - earthquake
         links:
@@ -105,12 +105,12 @@ resources:
             - type: feature
               name: Elasticsearch
               data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_economic_loss_building
-              id_field: Sauid
+              id_field: AssetID
 
     afm7p2_lrdmf_damage_state_building:
         type: collection
-        title: Damage state buildings
-        description: Damage state aggregated
+        title: Damage state (Magnitude 7.0)
+        description: Damage state aggregated at building level
         keywords:
             - earthquake
         links:
@@ -130,12 +130,12 @@ resources:
             - type: feature
               name: Elasticsearch
               data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_damage_state_building
-              id_field: Sauid
+              id_field: AssetID
 
     afm7p2_lrdmf_social_disruption_building:
         type: collection
-        title: Social disruption buildings
-        description: Social disruption aggregated
+        title: Social disruption (Magnitude 7.0)
+        description: Social disruption aggregated at building level
         keywords:
             - earthquake
         links:
@@ -155,12 +155,12 @@ resources:
             - type: feature
               name: Elasticsearch
               data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_social_disruption_building
-              id_field: Sauid
+              id_field: AssetID
 
     afm7p2_lrdmf_recovery_time_building:
         type: collection
-        title: Recovery time buildings
-        description: Recovery time aggregated
+        title: Recovery time (Magnitude 7.0)
+        description: Recovery time aggregated at building level
         keywords:
             - earthquake
         links:
@@ -180,12 +180,12 @@ resources:
             - type: feature
               name: Elasticsearch
               data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_recovery_time_building
-              id_field: Sauid
+              id_field: AssetID
 
     afm7p2_lrdmf_scenario_shakemap_intensity_building:
         type: collection
-        title: Scenario shakemap intensity buildings
-        description: Scenario shakemap intensity aggregated
+        title: Scenario shakemap intensity (Magnitude 7.0)
+        description: Scenario shakemap intensity aggregated at building level
         keywords:
             - earthquake
         links:
@@ -205,12 +205,12 @@ resources:
             - type: feature
               name: Elasticsearch
               data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building
-              id_field: Sauid
+              id_field: AssetID
 
     afm7p2_lrdmf_casualties_building:
         type: collection
-        title: Casualties buildings
-        description: Casualties aggregated
+        title: Casualties (Magnitude 7.0)
+        description: Casualties aggregated at building level
         keywords:
             - earthquake
         links:
@@ -230,4 +230,454 @@ resources:
             - type: feature
               name: Elasticsearch
               data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_casualties_building
+              id_field: AssetID
+
+    afm7p2_lrdmf_economic_loss_sauid:
+        type: collection
+        title: Economic loss (Magnitude 7.0)
+        description: Economic consequences aggregated at SAUID level
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_economic_loss_sauid
+              id_field: Sauid
+
+    afm7p2_lrdmf_damage_state_sauid:
+        type: collection
+        title: Damage state (Magnitude 7.0)
+        description: Damage state aggregated at SAUID level
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_damage_state_sauid
+              id_field: Sauid
+
+    afm7p2_lrdmf_social_disruption_sauid:
+        type: collection
+        title: Social disruption (Magnitude 7.0)
+        description: Social disruption aggregated at SAUID level
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_social_disruption_sauid
+              id_field: Sauid
+
+    afm7p2_lrdmf_recovery_time_sauid:
+        type: collection
+        title: Recovery time (Magnitude 7.0)
+        description: Recovery time aggregated at SAUID level
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_recovery_time_sauid
+              id_field: Sauid
+
+    afm7p2_lrdmf_scenario_shakemap_intensity_sauid:
+        type: collection (Magnitude 7.0)
+        title: Scenario shakemap intensity
+        description: Scenario shakemap intensity aggregated at SAUID level
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_scenario_shakemap_intensity_sauid
+              id_field: Sauid
+
+    afm7p2_lrdmf_casualties_sauid:
+        type: collection
+        title: Casualties (Magnitude 7.0)
+        description: Casualties aggregated at SAUID level
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_casualties_sauid
+              id_field: Sauid
+
+    sim9p0_cascadiaair_economic_loss_building:
+        type: collection
+        title: Economic loss (Magnitude 9.0)
+        description: Economic consequences aggregated at building level
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_economic_loss_building
+              id_field: AssetID
+
+    sim9p0_cascadiaair_damage_state_building:
+        type: collection
+        title: Damage state (Magnitude 9.0)
+        description: Damage state aggregated at building level
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_damage_state_building
+              id_field: AssetID
+
+    sim9p0_cascadiaair_social_disruption_building:
+        type: collection
+        title: Social disruption (Magnitude 9.0)
+        description: Social disruption aggregated at building level
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_social_disruption_building
+              id_field: AssetID
+
+    sim9p0_cascadiaair_recovery_time_building:
+        type: collection
+        title: Recovery time (Magnitude 9.0)
+        description: Recovery time aggregated at building level
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_recovery_time_building
+              id_field: AssetID
+
+    sim9p0_cascadiaair_scenario_shakemap_intensity_building:
+        type: collection
+        title: Scenario shakemap intensity (Magnitude 9.0)
+        description: Scenario shakemap intensity aggregated at building level
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_scenario_shakemap_intensity_building
+              id_field: AssetID
+
+    sim9p0_cascadiaair_casualties_building:
+        type: collection
+        title: Casualties (Magnitude 9.0)
+        description: Casualties aggregated at building level
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_casualties_building
+              id_field: AssetID
+
+    sim9p0_cascadiaair_economic_loss_sauid:
+        type: collection
+        title: Economic loss (Magnitude 9.0)
+        description: Economic consequences aggregated at SAUID level
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_economic_loss_sauid
+              id_field: Sauid
+
+    sim9p0_cascadiaair_damage_state_sauid:
+        type: collection
+        title: Damage state (Magnitude 9.0)
+        description: Damage state aggregated at SAUID level
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_damage_state_sauid
+              id_field: Sauid
+
+    sim9p0_cascadiaair_social_disruption_sauid:
+        type: collection
+        title: Social disruption (Magnitude 9.0)
+        description: Social disruption aggregated at SAUID level
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_social_disruption_sauid
+              id_field: Sauid
+
+    sim9p0_cascadiaair_recovery_time_sauid:
+        type: collection
+        title: Recovery time (Magnitude 9.0)
+        description: Recovery time aggregated at SAUID level
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_recovery_time_sauid
+              id_field: Sauid
+
+    sim9p0_cascadiaair_scenario_shakemap_intensity_sauid:
+        type: collection
+        title: Scenario shakemap intensity (Magnitude 9.0)
+        description: Scenario shakemap intensity aggregated at SAUID level
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_scenario_shakemap_intensity_sauid
+              id_field: Sauid
+
+    sim9p0_cascadiaair_casualties_sauid:
+        type: collection
+        title: Casualties (Magnitude 9.0)
+        description: Casualties aggregated at SAUID level
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_casualties_sauid
               id_field: Sauid

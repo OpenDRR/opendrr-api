@@ -9,6 +9,30 @@ REST API for OpenDRR data
 
 - Docker engine installed and running
 
+### Edit the configuration
+
+Make a copy of `sample_config.ini` and rename it `config.ini`. Open this file in an editor, add the required github_token (see https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) and set the remaining parameters as follows:
+
+    [auth]
+    # Github Token for Private Repo Accesss
+    github_token = a00049ba79152d03380c34652f2cb612
+
+    [rds]
+    # PostGIS Connection Details
+    postgres_host = db-opendrr
+    postgres_port = 5432
+    postgres_un = postgres
+    postgres_pw = password
+    postgres_db = opendrr
+    postgres_address = db-opendrr:5432/opendrr
+
+    [es]
+    # Elasticsearch Connection Details
+    es_un = elastic
+    es_pw = changeme
+    es_endpoint = elasticsearch-opendrr:9200
+    kibana_endpoint = localhost:5601
+
 ### Run docker-compose
 
     $ docker-compose up --build
@@ -178,5 +202,3 @@ To start the stack:
 To stop the stack:
 
     $ docker-compose -f docker-compose-run.yml stop
-
-
