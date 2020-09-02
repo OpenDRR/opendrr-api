@@ -18,17 +18,17 @@ done
 GITHUB_TOKEN=`grep -o 'github_token = *.*' config.ini | cut -f2- -d=`
 
 #get list of earthquake scenarios
-# curl -H "Authorization: token ${GITHUB_TOKEN}" \
-#   -O \
-#   -L https://api.github.com/repos/OpenDRR/openquake-models/contents/deterministic/outputs
-# EQSCENARIO_LIST=`grep -P -o '"name": "s_lossesbyasset_*.*r2' outputs | cut -f3- -d_`
-# EQSCENARIO_LIST=($(echo $EQSCENARIO_LIST | tr ' ' '\n'))
-# for item in ${!EQSCENARIO_LIST[@]}
-# do
-# EQSCENARIO_LIST[item]=${EQSCENARIO_LIST[item]:0:${#EQSCENARIO_LIST[item]}-3}
-# EQSCENARIO_LIST[item]=${EQSCENARIO_LIST[item],,}
-# done
-EQSCENARIO_LIST=afm7p2_lrdmf
+curl -H "Authorization: token ${GITHUB_TOKEN}" \
+  -O \
+  -L https://api.github.com/repos/OpenDRR/openquake-models/contents/deterministic/outputs
+EQSCENARIO_LIST=`grep -P -o '"name": "s_lossesbyasset_*.*r2' outputs | cut -f3- -d_`
+EQSCENARIO_LIST=($(echo $EQSCENARIO_LIST | tr ' ' '\n'))
+for item in ${!EQSCENARIO_LIST[@]}
+do
+EQSCENARIO_LIST[item]=${EQSCENARIO_LIST[item]:0:${#EQSCENARIO_LIST[item]}-3}
+#EQSCENARIO_LIST[item]=${EQSCENARIO_LIST[item],,}
+done
+# EQSCENARIO_LIST=afm7p2_lrdmf
 
 # get model-factory scripts
 git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; git pull)
@@ -42,19 +42,20 @@ rm -rf model-factory
 
 echo "\n Importing Census Boundaries"
 # create boundaries schema geometry tables from default geopackages.  Change ogr2ogr PATH / geopackage path if nessessary to run.
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_ADAUID.gpkg" -nln boundaries."Geometry ADAUID" -lco LAUNDER=NO 
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CANADA.gpkg" -nln boundaries."Geometry CANADA" -lco LAUNDER=NO 
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CDUID.gpkg" -nln boundaries."Geometry CDUID" -lco LAUNDER=NO 
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CSDUID.gpkg" -nln boundaries."Geometry CSDUID" -lco LAUNDER=NO 
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_ERUID.gpkg" -nln boundaries."Geometry ERUID" -lco LAUNDER=NO 
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_FSAUID.gpkg" -nln boundaries."Geometry FSAUID" -lco LAUNDER=NO 
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_SAUID.gpkg" -nln boundaries."Geometry SAUID" -lco LAUNDER=NO 
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_ADAUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry ADAUID" -lco LAUNDER=NO
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CANADA.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry CANADA" -lco LAUNDER=NO
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CDUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry CDUID" -lco LAUNDER=NO
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CSDUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry CSDUID" -lco LAUNDER=NO
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_ERUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry ERUID" -lco LAUNDER=NO
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_FSAUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry FSAUID" -lco LAUNDER=NO
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_SAUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry SAUID" -lco LAUNDER=NO
 rm -rf boundaries
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Update_boundaries_SAUID_table.sql
 
 echo "\n Importing scenario outputs into PostGIS..."
 for eqscenario in ${EQSCENARIO_LIST[*]}
 do
-python3 DSRA_outputs2postgres_lfs.py --dsraModelDir=https://github.com/OpenDRR/openquake-models/tree/master/deterministic/outputs --columnsINI=DSRA_outputs2postgres.ini 
+python3 DSRA_outputs2postgres_lfs.py --dsraModelDir=https://github.com/OpenDRR/openquake-models/tree/master/deterministic/outputs --columnsINI=DSRA_outputs2postgres.ini --eqScenario=$eqscenario
 done
 
 echo "\n Importing Physical Exposure Model into PostGIS"
@@ -78,10 +79,10 @@ psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_BC
 echo "\n Importing GMF Model"
 for eqscenario in ${EQSCENARIO_LIST[*]}
 do
-python3 DSRA_gmf2postgres_lfs.py --gmfDir="https://github.com/OpenDRR/openquake-models/tree/master/deterministic/outputs"  --eqScenario=AFM7p2_LRDMF
+python3 DSRA_gmf2postgres_lfs.py --gmfDir="https://github.com/OpenDRR/openquake-models/tree/master/deterministic/outputs"  --eqScenario=$eqscenario
 
 echo "\n Importing Sitemesh"
-python3 DSRA_sitemesh2postgres_lfs.py --sitemeshDir="https://github.com/OpenDRR/openquake-models/tree/master/deterministic/outputs" --eqScenario=AFM7p2_LRDMF
+python3 DSRA_sitemesh2postgres_lfs.py --sitemeshDir="https://github.com/OpenDRR/openquake-models/tree/master/deterministic/outputs" --eqScenario=$eqscenario
 
 echo "\n Creating GMF Sitemesh xref"
 python3 DSRA_sitemesh_gmf_xref.py  --eqScenario=$eqscenario
@@ -162,11 +163,11 @@ python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="recovery_time" --
 python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="scenario_shakemap_intensity" --idField="building"
 python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="social_disruption" --idField="building"
 
-# python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="casualties" --idField="sauid"
-# python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="damage_state" --idField="sauid"
-# python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="economic_loss" --idField="sauid"
-# python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="recovery_time" --idField="sauid"
-# python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="scenario_shakemap_intensity" --idField="sauid"
-# python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="social_disruption" --idField="sauid"
+python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="casualties" --idField="sauid"
+python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="damage_state" --idField="sauid"
+python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="economic_loss" --idField="sauid"
+python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="recovery_time" --idField="sauid"
+python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="scenario_shakemap_intensity" --idField="sauid"
+python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="social_disruption" --idField="sauid"
 
 done

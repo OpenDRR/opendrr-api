@@ -54,15 +54,57 @@ def main():
                                   logging.StreamHandler()])
     auth = get_config_params('config.ini')
     args = parse_args()
-    view = "{eq_scenario}_{dbview}_{idField}".format(**{'eq_scenario':args.eqScenario, 'dbview':args.dbview, 'idField':args.idField})
+    view = "{eq_scenario}_{dbview}_{idField}".format(**{
+        'eq_scenario': args.eqScenario,
+        'dbview': args.dbview,
+        'idField': args.idField}).lower()
     if args.idField == 'sauid':
         id_field = 'Sauid'
+        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
+            FROM results_{eqScenario}.{view}'.format(**{
+            'eqScenario': args.eqScenario,
+            'view': view})
+        settings = {
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    },
+                    'geom_poly': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }
     elif args.idField == 'building':
-        id_field = 'AssetID'  
-    
+        id_field = 'AssetID'
+        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
+            FROM results_{eqScenario}.{view}'.format(**{
+            'eqScenario': args.eqScenario,
+            'view': view})
+        settings = {
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    },
+                    'geom_point': {
+                        'type': 'geo_point'
+                    }
+                }
+            }
+        }
+
     #es = Elasticsearch()
     es = Elasticsearch([auth.get('es', 'es_endpoint')], http_auth=(auth.get('es', 'es_un'), auth.get('es', 'es_pw')))
-    sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) FROM results_{eqScenario}.{view}'.format(**{'eqScenario':args.eqScenario, 'view':view})
     connection = None
     try:
         #Connect to the PostGIS database hosted on RDS
@@ -101,23 +143,6 @@ def main():
             # cursor.close()
             connection.close()
 
-    # index settings
-    settings = {
-        'settings': {
-            'number_of_shards': 1,
-            'number_of_replicas': 0
-        },
-        'mappings': {
-            'properties': {
-                'geometry': {
-                    'type': 'geo_shape'
-                },
-                'geom_point': {
-                    'type': 'geo_point'
-                }
-            }
-        }
-    }
     # create index
     if es.indices.exists(view):
         es.indices.delete(view)
