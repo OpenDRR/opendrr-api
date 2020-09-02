@@ -85,7 +85,7 @@ metadata:
 resources:
     afm7p2_lrdmf_economic_loss_building:
         type: collection
-        title: Economic loss (Magnitude 7.0)
+        title: Economic loss (Magnitude 7.2)
         description: Economic consequences aggregated at building level
         keywords:
             - earthquake
@@ -110,7 +110,7 @@ resources:
 
     afm7p2_lrdmf_damage_state_building:
         type: collection
-        title: Damage state (Magnitude 7.0)
+        title: Damage state (Magnitude 7.2)
         description: Damage state aggregated at building level
         keywords:
             - earthquake
@@ -135,7 +135,7 @@ resources:
 
     afm7p2_lrdmf_social_disruption_building:
         type: collection
-        title: Social disruption (Magnitude 7.0)
+        title: Social disruption (Magnitude 7.2)
         description: Social disruption aggregated at building level
         keywords:
             - earthquake
@@ -160,7 +160,7 @@ resources:
 
     afm7p2_lrdmf_recovery_time_building:
         type: collection
-        title: Recovery time (Magnitude 7.0)
+        title: Recovery time (Magnitude 7.2)
         description: Recovery time aggregated at building level
         keywords:
             - earthquake
@@ -185,7 +185,7 @@ resources:
 
     afm7p2_lrdmf_scenario_shakemap_intensity_building:
         type: collection
-        title: Scenario shakemap intensity (Magnitude 7.0)
+        title: Scenario shakemap intensity (Magnitude 7.2)
         description: Scenario shakemap intensity aggregated at building level
         keywords:
             - earthquake
@@ -210,7 +210,7 @@ resources:
 
     afm7p2_lrdmf_casualties_building:
         type: collection
-        title: Casualties (Magnitude 7.0)
+        title: Casualties (Magnitude 7.2)
         description: Casualties aggregated at building level
         keywords:
             - earthquake
@@ -235,7 +235,7 @@ resources:
 
     afm7p2_lrdmf_economic_loss_sauid:
         type: collection
-        title: Economic loss (Magnitude 7.0)
+        title: Economic loss (Magnitude 7.2)
         description: Economic consequences aggregated at SAUID level
         keywords:
             - earthquake
@@ -260,7 +260,7 @@ resources:
 
     afm7p2_lrdmf_damage_state_sauid:
         type: collection
-        title: Damage state (Magnitude 7.0)
+        title: Damage state (Magnitude 7.2)
         description: Damage state aggregated at SAUID level
         keywords:
             - earthquake
@@ -285,7 +285,7 @@ resources:
 
     afm7p2_lrdmf_social_disruption_sauid:
         type: collection
-        title: Social disruption (Magnitude 7.0)
+        title: Social disruption (Magnitude 7.2)
         description: Social disruption aggregated at SAUID level
         keywords:
             - earthquake
@@ -310,7 +310,7 @@ resources:
 
     afm7p2_lrdmf_recovery_time_sauid:
         type: collection
-        title: Recovery time (Magnitude 7.0)
+        title: Recovery time (Magnitude 7.2)
         description: Recovery time aggregated at SAUID level
         keywords:
             - earthquake
@@ -334,7 +334,7 @@ resources:
               id_field: Sauid
 
     afm7p2_lrdmf_scenario_shakemap_intensity_sauid:
-        type: collection (Magnitude 7.0)
+        type: collection (Magnitude 7.2)
         title: Scenario shakemap intensity
         description: Scenario shakemap intensity aggregated at SAUID level
         keywords:
@@ -360,7 +360,7 @@ resources:
 
     afm7p2_lrdmf_casualties_sauid:
         type: collection
-        title: Casualties (Magnitude 7.0)
+        title: Casualties (Magnitude 7.2)
         description: Casualties aggregated at SAUID level
         keywords:
             - earthquake
