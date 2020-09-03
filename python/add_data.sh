@@ -7,15 +7,24 @@ POSTGRES_PASS=$2
 POSTGRES_PORT=$3
 DB_NAME=$4
 
+#get github token
+GITHUB_TOKEN=`grep -o 'github_token = *.*' config.ini | cut -f2- -d=`
+
+status_code=$(curl --write-out %{http_code} --silent --output /dev/null -H "Authorization: token ${GITHUB_TOKEN}" \
+  -O \
+  -L https://api.github.com/repos/OpenDRR/openquake-models/contents/deterministic/outputs)
+
+if [[ "$status_code" -ne 200 ]] ; then
+  echo "GitHub token is not valid! Exiting!"
+  exit 0
+fi
+
 # make sure PostGIS is ready to accept connections
 until pg_isready -h db-opendrr -p 5432 -U ${POSTGRES_USER}
 do
   echo "Waiting for postgres..."
   sleep 2;
 done
-
-#get github token
-GITHUB_TOKEN=`grep -o 'github_token = *.*' config.ini | cut -f2- -d=`
 
 #get list of earthquake scenarios
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
