@@ -148,6 +148,14 @@ curl -o retrofit_costs.csv \
   -L $DOWNLOAD_URL
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_retrofit_costs_table.sql
 
+echo "\n Importing GHSL"
+curl -H "Authorization: token ${GITHUB_TOKEN}" \
+  -o mh-intensity-ghsl.csv \
+  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/natural-hazards/mh-intensity-ghsl.csv?ref=ab1b2d58dcea80a960c079ad2aff337bc22487c5
+DOWNLOAD_URL=`grep -o '"download_url": *.*' mh-intensity-ghsl.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
+curl -o mh-intensity-ghsl.csv \
+  -L $DOWNLOAD_URL
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_GHSL.sql
 
 echo "\n Generating indicator views..."
 for eqscenario in ${EQSCENARIO_LIST[*]}
