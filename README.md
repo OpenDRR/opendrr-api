@@ -13,7 +13,7 @@ REST API for OpenDRR data
 
 ### Edit the Docker environment settings
 
-Make a copy of the `sample.env` file and rename it to `.env`. Make the necessary changes.
+Make a copy of the `sample.env` file and rename it to `.env`. Make changes if required otherwise leave the default settings.
 
 ### Edit the Python container configuration
 
