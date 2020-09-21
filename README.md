@@ -37,6 +37,8 @@ Make a copy of `sample_config.ini` and rename it `config.ini`. Open this file in
 ### Run docker-compose
 
     $ docker-compose up --build
+    
+``` NOTE: you will see errors thrown by the opendrr-api_pygeoapi-opendrr_1 container as the stack builds. These can be ignored.```
 
 Once the stack is built (~20min) you can stop it with `Ctrl-C`. See below on how you can bring the stack back up without re-building.
   
