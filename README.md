@@ -33,6 +33,10 @@ Make a copy of `sample_config.ini` and rename it `config.ini`. Open this file in
     es_pw = changeme
     es_endpoint = elasticsearch-opendrr:9200
     kibana_endpoint = localhost:5601
+    
+### Edit the Docker environment settings
+
+Make a copy of the `sample.env` file and rename it to `.env`. Make the necessary changes.
 
 ### Run docker-compose
 
