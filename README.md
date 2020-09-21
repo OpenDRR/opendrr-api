@@ -6,11 +6,16 @@ REST API for OpenDRR data
 
 ## Setup in your local environment
 
-### Prerequisites
+### 1. Prerequisites
 
-- Docker engine installed and running
+- Docker engine installed and running: https://docs.docker.com/get-docker/
+- Download or clone this repository to your local development environment
 
-### Edit the configuration
+### 2. Edit the Docker environment settings
+
+Make a copy of the `sample.env` file and rename it to `.env`. Make changes if required otherwise leave the default settings.
+
+### 3. Edit the Python container configuration
 
 Make a copy of `python/sample_config.ini` and rename it `config.ini`. Open this file in an editor, add the required github_token (see https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) and set the remaining parameters as follows:
 
@@ -33,18 +38,18 @@ Make a copy of `python/sample_config.ini` and rename it `config.ini`. Open this 
     es_pw = changeme
     es_endpoint = elasticsearch-opendrr:9200
     kibana_endpoint = localhost:5601
-    
-### Edit the Docker environment settings
 
-Make a copy of the `sample.env` file and rename it to `.env`. Make the necessary changes.
-
-### Run docker-compose
+### 4. Run docker-compose
 
     $ docker-compose up --build
+    
+> NOTE: you will see errors thrown by the opendrr-api_pygeoapi-opendrr_1 container as the stack builds. These can be ignored.
 
-Once the stack is built (~20min) you can stop it with `Ctrl-C`. See below on how you can bring the stack back up without re-building.
+Once the stack is built (~20min) you will need to verify that everything is working. 
+
+> NOTE: you can stop the stack whenever you like with `Ctrl-C`. See below on how you can bring the stack back up without re-building. 
   
-### Verify that everything is working
+### 5. Verify that everything is working
 
 Check Elasticsearch to ensure that the indexes were created
 
@@ -177,6 +182,10 @@ http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_build
 
 #### Range query
 
+http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search?q=properties.sH_PGA:[0.047580+TO+0.047584]
+
+OR using curl:
+
     curl -XGET "http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search" -H 'Content-Type: 
     application/json' -d'
     {  
@@ -191,6 +200,10 @@ http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_build
     }'
 
 #### Specific value
+
+http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search?q=properties.sH_PGA:0.047584
+    
+OR using curl:
 
     curl -XGET "http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search" -H 'Content-Type: 
     application/json' -d'
@@ -225,6 +238,34 @@ http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_build
             }
         }
     }'
+    
+## Interacting with the spatial database
+
+The spatial database is implemented using PostGIS. You can connect to PostGIS using pgAdmin (https://www.pgadmin.org) with the connection parameters in your `.env` file. For example:
+
+    POSTGRES_USER: postgres 
+    POSTGRES_PASSWORD: password
+    POSTGRES_PORT: 5432
+    DB_NAME: opendrr
+
+### Adding datasets to QGIS
+
+You have two options:
+
+#### Connect to PostGIS
+
+1. Add a "New Connection" by right clicking on the "PostGIS" data type in the browser
+2. Enter a name for your connection (i.e. "OpenDRR")
+3. Add the credentials as per your `.env` file (see above)
+4. Click the "OK" button
+
+#### Connect to OGC OpenAPI - Features
+
+1. Add a "New Connection" by right clicking on the "WFS / OGC API -Features" data type in the browser
+2. Enter a name for your connection (i.e. "OpenDRR")
+3. Enter `http://localhost:5000` in the URL field
+4. Select "OGC API - Features" in the "Version" dropdown
+4. Click the "OK" button
 
 ## Start/Stop the stack
 
