@@ -9,10 +9,11 @@ REST API for OpenDRR data
 ### Prerequisites
 
 - Docker engine installed and running
+- Download or clone this repository to your local development environment
 
 ### Edit the configuration
 
-Make a copy of `sample_config.ini` and rename it `config.ini`. Open this file in an editor, add the required github_token (see https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) and set the remaining parameters as follows:
+Make a copy of `python/sample_config.ini` and rename it `config.ini`. Open this file in an editor, add the required github_token (see https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) and set the remaining parameters as follows:
 
     [auth]
     # Github Token for Private Repo Accesss
