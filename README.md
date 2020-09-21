@@ -8,7 +8,7 @@ REST API for OpenDRR data
 
 ### 1. Prerequisites
 
-- Docker engine installed and running
+- Docker engine installed and running: https://docs.docker.com/get-docker/
 - Download or clone this repository to your local development environment
 
 ### 2. Edit the Docker environment settings
