@@ -6,16 +6,16 @@ REST API for OpenDRR data
 
 ## Setup in your local environment
 
-### Prerequisites
+### 1. Prerequisites
 
 - Docker engine installed and running
 - Download or clone this repository to your local development environment
 
-### Edit the Docker environment settings
+### 2. Edit the Docker environment settings
 
 Make a copy of the `sample.env` file and rename it to `.env`. Make changes if required otherwise leave the default settings.
 
-### Edit the Python container configuration
+### 3. Edit the Python container configuration
 
 Make a copy of `python/sample_config.ini` and rename it `config.ini`. Open this file in an editor, add the required github_token (see https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) and set the remaining parameters as follows:
 
@@ -39,7 +39,7 @@ Make a copy of `python/sample_config.ini` and rename it `config.ini`. Open this 
     es_endpoint = elasticsearch-opendrr:9200
     kibana_endpoint = localhost:5601
 
-### Run docker-compose
+### 4. Run docker-compose
 
     $ docker-compose up --build
     
@@ -49,7 +49,7 @@ Once the stack is built (~20min) you will need to verify that everything is work
 
 > NOTE: you can stop the stack whenever you like with `Ctrl-C`. See below on how you can bring the stack back up without re-building. 
   
-### Verify that everything is working
+### 5. Verify that everything is working
 
 Check Elasticsearch to ensure that the indexes were created
 
