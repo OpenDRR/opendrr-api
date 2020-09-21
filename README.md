@@ -238,6 +238,34 @@ OR using curl:
             }
         }
     }'
+    
+## Interacting with the spatial database
+
+The spatial database is implemented using PostGIS. You can connect to PostGIS using pgAdmin (https://www.pgadmin.org) with the connection parameters in your `.env` file. For example:
+
+    POSTGRES_USER: postgres 
+    POSTGRES_PASSWORD: password
+    POSTGRES_PORT: 5432
+    DB_NAME: opendrr
+
+### Adding datasets to QGIS
+
+You have two options:
+
+#### Connect to PostGIS
+
+1. Add a "New Connection" by right clicking on the "PostGIS" data type in the browser
+2. Enter a name for your connection (i.e. "OpenDRR")
+3. Add the credentials as per your `.env` file (see above)
+4. Click the "OK" button
+
+#### Connect to OGC OpenAPI - Features
+
+1. Add a "New Connection" by right clicking on the "WFS / OGC API -Features" data type in the browser
+2. Enter a name for your connection (i.e. "OpenDRR")
+3. Enter `http://localhost:5000` in the URL field
+4. Select "OGC API - Features" in the "Version" dropdown
+4. Click the "OK" button
 
 ## Start/Stop the stack
 
