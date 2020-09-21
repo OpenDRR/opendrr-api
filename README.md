@@ -175,6 +175,10 @@ http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_build
 
 #### Range query
 
+http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search?q=properties.sH_PGA:[0.047580+TO+0.047584]
+
+OR using curl:
+
     curl -XGET "http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search" -H 'Content-Type: 
     application/json' -d'
     {  
@@ -189,6 +193,10 @@ http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_build
     }'
 
 #### Specific value
+
+http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search?q=properties.sH_PGA:0.047584
+    
+OR using curl:
 
     curl -XGET "http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search" -H 'Content-Type: 
     application/json' -d'
