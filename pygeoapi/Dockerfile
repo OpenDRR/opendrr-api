@@ -1,4 +1,4 @@
-FROM geopython/pygeoapi:latest
+FROM opendrr/pygeoapi
 
 LABEL maintainer="Joost van Ulden <joost.vanulden@canada.ca>"
 
