@@ -157,6 +157,21 @@ curl -o mh-intensity-ghsl.csv \
   -L $DOWNLOAD_URL
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_GHSL.sql
 
+echo "\n Importing MH Intensity"
+curl -H "Authorization: token ${GITHUB_TOKEN}" \
+  -o mh-intensity-sauid.csv \
+  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/natural-hazards/mh-intensity-sauid.csv?ref=ab1b2d58dcea80a960c079ad2aff337bc22487c5
+DOWNLOAD_URL=`grep -o '"download_url": *.*' mh-intensity-sauid.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
+curl -o mh-intensity-sauid.csv \
+  -L $DOWNLOAD_URL
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_mh_intensity_canada_v2.sql
+
+echo "\n Generate GHSL Indicators"
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_risk_dynamics_indicators.sql
+
+
+
+
 echo "\n Generating indicator views..."
 for eqscenario in ${EQSCENARIO_LIST[*]}
 do
