@@ -1,5 +1,5 @@
 #!/bin/bash
-
+trap : TERM INT
 set -e
 
 POSTGRES_USER=$1
@@ -51,13 +51,13 @@ rm -rf model-factory
 
 echo "\n Importing Census Boundaries"
 # create boundaries schema geometry tables from default geopackages.  Change ogr2ogr PATH / geopackage path if nessessary to run.
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_ADAUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry ADAUID" -lco LAUNDER=NO
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CANADA.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry CANADA" -lco LAUNDER=NO
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CDUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry CDUID" -lco LAUNDER=NO
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CSDUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry CSDUID" -lco LAUNDER=NO
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_ERUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry ERUID" -lco LAUNDER=NO
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_FSAUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry FSAUID" -lco LAUNDER=NO
-ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_SAUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry SAUID" -lco LAUNDER=NO
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_ADAUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_ADAUID" -lco LAUNDER=NO
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CANADA.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_CANADA" -lco LAUNDER=NO
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CDUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_CDUID" -lco LAUNDER=NO
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CSDUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_CSDUID" -lco LAUNDER=NO
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_ERUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_ERUID" -lco LAUNDER=NO
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_FSAUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_FSAUID" -lco LAUNDER=NO
+ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_SAUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_SAUID" -lco LAUNDER=NO
 rm -rf boundaries
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Update_boundaries_SAUID_table.sql
 
@@ -165,9 +165,14 @@ DOWNLOAD_URL=`grep -o '"download_url": *.*' mh-intensity-sauid.csv | cut -f2- -d
 curl -o mh-intensity-sauid.csv \
   -L $DOWNLOAD_URL
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_mh_intensity_canada_v2.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_mh_thresholds.sql
 
-echo "\n Generate GHSL Indicators"
+echo "\n Generate Indicators"
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_physical_exposure_building_indicators_PhysicalExposure.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_physical_exposure_sauid_indicators_view_PhysicalExposure.sql
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_risk_dynamics_indicators.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_social_vulnerability_sauid_indicators_SocialFabric.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_MH_risk_sauid_ALL.sql
 
 
 
@@ -203,3 +208,8 @@ python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="scenario_shakemap
 python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="social_disruption" --idField="sauid"
 
 done
+
+echo "\n Loading Kibana Saved Objects"
+curl -X POST http://kibana-opendrr:5601/api/saved_objects/_import -H "kbn-xsrf: true" --form file=@kibanaSavedObjects.ndjson
+
+tail -f /dev/null & wait
