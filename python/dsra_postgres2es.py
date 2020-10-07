@@ -54,14 +54,14 @@ def main():
                                   logging.StreamHandler()])
     auth = get_config_params('config.ini')
     args = parse_args()
-    view = "{eq_scenario}_{dbview}_{idField}".format(**{
+    view = "dsra_{eq_scenario}_{dbview}_{idField}".format(**{
         'eq_scenario': args.eqScenario,
         'dbview': args.dbview,
-        'idField': args.idField}).lower()
+        'idField': args.idField[0]}).lower()
     if args.idField == 'sauid':
         id_field = 'Sauid'
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
-            FROM results_{eqScenario}.{view}'.format(**{
+            FROM results_dsra_{eqScenario}.{view}'.format(**{
             'eqScenario': args.eqScenario,
             'view': view})
         settings = {
@@ -83,7 +83,7 @@ def main():
     elif args.idField == 'building':
         id_field = 'AssetID'
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
-            FROM results_{eqScenario}.{view}'.format(**{
+            FROM results_dsra_{eqScenario}.{view}'.format(**{
             'eqScenario': args.eqScenario,
             'view': view})
         settings = {
