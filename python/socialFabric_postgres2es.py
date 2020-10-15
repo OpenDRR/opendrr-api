@@ -14,10 +14,10 @@ from elasticsearch import helpers
 from decimal import Decimal
 
 '''
-Script to convert risk Dynamics Views to ElasticSearch Index
+Script to convert Social Fabric Views to ElasticSearch Index
 Can be run from the command line with mandatory arguments 
 Run this script with a command like:
-python3 riskDynamics_postgres2es.py --type="hazard_susceptibility" --aggregation="sauid" --geometry=geom_point --idField="ghslID"
+python3 socialFabric_postgres2es.py --type="family_structure" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
 '''
 
 #Main Function
@@ -30,14 +30,14 @@ def main():
     args = parse_args()
 
 
-    view = "nhsl_risk_dynamics_{type}_{aggregation}".format(**{
+    view = "nhsl_social_fabric_{type}_{aggregation}".format(**{
         'type':args.type,
         'aggregation':args.aggregation[0].lower()})
 
     if args.idField.lower() == 'sauid':
         id_field = 'Sauid'
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
-            FROM results_nhsl_risk_dynamics.{view}'.format(**{
+            FROM results_nhsl_social_fabric.{view}'.format(**{
             'view': view})
         settings = {
             'settings': {
@@ -55,10 +55,10 @@ def main():
                 }
             }
         }
-    elif args.idField == 'ghslID':
-        id_field = 'ghslID'
+    elif args.idField == 'building':
+        id_field = 'AssetID'
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
-            FROM results_nhsl_risk_dynamics.{view}'.format(**{
+            FROM results_nhsl_hazard_threat.{view}'.format(**{
             'view': view})
         settings = {
             'settings': {
@@ -152,8 +152,8 @@ def get_config_params(args):
     return configParseObj
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="load hazard threat data from PostGIS to ElasticSearch Index")
-    parser.add_argument("--type", type=str, help="hazard threat layer (i.e. eq_threat_to_assets)", required=True)
+    parser = argparse.ArgumentParser(description="load Social Fabric data from PostGIS to ElasticSearch Index")
+    parser.add_argument("--type", type=str, help="Social Fabric layer (i.e. eq_threat_to_assets)", required=True)
     parser.add_argument("--aggregation", type=str, help="building or Sauid", required=True)
     parser.add_argument("--geometry", type=str, help="geom_point or geom_poly", required=True)
     parser.add_argument("--idField", type=str, help="Field to use as ElasticSearch Index ID. AssetID or Sauid", required=True)
