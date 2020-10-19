@@ -58,27 +58,40 @@ def main():
     auth = get_config_params('config.ini')
     args = parse_args()
 
-    if args.geometry == "geom_point":
-        geoType = "geo_point"
-    elif args.geometry =="geom_poly":
-        geoType = "geo_shape"
-    else:
-        raise Exception("Unrecognized Geometry Type")
-
     # index settings
-    settings = {
-        'settings': {
-            'number_of_shards': 1,
-            'number_of_replicas': 0
-        },
-        'mappings': {
-            'properties': {
-                'geometry': {
-                    'type': '{}'.format(geoType)
+    if args.geometry =="geom_poly":
+        settings = {
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
                 }
             }
         }
-    }
+        
+    elif args.geometry == "geom_point":
+        settings = {
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'properties': {
+                            'coordinates':{
+                                'type': 'geo_point'
+                            }    
+                        }
+                    }
+                }
+            }
+        }
 
     view = "nhsl_physical_exposure_{type}_{aggregation}".format(**{'type':args.type, 'aggregation':args.aggregation[0].lower()})
     id_field = args.idField    

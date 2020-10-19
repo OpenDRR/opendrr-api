@@ -73,13 +73,11 @@ def main():
                 'properties': {
                     'geometry': {
                         'type': 'geo_shape'
-                    },
-                    'geom_poly': {
-                        'type': 'geo_shape'
                     }
                 }
             }
         }
+        
     elif args.idField == 'building':
         id_field = 'AssetID'
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
@@ -94,10 +92,11 @@ def main():
             'mappings': {
                 'properties': {
                     'geometry': {
-                        'type': 'geo_shape'
-                    },
-                    'geom_point': {
-                        'type': 'geo_point'
+                        'properties': {
+                            'coordinates':{
+                                'type': 'geo_point'
+                            }    
+                        }
                     }
                 }
             }
