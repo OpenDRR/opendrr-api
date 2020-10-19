@@ -11,16 +11,20 @@ import decimal
 
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
-from decimal import Decimal
 
 '''
 Script to convert Social Fabric Views to ElasticSearch Index
-Can be run from the command line with mandatory arguments 
+Can be run from the command line with mandatory arguments
 Run this script with a command like:
-python3 socialFabric_postgres2es.py --type="family_structure" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+python3 socialFabric_postgres2es.py
+    --type="family_structure"
+    --aggregation="sauid"
+    --geometry=geom_poly
+    --idField="Sauid"
 '''
 
-#Main Function
+
+# Main Function
 def main():
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s - %(levelname)s - %(message)s', 
@@ -77,17 +81,17 @@ def main():
             }
         }
 
-    #es = Elasticsearch()
+    # es = Elasticsearch()
     es = Elasticsearch([auth.get('es', 'es_endpoint')], http_auth=(auth.get('es', 'es_un'), auth.get('es', 'es_pw')))
     connection = None
     try:
-        #Connect to the PostGIS database hosted on RDS
+        # Connect to the PostGIS database hosted on RDS
         connection = psycopg2.connect(user = auth.get('rds', 'postgres_un'),
                                         password = auth.get('rds', 'postgres_pw'),
                                         host = auth.get('rds', 'postgres_host'),
                                         port = auth.get('rds', 'postgres_port'),
                                         database = auth.get('rds', 'postgres_db'))
-        #Query the entire view with the geometries in geojson format
+        # Query the entire view with the geometries in geojson format
         cur = connection.cursor()
         cur.execute(sqlquerystring)
         rows = cur.fetchall()
@@ -95,7 +99,7 @@ def main():
         geomIndex = columns.index('st_asgeojson')
         feature_collection = {'type': 'FeatureCollection', 'features': []}
         
-        #Format the table into a geojson format for ES/Kibana consumption
+        # Format the table into a geojson format for ES/Kibana consumption
         for row in rows:
             feature = {
                 'type': 'Feature',
@@ -137,7 +141,7 @@ def gendata(data, view, id_field):
             "_source": item
         }
 
-#Function to handle decimal encoder error
+# Function to handle decimal encoder error
 def decimal_default(obj):
     if isinstance(obj, decimal.Decimal):
         return float(obj)
@@ -152,14 +156,28 @@ def get_config_params(args):
     return configParseObj
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="load Social Fabric data from PostGIS to ElasticSearch Index")
-    parser.add_argument("--type", type=str, help="Social Fabric layer (i.e. eq_threat_to_assets)", required=True)
-    parser.add_argument("--aggregation", type=str, help="building or Sauid", required=True)
-    parser.add_argument("--geometry", type=str, help="geom_point or geom_poly", required=True)
-    parser.add_argument("--idField", type=str, help="Field to use as ElasticSearch Index ID. AssetID or Sauid", required=True)
+    parser = argparse.ArgumentParser(
+        description="load Social Fabric data from PostGIS to ElasticSearch Index")
+    parser.add_argument("--type",
+        type=str,
+        help="Social Fabric layer (i.e. eq_threat_to_assets)",
+        required=True)
+    parser.add_argument("--aggregation",
+        type=str,
+        help="building or Sauid",
+        required=True)
+    parser.add_argument("--geometry",
+        type=str,
+        help="geom_point or geom_poly",
+        required=True)
+    parser.add_argument("--idField",
+        type=str,
+        help="Field to use as ElasticSearch Index ID. AssetID or Sauid",
+        required=True)
     args = parser.parse_args()
-    
+
     return args
 
+
 if __name__ == '__main__':
-    main() 
+    main()
