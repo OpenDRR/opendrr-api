@@ -27,7 +27,7 @@ services:
             - 9200:9200
     
     pygeoapi-opendrr:
-        image: geopython/pygeoapi
+        image: opendrr/pygeoapi
         build: ./pygeoapi
         
         ports:
