@@ -158,8 +158,9 @@ def parse_args():
     parser.add_argument("--geometry", type=str, help="geom_point or geom_poly", required=True)
     parser.add_argument("--idField", type=str, help="Field to use as ElasticSearch Index ID. AssetID or Sauid", required=True)
     args = parser.parse_args()
-    
+
     return args
 
+
 if __name__ == '__main__':
-    main() 
+    main()

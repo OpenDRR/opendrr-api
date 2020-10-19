@@ -27,7 +27,7 @@ python3 riskDynamics_postgres2es.py
 # Main Function
 def main():
     logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s - %(levelname)s - %(message)s', 
+                        format='%(asctime)s - %(levelname)s - %(message)s',
                         handlers=[logging.FileHandler('{}.log'.format(os.path.splitext(sys.argv[0])[0])),
                                   logging.StreamHandler()])
     auth = get_config_params('config.ini')
@@ -158,21 +158,21 @@ def get_config_params(args):
 def parse_args():
     parser = argparse.ArgumentParser(description="load hazard threat data from PostGIS to ElasticSearch Index")
     parser.add_argument("--type",
-        type=str,
-        help="hazard threat layer (i.e. eq_threat_to_assets)",
-        required=True)
+                        type=str,
+                        help="hazard threat layer (i.e. eq_threat_to_assets)",
+                        required=True)
     parser.add_argument("--aggregation",
-        type=str,
-        help="building or Sauid",
-        required=True)
+                        type=str,
+                        help="building or Sauid",
+                        required=True)
     parser.add_argument("--geometry",
-        type=str,
-        help="geom_point or geom_poly",
-        required=True)
+                        type=str,
+                        help="geom_point or geom_poly",
+                        required=True)
     parser.add_argument("--idField",
-        type=str,
-        help="Field to use as ElasticSearch Index ID. AssetID or Sauid",
-        required=True)
+                        type=str,
+                        help="Field to use as ElasticSearch Index ID. AssetID or Sauid",
+                        required=True)
     args = parser.parse_args()
 
     return args
