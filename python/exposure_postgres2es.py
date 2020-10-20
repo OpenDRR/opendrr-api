@@ -55,9 +55,8 @@ def main():
     logFileName = '{}.log'.format(os.path.splitext(sys.argv[0])[0])
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s - %(levelname)s - %(message)s',
-                        handlers=[logging.FileHandler(
-                                  logFileName,
-                                  logging.StreamHandler()]))
+                        handlers=[logging.FileHandler(logFileName),
+                                  logging.StreamHandler()])
     tracer = logging.getLogger('elasticsearch')
     tracer.setLevel(logging.ERROR)
     tracer.addHandler(logging.FileHandler('{}.log'.format(os.path.splitext(sys.argv[0])[0])))

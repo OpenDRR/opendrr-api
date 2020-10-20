@@ -29,9 +29,8 @@ def main():
     logFileName = '{}.log'.format(os.path.splitext(sys.argv[0])[0])
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s - %(levelname)s - %(message)s',
-                        handlers=[logging.FileHandler(
-                                  logFileName,
-                                  logging.StreamHandler()]))
+                        handlers=[logging.FileHandler(logFileName),
+                                  logging.StreamHandler()])
     auth = get_config_params('config.ini')
     args = parse_args()
 
