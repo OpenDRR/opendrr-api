@@ -14,7 +14,7 @@ from elasticsearch import helpers
 
 '''
 Script to convert Hazard_Threat Views to ElasticSearch Index
-Can be run from the command line with mandatory arguments
+Can run from the command line with mandatory arguments
 Run this script with a command like:
 python3 hazardThreat_postgres2es.py
     --type="eq_threat_to_assets"
