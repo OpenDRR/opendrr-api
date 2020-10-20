@@ -26,9 +26,11 @@ python3 socialFabric_postgres2es.py
 
 # Main Function
 def main():
+    logFileName='{}.log'.format(os.path.splitext(sys.argv[0])[0]))
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s - %(levelname)s - %(message)s',
-                        handlers=[logging.FileHandler('{}.log'.format(os.path.splitext(sys.argv[0])[0])),
+                        handlers=[logging.FileHandler(
+                                  logFileName,
                                   logging.StreamHandler()])
     auth = get_config_params('config.ini')
     args = parse_args()

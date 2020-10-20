@@ -52,9 +52,11 @@ python3 exposure_postgres2es.py
 
 #Main Function
 def main():
+    logFileName='{}.log'.format(os.path.splitext(sys.argv[0])[0]))
     logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s - %(levelname)s - %(message)s', 
-                        handlers=[logging.FileHandler('{}.log'.format(os.path.splitext(sys.argv[0])[0])),
+                        format='%(asctime)s - %(levelname)s - %(message)s',
+                        handlers=[logging.FileHandler(
+                                  logFileName,
                                   logging.StreamHandler()])
     tracer = logging.getLogger('elasticsearch')
     tracer.setLevel(logging.ERROR)
