@@ -27,23 +27,23 @@ python3 socialFabric_postgres2es.py
 # Main Function
 def main():
     logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s - %(levelname)s - %(message)s', 
+                        format='%(asctime)s - %(levelname)s - %(message)s',
                         handlers=[logging.FileHandler('{}.log'.format(os.path.splitext(sys.argv[0])[0])),
                                   logging.StreamHandler()])
-    auth=get_config_params('config.ini')
-    args=parse_args()
+    auth = get_config_params('config.ini')
+    args = parse_args()
 
 
-    view="nhsl_social_fabric_{type}_{aggregation}".format(**{
+    view = "nhsl_social_fabric_{type}_{aggregation}".format(**{
         'type': args.type,
         'aggregation': args.aggregation[0].lower()})
 
     if args.idField.lower() == 'sauid':
-        id_field='Sauid'
-        sqlquerystring='SELECT *, ST_AsGeoJSON(geom_poly) \
+        id_field = 'Sauid'
+        sqlquerystring=  'SELECT *, ST_AsGeoJSON(geom_poly) \
             FROM results_nhsl_social_fabric.{view}'.format(**{
             'view': view})
-        settings={
+        settings = {
             'settings': {
                 'number_of_shards': 1,
                 'number_of_replicas': 0
@@ -60,11 +60,11 @@ def main():
             }
         }
     elif args.idField == 'building':
-        id_field='AssetID'
-        sqlquerystring='SELECT *, ST_AsGeoJSON(geom_point) \
+        id_field = 'AssetID'
+        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
             FROM results_nhsl_hazard_threat.{view}'.format(**{
             'view': view})
-        settings={
+        settings = {
             'settings': {
                 'number_of_shards': 1,
                 'number_of_replicas': 0
@@ -82,38 +82,38 @@ def main():
         }
 
     # es=Elasticsearch()
-    es=Elasticsearch([auth.get('es', 'es_endpoint')],
+    es = Elasticsearch([auth.get('es', 'es_endpoint')],
                      http_auth=(auth.get('es', 'es_un'),
                      auth.get('es', 'es_pw')))
-    connection=None
+    connection = None
     try:
         # Connect to the PostGIS database hosted on RDS
-        connection=psycopg2.connect(user=auth.get('rds', 'postgres_un'),
+        connection = psycopg2.connect(user=auth.get('rds', 'postgres_un'),
                                     password=auth.get('rds', 'postgres_pw'),
                                     host=auth.get('rds', 'postgres_host'),
                                     port=auth.get('rds', 'postgres_port'),
                                     database=auth.get('rds', 'postgres_db'))
         # Query the entire view with the geometries in geojson format
-        cur=connection.cursor()
+        cur = connection.cursor()
         cur.execute(sqlquerystring)
-        rows=cur.fetchall()
-        columns=[name[0] for name in cur.description]
-        geomIndex=columns.index('st_asgeojson')
-        feature_collection={'type': 'FeatureCollection', 'features': []}
+        rows = cur.fetchall()
+        columns = [name[0] for name in cur.description]
+        geomIndex = columns.index('st_asgeojson')
+        feature_collection = {'type': 'FeatureCollection', 'features': []}
 
         # Format the table into a geojson format for ES/Kibana consumption
         for row in rows:
-            feature={
+            feature = {
                 'type': 'Feature',
                 'geometry': json.loads(row[geomIndex]),
                 'properties': {},
             }
             for index, column in enumerate(columns):
                 if column != "st_asgeojson":
-                    value=row[index]
-                    feature['properties'][column]=value
+                    value = row[index]
+                    feature['properties'][column] = value
             feature_collection['features'].append(feature)
-        geojsonobject=json.dumps(feature_collection,
+        geojsonobject = json.dumps(feature_collection,
                                  indent=2,
                                  default=decimal_default)
 
@@ -131,7 +131,7 @@ def main():
 
     es.indices.create(index=view, body=settings, request_timeout=90)
 
-    d=json.loads(geojsonobject)
+    d = json.loads(geojsonobject)
 
     helpers.bulk(es, gendata(d, view, id_field), raise_on_error=False)
 
@@ -158,13 +158,13 @@ def get_config_params(args):
     """
     Parse Input/Output columns from supplied *.ini file
     """
-    configParseObj=configparser.ConfigParser()
+    configParseObj = configparser.ConfigParser()
     configParseObj.read(args)
     return configParseObj
 
 
 def parse_args():
-    parser=argparse.ArgumentParser(description="load data from PostGIS to ES")
+    parser = argparse.ArgumentParser(description="load data from PostGIS to ES")
     parser.add_argument("--type",
                         type=str,
                         help="Social Fabric layer (i.e. eq_threat_to_assets)",
@@ -181,7 +181,7 @@ def parse_args():
                         type=str,
                         help="Field for ES Index ID. AssetID or Sauid",
                         required=True)
-    args=parser.parse_args()
+    args = parser.parse_args()
 
     return args
 

@@ -97,13 +97,18 @@ def main():
     id_field = args.idField    
     
     #es = Elasticsearch()
-    es = Elasticsearch([auth.get('es', 'es_endpoint')], http_auth=(auth.get('es', 'es_un'), auth.get('es', 'es_pw')))
+    es = Elasticsearch([auth.get('es', 'es_endpoint')],
+                       http_auth=(auth.get('es', 'es_un'),
+                       auth.get('es', 'es_pw')))
     # create index
     if es.indices.exists(view):
         es.indices.delete(view)
     es.indices.create(index=view, body=settings, request_timeout=90)
 
-    sqlquerystring = 'SELECT *, ST_AsGeoJSON({geometry}) FROM "results_nhsl_physical_exposure"."{view}"'.format(**{'geometry':args.geometry, 'view':view})
+    sqlquerystring = 'SELECT *, ST_AsGeoJSON({geometry}) \
+        FROM "results_nhsl_physical_exposure"."{view}"'.format(**{
+            'geometry': args.geometry, 'view': view})
+
     connection = None
     try:
         #Connect to the PostGIS database hosted on RDS
@@ -173,11 +178,23 @@ def get_config_params(args):
     return configParseObj
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="load exposure data from PostGIS to ElasticSearch Index")
-    parser.add_argument("--type", type=str, help="assets building(s) or people", required=True)
-    parser.add_argument("--aggregation", type=str, help="building or Sauid", required=True)
-    parser.add_argument("--geometry", type=str, help="geom_point or geom_poly", required=True)
-    parser.add_argument("--idField", type=str, help="Field to use as ElasticSearch Index ID. AssetID or Sauid", required=True)
+    parser = argparse.ArgumentParser(description="load exposure PostGIS to ES")
+    parser.add_argument("--type",
+                        type=str,
+                        help="assets building(s) or people",
+                        required=True)
+    parser.add_argument("--aggregation",
+                        type=str,
+                        help="building or Sauid",
+                        required=True)
+    parser.add_argument("--geometry",
+                        type=str,
+                        help="geom_point or geom_poly",
+                        required=True)
+    parser.add_argument("--idField",
+                        type=str,
+                        help="Field to use as Index ID. AssetID or Sauid",
+                        required=True)
     args = parser.parse_args()
     
     return args
