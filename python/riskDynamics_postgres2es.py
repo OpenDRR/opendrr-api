@@ -81,25 +81,30 @@ def main():
             }
         }
 
-    #es = Elasticsearch()
+    # es = Elasticsearch()
     es = Elasticsearch([auth.get('es', 'es_endpoint')], http_auth=(auth.get('es', 'es_un'), auth.get('es', 'es_pw')))
     connection = None
     try:
-        #Connect to the PostGIS database hosted on RDS
-        connection = psycopg2.connect(user = auth.get('rds', 'postgres_un'),
-                                        password = auth.get('rds', 'postgres_pw'),
-                                        host = auth.get('rds', 'postgres_host'),
-                                        port = auth.get('rds', 'postgres_port'),
-                                        database = auth.get('rds', 'postgres_db'))
-        #Query the entire view with the geometries in geojson format
+        # Connect to the PostGIS database hosted on RDS
+        connection = psycopg2.connect(user=auth.get('rds',
+                                                    'postgres_un'),
+                                        password=auth.get('rds',
+                                                            'postgres_pw'),
+                                        host=auth.get('rds',
+                                                        'postgres_host'),
+                                        port=auth.get('rds',
+                                                        'postgres_port'),
+                                        database=auth.get('rds',
+                                                            'postgres_db'))
+        # Query the entire view with the geometries in geojson format
         cur = connection.cursor()
         cur.execute(sqlquerystring)
         rows = cur.fetchall()
         columns = [name[0] for name in cur.description]
         geomIndex = columns.index('st_asgeojson')
         feature_collection = {'type': 'FeatureCollection', 'features': []}
-        
-        #Format the table into a geojson format for ES/Kibana consumption
+
+        # Format the table into a geojson format for ES/Kibana consumption
         for row in rows:
             feature = {
                 'type': 'Feature',
@@ -141,7 +146,7 @@ def gendata(data, view, id_field):
             "_source": item
         }
 
-#Function to handle decimal encoder error
+# Function to handle decimal encoder error
 def decimal_default(obj):
     if isinstance(obj, decimal.Decimal):
         return float(obj)

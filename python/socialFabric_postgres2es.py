@@ -133,6 +133,7 @@ def main():
 
     return
 
+
 def gendata(data, view, id_field):
     for item in data['features']:
         yield {
@@ -141,11 +142,13 @@ def gendata(data, view, id_field):
             "_source": item
         }
 
+
 # Function to handle decimal encoder error
 def decimal_default(obj):
     if isinstance(obj, decimal.Decimal):
         return float(obj)
     raise TypeError
+
 
 def get_config_params(args):
     """
@@ -155,9 +158,10 @@ def get_config_params(args):
     configParseObj.read(args)
     return configParseObj
 
+
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="load Social Fabric data from PostGIS to ElasticSearch Index")
+                                        description="load Social Fabric data from PostGIS to ElasticSearch Index")
     parser.add_argument("--type",
                         type=str,
                         help="Social Fabric layer (i.e. eq_threat_to_assets)",
