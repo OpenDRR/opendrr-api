@@ -41,9 +41,13 @@ from decimal import Decimal
 
 '''
 Script to convert Physical Exposure Views to ElasticSearch Index
-Can be run from the command line with mandatory arguments 
+Can be run from the command line with mandatory arguments
 Run this script with a command like:
-python3 exposure_postgres2es.py --type="assets" --aggregation="building" --geometry=geom_point --idField="BldgID"
+python3 exposure_postgres2es.py
+    --type="assets"
+    --aggregation="building"
+    --geometry=geom_point
+    --idField="BldgID"
 '''
 
 #Main Function
@@ -59,7 +63,7 @@ def main():
     args = parse_args()
 
     # index settings
-    if args.geometry =="geom_poly":
+    if args.geometry == "geom_poly":
         settings = {
             'settings': {
                 'number_of_shards': 1,
@@ -73,7 +77,7 @@ def main():
                 }
             }
         }
-        
+
     elif args.geometry == "geom_point":
         settings = {
             'settings': {
@@ -84,19 +88,21 @@ def main():
                 'properties': {
                     'geometry': {
                         'properties': {
-                            'coordinates':{
+                            'coordinates': {
                                 'type': 'geo_point'
-                            }    
+                            }
                         }
                     }
                 }
             }
         }
 
-    view = "nhsl_physical_exposure_{type}_{aggregation}".format(**{'type':args.type, 'aggregation':args.aggregation[0].lower()})
+    view = "nhsl_physical_exposure_{type}_{aggregation}".format(**{
+        'type': args.type,
+        'aggregation': args.aggregation[0].lower()})
     id_field = args.idField    
     
-    #es = Elasticsearch()
+    # es = Elasticsearch()
     es = Elasticsearch([auth.get('es', 'es_endpoint')],
                        http_auth=(auth.get('es', 'es_un'),
                        auth.get('es', 'es_pw')))
@@ -107,7 +113,7 @@ def main():
 
     sqlquerystring = 'SELECT *, ST_AsGeoJSON({geometry}) \
         FROM "results_nhsl_physical_exposure"."{view}"'.format(**{
-            'geometry': args.geometry, 'view': view})
+        'geometry': args.geometry, 'view': view})
 
     connection = None
     try:

@@ -77,7 +77,7 @@ def main():
                 }
             }
         }
-        
+
     elif args.idField == 'building':
         id_field = 'AssetID'
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
@@ -93,9 +93,9 @@ def main():
                 'properties': {
                     'geometry': {
                         'properties': {
-                            'coordinates':{
+                            'coordinates': {
                                 'type': 'geo_point'
-                            }    
+                            }
                         }
                     }
                 }

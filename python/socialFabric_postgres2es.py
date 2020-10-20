@@ -33,14 +33,13 @@ def main():
     auth = get_config_params('config.ini')
     args = parse_args()
 
-
     view = "nhsl_social_fabric_{type}_{aggregation}".format(**{
         'type': args.type,
         'aggregation': args.aggregation[0].lower()})
 
     if args.idField.lower() == 'sauid':
         id_field = 'Sauid'
-        sqlquerystring=  'SELECT *, ST_AsGeoJSON(geom_poly) \
+        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
             FROM results_nhsl_social_fabric.{view}'.format(**{
             'view': view})
         settings = {
@@ -83,16 +82,16 @@ def main():
 
     # es=Elasticsearch()
     es = Elasticsearch([auth.get('es', 'es_endpoint')],
-                     http_auth=(auth.get('es', 'es_un'),
-                     auth.get('es', 'es_pw')))
+                       http_auth=(auth.get('es', 'es_un'),
+                       auth.get('es', 'es_pw')))
     connection = None
     try:
         # Connect to the PostGIS database hosted on RDS
         connection = psycopg2.connect(user=auth.get('rds', 'postgres_un'),
-                                    password=auth.get('rds', 'postgres_pw'),
-                                    host=auth.get('rds', 'postgres_host'),
-                                    port=auth.get('rds', 'postgres_port'),
-                                    database=auth.get('rds', 'postgres_db'))
+                                      password=auth.get('rds', 'postgres_pw'),
+                                      host=auth.get('rds', 'postgres_host'),
+                                      port=auth.get('rds', 'postgres_port'),
+                                      database=auth.get('rds', 'postgres_db'))
         # Query the entire view with the geometries in geojson format
         cur = connection.cursor()
         cur.execute(sqlquerystring)
@@ -114,8 +113,8 @@ def main():
                     feature['properties'][column] = value
             feature_collection['features'].append(feature)
         geojsonobject = json.dumps(feature_collection,
-                                 indent=2,
-                                 default=decimal_default)
+                                   indent=2,
+                                   default=decimal_default)
 
     except (Exception, psycopg2.Error) as error:
         logging.error(error)
@@ -164,7 +163,7 @@ def get_config_params(args):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="load data from PostGIS to ES")
+    parser = argparse.ArgumentParser(description="load data PostGIS to ES")
     parser.add_argument("--type",
                         type=str,
                         help="Social Fabric layer (i.e. eq_threat_to_assets)",
