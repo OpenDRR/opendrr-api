@@ -26,12 +26,12 @@ python3 riskDynamics_postgres2es.py
 
 # Main Function
 def main():
-    logFileName='{}.log'.format(os.path.splitext(sys.argv[0])[0]))
+    logFileName = '{}.log'.format(os.path.splitext(sys.argv[0])[0])
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s - %(levelname)s - %(message)s',
                         handlers=[logging.FileHandler(
                                   logFileName,
-                                  logging.StreamHandler()])
+                                  logging.StreamHandler()]))
     auth = get_config_params('config.ini')
     args = parse_args()
     view = "nhsl_risk_dynamics_{type}_{aggregation}".format(**{

@@ -48,12 +48,12 @@ python3 dsra_postgres2es.py --eqScenario="sim6p8_cr2022_rlz_1" --dbview=casualti
 
 #Main Function
 def main():
-    logFileName='{}.log'.format(os.path.splitext(sys.argv[0])[0]))
+    logFileName = '{}.log'.format(os.path.splitext(sys.argv[0])[0])
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s - %(levelname)s - %(message)s',
                         handlers=[logging.FileHandler(
                                   logFileName,
-                                  logging.StreamHandler()])
+                                  logging.StreamHandler()]))
     auth = get_config_params('config.ini')
     args = parse_args()
     view = "{eq_scenario}_{dbview}_{idField}".format(**{
