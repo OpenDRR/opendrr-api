@@ -38,6 +38,10 @@ services:
         
         environment:
             - discovery.type=single-node
+            - "http.cors.allow-origin=http://localhost"
+            - "http.cors.enabled=true"
+            - "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
+            - "http.cors.allow-credentials=true"
         
         ports: 
             - 9200:9200
