@@ -48,9 +48,10 @@ python3 dsra_postgres2es.py --eqScenario="sim6p8_cr2022_rlz_1" --dbview=casualti
 
 #Main Function
 def main():
+    logFileName = '{}.log'.format(os.path.splitext(sys.argv[0])[0])
     logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s - %(levelname)s - %(message)s', 
-                        handlers=[logging.FileHandler('{}.log'.format(os.path.splitext(sys.argv[0])[0])),
+                        format='%(asctime)s - %(levelname)s - %(message)s',
+                        handlers=[logging.FileHandler(logFileName),
                                   logging.StreamHandler()])
     auth = get_config_params('config.ini')
     args = parse_args()
@@ -73,13 +74,11 @@ def main():
                 'properties': {
                     'geometry': {
                         'type': 'geo_shape'
-                    },
-                    'geom_poly': {
-                        'type': 'geo_shape'
                     }
                 }
             }
         }
+
     elif args.idField == 'building':
         id_field = 'AssetID'
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
@@ -94,10 +93,11 @@ def main():
             'mappings': {
                 'properties': {
                     'geometry': {
-                        'type': 'geo_shape'
-                    },
-                    'geom_point': {
-                        'type': 'geo_point'
+                        'properties': {
+                            'coordinates': {
+                                'type': 'geo_point'
+                            }
+                        }
                     }
                 }
             }

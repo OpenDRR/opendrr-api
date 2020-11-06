@@ -174,9 +174,6 @@ psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_risk_dynamics_
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_social_vulnerability_sauid_indicators_SocialFabric.sql
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_MH_risk_sauid_ALL.sql
 
-
-
-
 echo "\n Generating indicator views..."
 for eqscenario in ${EQSCENARIO_LIST[*]}
 do
@@ -190,24 +187,99 @@ until $(curl -sSf -XGET --insecure 'http://elasticsearch-opendrr:9200/_cluster/h
     sleep 10
 done
 
+#load DSRA scenarios
+if [ "$loadDsraScenario" = true ]
+then
 for eqscenario in ${EQSCENARIO_LIST[*]}
 do
-echo "\nCreating elasticsearch indexes..."
-python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="casualties" --idField="building"
-python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="damage_state" --idField="building"
-python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="economic_loss" --idField="building"
-python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="recovery_time" --idField="building"
-python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="scenario_shakemap_intensity" --idField="building"
-python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="social_disruption" --idField="building"
+    echo "\nCreating elasticsearch indexes..."
+    python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="casualties" --idField="building"
+    python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="damage_state" --idField="building"
+    python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="economic_loss" --idField="building"
+    python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="recovery_time" --idField="building"
+    python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="scenario_shakemap_intensity" --idField="building"
+    python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="social_disruption" --idField="building"
 
-python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="casualties" --idField="sauid"
-python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="damage_state" --idField="sauid"
-python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="economic_loss" --idField="sauid"
-python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="recovery_time" --idField="sauid"
-python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="scenario_shakemap_intensity" --idField="sauid"
-python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="social_disruption" --idField="sauid"
+    python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="casualties" --idField="sauid"
+    python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="damage_state" --idField="sauid"
+    python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="economic_loss" --idField="sauid"
+    python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="recovery_time" --idField="sauid"
+    python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="scenario_shakemap_intensity" --idField="sauid"
+    python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="social_disruption" --idField="sauid"
+done  
+fi
 
-done
+#Load Hazard Threat Views
+if [ "$loadHazardThreat" = true ]
+then
+    #Cyclone
+    python3 hazardThreat_postgres2es.py  --type="cy_threat_cy_wind_hazard" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="cy_threat_to_assets" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="cy_threat_to_buildings" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="cy_threat_to_people" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    #Earthquake
+    python3 hazardThreat_postgres2es.py  --type="eq_seismic_hazard_intensity" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="eq_threat_to_assets" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="eq_threat_to_buildings" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="eq_threat_to_people" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    #Flooding
+    python3 hazardThreat_postgres2es.py  --type="fl_threat_fl_inundation_hazard" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="fl_threat_to_assets" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="fl_threat_to_buildings" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="fl_threat_to_people" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    #landslide
+    python3 hazardThreat_postgres2es.py  --type="ls_threat_debris_flow_hazard" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="ls_threat_to_assets" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="ls_threat_to_buildings" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="ls_threat_to_people" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    #Multi Hazard
+    python3 hazardThreat_postgres2es.py  --type="mh_mh_intensity" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="mh_threat_to_assets" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="mh_threat_to_buildings" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="mh_threat_to_people" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    #Tsunami
+    python3 hazardThreat_postgres2es.py  --type="ts_threat_ts_inundation_hazard" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="ts_threat_to_assets" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="ts_threat_to_buildings" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="ts_threat_to_people" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    #Wildfire
+    python3 hazardThreat_postgres2es.py  --type="wf_threat_wf_hazard" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="wf_threat_to_assets" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="wf_threat_to_buildings" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 hazardThreat_postgres2es.py  --type="wf_threat_to_people" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+fi
+
+
+#load physical exposure inidcators
+if [ "$loadPhysicalExposure" = true ]
+then
+    python3 exposure_postgres2es.py --type="assets" --aggregation="building" --geometry=geom_point --idField="BldgID"
+    python3 exposure_postgres2es.py --type="assets" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 exposure_postgres2es.py --type="building_function" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 exposure_postgres2es.py --type="building_type" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 exposure_postgres2es.py --type="buildings" --aggregation="building" --geometry=geom_point --idField="BldgID"
+    python3 exposure_postgres2es.py --type="people" --aggregation="building" --geometry=geom_point --idField="BldgID"
+    python3 exposure_postgres2es.py --type="people" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 exposure_postgres2es.py --type="settled_area" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+fi 
+
+#load Risk Dynamics Views
+if [ "$loadRiskDynamics" = true ]
+then
+    python3 riskDynamics_postgres2es.py --type="hazard_susceptibility" --aggregation="sauid" --geometry=geom_point --idField="ghslID"
+    python3 riskDynamics_postgres2es.py --type="land_use_change" --aggregation="sauid" --geometry=geom_point --idField="ghslID"
+    python3 riskDynamics_postgres2es.py --type="population_growth" --aggregation="sauid" --geometry=geom_point --idField="ghslID"
+fi
+
+#load Social Fabric Views
+if [ "$loadSocialFabric" = true ]
+then
+    python3 socialFabric_postgres2es.py --type="family_structure" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 socialFabric_postgres2es.py --type="financial_agency" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 socialFabric_postgres2es.py --type="housing_conditions" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 socialFabric_postgres2es.py --type="individual_autonomy" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+fi
+
 
 echo "\n Loading Kibana Saved Objects"
 curl -X POST http://kibana-opendrr:5601/api/saved_objects/_import -H "kbn-xsrf: true" --form file=@kibanaSavedObjects.ndjson
