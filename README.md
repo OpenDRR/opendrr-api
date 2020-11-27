@@ -2,7 +2,7 @@
 
 REST API for OpenDRR data
 
-![image description](https://github.com/OpenDRR/documentation/blob/master/models/OpenDRR%20API.png)
+<img src="https://github.com/OpenDRR/documentation/blob/master/models/opendrr-stack.png" width="600">
 
 ## Setup in your local environment
 
