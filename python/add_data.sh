@@ -91,26 +91,72 @@ DOWNLOAD_URL=`grep -o '"download_url": *.*' PhysExpRef_MetroVan_v4.csv | cut -f2
 curl -o PhysExpRef_MetroVan_v4.csv \
   -L $DOWNLOAD_URL
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_canada_site_exposure_ste.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_site_exposure_to_building_and_sauid.sql
+
 
 echo "\n Importing VS30 Model into PostGIS..."
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -H "Accept: application/vnd.github.v3.raw+json" \
-  -o vs30_BC_site_model.csv \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/git/blobs/2adfaa9cc7fea73562dfe6d4ef80675ca9172e31
-psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_BC_site_model.sql
-psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_BC_site_model_update.sql
+  -O \
+  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/earthquake/sites/regions/vs30_CAN_site_model_xref.csv
+DOWNLOAD_URL=`grep -o '"download_url": *.*' vs30_CAN_site_model_xref.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
+curl -o vs30_CAN_site_model_xref.csv \
+  -L $DOWNLOAD_URL
 
-echo "\n Importing GMF Model"
-for eqscenario in ${EQSCENARIO_LIST[*]}
+curl -H "Authorization: token ${GITHUB_TOKEN}" \
+  -O \
+  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/earthquake/sites/regions/site-vgrid_CA.csv
+DOWNLOAD_URL=`grep -o '"download_url": *.*' site-vgrid_CA.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
+curl -o site-vgrid_CA.csv \
+  -L $DOWNLOAD_URL
+
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_CAN_site_model.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_CAN_site_model_xref.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_BC_CAN_model_update_site_exposure.sql
+
+
+echo "Importing Shakemap"
+#Make a list of Shakemaps in the repo and download the raw csv files
+DOWNLOAD_URL_LIST=`grep -P -o '"url": "*.*s_shakemap_*.*csv' FINISHED | cut -f2- -d: | tr -d '"'| tr -d ',' | cut -f1 -d?`
+DOWNLOAD_URL_LIST=($(echo $DOWNLOAD_URL_LIST | tr ' ' '\n'))
+for shakemap in ${DOWNLOAD_URL_LIST[*]}
 do
-python3 DSRA_gmf2postgres_lfs.py --gmfDir=$DSRA_REPOSITORY  --eqScenario=$eqscenario
-
-echo "\n Importing Sitemesh"
-python3 DSRA_sitemesh2postgres_lfs.py --sitemeshDir=$DSRA_REPOSITORY --eqScenario=$eqscenario
-
-echo "\n Creating GMF Sitemesh xref"
-python3 DSRA_sitemesh_gmf_xref.py  --eqScenario=$eqscenario
+    #Curl the shakemap
+    shakemap_filename=$( echo $shakemap | cut -f9- -d/ | cut -f1 -d?)
+    curl -H "Authorization: token ${GITHUB_TOKEN}" \
+      -o $shakemap_filename \
+      -L $shakemap
+    DOWNLOAD_URL=`grep -o '"download_url": *.*' ${shakemap_filename} | cut -f2- -d: | tr -d '"'| tr -d ',' `
+      echo $DOWNLOAD_URL
+    curl -o $shakemap_filename \
+      -L $DOWNLOAD_URL
+    #Run Create_table_shakemap.sql
+    python3 DSRA_runCreateTableShakemap.py --shakemapFile=$shakemap_filename
 done
+
+#RunCreate_table_shakemap_update.sql or Create_table_shakemap_update_ste.sql   
+SHAKEMAP_LIST=`grep -P -o '"name": "s_shakemap_*.*csv' FINISHED | cut -f2- -d: | cut -f2- -d'"'`
+SHAKEMAP_LIST=($(echo $SHAKEMAP_LIST | tr ' ' '\n'))
+for ((i=0;i<${#EQSCENARIO_LIST_LONGFORM[@]};i++));
+do
+    item=${EQSCENARIO_LIST_LONGFORM[i]}
+    #echo ${EQSCENARIO_LIST_LONGFORM[i]}
+    #echo ${SHAKEMAP_LIST[i]}
+    SITE=$(echo $item | cut -f5- -d_ | cut -c 1-1)
+    eqscenario=$(echo $item | cut -f-2 -d_)
+    #echo $eqscenario
+    #echo $SITE
+    if [ "$SITE" = "s" ]
+    then
+    #echo "Site Model"
+    python3 DSRA_runCreateTableShakemapUpdate.py --eqScenario=$eqscenario --exposureAgg=$SITE
+    elif [ "$SITE" = "b" ]
+    then
+    #echo "Building Model"
+    python3 DSRA_runCreateTableShakemapUpdate.py --eqScenario=$eqscenario --exposureAgg=$SITE
+    fi
+    echo " " 
+done 
+
 
 echo "\n Importing Rupture Model"
 python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenDRR/scenario-catalogue/tree/master/deterministic/ruptures" 
