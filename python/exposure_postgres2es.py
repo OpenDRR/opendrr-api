@@ -38,20 +38,24 @@ import argparse
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
 from decimal import Decimal
-from tqdm import tqdm
 
 '''
 Script to convert Physical Exposure Views to ElasticSearch Index
-Can be run from the command line with mandatory arguments 
+Can be run from the command line with mandatory arguments
 Run this script with a command like:
-python3 exposure_postgres2es.py --type="buildings" --aggregation="building" --geometry=geom_point --idField="AssetID"
+python3 exposure_postgres2es.py
+    --type="assets"
+    --aggregation="building"
+    --geometry=geom_point
+    --idField="BldgID"
 '''
 
 #Main Function
 def main():
+    logFileName = '{}.log'.format(os.path.splitext(sys.argv[0])[0])
     logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s - %(levelname)s - %(message)s', 
-                        handlers=[logging.FileHandler('{}.log'.format(os.path.splitext(sys.argv[0])[0])),
+                        format='%(asctime)s - %(levelname)s - %(message)s',
+                        handlers=[logging.FileHandler(logFileName),
                                   logging.StreamHandler()])
     tracer = logging.getLogger('elasticsearch')
     tracer.setLevel(logging.ERROR)
@@ -59,39 +63,59 @@ def main():
     auth = get_config_params('config.ini')
     args = parse_args()
 
-    if args.geometry == "geom_point":
-        geoType = "geo_point"
-    elif args.geometry =="geom_poly":
-        geoType = "geo_shape"
-    else:
-        raise Exception("Unrecognized Geometry Type")
-
     # index settings
-    settings = {
-        'settings': {
-            'number_of_shards': 1,
-            'number_of_replicas': 0
-        },
-        'mappings': {
-            'properties': {
-                'geometry': {
-                    'type': '{}'.format(geoType)
+    if args.geometry == "geom_poly":
+        settings = {
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
                 }
             }
         }
-    }
 
-    view = "canada_exposure_{type}_{aggregation}".format(**{'type':args.type, 'aggregation':args.aggregation})
+    elif args.geometry == "geom_point":
+        settings = {
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'properties': {
+                            'coordinates': {
+                                'type': 'geo_point'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    view = "nhsl_physical_exposure_{type}_{aggregation}".format(**{
+        'type': args.type,
+        'aggregation': args.aggregation[0].lower()})
     id_field = args.idField    
     
-    es = Elasticsearch()
-    #es = Elasticsearch([auth.get('es', 'es_endpoint')], http_auth=(auth.get('es', 'es_un'), auth.get('es', 'es_pw')))
+    # es = Elasticsearch()
+    es = Elasticsearch([auth.get('es', 'es_endpoint')],
+                       http_auth=(auth.get('es', 'es_un'),
+                       auth.get('es', 'es_pw')))
     # create index
     if es.indices.exists(view):
         es.indices.delete(view)
     es.indices.create(index=view, body=settings, request_timeout=90)
 
-    sqlquerystring = 'SELECT *, ST_AsGeoJSON({geometry}) FROM "results_canada_exposure"."{view}"'.format(**{'geometry':args.geometry, 'view':view})
+    sqlquerystring = 'SELECT *, ST_AsGeoJSON({geometry}) \
+        FROM "results_nhsl_physical_exposure"."{view}"'.format(**{
+        'geometry': args.geometry, 'view': view})
+
     connection = None
     try:
         #Connect to the PostGIS database hosted on RDS
@@ -110,7 +134,7 @@ def main():
         
         #Format the table into a geojson format for ES/Kibana consumption
         i = 0
-        for row in tqdm(rows):
+        for row in rows:
             feature = {
                 'type': 'Feature',
                 'geometry': json.loads(row[geomIndex]),
@@ -161,11 +185,23 @@ def get_config_params(args):
     return configParseObj
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="load exposure data from PostGIS to ElasticSearch Index")
-    parser.add_argument("--type", type=str, help="buildings or people", required=True)
-    parser.add_argument("--aggregation", type=str, help="building or Sauid", required=True)
-    parser.add_argument("--geometry", type=str, help="geom_point or geom_poly", required=True)
-    parser.add_argument("--idField", type=str, help="Field to use as ElasticSearch Index ID. AssetID or Sauid", required=True)
+    parser = argparse.ArgumentParser(description="load exposure PostGIS to ES")
+    parser.add_argument("--type",
+                        type=str,
+                        help="assets building(s) or people",
+                        required=True)
+    parser.add_argument("--aggregation",
+                        type=str,
+                        help="building or Sauid",
+                        required=True)
+    parser.add_argument("--geometry",
+                        type=str,
+                        help="geom_point or geom_poly",
+                        required=True)
+    parser.add_argument("--idField",
+                        type=str,
+                        help="Field to use as Index ID. AssetID or Sauid",
+                        required=True)
     args = parser.parse_args()
     
     return args

@@ -238,9 +238,6 @@ psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_risk_dynamics_
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_social_vulnerability_sauid_indicators_SocialFabric.sql
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_MH_risk_sauid_ALL.sql
 
-
-
-
 echo "\n Generating indicator views..."
 for item in ${EQSCENARIO_LIST_LONGFORM[*]}
 do
@@ -362,7 +359,6 @@ then
     python3 socialFabric_postgres2es.py --type="housing_conditions" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
     python3 socialFabric_postgres2es.py --type="individual_autonomy" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
 fi
-
 
 
 echo "\n Loading Kibana Saved Objects"

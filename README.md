@@ -2,7 +2,7 @@
 
 REST API for OpenDRR data
 
-![image description](https://github.com/OpenDRR/documentation/blob/master/models/OpenDRR%20API.png)
+<img src="https://github.com/OpenDRR/documentation/blob/master/models/opendrr-stack.png" width="600">
 
 ## Setup in your local environment
 
@@ -45,9 +45,9 @@ Make a copy of `python/sample_config.ini` and rename it `config.ini`. Open this 
     
 > NOTE: you will see errors thrown by the opendrr-api_pygeoapi-opendrr_1 container as the stack builds. These can be ignored.
 
-Once the stack is built (~20min) you will need to verify that everything is working. 
+Once the stack is built (~20min) you will need to verify that everything is working.
 
-> NOTE: you can stop the stack whenever you like with `Ctrl-C` or `docker-compose stop`. See below on how you can bring the stack back up without re-building. 
+> NOTE: you can stop the stack whenever you like with `Ctrl-C` or `docker-compose stop`. See below on how you can bring the stack back up without re-building.
   
 ### 5. Verify that everything is working
 
