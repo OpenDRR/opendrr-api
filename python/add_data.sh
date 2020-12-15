@@ -67,6 +67,55 @@ do
 python3 DSRA_outputs2postgres_lfs.py --dsraModelDir=https://github.com/OpenDRR/openquake-models/tree/master/deterministic/outputs --columnsINI=DSRA_outputs2postgres.ini --eqScenario=$eqscenario
 done
 
+echo "Importing Raw PSRA Tables"
+#Get list of provinces & territories
+curl -H "Authorization: token ${GITHUB_TOKEN}" \
+  -O \
+  -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output
+PT_LIST=`grep -P -o '"name": "*.*' output | cut -f2- -d:`
+PT_LIST=($(echo $PT_LIST | tr ', ' '\n'))
+for item in ${!PT_LIST[@]}
+do
+PT_LIST[item]=${PT_LIST[item]:1:${#PT_LIST[item]}-2}
+#EQSCENARIO_LIST[item]=${EQSCENARIO_LIST[item],,}
+done
+
+#cDamage
+for PT in ${PT_LIST[@]}
+do
+  echo $PT
+  curl -H "Authorization: token ${GITHUB_TOKEN}" \
+  -O \
+  -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output/${PT}
+  DOWNLOAD_LIST=`grep -P -o '"download_url": "*.*csv*.*' ${PT} | cut -f2- -d:`
+  echo $DOWNLOAD_LIST
+  DOWNLOAD_LIST=($(echo $DOWNLOAD_LIST | tr ', ' '\n'))
+  echo $DOWNLOAD_LIST
+  for item in ${!DOWNLOAD_LIST[@]}
+  do
+    echo $item
+    DOWNLOAD_LIST[item]=${DOWNLOAD_LIST[item]:1:${#DOWNLOAD_LIST[item]}-2}
+  done
+  mkdir -p cDamage/${PT}/
+  cd cDamage/${PT}/
+  for file in ${DOWNLOAD_LIST[@]}
+  do
+  echo $file
+    #curl -H "Authorization: token ${GITHUB_TOKEN}" \
+    #  -o test.csv  \
+    #  -L $file
+  done
+  cd /usr/src/app/
+done
+
+#cHazard
+
+#eDamage
+
+#ebRisk
+
+
+
 echo "\n Importing Physical Exposure Model into PostGIS"
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -o BldgExp_Canada.csv \
