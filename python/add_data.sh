@@ -85,41 +85,130 @@ do
 PT_LIST[item]=${PT_LIST[item]:1:${#PT_LIST[item]}-2}
 #EQSCENARIO_LIST[item]=${EQSCENARIO_LIST[item],,}
 done
+curl -H "Authorization: token ${GITHUB_TOKEN}" \
+  -O \
+  -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output/YT/cD_YT_dmg-mean_r2.csv?ref=master
+
+  
+  "https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output/YT/cD_YT_rlz.csv?ref=master" 
+
+  -L https://api.github.com/repos/OpenDRR/scenario-catalogue/contents/FINISHED
 
 #cDamage
 for PT in ${PT_LIST[@]}
 do
-  echo $PT
   curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -O \
-  -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output/${PT}
-  DOWNLOAD_LIST=`grep -P -o '"download_url": "*.*csv*.*' ${PT} | cut -f2- -d:`
-  echo $DOWNLOAD_LIST
+    -O \
+    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output/${PT}
+  DOWNLOAD_LIST=`grep -P -o '"url": "*.*csv*.*' ${PT} | cut -f2- -d:`
   DOWNLOAD_LIST=($(echo $DOWNLOAD_LIST | tr ', ' '\n'))
-  echo $DOWNLOAD_LIST
   for item in ${!DOWNLOAD_LIST[@]}
   do
-    echo $item
     DOWNLOAD_LIST[item]=${DOWNLOAD_LIST[item]:1:${#DOWNLOAD_LIST[item]}-2}
   done
   mkdir -p cDamage/${PT}/
   cd cDamage/${PT}/
   for file in ${DOWNLOAD_LIST[@]}
   do
-  echo $file
-    #curl -H "Authorization: token ${GITHUB_TOKEN}" \
-    #  -o test.csv  \
-    #  -L $file
+    FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
+    curl -H "Authorization: token ${GITHUB_TOKEN}" \
+      -o $FILENAME \
+      -L $file
+    DOWNLOAD_URL=`grep -o '"download_url": *.*' ${FILENAME} | cut -f2- -d: | tr -d '"'| tr -d ',' `
+    curl -o $FILENAME \
+      -L $DOWNLOAD_URL
+    sed -i '1d' $FILENAME
   done
   cd /usr/src/app/
+  rm -f ${PT}
 done
 
 #cHazard
+for PT in ${PT_LIST[@]}
+do
+  curl -H "Authorization: token ${GITHUB_TOKEN}" \
+    -O \
+    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cHazard/output/${PT}
+  DOWNLOAD_LIST=`grep -P -o '"url": "*.*csv*.*' ${PT} | cut -f2- -d:`
+  DOWNLOAD_LIST=($(echo $DOWNLOAD_LIST | tr ', ' '\n'))
+  for item in ${!DOWNLOAD_LIST[@]}
+  do
+    DOWNLOAD_LIST[item]=${DOWNLOAD_LIST[item]:1:${#DOWNLOAD_LIST[item]}-2}
+  done
+  mkdir -p cHazard/${PT}/
+  cd cHazard/${PT}/
+  for file in ${DOWNLOAD_LIST[@]}
+  do
+    FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
+    curl -H "Authorization: token ${GITHUB_TOKEN}" \
+      -o $FILENAME \
+      -L $file
+    DOWNLOAD_URL=`grep -o '"download_url": *.*' ${FILENAME} | cut -f2- -d: | tr -d '"'| tr -d ',' `
+    curl -o $FILENAME \
+      -L $DOWNLOAD_URL
+    sed -i '1d' $FILENAME
+  done
+  cd /usr/src/app/
+  rm -f ${PT}
+done
 
 #eDamage
+for PT in ${PT_LIST[@]}
+do
+  curl -H "Authorization: token ${GITHUB_TOKEN}" \
+    -O \
+    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/eDamage/output/${PT}
+  DOWNLOAD_LIST=`grep -P -o '"url": "*.*csv*.*' ${PT} | cut -f2- -d:`
+  DOWNLOAD_LIST=($(echo $DOWNLOAD_LIST | tr ', ' '\n'))
+  for item in ${!DOWNLOAD_LIST[@]}
+  do
+    DOWNLOAD_LIST[item]=${DOWNLOAD_LIST[item]:1:${#DOWNLOAD_LIST[item]}-2}
+  done
+  mkdir -p eDamage/${PT}/
+  cd eDamage/${PT}/
+  for file in ${DOWNLOAD_LIST[@]}
+  do
+    FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
+    curl -H "Authorization: token ${GITHUB_TOKEN}" \
+      -o $FILENAME \
+      -L $file
+    DOWNLOAD_URL=`grep -o '"download_url": *.*' ${FILENAME} | cut -f2- -d: | tr -d '"'| tr -d ',' `
+    curl -o $FILENAME \
+      -L $DOWNLOAD_URL
+    sed -i '1d' $FILENAME
+  done
+  cd /usr/src/app/
+  rm -f ${PT}
+done
 
 #ebRisk
-
+for PT in ${PT_LIST[@]}
+do
+  curl -H "Authorization: token ${GITHUB_TOKEN}" \
+    -O \
+    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/ebRisk/output/${PT}
+  DOWNLOAD_LIST=`grep -P -o '"url": "*.*csv*.*' ${PT} | cut -f2- -d:`
+  DOWNLOAD_LIST=($(echo $DOWNLOAD_LIST | tr ', ' '\n'))
+  for item in ${!DOWNLOAD_LIST[@]}
+  do
+    DOWNLOAD_LIST[item]=${DOWNLOAD_LIST[item]:1:${#DOWNLOAD_LIST[item]}-2}
+  done
+  mkdir -p ebRisk/${PT}/
+  cd ebRisk/${PT}/
+  for file in ${DOWNLOAD_LIST[@]}
+  do
+    FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
+    curl -H "Authorization: token ${GITHUB_TOKEN}" \
+      -o $FILENAME \
+      -L $file
+    DOWNLOAD_URL=`grep -o '"download_url": *.*' ${FILENAME} | cut -f2- -d: | tr -d '"'| tr -d ',' `
+    curl -o $FILENAME \
+      -L $DOWNLOAD_URL
+    sed -i '1d' $FILENAME
+  done
+  cd /usr/src/app/
+  rm -f ${PT}
+done
 
 
 echo "\n Importing Physical Exposure Model into PostGIS"
