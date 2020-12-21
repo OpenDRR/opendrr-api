@@ -44,7 +44,7 @@ do
 done
 
 # get model-factory scripts
-git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; git pull)
+git clone https://github.com/OpenDRR/model-factory.git --branch add-PSRA --depth 1 || (cd model-factory ; git pull)
 
 # get boundary files
 git clone https://github.com/OpenDRR/boundaries.git --depth 1 || (cd boundaries ; git pull)
@@ -83,16 +83,7 @@ PT_LIST=($(echo $PT_LIST | tr ', ' '\n'))
 for item in ${!PT_LIST[@]}
 do
 PT_LIST[item]=${PT_LIST[item]:1:${#PT_LIST[item]}-2}
-#EQSCENARIO_LIST[item]=${EQSCENARIO_LIST[item],,}
 done
-curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -O \
-  -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output/YT/cD_YT_dmg-mean_r2.csv?ref=master
-
-  
-  "https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output/YT/cD_YT_rlz.csv?ref=master" 
-
-  -L https://api.github.com/repos/OpenDRR/scenario-catalogue/contents/FINISHED
 
 #cDamage
 for PT in ${PT_LIST[@]}
@@ -213,11 +204,11 @@ done
 
 echo "\n Importing Physical Exposure Model into PostGIS"
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -o BldgExpRef_CA_master_v3.csv \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/general-building-stock/BldgExpRef_CA_master_v3.csv
+  -o BldgExpRef_CA_master_v3p1.csv \
+  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/general-building-stock/BldgExpRef_CA_master_v3p1.csv
 
-DOWNLOAD_URL=`grep -o '"download_url": *.*' BldgExpRef_CA_master_v3.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
-curl -o BldgExpRef_CA_master_v3.csv \
+DOWNLOAD_URL=`grep -o '"download_url": *.*' BldgExpRef_CA_master_v3p1.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
+curl -o BldgExpRef_CA_master_v3p1.csv \
   -L $DOWNLOAD_URL
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_canada_exposure.sql
 
@@ -409,20 +400,22 @@ then
     for eqscenario in ${EQSCENARIO_LIST[*]}
     do
         echo "\nCreating elasticsearch indexes..."
-        python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="affected_people_casualties" --idField="building"
-        python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="affected_people_social_disruption" --idField="building"
-        python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="building_damage_damage_state" --idField="building"
-        python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="building_damage_recovery" --idField="building"
-        python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="economic_security_economic_loss" --idField="building"
-        python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="scenario_hazard_shakemap_intensity" --idField="building"
+        # python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="affected_people_casualties" --idField="building"
+        # python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="affected_people_social_disruption" --idField="building"
+        # python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="building_damage_damage_state" --idField="building"
+        # python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="building_damage_recovery" --idField="building"
+        # python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="economic_security_economic_loss" --idField="building"
+        # python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="scenario_hazard_shakemap_intensity" --idField="building"
+        python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="all_indicators" --idField="building"
 
 
-        python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="affected_people_casualties" --idField="sauid"
-        python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="affected_people_social_disruption" --idField="sauid"
-        python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="building_damage_damage_state" --idField="sauid"
-        python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="building_damage_recovery" --idField="sauid"
-        python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="economic_security_economic_loss" --idField="sauid"
-        python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="scenario_hazard_shakemap_intensity" --idField="sauid"
+        # python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="affected_people_casualties" --idField="sauid"
+        # python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="affected_people_social_disruption" --idField="sauid"
+        # python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="building_damage_damage_state" --idField="sauid"
+        # python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="building_damage_recovery" --idField="sauid"
+        # python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="economic_security_economic_loss" --idField="sauid"
+        # python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="scenario_hazard_shakemap_intensity" --idField="sauid"
+        python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="all_indicators" --idField="sauid"
     done  
 fi
 
