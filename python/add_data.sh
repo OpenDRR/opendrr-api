@@ -201,6 +201,81 @@ do
   rm -f ${PT}
 done
 
+#PSRA_1
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_1.Create_table_bchmaps.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_1.Create_table_bcuhs.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_1.Create_table_hcurves_bcPGA.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_1.Create_table_hcurves_bcSa0p1.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_1.Create_table_hcurves_bcSa0p2.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_1.Create_table_hcurves_bcSa0p3.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_1.Create_table_hcurves_bcSa0p5.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_1.Create_table_hcurves_bcSa0p6.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_1.Create_table_hcurves_bcSa1p0.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_1.Create_table_hcurves_bcSa2p0.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_1.Create_table_hcurves_bcSa5p0.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_1.Create_table_hcurves_bcSa10p0.sql
+
+#PSRA_2
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_2.Create_table_dmg_mean_bc5910.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_2.Create_table_dmg_mean_bc5920a.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_2.Create_table_dmg_mean_bc5920b.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_2.Create_table_dmg_mean_bc5930.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_2.Create_table_dmg_mean_bc5940_80.sql
+
+#PSRA_3
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f  psra_3.Create_table_agg_curves_stats_bc5910.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_3.Create_table_agg_curves_stats_bc5920a1.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_3.Create_table_agg_curves_stats_bc5920a2.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_3.Create_table_agg_curves_stats_bc5920b.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_3.Create_table_agg_curves_stats_bc5930.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_3.Create_table_agg_curves_stats_bc5940_80.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_3.Create_table_avg_losses_stats_bc5910.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_3.Create_table_avg_losses_stats_bc5920a1.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_3.Create_table_avg_losses_stats_bc5920a2.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_3.Create_table_avg_losses_stats_bc5920b.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_3.Create_table_avg_losses_stats_bc5930.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_3.Create_table_avg_losses_stats_bc5940_80.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_3.Create_table_src_loss_table_bc5910.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_3.Create_table_src_loss_table_bc5920a1.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_3.Create_table_src_loss_table_bc5920a2.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_3.Create_table_src_loss_table_bc5920b.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_3.Create_table_src_loss_table_bc5930.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_3.Create_table_src_loss_table_bc5940_80.sql
+
+#PSRA_4
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_4.Create_psra_building_all_indicators_bc5910.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_4.Create_psra_building_all_indicators_bc5920a.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_4.Create_psra_building_all_indicators_bc5920b.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_4.Create_psra_building_all_indicators_bc5930.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_4.Create_psra_building_all_indicators_bc5940_80.sql
+
+#PSRA_5
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_5.Create_psra_building_indicators_econsec_bc5910.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_5.Create_psra_building_indicators_econsec_bc5920a1.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_5.Create_psra_building_indicators_econsec_bc5920a2.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_5.Create_psra_building_indicators_econsec_bc5920b.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_5.Create_psra_building_indicators_econsec_bc5930.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_5.Create_psra_building_indicators_econsec_bc5940_80.sql
+
+#PSRA_6
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_6.Create_psra_sauid_all_indicators_bc5910.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_6.Create_psra_sauid_all_indicators_bc5920a.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_6.Create_psra_sauid_all_indicators_bc5920b.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_6.Create_psra_sauid_all_indicators_bc5930.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_6.Create_psra_sauid_all_indicators_bc5940_80.sql
+
+#PSRA_7
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_7.Create_psra_saud_indicators_econsec_src_bc5910.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_7.Create_psra_saud_indicators_econsec_src_bc5920a1.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_7.Create_psra_saud_indicators_econsec_src_bc5920a2.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_7.Create_psra_saud_indicators_econsec_src_bc5920b.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_7.Create_psra_saud_indicators_econsec_src_bc5930.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_7.Create_psra_saud_indicators_econsec_src_bc5940_80.sql
+
+#PSRA_8
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_8.Create_psra_chazard_views_bc.sql
+
+
 
 echo "\n Importing Physical Exposure Model into PostGIS"
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
