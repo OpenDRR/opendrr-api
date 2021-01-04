@@ -15,6 +15,15 @@ REST API for OpenDRR data
 
 Make a copy of the `sample.env` file and rename it to `.env`. Make changes if required otherwise leave the default settings.
 
+The settings below can be found in the .env file and control which data sets are loaded into ElasticSearch and Kibana:
+
+loadDsraScenario=true
+loadPsraModels=true
+loadHazardThreat=false
+loadPhysicalExposure=true
+loadRiskDynamics=true
+loadSocialFabric=true
+
 ### 3. Edit the Python container configuration
 
 Make a copy of `python/sample_config.ini` and rename it `config.ini`. Open this file in an editor, add the required github_token (see https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) and set the remaining parameters as follows:

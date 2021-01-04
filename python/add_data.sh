@@ -469,7 +469,7 @@ until $(curl -sSf -XGET --insecure 'http://elasticsearch-opendrr:9200/_cluster/h
     sleep 10
 done
 
-if [ "$loadPsraScenario" = true ]
+if [ "$loadPsraModels" = true ]
 then
     echo "Creating PSRA indices in ElasticSearch"
     python3 psra_postgres2es.py --province=bc --region=bc5910 --dbview=all_indicators --idField=building
@@ -484,8 +484,8 @@ then
     python3 psra_postgres2es.py --province=bc --region=bc5940_80 --dbview=all_indicators --idField=sauid
 
     echo "Creating PSRA Kibana Index Patterns"
-    curl -X POST -H "Content-Type: application/json" "http://kibana-opendrr:5601/api/saved_objects/index-pattern/psra*all_indicators" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra*all_indicators_s"}}'
-    curl -X POST -H "Content-Type: application/json" "http://kibana-opendrr:5601/api/saved_objects/index-pattern/psra*all_indicators" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra*all_indicators_b"}}'
+    curl -X POST -H "Content-Type: application/json" "http://kibana-opendrr:5601/api/saved_objects/index-pattern/psra*all_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra*all_indicators_s"}}'
+    curl -X POST -H "Content-Type: application/json" "http://kibana-opendrr:5601/api/saved_objects/index-pattern/psra*all_indicators_b" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra*all_indicators_b"}}'
 fi
 
 
