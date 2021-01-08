@@ -110,6 +110,18 @@ do
       -L $DOWNLOAD_URL
     sed -i '1d' $FILENAME
   done
+
+  for file in cD_*dmg-mean_b0.csv
+  do
+    sed -i '1d' $file
+    cat $file >> cD_${PT}_dmg-mean_b0.csv
+  done
+  for file in cD_*dmg-mean_r2.csv
+  do
+    sed -i '1d' $file
+    cat $file > cD_${PT}_dmg-mean_r2.csv
+  done
+  
   cd /usr/src/app/
   rm -f ${PT}
 done
@@ -168,6 +180,18 @@ do
       -L $DOWNLOAD_URL
     sed -i '1d' $FILENAME
   done
+
+  for file in eD_*damages-mean_b0.csv
+  do
+    sed -i '1d' $file
+    cat $file >> cD_${PT}_damages-mean_b0.csv
+  done
+  for file in cD_*damages-mean_r2.csv
+  do
+    sed -i '1d' $file
+    cat $file > cD_${PT}_damages-mean_r2.csv
+  done
+  
   cd /usr/src/app/
   rm -f ${PT}
 done
@@ -197,6 +221,40 @@ do
       -L $DOWNLOAD_URL
     sed -i '1d' $FILENAME
   done
+
+  for file in ebR_*agg_curves-stats_b0.csv
+  do
+    sed -i '1d' $file
+    cat $file >> ebR_${PT}_agg_curves-stats_b0.csv
+  done
+  for file in ebR_*agg_curves-stats_r2.csv
+  do
+    sed -i '1d' $file
+    cat $file > ebR_${PT}_agg_curves-stats_r2.csv
+  done
+
+  for file in ebR_*agg_losses-stats_b0.csv
+  do
+    sed -i '1d' $file
+    cat $file >> ebR_${PT}_agg_losses-stats_b0.csv
+  done
+  for file in ebR_*agg_losses-stats_r2.csv
+  do
+    sed -i '1d' $file
+    cat $file > ebR_${PT}_agg_losses-stats_r2.csv
+  done
+
+  for file in ebR_*avg_losses-stats_b0.csv
+  do
+    sed -i '1d' $file
+    cat $file >> ebR_${PT}_avg_losses-stats_b0.csv
+  done
+  for file in ebR_*avg_losses-stats_r2.csv
+  do
+    sed -i '1d' $file
+    cat $file > ebR_${PT}_avg_losses-stats_r2.csv
+  done
+
   cd /usr/src/app/
   rm -f ${PT}
 done
