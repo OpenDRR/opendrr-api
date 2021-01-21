@@ -184,12 +184,12 @@ do
   for file in eD_*damages-mean_b0.csv
   do
     sed -i '1d' $file
-    cat $file >> cD_${PT}_damages-mean_b0.csv
+    cat $file >> eD_${PT}_damages-mean_b0.csv
   done
-  for file in cD_*damages-mean_r2.csv
+  for file in eD_*damages-mean_r2.csv
   do
     sed -i '1d' $file
-    cat $file > cD_${PT}_damages-mean_r2.csv
+    cat $file > eD_${PT}_damages-mean_r2.csv
   done
   
   cd /usr/src/app/
@@ -221,6 +221,14 @@ do
       -L $DOWNLOAD_URL
     sed -i '1d' $FILENAME
   done
+
+
+
+
+for PT in ${PT_LIST[@]}
+do
+echo $PT
+done
 
   for file in ebR_*agg_curves-stats_b0.csv
   do
@@ -255,6 +263,9 @@ do
     cat $file > ebR_${PT}_avg_losses-stats_r2.csv
   done
 
+  #Combine source loss tables for runs that were split by economic region or sub-region
+  python3 PSRA_combineSrcLossTable.py --srcLossDir=/usr/src/app/ebRisk/${PT}
+  
   cd /usr/src/app/
   rm -f ${PT}
 done
