@@ -30,8 +30,8 @@ def main():
                                   logging.StreamHandler()])
     auth = get_config_params('config.ini')
     args = parse_args()
-    view = "psra_{region}_{dbview}_{idField}".format(**{
-        'region': args.region,
+    view = "psra_{province}_{dbview}_{idField}".format(**{
+        'province': args.province,
         'dbview': args.dbview,
         'idField': args.idField[0]}).lower()
     if args.idField == 'sauid':
@@ -156,7 +156,7 @@ def get_config_params(args):
 def parse_args():
     parser = argparse.ArgumentParser(description="script description")
     parser.add_argument("--province", type=str, help="Two letters only", required=True)
-    parser.add_argument("--region", type=str, help="Region or subregion name; i.e. bc5920a2", required=True)
+    #parser.add_argument("--region", type=str, help="Region or subregion name; i.e. bc5920a2", required=True)
     parser.add_argument("--dbview", type=str, help=" Thematic Database View", required=True)
     parser.add_argument("--idField", type=str, help="Field to use as ElasticSearch Index ID", required=True)
     args = parser.parse_args()
