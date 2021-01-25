@@ -114,13 +114,16 @@ do
   for file in cD_*dmg-mean_b0.csv
   do
     sed -i '1d' $file
-    cat $file >> cD_${PT}_dmg-mean_b0.csv
+    cat $file >> cD_${PT}_dmg-mean_b0_temp.csv
   done
+  mv cD_${PT}_dmg-mean_b0_temp.csv cD_${PT}_dmg-mean_b0.csv
+
   for file in cD_*dmg-mean_r2.csv
   do
     sed -i '1d' $file
-    cat $file > cD_${PT}_dmg-mean_r2.csv
+    cat $file > cD_${PT}_dmg-mean_r2_temp.csv
   done
+  mv cD_${PT}_dmg-mean_r2_temp.csv cD_${PT}_dmg-mean_r2.csv
   
   cd /usr/src/app/
   rm -f ${PT}
