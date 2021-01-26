@@ -260,7 +260,7 @@ do
     sed -i '1d' $file
     cat $file > ebR_${PT}_agg_losses-stats_r2_temp.csv
   done
-  mv ebR_${PT}_agg_losses-stats_r2_temp.csv ebR_${PT}_agg_losses-stats_r2_temp.csv
+  mv ebR_${PT}_agg_losses-stats_r2_temp.csv ebR_${PT}_agg_losses-stats_r2.csv
 
   for file in ebR_*avg_losses-stats_b0.csv
   do
