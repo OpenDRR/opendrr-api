@@ -277,7 +277,7 @@ do
   mv ebR_${PT}_avg_losses-stats_r2_temp.csv ebR_${PT}_avg_losses-stats_r2.csv
 
   #Combine source loss tables for runs that were split by economic region or sub-region
-  python3 PSRA_combineSrcLossTable.py --srcLossDir=/usr/src/app/ebRisk/${PT}
+  python3 /usr/src/app/PSRA_combineSrcLossTable.py --srcLossDir=/usr/src/app/ebRisk/${PT}
   
   cd /usr/src/app/
   rm -f ${PT}
