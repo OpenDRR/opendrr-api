@@ -154,6 +154,7 @@ do
       -L $DOWNLOAD_URL
     sed -i '1d' $FILENAME
   done
+  python3 /usr/src/app/PSRA_hCurveTableCombine.py --hCurveDir=/usr/src/app/cHazard/${PT}/
   cd /usr/src/app/
   rm -f ${PT}
 done
