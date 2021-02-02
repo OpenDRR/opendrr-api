@@ -273,7 +273,7 @@ do
   for file in ebR_*avg_losses-stats_r2.csv
   do
     sed -i '1d' $file
-    cat $file > ebR_${PT}_avg_losses-stats_r2_temp.csv
+    cat $file >> ebR_${PT}_avg_losses-stats_r2_temp.csv
   done
   mv ebR_${PT}_avg_losses-stats_r2_temp.csv ebR_${PT}_avg_losses-stats_r2.csv
 
@@ -290,7 +290,7 @@ psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_0.create_psra_sc
 #PSRA_1-8
 for PT in ${PT_LIST[@]}
 do 
-python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_1.Create_table_chazard_ALL.sql"
+python3 PSRA_runCreate_table_chazard_ALL.py --province=${PT} --sqlScript="psra_1.Create_table_chazard_ALL.sql"
 python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_2.Create_table_dmg_mean.sql"
 python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_3.Create_table_agg_curves_stats.sql"
 python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_3.Create_table_avg_losses_stats.sql"
