@@ -121,7 +121,7 @@ do
   for file in cD_*dmg-mean_r2.csv
   do
     sed -i '1d' $file
-    cat $file > cD_${PT}_dmg-mean_r2_temp.csv
+    cat $file >> cD_${PT}_dmg-mean_r2_temp.csv
   done
   mv cD_${PT}_dmg-mean_r2_temp.csv cD_${PT}_dmg-mean_r2.csv
   
@@ -195,7 +195,7 @@ do
   for file in eD_*damages-mean_r2.csv
   do
     sed -i '1d' $file
-    cat $file > eD_${PT}_damages-mean_r2_temp.csv
+    cat $file >> eD_${PT}_damages-mean_r2_temp.csv
   done
   mv eD_${PT}_damages-mean_r2_temp.csv eD_${PT}_damages-mean_r2.csv
   
@@ -245,7 +245,7 @@ do
   for file in ebR_*agg_curves-stats_r2.csv
   do
     sed -i '1d' $file
-    cat $file > ebR_${PT}_agg_curves-stats_r2_temp.csv
+    cat $file >> ebR_${PT}_agg_curves-stats_r2_temp.csv
   done
   mv ebR_${PT}_agg_curves-stats_r2_temp.csv ebR_${PT}_agg_curves-stats_r2.csv
 
@@ -259,7 +259,7 @@ do
   for file in ebR_*agg_losses-stats_r2.csv
   do
     sed -i '1d' $file
-    cat $file > ebR_${PT}_agg_losses-stats_r2_temp.csv
+    cat $file >> ebR_${PT}_agg_losses-stats_r2_temp.csv
   done
   mv ebR_${PT}_agg_losses-stats_r2_temp.csv ebR_${PT}_agg_losses-stats_r2.csv
 
