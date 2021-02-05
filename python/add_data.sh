@@ -165,6 +165,12 @@ curl -o mh-intensity-sauid.csv \
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_mh_intensity_canada_v2.sql
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_mh_thresholds.sql
 
+#use python to run \copy from a system call
+python3 copyAncillaryTables.py
+
+#Perform update operations on all tables after data copied into tables
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_all_tables_update.sql
+
 echo "\n Generate Indicators"
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_physical_exposure_building_indicators_PhysicalExposure.sql
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_physical_exposure_sauid_indicators_view_PhysicalExposure.sql
