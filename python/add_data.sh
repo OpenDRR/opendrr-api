@@ -29,7 +29,7 @@ do
 done
 
 # get model-factory scripts
-git clone https://github.com/OpenDRR/model-factory.git --branch add-PSRA --depth 1 || (cd model-factory ; git pull)
+git clone https://github.com/OpenDRR/model-factory.git --branch add_psra_sql_copy_fix --depth 1 || (cd model-factory ; git pull)
 
 # get boundary files
 git clone https://github.com/OpenDRR/boundaries.git --depth 1 || (cd boundaries ; git pull)
@@ -95,7 +95,6 @@ curl -o site-vgrid_CA.csv \
 
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_CAN_site_model.sql
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_CAN_site_model_xref.sql
-psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_BC_CAN_model_update_site_exposure.sql
 
 #Census Data
 echo "\n Importing Census Data"
@@ -136,11 +135,11 @@ DOWNLOAD_URL=`grep -o '"download_url": *.*' collapse_probability.csv | cut -f2- 
 curl -o collapse_probability.csv \
   -L $DOWNLOAD_URL
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_collapse_probability_table.sql
+
 #Retrofit Costs
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -o retrofit_costs.csv \
   -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/general-building-stock/documentation/retrofit_costs.csv?ref=73d15ca7e48291ee98d8a8dd7fb49ae30548f34e
-
 DOWNLOAD_URL=`grep -o '"download_url": *.*' retrofit_costs.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
 curl -o retrofit_costs.csv \
   -L $DOWNLOAD_URL
@@ -167,6 +166,9 @@ psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_mh_thres
 
 #use python to run \copy from a system call
 python3 copyAncillaryTables.py
+
+#?
+#psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_BC_CAN_model_update_site_exposure.sql
 
 #Perform update operations on all tables after data copied into tables
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_all_tables_update.sql
