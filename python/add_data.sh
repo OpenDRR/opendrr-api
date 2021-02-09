@@ -125,6 +125,7 @@ curl -o social-vulnerability-index.csv \
 
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_sovi_index_canada_v2.sql
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_sovi_census_canada.sql
+#psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_sovi_thresholds.sql
 
 echo "\n Importing LUTs"
 #Collapse Probability
@@ -400,16 +401,12 @@ psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_0.create_psra_sc
 #PSRA_1-8
 for PT in ${PT_LIST[@]}
 do 
-python3 PSRA_runCreate_table_chazard_ALL.py --province=${PT} --sqlScript="psra_1.Create_table_chazard_ALL.sql"
-python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_2.Create_table_dmg_mean.sql"
-python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_3.Create_table_agg_curves_stats.sql"
-python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_3.Create_table_avg_losses_stats.sql"
-python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_3.Create_table_src_loss_table.sql"
-python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_4.Create_psra_building_all_indicators.sql"
-python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_5.Create_psra_sauid_all_indicators.sql"
-python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_6.Create_psra_sauid_references_indicators.sql"
-# python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_7....."
-# python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_8....."
+python3 PSRA_runCreate_tables.py --province=${PT} --sqlScript="psra_1.Create_tables.sql"
+python3 PSRA_copyTables.py --province=${PT} 
+python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_2.psra_2.Create_table_updates.sql"
+python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_3.Create_psra_building_all_indicators.sql"
+python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_4.Create_psra_sauid_all_indicators.sql"
+python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_5.Create_psra_sauid_references_indicators.sql"
 done
 
 ############################################################################################
