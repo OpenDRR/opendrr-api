@@ -403,7 +403,7 @@ for PT in ${PT_LIST[@]}
 do 
 python3 PSRA_runCreate_tables.py --province=${PT} --sqlScript="psra_1.Create_tables.sql"
 python3 PSRA_copyTables.py --province=${PT} 
-python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_2.psra_2.Create_table_updates.sql"
+python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_2.Create_table_updates.sql"
 python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_3.Create_psra_building_all_indicators.sql"
 python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_4.Create_psra_sauid_all_indicators.sql"
 python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_5.Create_psra_sauid_references_indicators.sql"
