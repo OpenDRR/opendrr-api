@@ -75,7 +75,6 @@ DOWNLOAD_URL=`grep -o '"download_url": *.*' PhysExpRef_MetroVan_v4.csv | cut -f2
 curl -o PhysExpRef_MetroVan_v4.csv \
   -L $DOWNLOAD_URL
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_canada_site_exposure_ste.sql
-psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_site_exposure_to_building_and_sauid.sql
 
 #VS30
 echo "\n Importing VS30 Model into PostGIS..."
@@ -172,6 +171,7 @@ python3 copyAncillaryTables.py
 #psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_BC_CAN_model_update_site_exposure.sql
 
 #Perform update operations on all tables after data copied into tables
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_site_exposure_to_building_and_sauid.sql
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_all_tables_update.sql
 
 echo "\n Generate Indicators"
