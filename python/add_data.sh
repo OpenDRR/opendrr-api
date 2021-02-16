@@ -269,7 +269,7 @@ do
     DOWNLOAD_URL=`grep -o '"download_url": *.*' ${FILENAME} | cut -f2- -d: | tr -d '"'| tr -d ',' `
     curl -o $FILENAME \
       -L $DOWNLOAD_URL
-    if [$FILENAME = "cH_${PT}_hmaps_xref.csv"]
+    if ["$FILENAME" = "cH_${PT}_hmaps_xref.csv"]
     then
       echo "Leave Header Alone"
     else
