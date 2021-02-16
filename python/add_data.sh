@@ -36,7 +36,7 @@ git clone https://github.com/OpenDRR/boundaries.git --depth 1 || (cd boundaries 
 
 # copy model-factory scripts to working directory
 cp model-factory/scripts/*.* .
-rm -rf model-factory
+#rm -rf model-factory
 
 ############################################################################################
 #######################     Process Exposure and Ancillary Data      #######################
@@ -53,7 +53,7 @@ ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NA
 ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_FSAUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_FSAUID" -lco LAUNDER=NO
 ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_PRUID.gpkg" -t_srs "epsg:4326" -nln boundaries."Geometry_PRUID" -lco LAUNDER=NO
 ogr2ogr -f "PostgreSQL" PG:"host=db-opendrr user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_SAUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_SAUID" -lco LAUNDER=NO
-rm -rf boundaries
+#rm -rf boundaries
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Update_boundaries_SAUID_table.sql
 
 #Physical Exposure
@@ -167,12 +167,12 @@ psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_mh_thres
 #use python to run \copy from a system call
 python3 copyAncillaryTables.py
 
-#?
-#psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_BC_CAN_model_update_site_exposure.sql
+
 
 #Perform update operations on all tables after data copied into tables
-psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_site_exposure_to_building_and_sauid.sql
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_all_tables_update.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_site_exposure_to_building_and_sauid.sql
+psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_BC_CAN_model_update_site_exposure.sql
 
 echo "\n Generate Indicators"
 psql -h db-opendrr -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_physical_exposure_building_indicators_PhysicalExposure.sql
@@ -269,7 +269,11 @@ do
     DOWNLOAD_URL=`grep -o '"download_url": *.*' ${FILENAME} | cut -f2- -d: | tr -d '"'| tr -d ',' `
     curl -o $FILENAME \
       -L $DOWNLOAD_URL
-    sed -i '1d' $FILENAME
+    if [$FILENAME = "cH_${PT}_hmaps_xref.csv"]
+      echo "Leave Header Along"
+    else
+      sed -i '1d' $FILENAME
+    fi
   done
   python3 /usr/src/app/PSRA_hCurveTableCombine.py --hCurveDir=/usr/src/app/cHazard/${PT}/
   cd /usr/src/app/
@@ -416,7 +420,7 @@ done
 #get list of earthquake scenarios
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -O \
-  -L ${DSRA_REPOSITORY}
+  -L https://api.github.com/repos/OpenDRR/scenario-catalogue/contents/FINISHED
 EQSCENARIO_LIST=`grep -P -o '"name": "s_lossesbyasset_*.*r2' FINISHED | cut -f3- -d_`
 EQSCENARIO_LIST=($(echo $EQSCENARIO_LIST | tr ' ' '\n'))
 
@@ -485,8 +489,8 @@ for item in ${EQSCENARIO_LIST_LONGFORM[*]}
 do
     SITE=$(echo $item | cut -f5- -d_ | cut -c 1-1)
     eqscenario=$(echo $item | cut -f-2 -d_)
-    #echo $eqscenario
-    #echo $SITE
+    echo $eqscenario
+    echo $SITE
     if [ "$SITE" = "s" ]
     then
         #echo "Site Model"
