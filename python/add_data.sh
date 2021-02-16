@@ -270,7 +270,7 @@ do
     curl -o $FILENAME \
       -L $DOWNLOAD_URL
     if [$FILENAME = "cH_${PT}_hmaps_xref.csv"]
-      echo "Leave Header Along"
+      echo "Leave Header Alone"
     else
       sed -i '1d' $FILENAME
     fi
