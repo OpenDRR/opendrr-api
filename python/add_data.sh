@@ -547,72 +547,28 @@ fi
 #Load Hazard Threat Views
 if [ "$loadHazardThreat" = true ]
 then
-    #Cyclone
-    python3 hazardThreat_postgres2es.py  --type="cy_threat_cy_wind_hazard" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="cy_threat_to_assets" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="cy_threat_to_buildings" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="cy_threat_to_people" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    #Earthquake
-    python3 hazardThreat_postgres2es.py  --type="eq_seismic_hazard_intensity" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="eq_threat_to_assets" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="eq_threat_to_buildings" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="eq_threat_to_people" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    #Flooding
-    python3 hazardThreat_postgres2es.py  --type="fl_threat_fl_inundation_hazard" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="fl_threat_to_assets" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="fl_threat_to_buildings" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="fl_threat_to_people" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    #landslide
-    python3 hazardThreat_postgres2es.py  --type="ls_threat_debris_flow_hazard" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="ls_threat_to_assets" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="ls_threat_to_buildings" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="ls_threat_to_people" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    #Multi Hazard
-    python3 hazardThreat_postgres2es.py  --type="mh_mh_intensity" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="mh_threat_to_assets" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="mh_threat_to_buildings" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="mh_threat_to_people" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    #Tsunami
-    python3 hazardThreat_postgres2es.py  --type="ts_threat_ts_inundation_hazard" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="ts_threat_to_assets" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="ts_threat_to_buildings" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="ts_threat_to_people" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    #Wildfire
-    python3 hazardThreat_postgres2es.py  --type="wf_threat_wf_hazard" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="wf_threat_to_assets" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="wf_threat_to_buildings" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 hazardThreat_postgres2es.py  --type="wf_threat_to_people" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    #All Inidcators
+    python3 hazardThreat_postgres2es.py  --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
 fi
 
 
 #load physical exposure inidcators
 if [ "$loadPhysicalExposure" = true ]
 then
-    python3 exposure_postgres2es.py --type="assets" --aggregation="building" --geometry=geom_point --idField="BldgID"
-    python3 exposure_postgres2es.py --type="assets" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 exposure_postgres2es.py --type="building_function" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 exposure_postgres2es.py --type="building_type" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 exposure_postgres2es.py --type="buildings" --aggregation="building" --geometry=geom_point --idField="BldgID"
-    python3 exposure_postgres2es.py --type="people" --aggregation="building" --geometry=geom_point --idField="BldgID"
-    python3 exposure_postgres2es.py --type="people" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 exposure_postgres2es.py --type="settled_area" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 exposure_postgres2es.py --type="all_indicators" --aggregation="building" --geometry=geom_point --idField="BldgID"
+    python3 exposure_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
 fi 
 
 #load Risk Dynamics Views
 if [ "$loadRiskDynamics" = true ]
 then
-    python3 riskDynamics_postgres2es.py --type="hazard_susceptibility" --aggregation="sauid" --geometry=geom_point --idField="ghslID"
-    python3 riskDynamics_postgres2es.py --type="land_use_change" --aggregation="sauid" --geometry=geom_point --idField="ghslID"
-    python3 riskDynamics_postgres2es.py --type="population_growth" --aggregation="sauid" --geometry=geom_point --idField="ghslID"
+    python3 riskDynamics_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_point --idField="ghslID"
 fi
 
 #load Social Fabric Views
 if [ "$loadSocialFabric" = true ]
 then
-    python3 socialFabric_postgres2es.py --type="family_structure" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 socialFabric_postgres2es.py --type="financial_agency" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 socialFabric_postgres2es.py --type="housing_conditions" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-    python3 socialFabric_postgres2es.py --type="individual_autonomy" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    python3 socialFabric_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
 fi
 
 
