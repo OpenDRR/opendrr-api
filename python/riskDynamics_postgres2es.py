@@ -33,9 +33,8 @@ def main():
                                   logging.StreamHandler()])
     auth = get_config_params('config.ini')
     args = parse_args()
-    view = "nhsl_risk_dynamics_{type}_{aggregation}".format(**{
-        'type': args.type,
-        'aggregation': args.aggregation[0].lower()})
+    view = "nhsl_risk_dynamics_{type}".format(**{
+        'type': args.type})
 
     if args.idField.lower() == 'sauid':
         id_field = 'Sauid'
