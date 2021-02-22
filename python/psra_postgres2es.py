@@ -81,13 +81,13 @@ def main():
 
     # es = Elasticsearch()
     es = Elasticsearch([auth.get('es', 'es_endpoint')],
-                        http_auth=(auth.get('es', 'es_un'),
-                                    auth.get('es', 'es_pw')))
+                       http_auth=(auth.get('es', 'es_un'),
+                                  auth.get('es', 'es_pw')))
     connection = None
     try:
         # Connect to the PostGIS database hosted on RDS
         connection = psycopg2.connect(user=auth.get('rds', 'postgres_un'),
-                                      password=auth.get('rds','postgres_pw'),
+                                      password=auth.get('rds', 'postgres_pw'),
                                       host=auth.get('rds', 'postgres_host'),
                                       port=auth.get('rds', 'postgres_port'),
                                       database=auth.get('rds', 'postgres_db'))
@@ -112,8 +112,8 @@ def main():
                     feature['properties'][column] = value
             feature_collection['features'].append(feature)
         geojsonobject = json.dumps(feature_collection,
-                                    indent=2,
-                                    default=decimal_default)
+                                   indent=2,
+                                   default=decimal_default)
 
     except (Exception, psycopg2.Error) as error:
         logging.error(error)
