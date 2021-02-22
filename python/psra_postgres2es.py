@@ -81,16 +81,16 @@ def main():
 
     # es = Elasticsearch()
     es = Elasticsearch([auth.get('es', 'es_endpoint')],
-                        http_auth=(auth.get('es', 'es_un'),
-                        auth.get('es', 'es_pw')))
+                            http_auth=(auth.get('es', 'es_un'),
+                            auth.get('es', 'es_pw')))
     connection = None
     try:
         # Connect to the PostGIS database hosted on RDS
         connection = psycopg2.connect(user=auth.get('rds', 'postgres_un'),
-                                    password=auth.get('rds', 'postgres_pw'),
-                                    host=auth.get('rds', 'postgres_host'),
-                                    port=auth.get('rds', 'postgres_port'),
-                                    database=auth.get('rds', 'postgres_db'))
+                                        password=auth.get('rds', 'postgres_pw'),
+                                        host=auth.get('rds', 'postgres_host'),
+                                        port=auth.get('rds', 'postgres_port'),
+                                        database=auth.get('rds', 'postgres_db'))
         # Query the entire view with the geometries in geojson format
         cur = connection.cursor()
         cur.execute(sqlquerystring)
@@ -112,8 +112,8 @@ def main():
                     feature['properties'][column] = value
             feature_collection['features'].append(feature)
         geojsonobject = json.dumps(feature_collection,
-                                    indent=2,
-                                    default=decimal_default)
+                                indent=2,
+                                default=decimal_default)
 
     except (Exception, psycopg2.Error) as error:
         logging.error(error)
@@ -164,17 +164,17 @@ def get_config_params(args):
 def parse_args():
     parser = argparse.ArgumentParser(description="script description")
     parser.add_argument("--province",
-                            type=str,
-                            help="Two letters only",
-                            required=True)
+                        type=str,
+                        help="Two letters only",
+                        required=True)
     parser.add_argument("--dbview",
-                            type=str,
-                            help=" Thematic Database View",
-                            required=True)
+                        type=str,
+                        help=" Thematic Database View",
+                        required=True)
     parser.add_argument("--idField",
-                            type=str,
-                            help="Field to use as ElasticSearch Index ID",
-                            required=True)
+                        type=str,
+                        help="Field to use as ElasticSearch Index ID",
+                        required=True)
     args = parser.parse_args()
 
     return args
