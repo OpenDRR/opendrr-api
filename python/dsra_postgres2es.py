@@ -128,7 +128,7 @@ def main():
                 }
                 for index, column in enumerate(columns):
                     if column != "st_asgeojson":
-                        value =row[index]
+                        value = row[index]
                         feature['properties'][column] = value
 
             elif args.idField == 'building':
@@ -141,7 +141,7 @@ def main():
                 }
                 for index, column in enumerate(columns):
                     if column != "st_asgeojson":
-                        value =row[index]
+                        value = row[index]
                         feature['properties'][column] = value
 
             feature_collection['features'].append(feature)
