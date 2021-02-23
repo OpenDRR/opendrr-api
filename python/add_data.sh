@@ -14,7 +14,7 @@ GITHUB_TOKEN=`grep -o 'github_token = *.*' config.ini | cut -f2- -d=`
 
 status_code=$(curl --write-out %{http_code} --silent --output /dev/null -H "Authorization: token ${GITHUB_TOKEN}" \
   -O \
-  -L https://api.github.com/repos/OpenDRR/openquake-models/contents/deterministic/outputs)
+  -L https://api.github.com/repos/OpenDRR/scenario-catalogue/contents/deterministic/outputs)
 
 if [[ "$status_code" -ne 200 ]] ; then
   echo "GitHub token is not valid! Exiting!"
