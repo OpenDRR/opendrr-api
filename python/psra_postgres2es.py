@@ -1,4 +1,6 @@
+# =================================================================
 
+# =================================================================
 
 import json
 import os
@@ -13,14 +15,10 @@ from elasticsearch import Elasticsearch
 from elasticsearch import helpers
 
 '''
-Script to convert risk Dynamics Views to ElasticSearch Index
+Script to convert PSRA indicator views to ElasticSearch Index
 Can be run from the command line with mandatory arguments
 Run this script with a command like:
-python3 riskDynamics_postgres2es.py
-    --type="hazard_susceptibility"
-    --aggregation="sauid"
-    --geometry=geom_point
-    --idField="ghslID"
+python3 psra_postgres2es.py
 '''
 
 
@@ -33,13 +31,15 @@ def main():
                                   logging.StreamHandler()])
     auth = get_config_params('config.ini')
     args = parse_args()
-    view = "nhsl_risk_dynamics_{type}".format(**{
-        'type': args.type})
-
-    if args.idField.lower() == 'sauid':
+    view = "psra_{province}_{dbview}_{idField}".format(**{
+        'province': args.province,
+        'dbview': args.dbview,
+        'idField': args.idField[0]}).lower()
+    if args.idField == 'sauid':
         id_field = 'Sauid'
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
-            FROM results_nhsl_risk_dynamics.{view}'.format(**{
+            FROM results_psra_{province}.{view}'.format(**{
+            'province': args.province,
             'view': view})
         settings = {
             'settings': {
@@ -50,39 +50,39 @@ def main():
                 'properties': {
                     'geometry': {
                         'type': 'geo_shape'
-                    },
-                    'geom_poly': {
-                        'type': 'geo_shape'
-                    }
-                }
-            }
-        }
-    elif args.idField == 'ghslID':
-        id_field = 'ghslID'
-        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
-            FROM results_nhsl_risk_dynamics.{view}'.format(**{
-            'view': view})
-        settings = {
-            'settings': {
-                'number_of_shards': 1,
-                'number_of_replicas': 0
-            },
-            'mappings': {
-                'properties': {
-                    'geometry': {
-                        'type': 'geo_shape'
-                    },
-                    'geom_point': {
-                        'type': 'geo_point'
                     }
                 }
             }
         }
 
-    # es=Elasticsearch()
+    elif args.idField == 'building':
+        id_field = 'AssetID'
+        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
+            FROM results_psra_{province}.{view}'.format(**{
+            'province': args.province,
+            'view': view})
+        settings = {
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'properties': {
+                            'coordinates': {
+                                'type': 'geo_point'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    # es = Elasticsearch()
     es = Elasticsearch([auth.get('es', 'es_endpoint')],
                        http_auth=(auth.get('es', 'es_un'),
-                       auth.get('es', 'es_pw')))
+                                  auth.get('es', 'es_pw')))
     connection = None
     try:
         # Connect to the PostGIS database hosted on RDS
@@ -162,22 +162,18 @@ def get_config_params(args):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="load data PostGIS to ES ")
-    parser.add_argument("--type",
+    parser = argparse.ArgumentParser(description="script description")
+    parser.add_argument("--province",
                         type=str,
-                        help="hazard threat layer (i.e. eq_threat_to_assets)",
+                        help="Two letters only",
                         required=True)
-    parser.add_argument("--aggregation",
+    parser.add_argument("--dbview",
                         type=str,
-                        help="building or Sauid",
-                        required=True)
-    parser.add_argument("--geometry",
-                        type=str,
-                        help="geom_point or geom_poly",
+                        help=" Thematic Database View",
                         required=True)
     parser.add_argument("--idField",
                         type=str,
-                        help="Field to use as Index ID. AssetID or Sauid",
+                        help="Field to use as ElasticSearch Index ID",
                         required=True)
     args = parser.parse_args()
 
