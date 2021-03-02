@@ -29,7 +29,7 @@ do
 done
 
 # get model-factory scripts
-git clone https://github.com/OpenDRR/model-factory.git --branch add_psra_sql_copy_fix --depth 1 || (cd model-factory ; git pull)
+git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; git pull)
 
 # get boundary files
 git clone https://github.com/OpenDRR/boundaries.git --depth 1 || (cd boundaries ; git pull)
