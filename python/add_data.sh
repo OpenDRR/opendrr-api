@@ -61,7 +61,7 @@ cp model-factory/scripts/*.* .
 #######################     Process Exposure and Ancillary Data      #######################
 ############################################################################################
 
-echo "\n Importing Census Boundaries"
+echo -e "\n Importing Census Boundaries"
 # Create boundaries schema geometry tables from default geopackages.  Change ogr2ogr PATH / geopackage path if nessessary to run.
 ogr2ogr -f "PostgreSQL" PG:"host=${POSTGRES_HOST} user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_ADAUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_ADAUID" -lco LAUNDER=NO
 ogr2ogr -f "PostgreSQL" PG:"host=${POSTGRES_HOST} user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CANADA.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_CANADA" -lco LAUNDER=NO
@@ -76,7 +76,7 @@ ogr2ogr -f "PostgreSQL" PG:"host=${POSTGRES_HOST} user=${POSTGRES_USER} dbname=$
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Update_boundaries_SAUID_table.sql
 
 # Physical Exposure
-echo "\n Importing Physical Exposure Model into PostGIS"
+echo -e "\n Importing Physical Exposure Model into PostGIS"
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -o BldgExpRef_CA_master_v3p1.csv \
   -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/general-building-stock/BldgExpRef_CA_master_v3p1.csv
@@ -96,7 +96,7 @@ curl -o PhysExpRef_MetroVan_v4.csv \
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_canada_site_exposure_ste.sql
 
 # VS30
-echo "\n Importing VS30 Model into PostGIS..."
+echo -e "\n Importing VS30 Model into PostGIS..."
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -O \
   -L https://api.github.com/repos/OpenDRR/model-inputs/contents/earthquake/sites/regions/vs30_CAN_site_model_xref.csv
@@ -115,7 +115,7 @@ psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_CAN_site_model_xref.sql
 
 # Census Data
-echo "\n Importing Census Data"
+echo -e "\n Importing Census Data"
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -o census-attributes-2016.csv \
   -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/census-ref-sauid/census-attributes-2016.csv?ref=ab1b2d58dcea80a960c079ad2aff337bc22487c5
@@ -125,7 +125,7 @@ curl -o census-attributes-2016.csv \
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_2016_census_v3.sql
 
 
-echo "\n Importing Sovi"
+echo -e "\n Importing Sovi"
 # Need to source tables
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -O \
@@ -145,7 +145,7 @@ psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_so
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_sovi_census_canada.sql
 #psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_sovi_thresholds.sql
 
-echo "\n Importing LUTs"
+echo -e "\n Importing LUTs"
 # Collapse Probability
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -o collapse_probability.csv \
@@ -164,7 +164,7 @@ curl -o retrofit_costs.csv \
   -L $DOWNLOAD_URL
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_retrofit_costs_table.sql
 
-echo "\n Importing GHSL"
+echo -e "\n Importing GHSL"
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -o mh-intensity-ghsl.csv \
   -L https://api.github.com/repos/OpenDRR/model-inputs/contents/natural-hazards/mh-intensity-ghsl.csv?ref=ab1b2d58dcea80a960c079ad2aff337bc22487c5
@@ -173,7 +173,7 @@ curl -o mh-intensity-ghsl.csv \
   -L $DOWNLOAD_URL
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_GHSL.sql
 
-echo "\n Importing MH Intensity"
+echo -e "\n Importing MH Intensity"
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -o mh-intensity-sauid.csv \
   -L https://api.github.com/repos/OpenDRR/model-inputs/contents/natural-hazards/mh-intensity-sauid.csv?ref=ab1b2d58dcea80a960c079ad2aff337bc22487c5
@@ -193,7 +193,7 @@ psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_all_tabl
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_site_exposure_to_building_and_sauid.sql
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_BC_CAN_model_update_site_exposure.sql
 
-echo "\n Generate Indicators"
+echo -e "\n Generate Indicators"
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_physical_exposure_building_indicators_PhysicalExposure.sql
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_physical_exposure_sauid_indicators_view_PhysicalExposure.sql
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_physical_exposure_building_indicators_PhysicalExposure_ste.sql
@@ -453,7 +453,7 @@ do
     EQSCENARIO_LIST[item]=${EQSCENARIO_LIST[item]:0:${#EQSCENARIO_LIST[item]}-3}
 done
 
-echo "\n Importing scenario outputs into PostGIS..."
+echo -e "\n Importing scenario outputs into PostGIS..."
 for eqscenario in ${EQSCENARIO_LIST[*]}
 do
   python3 DSRA_outputs2postgres_lfs.py --dsraModelDir=$DSRA_REPOSITORY --columnsINI=DSRA_outputs2postgres.ini --eqScenario=$eqscenario
@@ -502,10 +502,10 @@ do
     echo " "
 done
 
-echo "\n Importing Rupture Model"
+echo -e "\n Importing Rupture Model"
 python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenDRR/scenario-catalogue/tree/master/deterministic/ruptures"
 
-echo "\n Generating indicator views..."
+echo -e "\n Generating indicator views..."
 for item in ${EQSCENARIO_LIST_LONGFORM[*]}
 do
     SITE=$(echo $item | cut -f5- -d_ | cut -c 1-1)
@@ -560,7 +560,7 @@ if [ "$loadDsraScenario" = true ]
 then
     for eqscenario in ${EQSCENARIO_LIST[*]}
     do
-        echo "\nCreating elasticsearch indexes for DSRA..."
+        echo -e "\nCreating elasticsearch indexes for DSRA..."
         python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="all_indicators" --idField="building"
         python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="all_indicators" --idField="sauid"
     done
@@ -595,7 +595,7 @@ then
 fi
 
 
-echo "\n Loading Kibana Saved Objects"
+echo -e "\n Loading Kibana Saved Objects"
 curl -X POST -H "securitytenant: global" "${KIBANA_ENDPOINT}/api/saved_objects/_import" -H "kbn-xsrf: true" --form file=@kibanaSavedObjects.ndjson
 
 tail -f /dev/null & wait
