@@ -1,4 +1,13 @@
 #!/bin/bash
+# SPDX-License-Identifier: MIT
+#
+# add_data.sh - Populate PostGIS database for Elasticsearch
+#
+# Copyright (C) 2020-2021 Government of Canada
+#
+# Main Authors: Drew Rotheram-Clarke <drew.rotheram-clarke@canada.ca>
+#               Joost van Ulden <joost.vanulden@canada.ca>
+
 trap : TERM INT
 set -e
 
@@ -15,7 +24,11 @@ KIBANA_ENDPOINT=$9
 
 DSRA_REPOSITORY=https://github.com/OpenDRR/scenario-catalogue/tree/master/FINISHED
 
-#get github token
+############################################################################################
+#######################     Begin main processes                     #######################
+############################################################################################
+
+# Read GitHub token from config.ini
 GITHUB_TOKEN=`grep -o 'github_token = *.*' config.ini | cut -f2- -d=`
 
 status_code=$(curl --write-out %{http_code} --silent --output /dev/null -H "Authorization: token ${GITHUB_TOKEN}" \
@@ -27,20 +40,20 @@ if [[ "$status_code" -ne 200 ]] ; then
   exit 0
 fi
 
-# make sure PostGIS is ready to accept connections
+# Make sure PostGIS is ready to accept connections
 until pg_isready -h ${POSTGRES_HOST} -p 5432 -U ${POSTGRES_USER}
 do
   echo "Waiting for postgres..."
   sleep 2;
 done
 
-# get model-factory scripts
+# Get model-factory scripts
 git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; git pull)
 
-# get boundary files
+# Get boundary files
 git clone https://github.com/OpenDRR/boundaries.git --depth 1 || (cd boundaries ; git pull)
 
-# copy model-factory scripts to working directory
+# Copy model-factory scripts to working directory
 cp model-factory/scripts/*.* .
 #rm -rf model-factory
 
@@ -49,7 +62,7 @@ cp model-factory/scripts/*.* .
 ############################################################################################
 
 echo "\n Importing Census Boundaries"
-# create boundaries schema geometry tables from default geopackages.  Change ogr2ogr PATH / geopackage path if nessessary to run.
+# Create boundaries schema geometry tables from default geopackages.  Change ogr2ogr PATH / geopackage path if nessessary to run.
 ogr2ogr -f "PostgreSQL" PG:"host=${POSTGRES_HOST} user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_ADAUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_ADAUID" -lco LAUNDER=NO
 ogr2ogr -f "PostgreSQL" PG:"host=${POSTGRES_HOST} user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CANADA.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_CANADA" -lco LAUNDER=NO
 ogr2ogr -f "PostgreSQL" PG:"host=${POSTGRES_HOST} user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CDUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_CDUID" -lco LAUNDER=NO
@@ -62,7 +75,7 @@ ogr2ogr -f "PostgreSQL" PG:"host=${POSTGRES_HOST} user=${POSTGRES_USER} dbname=$
 #rm -rf boundaries
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Update_boundaries_SAUID_table.sql
 
-#Physical Exposure
+# Physical Exposure
 echo "\n Importing Physical Exposure Model into PostGIS"
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -o BldgExpRef_CA_master_v3p1.csv \
@@ -82,7 +95,7 @@ curl -o PhysExpRef_MetroVan_v4.csv \
   -L $DOWNLOAD_URL
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_canada_site_exposure_ste.sql
 
-#VS30
+# VS30
 echo "\n Importing VS30 Model into PostGIS..."
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -O \
@@ -101,7 +114,7 @@ curl -o site-vgrid_CA.csv \
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_CAN_site_model.sql
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_CAN_site_model_xref.sql
 
-#Census Data
+# Census Data
 echo "\n Importing Census Data"
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -o census-attributes-2016.csv \
@@ -113,7 +126,7 @@ psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_20
 
 
 echo "\n Importing Sovi"
-#need to source tables
+# Need to source tables
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -O \
   -L https://api.github.com/repos/OpenDRR/model-inputs/contents/social-vulnerability/social-vulnerability-census.csv
@@ -133,7 +146,7 @@ psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_so
 #psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_sovi_thresholds.sql
 
 echo "\n Importing LUTs"
-#Collapse Probability
+# Collapse Probability
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -o collapse_probability.csv \
   -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/general-building-stock/documentation/collapse_probability.csv?ref=73d15ca7e48291ee98d8a8dd7fb49ae30548f34e
@@ -142,7 +155,7 @@ curl -o collapse_probability.csv \
   -L $DOWNLOAD_URL
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_collapse_probability_table.sql
 
-#Retrofit Costs
+# Retrofit Costs
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -o retrofit_costs.csv \
   -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/general-building-stock/documentation/retrofit_costs.csv?ref=73d15ca7e48291ee98d8a8dd7fb49ae30548f34e
@@ -170,12 +183,12 @@ curl -o mh-intensity-sauid.csv \
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_mh_intensity_canada_v2.sql
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_mh_thresholds.sql
 
-#use python to run \copy from a system call
+# Use python to run \copy from a system call
 python3 copyAncillaryTables.py
 
 
 
-#Perform update operations on all tables after data copied into tables
+# Perform update operations on all tables after data copied into tables
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_all_tables_update.sql
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_site_exposure_to_building_and_sauid.sql
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_BC_CAN_model_update_site_exposure.sql
@@ -197,7 +210,7 @@ psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_MH_risk_
 ############################################################################################
 
 echo "Importing Raw PSRA Tables"
-#Get list of provinces & territories
+# Get list of provinces & territories
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -O \
   -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output
@@ -205,10 +218,10 @@ PT_LIST=`grep -P -o '"name": "*.*' output | cut -f2- -d:`
 PT_LIST=($(echo $PT_LIST | tr ', ' '\n'))
 for item in ${!PT_LIST[@]}
 do
-PT_LIST[item]=${PT_LIST[item]:1:${#PT_LIST[item]}-2}
+  PT_LIST[item]=${PT_LIST[item]:1:${#PT_LIST[item]}-2}
 done
 
-#cDamage
+# cDamage
 for PT in ${PT_LIST[@]}
 do
   curl -H "Authorization: token ${GITHUB_TOKEN}" \
@@ -247,12 +260,12 @@ do
     cat $file >> cD_${PT}_dmg-mean_r2_temp.csv
   done
   mv cD_${PT}_dmg-mean_r2_temp.csv cD_${PT}_dmg-mean_r2.csv
-  
+
   cd /usr/src/app/
   rm -f ${PT}
 done
 
-#cHazard
+# cHazard
 for PT in ${PT_LIST[@]}
 do
   curl -H "Authorization: token ${GITHUB_TOKEN}" \
@@ -288,7 +301,7 @@ do
   rm -f ${PT}
 done
 
-#eDamage
+# eDamage
 for PT in ${PT_LIST[@]}
 do
   curl -H "Authorization: token ${GITHUB_TOKEN}" \
@@ -327,12 +340,12 @@ do
     cat $file >> eD_${PT}_damages-mean_r2_temp.csv
   done
   mv eD_${PT}_damages-mean_r2_temp.csv eD_${PT}_damages-mean_r2.csv
-  
+
   cd /usr/src/app/
   rm -f ${PT}
 done
 
-#ebRisk
+# ebRisk
 for PT in ${PT_LIST[@]}
 do
   curl -H "Authorization: token ${GITHUB_TOKEN}" \
@@ -400,32 +413,32 @@ do
   done
   mv ebR_${PT}_avg_losses-stats_r2_temp.csv ebR_${PT}_avg_losses-stats_r2.csv
 
-  #Combine source loss tables for runs that were split by economic region or sub-region
+  # Combine source loss tables for runs that were split by economic region or sub-region
   python3 /usr/src/app/PSRA_combineSrcLossTable.py --srcLossDir=/usr/src/app/ebRisk/${PT}
-  
+
   cd /usr/src/app/
   rm -f ${PT}
 done
 
-#PSRA_0
+# PSRA_0
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_0.create_psra_schema.sql
 
-#PSRA_1-8
+# PSRA_1-8
 for PT in ${PT_LIST[@]}
-do 
-python3 PSRA_runCreate_tables.py --province=${PT} --sqlScript="psra_1.Create_tables.sql"
-python3 PSRA_copyTables.py --province=${PT} 
-python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_2.Create_table_updates.sql"
-python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_3.Create_psra_building_all_indicators.sql"
-python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_4.Create_psra_sauid_all_indicators.sql"
-python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_5.Create_psra_sauid_references_indicators.sql"
+do
+  python3 PSRA_runCreate_tables.py --province=${PT} --sqlScript="psra_1.Create_tables.sql"
+  python3 PSRA_copyTables.py --province=${PT}
+  python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_2.Create_table_updates.sql"
+  python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_3.Create_psra_building_all_indicators.sql"
+  python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_4.Create_psra_sauid_all_indicators.sql"
+  python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_5.Create_psra_sauid_references_indicators.sql"
 done
 
 ############################################################################################
 #######################     Process DSRA                             #######################
 ############################################################################################
 
-#get list of earthquake scenarios
+# Get list of earthquake scenarios
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -O \
   -L https://api.github.com/repos/OpenDRR/scenario-catalogue/contents/FINISHED
@@ -435,7 +448,7 @@ EQSCENARIO_LIST=($(echo $EQSCENARIO_LIST | tr ' ' '\n'))
 EQSCENARIO_LIST_LONGFORM=`grep -P -o '"name": "s_lossesbyasset_*.*r2.*csv' FINISHED | cut -f3- -d_`
 EQSCENARIO_LIST_LONGFORM=($(echo $EQSCENARIO_LIST_LONGFORM | tr ' ' '\n'))
 
-for item in ${!EQSCENARIO_LIST[@]} 
+for item in ${!EQSCENARIO_LIST[@]}
 do
     EQSCENARIO_LIST[item]=${EQSCENARIO_LIST[item]:0:${#EQSCENARIO_LIST[item]}-3}
 done
@@ -443,16 +456,16 @@ done
 echo "\n Importing scenario outputs into PostGIS..."
 for eqscenario in ${EQSCENARIO_LIST[*]}
 do
-python3 DSRA_outputs2postgres_lfs.py --dsraModelDir=$DSRA_REPOSITORY --columnsINI=DSRA_outputs2postgres.ini --eqScenario=$eqscenario
+  python3 DSRA_outputs2postgres_lfs.py --dsraModelDir=$DSRA_REPOSITORY --columnsINI=DSRA_outputs2postgres.ini --eqScenario=$eqscenario
 done
 
 echo "Importing Shakemap"
-#Make a list of Shakemaps in the repo and download the raw csv files
+# Make a list of Shakemaps in the repo and download the raw csv files
 DOWNLOAD_URL_LIST=`grep -P -o '"url": "*.*s_shakemap_*.*csv' FINISHED | cut -f2- -d: | tr -d '"'| tr -d ',' | cut -f1 -d?`
 DOWNLOAD_URL_LIST=($(echo $DOWNLOAD_URL_LIST | tr ' ' '\n'))
 for shakemap in ${DOWNLOAD_URL_LIST[*]}
 do
-    #Curl the shakemap
+    # Get the shakemap
     shakemap_filename=$( echo $shakemap | cut -f9- -d/ | cut -f1 -d?)
     curl -H "Authorization: token ${GITHUB_TOKEN}" \
       -o $shakemap_filename \
@@ -461,11 +474,11 @@ do
       echo $DOWNLOAD_URL
     curl -o $shakemap_filename \
       -L $DOWNLOAD_URL
-    #Run Create_table_shakemap.sql
+    # Run Create_table_shakemap.sql
     python3 DSRA_runCreateTableShakemap.py --shakemapFile=$shakemap_filename
 done
 
-#RunCreate_table_shakemap_update.sql or Create_table_shakemap_update_ste.sql   
+# Run Create_table_shakemap_update.sql or Create_table_shakemap_update_ste.sql
 SHAKEMAP_LIST=`grep -P -o '"name": "s_shakemap_*.*csv' FINISHED | cut -f2- -d: | cut -f2- -d'"'`
 SHAKEMAP_LIST=($(echo $SHAKEMAP_LIST | tr ' ' '\n'))
 for ((i=0;i<${#EQSCENARIO_LIST_LONGFORM[@]};i++));
@@ -480,17 +493,17 @@ do
     if [ "$SITE" = "s" ]
     then
     #echo "Site Model"
-    python3 DSRA_runCreateTableShakemapUpdate.py --eqScenario=$eqscenario --exposureAgg=$SITE
+        python3 DSRA_runCreateTableShakemapUpdate.py --eqScenario=$eqscenario --exposureAgg=$SITE
     elif [ "$SITE" = "b" ]
     then
     #echo "Building Model"
-    python3 DSRA_runCreateTableShakemapUpdate.py --eqScenario=$eqscenario --exposureAgg=$SITE
+        python3 DSRA_runCreateTableShakemapUpdate.py --eqScenario=$eqscenario --exposureAgg=$SITE
     fi
-    echo " " 
-done 
+    echo " "
+done
 
 echo "\n Importing Rupture Model"
-python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenDRR/scenario-catalogue/tree/master/deterministic/ruptures" 
+python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenDRR/scenario-catalogue/tree/master/deterministic/ruptures"
 
 echo "\n Generating indicator views..."
 for item in ${EQSCENARIO_LIST_LONGFORM[*]}
@@ -511,7 +524,7 @@ do
         python3 DSRA_createRiskProfileIndicators.py --eqScenario=$eqscenario --aggregation=building --exposureModel=building
         python3 DSRA_createRiskProfileIndicators.py --eqScenario=$eqscenario --aggregation=sauid  --exposureModel=building
     fi
-done 
+done
 
 ############################################################################################
 #######################     Import Data from PostGIS to ElasticSearch   ####################
@@ -521,13 +534,13 @@ if [[ ! -z "$ES_USER" ]]; then
   ES_CREDENTIALS="--user ${ES_USER}:${ES_PASS}"
 fi
 
-# make sure Elasticsearch is ready prior to creating indexes
+# Make sure Elasticsearch is ready prior to creating indexes
 until $(curl -sSf -XGET --insecure ${ES_CREDENTIALS:-""} "${ES_ENDPOINT}/_cluster/health?wait_for_status=yellow" > /dev/null); do
     printf 'No status yellow from Elasticsearch, trying again in 10 seconds \n'
     sleep 10
 done
 
-#Load Probabilistic Model Indicators
+# Load Probabilistic Model Indicators
 if [ "$loadPsraModels" = true ]
 then
     echo "Creating PSRA indices in ElasticSearch"
@@ -542,7 +555,7 @@ then
     curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/saved_objects/index-pattern/psra*all_indicators_b" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra*all_indicators_b"}}'
 fi
 
-#Load Deterministid Model Indicators
+# Load Deterministic Model Indicators
 if [ "$loadDsraScenario" = true ]
 then
     for eqscenario in ${EQSCENARIO_LIST[*]}
@@ -550,32 +563,32 @@ then
         echo "\nCreating elasticsearch indexes for DSRA..."
         python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="all_indicators" --idField="building"
         python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="all_indicators" --idField="sauid"
-    done  
+    done
 fi
 
 
-#Load Hazard Threat Views
+# Load Hazard Threat Views
 if [ "$loadHazardThreat" = true ]
 then
-    #All Inidcators
+    # All Indicators
     python3 hazardThreat_postgres2es.py  --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
 fi
 
 
-#load physical exposure inidcators
+# Load physical exposure indicators
 if [ "$loadPhysicalExposure" = true ]
 then
     python3 exposure_postgres2es.py --type="all_indicators" --aggregation="building" --geometry=geom_point --idField="BldgID"
     python3 exposure_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-fi 
+fi
 
-#load Risk Dynamics Views
+# Load Risk Dynamics Views
 if [ "$loadRiskDynamics" = true ]
 then
     python3 riskDynamics_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_point --idField="ghslID"
 fi
 
-#load Social Fabric Views
+# Load Social Fabric Views
 if [ "$loadSocialFabric" = true ]
 then
     python3 socialFabric_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
