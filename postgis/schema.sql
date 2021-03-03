@@ -1,5 +1,5 @@
 -- create initial source data schemas
-CREATE SCHEMA IF NOT EXISTS boundaries;
+-- CREATE SCHEMA IF NOT EXISTS boundaries;
 CREATE SCHEMA IF NOT EXISTS census;
 CREATE SCHEMA IF NOT EXISTS dsra;
 CREATE SCHEMA IF NOT EXISTS exposure;
