@@ -25,6 +25,43 @@ KIBANA_ENDPOINT=$9
 DSRA_REPOSITORY=https://github.com/OpenDRR/scenario-catalogue/tree/master/FINISHED
 
 ############################################################################################
+#######################     Define helper functions                  #######################
+############################################################################################
+
+# run_ogr2ogr creates boundaries schema geometry tables from default geopackages.
+# (Change ogr2ogr PATH / geopackage path if necessary to run.)
+run_ogr2ogr() {
+  if [ "$#" -ne 1 ]; then
+    echo "Error: run_ogr2ogr() requires exactly one argument, but $# was given."
+    exit 1
+  fi
+  local id="$1"
+
+  local srs_def="EPSG:4326"
+  local dst_datasource_name=PG:"host='$POSTGRES_HOST' user='$POSTGRES_USER' dbname='$DB_NAME' password='$POSTGRES_PASS'"
+  local src_datasource_name="boundaries/Geometry_$id.gpkg"
+  local nln="boundaries.Geometry_$id"
+
+  ogr2ogr -t_srs "$srs_def" \
+	  -f PostgreSQL \
+	  "$dst_datasource_name" \
+	  "$src_datasource_name" \
+	  -lco LAUNDER=NO \
+	  -nln "$nln"
+}
+
+# run_psql runs PostgreSQL queries from a given input SQL file.
+run_psql() {
+  if [ "$#" -ne 1 ]; then
+    echo "Error: run_psql() requires exactly one argument, but $# was given."
+    exit 1
+  fi
+  local input_file="$1"
+
+  psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" -a -f "$input_file"
+}
+
+############################################################################################
 #######################     Begin main processes                     #######################
 ############################################################################################
 
@@ -62,18 +99,12 @@ cp model-factory/scripts/*.* .
 ############################################################################################
 
 echo -e "\n Importing Census Boundaries"
-# Create boundaries schema geometry tables from default geopackages.  Change ogr2ogr PATH / geopackage path if nessessary to run.
-ogr2ogr -f "PostgreSQL" PG:"host=${POSTGRES_HOST} user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_ADAUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_ADAUID" -lco LAUNDER=NO
-ogr2ogr -f "PostgreSQL" PG:"host=${POSTGRES_HOST} user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CANADA.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_CANADA" -lco LAUNDER=NO
-ogr2ogr -f "PostgreSQL" PG:"host=${POSTGRES_HOST} user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CDUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_CDUID" -lco LAUNDER=NO
-ogr2ogr -f "PostgreSQL" PG:"host=${POSTGRES_HOST} user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_CSDUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_CSDUID" -lco LAUNDER=NO
-ogr2ogr -f "PostgreSQL" PG:"host=${POSTGRES_HOST} user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_DAUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_DAUID" -lco LAUNDER=NO
-ogr2ogr -f "PostgreSQL" PG:"host=${POSTGRES_HOST} user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_ERUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_ERUID" -lco LAUNDER=NO
-ogr2ogr -f "PostgreSQL" PG:"host=${POSTGRES_HOST} user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_FSAUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_FSAUID" -lco LAUNDER=NO
-ogr2ogr -f "PostgreSQL" PG:"host=${POSTGRES_HOST} user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_PRUID.gpkg" -t_srs "epsg:4326" -nln boundaries."Geometry_PRUID" -lco LAUNDER=NO
-ogr2ogr -f "PostgreSQL" PG:"host=${POSTGRES_HOST} user=${POSTGRES_USER} dbname=${DB_NAME} password=${POSTGRES_PASS}" "boundaries/Geometry_SAUID.gpkg" -t_srs "EPSG:4326" -nln boundaries."Geometry_SAUID" -lco LAUNDER=NO
+# Create boundaries schema geometry tables from default geopackages.
+for i in ADAUID CANADA CDUID CSDUID DAUID ERUID FSAUID PRUID SAUID; do
+  run_ogr2ogr "$i"
+done
 #rm -rf boundaries
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Update_boundaries_SAUID_table.sql
+run_psql Update_boundaries_SAUID_table.sql
 
 # Physical Exposure
 echo -e "\n Importing Physical Exposure Model into PostGIS"
@@ -84,7 +115,7 @@ curl -H "Authorization: token ${GITHUB_TOKEN}" \
 DOWNLOAD_URL=`grep -o '"download_url": *.*' BldgExpRef_CA_master_v3p1.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
 curl -o BldgExpRef_CA_master_v3p1.csv \
   -L $DOWNLOAD_URL
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_canada_exposure.sql
+run_psql Create_table_canada_exposure.sql
 
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -o PhysExpRef_MetroVan_v4.csv \
@@ -93,7 +124,7 @@ curl -H "Authorization: token ${GITHUB_TOKEN}" \
 DOWNLOAD_URL=`grep -o '"download_url": *.*' PhysExpRef_MetroVan_v4.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
 curl -o PhysExpRef_MetroVan_v4.csv \
   -L $DOWNLOAD_URL
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_canada_site_exposure_ste.sql
+run_psql Create_table_canada_site_exposure_ste.sql
 
 # VS30
 echo -e "\n Importing VS30 Model into PostGIS..."
@@ -111,8 +142,8 @@ DOWNLOAD_URL=`grep -o '"download_url": *.*' site-vgrid_CA.csv | cut -f2- -d: | t
 curl -o site-vgrid_CA.csv \
   -L $DOWNLOAD_URL
 
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_CAN_site_model.sql
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_CAN_site_model_xref.sql
+run_psql Create_table_vs_30_CAN_site_model.sql
+run_psql Create_table_vs_30_CAN_site_model_xref.sql
 
 # Census Data
 echo -e "\n Importing Census Data"
@@ -122,7 +153,7 @@ curl -H "Authorization: token ${GITHUB_TOKEN}" \
 DOWNLOAD_URL=`grep -o '"download_url": *.*' census-attributes-2016.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
 curl -o census-attributes-2016.csv \
   -L $DOWNLOAD_URL
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_2016_census_v3.sql
+run_psql Create_table_2016_census_v3.sql
 
 
 echo -e "\n Importing Sovi"
@@ -141,9 +172,9 @@ DOWNLOAD_URL=`grep -o '"download_url": *.*' social-vulnerability-index.csv | cut
 curl -o social-vulnerability-index.csv \
   -L $DOWNLOAD_URL
 
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_sovi_index_canada_v2.sql
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_sovi_census_canada.sql
-#psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_sovi_thresholds.sql
+run_psql Create_table_sovi_index_canada_v2.sql
+run_psql Create_table_sovi_census_canada.sql
+#run_psql Create_table_sovi_thresholds.sql
 
 echo -e "\n Importing LUTs"
 # Collapse Probability
@@ -153,7 +184,7 @@ curl -H "Authorization: token ${GITHUB_TOKEN}" \
 DOWNLOAD_URL=`grep -o '"download_url": *.*' collapse_probability.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
 curl -o collapse_probability.csv \
   -L $DOWNLOAD_URL
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_collapse_probability_table.sql
+run_psql Create_collapse_probability_table.sql
 
 # Retrofit Costs
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
@@ -162,7 +193,7 @@ curl -H "Authorization: token ${GITHUB_TOKEN}" \
 DOWNLOAD_URL=`grep -o '"download_url": *.*' retrofit_costs.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
 curl -o retrofit_costs.csv \
   -L $DOWNLOAD_URL
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_retrofit_costs_table.sql
+run_psql Create_retrofit_costs_table.sql
 
 echo -e "\n Importing GHSL"
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
@@ -171,7 +202,7 @@ curl -H "Authorization: token ${GITHUB_TOKEN}" \
 DOWNLOAD_URL=`grep -o '"download_url": *.*' mh-intensity-ghsl.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
 curl -o mh-intensity-ghsl.csv \
   -L $DOWNLOAD_URL
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_GHSL.sql
+run_psql Create_table_GHSL.sql
 
 echo -e "\n Importing MH Intensity"
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
@@ -180,8 +211,8 @@ curl -H "Authorization: token ${GITHUB_TOKEN}" \
 DOWNLOAD_URL=`grep -o '"download_url": *.*' mh-intensity-sauid.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
 curl -o mh-intensity-sauid.csv \
   -L $DOWNLOAD_URL
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_mh_intensity_canada_v2.sql
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_mh_thresholds.sql
+run_psql Create_table_mh_intensity_canada_v2.sql
+run_psql Create_table_mh_thresholds.sql
 
 # Use python to run \copy from a system call
 python3 copyAncillaryTables.py
@@ -189,19 +220,19 @@ python3 copyAncillaryTables.py
 
 
 # Perform update operations on all tables after data copied into tables
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_all_tables_update.sql
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_site_exposure_to_building_and_sauid.sql
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_vs_30_BC_CAN_model_update_site_exposure.sql
+run_psql Create_all_tables_update.sql
+run_psql Create_site_exposure_to_building_and_sauid.sql
+run_psql Create_table_vs_30_BC_CAN_model_update_site_exposure.sql
 
 echo -e "\n Generate Indicators"
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_physical_exposure_building_indicators_PhysicalExposure.sql
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_physical_exposure_sauid_indicators_view_PhysicalExposure.sql
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_physical_exposure_building_indicators_PhysicalExposure_ste.sql
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_physical_exposure_sauid_indicators_view_PhysicalExposure_ste.sql
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_physical_exposure_site_level_indicators_PhysicalExposure_ste.sql
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_risk_dynamics_indicators.sql
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_social_vulnerability_sauid_indicators_SocialFabric.sql
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_MH_risk_sauid_ALL.sql
+run_psql Create_physical_exposure_building_indicators_PhysicalExposure.sql
+run_psql Create_physical_exposure_sauid_indicators_view_PhysicalExposure.sql
+run_psql Create_physical_exposure_building_indicators_PhysicalExposure_ste.sql
+run_psql Create_physical_exposure_sauid_indicators_view_PhysicalExposure_ste.sql
+run_psql Create_physical_exposure_site_level_indicators_PhysicalExposure_ste.sql
+run_psql Create_risk_dynamics_indicators.sql
+run_psql Create_social_vulnerability_sauid_indicators_SocialFabric.sql
+run_psql Create_MH_risk_sauid_ALL.sql
 
 
 
@@ -421,7 +452,7 @@ do
 done
 
 # PSRA_0
-psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_0.create_psra_schema.sql
+run_psql psra_0.create_psra_schema.sql
 
 # PSRA_1-8
 for PT in ${PT_LIST[@]}
