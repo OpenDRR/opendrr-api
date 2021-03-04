@@ -136,7 +136,10 @@ resources:\n\n"""
 
     id_field = "AssetID"
 
-    for index in es.indices.get('*'):
+    indices = es.indices.get('*')
+    indices = sorted(indices)
+
+    for index in indices:
         if (index[0] == '.'):
             continue
 
