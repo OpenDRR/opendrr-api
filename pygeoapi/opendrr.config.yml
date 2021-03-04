@@ -31,62 +31,69 @@ server:
     bind:
         host: 0.0.0.0
         port: 5000
-    url: http://localhost:5000/
+    url: http://localhost:5000
     mimetype: application/json; charset=UTF-8
     encoding: utf-8
     language: en-US
-    cors: true
+    # cors: true
     pretty_print: true
     limit: 10
-    # templates: /path/to/templates
+    # templates:
+      # path: /path/to/Jinja2/templates
+      # static: /path/to/static/folder # css/js/img
     map:
-        url: https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png
-        attribution: '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia maps</a> | Map data &copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+        url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ'
+#    manager:
+#        name: TinyDB
+#        connection: /tmp/pygeoapi-process-manager.db
+#        output_dir: /tmp/
     # ogc_schemas_location: /opt/schemas.opengis.net
 
 logging:
     level: ERROR
-    #logfile: /tmp/pygeoapi.log
+    # logfile: /tmp/pygeoapi.log
 
 metadata:
     identification:
-        title: OpenDRR Geospatial API
-        description: Geospatial API for Open Disaster Risk Reduction data
+        title: OpenDRR Web Feature Service
+        description: Developer API for geospatial data provided by the OpenDRR platform.
         keywords:
-            - geospatial
-            - data
-            - api
-            - earthquakes
+            - land management
+            - sustainable development
+            - planning
+            - natural disasters
         keywords_type: theme
-        terms_of_service: null
-        url: https://github.com/OpenDRR
+        terms_of_service: http://open.canada.ca/en/open-government-licence-canada/
+        url: https://opendrr.github.io/
     license:
-        name: CC-BY 4.0 license
-        url: https://creativecommons.org/licenses/by/4.0/
+        name: Open Government Licence - Canada
+        url: http://open.canada.ca/en/open-government-licence-canada/
     provider:
-        name: Geological Survey of Canada
-        url: https://www.nrcan.gc.ca/science-data/research-centres-labs/geological-survey-canada/17100
+        name: Government of Canada; Natural Resources Canada; Lands and Minerals Sector, Geological Survey of Canada
+        url: https://www.nrcan.gc.ca/
     contact:
         name: Hastings, Nicky
-        position: Project Lead
-        address: 1500-605 Robson Street
+        position: Project Manager
+        address: 1500 - 605 Robson Street
         city: Vancouver
         stateorprovince: British Columbia
         postalcode: V6B 5J3
         country: Canada
-        phone: +01-604-666-3955
+        phone: +01-604-666-0529
         fax: +01-604-666-1124
         email: nicky.hastings@canada.ca
-        url: Contact URL
+        url: https://www.nrcan.gc.ca/
         hours: Mo-Fr 08:30-16:30
         instructions: During hours of service. Off on weekends.
         role: pointOfContact
 
 resources:
-    afm7p2_lrdmf_economic_loss_building:
+
+    dsra_acm6p5_beaufort_all_indicators_b:
         type: collection
-        title: Economic loss (Magnitude 7.2)
-        description: Economic consequences aggregated at building level
+        title: dsra_acm6p5_beaufort_all_indicators_b
+        description: dsra_acm6p5_beaufort_all_indicators_b
         keywords:
             - earthquake
         links:
@@ -97,7 +104,7 @@ resources:
               hreflang: en-US
         extents:
             spatial:
-                bbox: [-180,-90,180,90]
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
                 crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
             temporal:
                 begin: 2020-08-06
@@ -105,13 +112,13 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_economic_loss_building
+              data: http://elasticsearch-opendrr:9200/dsra_acm6p5_beaufort_all_indicators_b
               id_field: AssetID
 
-    afm7p2_lrdmf_damage_state_building:
+    dsra_acm6p5_beaufort_all_indicators_s:
         type: collection
-        title: Damage state (Magnitude 7.2)
-        description: Damage state aggregated at building level
+        title: dsra_acm6p5_beaufort_all_indicators_s
+        description: dsra_acm6p5_beaufort_all_indicators_s
         keywords:
             - earthquake
         links:
@@ -122,7 +129,7 @@ resources:
               hreflang: en-US
         extents:
             spatial:
-                bbox: [-180,-90,180,90]
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
                 crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
             temporal:
                 begin: 2020-08-06
@@ -130,138 +137,13 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_damage_state_building
-              id_field: AssetID
-
-    afm7p2_lrdmf_social_disruption_building:
-        type: collection
-        title: Social disruption (Magnitude 7.2)
-        description: Social disruption aggregated at building level
-        keywords:
-            - earthquake
-        links:
-            - type: text/html
-              rel: canonical
-              title: information
-              href: http://www.riskprofiler.ca/
-              hreflang: en-US
-        extents:
-            spatial:
-                bbox: [-180,-90,180,90]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2020-08-06
-                end: null  # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_social_disruption_building
-              id_field: AssetID
-
-    afm7p2_lrdmf_recovery_time_building:
-        type: collection
-        title: Recovery time (Magnitude 7.2)
-        description: Recovery time aggregated at building level
-        keywords:
-            - earthquake
-        links:
-            - type: text/html
-              rel: canonical
-              title: information
-              href: http://www.riskprofiler.ca/
-              hreflang: en-US
-        extents:
-            spatial:
-                bbox: [-180,-90,180,90]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2020-08-06
-                end: null  # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_recovery_time_building
-              id_field: AssetID
-
-    afm7p2_lrdmf_scenario_shakemap_intensity_building:
-        type: collection
-        title: Scenario shakemap intensity (Magnitude 7.2)
-        description: Scenario shakemap intensity aggregated at building level
-        keywords:
-            - earthquake
-        links:
-            - type: text/html
-              rel: canonical
-              title: information
-              href: http://www.riskprofiler.ca/
-              hreflang: en-US
-        extents:
-            spatial:
-                bbox: [-180,-90,180,90]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2020-08-06
-                end: null  # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building
-              id_field: AssetID
-
-    afm7p2_lrdmf_casualties_building:
-        type: collection
-        title: Casualties (Magnitude 7.2)
-        description: Casualties aggregated at building level
-        keywords:
-            - earthquake
-        links:
-            - type: text/html
-              rel: canonical
-              title: information
-              href: http://www.riskprofiler.ca/
-              hreflang: en-US
-        extents:
-            spatial:
-                bbox: [-180,-90,180,90]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2020-08-06
-                end: null  # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_casualties_building
-              id_field: AssetID
-
-    afm7p2_lrdmf_economic_loss_sauid:
-        type: collection
-        title: Economic loss (Magnitude 7.2)
-        description: Economic consequences aggregated at SAUID level
-        keywords:
-            - earthquake
-        links:
-            - type: text/html
-              rel: canonical
-              title: information
-              href: http://www.riskprofiler.ca/
-              hreflang: en-US
-        extents:
-            spatial:
-                bbox: [-180,-90,180,90]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2020-08-06
-                end: null  # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_economic_loss_sauid
+              data: http://elasticsearch-opendrr:9200/dsra_acm6p5_beaufort_all_indicators_s
               id_field: Sauid
 
-    afm7p2_lrdmf_damage_state_sauid:
+    dsra_acm7p2_lrdmf_all_indicators_b:
         type: collection
-        title: Damage state (Magnitude 7.2)
-        description: Damage state aggregated at SAUID level
+        title: dsra_acm7p2_lrdmf_all_indicators_b
+        description: dsra_acm7p2_lrdmf_all_indicators_b
         keywords:
             - earthquake
         links:
@@ -272,7 +154,7 @@ resources:
               hreflang: en-US
         extents:
             spatial:
-                bbox: [-180,-90,180,90]
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
                 crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
             temporal:
                 begin: 2020-08-06
@@ -280,13 +162,13 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_damage_state_sauid
+              data: http://elasticsearch-opendrr:9200/dsra_acm7p2_lrdmf_all_indicators_b
               id_field: Sauid
 
-    afm7p2_lrdmf_social_disruption_sauid:
+    dsra_acm7p2_lrdmf_all_indicators_s:
         type: collection
-        title: Social disruption (Magnitude 7.2)
-        description: Social disruption aggregated at SAUID level
+        title: dsra_acm7p2_lrdmf_all_indicators_s
+        description: dsra_acm7p2_lrdmf_all_indicators_s
         keywords:
             - earthquake
         links:
@@ -297,7 +179,7 @@ resources:
               hreflang: en-US
         extents:
             spatial:
-                bbox: [-180,-90,180,90]
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
                 crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
             temporal:
                 begin: 2020-08-06
@@ -305,13 +187,13 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_social_disruption_sauid
+              data: http://elasticsearch-opendrr:9200/dsra_acm7p2_lrdmf_all_indicators_s
               id_field: Sauid
 
-    afm7p2_lrdmf_recovery_time_sauid:
+    dsra_idm4p7_sidney_all_indicators_b:
         type: collection
-        title: Recovery time (Magnitude 7.2)
-        description: Recovery time aggregated at SAUID level
+        title: dsra_idm4p7_sidney_all_indicators_b
+        description: dsra_idm4p7_sidney_all_indicators_b
         keywords:
             - earthquake
         links:
@@ -322,7 +204,7 @@ resources:
               hreflang: en-US
         extents:
             spatial:
-                bbox: [-180,-90,180,90]
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
                 crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
             temporal:
                 begin: 2020-08-06
@@ -330,13 +212,13 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_recovery_time_sauid
+              data: http://elasticsearch-opendrr:9200/dsra_idm4p7_sidney_all_indicators_b
               id_field: Sauid
 
-    afm7p2_lrdmf_scenario_shakemap_intensity_sauid:
-        type: collection (Magnitude 7.2)
-        title: Scenario shakemap intensity
-        description: Scenario shakemap intensity aggregated at SAUID level
+    dsra_idm4p7_sidney_all_indicators_s:
+        type: collection
+        title: dsra_idm4p7_sidney_all_indicators_s
+        description: dsra_idm4p7_sidney_all_indicators_s
         keywords:
             - earthquake
         links:
@@ -347,7 +229,7 @@ resources:
               hreflang: en-US
         extents:
             spatial:
-                bbox: [-180,-90,180,90]
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
                 crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
             temporal:
                 begin: 2020-08-06
@@ -355,13 +237,13 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_scenario_shakemap_intensity_sauid
+              data: http://elasticsearch-opendrr:9200/dsra_idm4p7_sidney_all_indicators_s
               id_field: Sauid
 
-    afm7p2_lrdmf_casualties_sauid:
+    dsra_idm4p8_sidney_all_indicators_b:
         type: collection
-        title: Casualties (Magnitude 7.2)
-        description: Casualties aggregated at SAUID level
+        title: dsra_idm4p8_sidney_all_indicators_b
+        description: dsra_idm4p8_sidney_all_indicators_b
         keywords:
             - earthquake
         links:
@@ -372,7 +254,7 @@ resources:
               hreflang: en-US
         extents:
             spatial:
-                bbox: [-180,-90,180,90]
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
                 crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
             temporal:
                 begin: 2020-08-06
@@ -380,13 +262,13 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/afm7p2_lrdmf_casualties_sauid
+              data: http://elasticsearch-opendrr:9200/dsra_idm4p8_sidney_all_indicators_b
               id_field: Sauid
 
-    sim9p0_cascadiaair_economic_loss_building:
+    dsra_idm4p8_sidney_all_indicators_s:
         type: collection
-        title: Economic loss (Magnitude 9.0)
-        description: Economic consequences aggregated at building level
+        title: dsra_idm4p8_sidney_all_indicators_s
+        description: dsra_idm4p8_sidney_all_indicators_s
         keywords:
             - earthquake
         links:
@@ -397,7 +279,7 @@ resources:
               hreflang: en-US
         extents:
             spatial:
-                bbox: [-180,-90,180,90]
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
                 crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
             temporal:
                 begin: 2020-08-06
@@ -405,163 +287,13 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_economic_loss_building
-              id_field: AssetID
-
-    sim9p0_cascadiaair_damage_state_building:
-        type: collection
-        title: Damage state (Magnitude 9.0)
-        description: Damage state aggregated at building level
-        keywords:
-            - earthquake
-        links:
-            - type: text/html
-              rel: canonical
-              title: information
-              href: http://www.riskprofiler.ca/
-              hreflang: en-US
-        extents:
-            spatial:
-                bbox: [-180,-90,180,90]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2020-08-06
-                end: null  # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_damage_state_building
-              id_field: AssetID
-
-    sim9p0_cascadiaair_social_disruption_building:
-        type: collection
-        title: Social disruption (Magnitude 9.0)
-        description: Social disruption aggregated at building level
-        keywords:
-            - earthquake
-        links:
-            - type: text/html
-              rel: canonical
-              title: information
-              href: http://www.riskprofiler.ca/
-              hreflang: en-US
-        extents:
-            spatial:
-                bbox: [-180,-90,180,90]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2020-08-06
-                end: null  # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_social_disruption_building
-              id_field: AssetID
-
-    sim9p0_cascadiaair_recovery_time_building:
-        type: collection
-        title: Recovery time (Magnitude 9.0)
-        description: Recovery time aggregated at building level
-        keywords:
-            - earthquake
-        links:
-            - type: text/html
-              rel: canonical
-              title: information
-              href: http://www.riskprofiler.ca/
-              hreflang: en-US
-        extents:
-            spatial:
-                bbox: [-180,-90,180,90]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2020-08-06
-                end: null  # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_recovery_time_building
-              id_field: AssetID
-
-    sim9p0_cascadiaair_scenario_shakemap_intensity_building:
-        type: collection
-        title: Scenario shakemap intensity (Magnitude 9.0)
-        description: Scenario shakemap intensity aggregated at building level
-        keywords:
-            - earthquake
-        links:
-            - type: text/html
-              rel: canonical
-              title: information
-              href: http://www.riskprofiler.ca/
-              hreflang: en-US
-        extents:
-            spatial:
-                bbox: [-180,-90,180,90]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2020-08-06
-                end: null  # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_scenario_shakemap_intensity_building
-              id_field: AssetID
-
-    sim9p0_cascadiaair_casualties_building:
-        type: collection
-        title: Casualties (Magnitude 9.0)
-        description: Casualties aggregated at building level
-        keywords:
-            - earthquake
-        links:
-            - type: text/html
-              rel: canonical
-              title: information
-              href: http://www.riskprofiler.ca/
-              hreflang: en-US
-        extents:
-            spatial:
-                bbox: [-180,-90,180,90]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2020-08-06
-                end: null  # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_casualties_building
-              id_field: AssetID
-
-    sim9p0_cascadiaair_economic_loss_sauid:
-        type: collection
-        title: Economic loss (Magnitude 9.0)
-        description: Economic consequences aggregated at SAUID level
-        keywords:
-            - earthquake
-        links:
-            - type: text/html
-              rel: canonical
-              title: information
-              href: http://www.riskprofiler.ca/
-              hreflang: en-US
-        extents:
-            spatial:
-                bbox: [-180,-90,180,90]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2020-08-06
-                end: null  # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_economic_loss_sauid
+              data: http://elasticsearch-opendrr:9200/dsra_idm4p8_sidney_all_indicators_s
               id_field: Sauid
 
-    sim9p0_cascadiaair_damage_state_sauid:
+    dsra_idm5p0_sidney_all_indicators_b:
         type: collection
-        title: Damage state (Magnitude 9.0)
-        description: Damage state aggregated at SAUID level
+        title: dsra_idm5p0_sidney_all_indicators_b
+        description: dsra_idm5p0_sidney_all_indicators_b
         keywords:
             - earthquake
         links:
@@ -572,7 +304,7 @@ resources:
               hreflang: en-US
         extents:
             spatial:
-                bbox: [-180,-90,180,90]
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
                 crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
             temporal:
                 begin: 2020-08-06
@@ -580,13 +312,13 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_damage_state_sauid
+              data: http://elasticsearch-opendrr:9200/dsra_idm5p0_sidney_all_indicators_b
               id_field: Sauid
 
-    sim9p0_cascadiaair_social_disruption_sauid:
+    dsra_idm5p0_sidney_all_indicators_s:
         type: collection
-        title: Social disruption (Magnitude 9.0)
-        description: Social disruption aggregated at SAUID level
+        title: dsra_idm5p0_sidney_all_indicators_s
+        description: dsra_idm5p0_sidney_all_indicators_s
         keywords:
             - earthquake
         links:
@@ -597,7 +329,7 @@ resources:
               hreflang: en-US
         extents:
             spatial:
-                bbox: [-180,-90,180,90]
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
                 crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
             temporal:
                 begin: 2020-08-06
@@ -605,13 +337,13 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_social_disruption_sauid
+              data: http://elasticsearch-opendrr:9200/dsra_idm5p0_sidney_all_indicators_s
               id_field: Sauid
 
-    sim9p0_cascadiaair_recovery_time_sauid:
+    dsra_idm5p2_sidney_all_indicators_b:
         type: collection
-        title: Recovery time (Magnitude 9.0)
-        description: Recovery time aggregated at SAUID level
+        title: dsra_idm5p2_sidney_all_indicators_b
+        description: dsra_idm5p2_sidney_all_indicators_b
         keywords:
             - earthquake
         links:
@@ -622,7 +354,7 @@ resources:
               hreflang: en-US
         extents:
             spatial:
-                bbox: [-180,-90,180,90]
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
                 crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
             temporal:
                 begin: 2020-08-06
@@ -630,13 +362,13 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_recovery_time_sauid
+              data: http://elasticsearch-opendrr:9200/dsra_idm5p2_sidney_all_indicators_b
               id_field: Sauid
 
-    sim9p0_cascadiaair_scenario_shakemap_intensity_sauid:
+    dsra_idm5p2_sidney_all_indicators_s:
         type: collection
-        title: Scenario shakemap intensity (Magnitude 9.0)
-        description: Scenario shakemap intensity aggregated at SAUID level
+        title: dsra_idm5p2_sidney_all_indicators_s
+        description: dsra_idm5p2_sidney_all_indicators_s
         keywords:
             - earthquake
         links:
@@ -647,7 +379,7 @@ resources:
               hreflang: en-US
         extents:
             spatial:
-                bbox: [-180,-90,180,90]
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
                 crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
             temporal:
                 begin: 2020-08-06
@@ -655,13 +387,13 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_scenario_shakemap_intensity_sauid
+              data: http://elasticsearch-opendrr:9200/dsra_idm5p2_sidney_all_indicators_s
               id_field: Sauid
 
-    sim9p0_cascadiaair_casualties_sauid:
+    dsra_idm5p4_sidney_all_indicators_b:
         type: collection
-        title: Casualties (Magnitude 9.0)
-        description: Casualties aggregated at SAUID level
+        title: dsra_idm5p4_sidney_all_indicators_b
+        description: dsra_idm5p4_sidney_all_indicators_b
         keywords:
             - earthquake
         links:
@@ -672,7 +404,7 @@ resources:
               hreflang: en-US
         extents:
             spatial:
-                bbox: [-180,-90,180,90]
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
                 crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
             temporal:
                 begin: 2020-08-06
@@ -680,5 +412,1531 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: http://elasticsearch-opendrr:9200/sim9p0_cascadiaair_casualties_sauid
+              data: http://elasticsearch-opendrr:9200/dsra_idm5p4_sidney_all_indicators_b
               id_field: Sauid
+
+    dsra_idm5p4_sidney_all_indicators_s:
+        type: collection
+        title: dsra_idm5p4_sidney_all_indicators_s
+        description: dsra_idm5p4_sidney_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm5p4_sidney_all_indicators_s
+              id_field: Sauid
+
+    dsra_idm5p6_sidney_all_indicators_b:
+        type: collection
+        title: dsra_idm5p6_sidney_all_indicators_b
+        description: dsra_idm5p6_sidney_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm5p6_sidney_all_indicators_b
+              id_field: Sauid
+
+    dsra_idm5p6_sidney_all_indicators_s:
+        type: collection
+        title: dsra_idm5p6_sidney_all_indicators_s
+        description: dsra_idm5p6_sidney_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm5p6_sidney_all_indicators_s
+              id_field: Sauid
+
+    dsra_idm5p8_sidney_all_indicators_b:
+        type: collection
+        title: dsra_idm5p8_sidney_all_indicators_b
+        description: dsra_idm5p8_sidney_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm5p8_sidney_all_indicators_b
+              id_field: Sauid
+
+    dsra_idm5p8_sidney_all_indicators_s:
+        type: collection
+        title: dsra_idm5p8_sidney_all_indicators_s
+        description: dsra_idm5p8_sidney_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm5p8_sidney_all_indicators_s
+              id_field: Sauid
+
+    dsra_idm6p0_sidney_all_indicators_b:
+        type: collection
+        title: dsra_idm6p0_sidney_all_indicators_b
+        description: dsra_idm6p0_sidney_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm6p0_sidney_all_indicators_b
+              id_field: Sauid
+
+    dsra_idm6p0_sidney_all_indicators_s:
+        type: collection
+        title: dsra_idm6p0_sidney_all_indicators_s
+        description: dsra_idm6p0_sidney_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm6p0_sidney_all_indicators_s
+              id_field: Sauid
+
+    dsra_idm6p2_sidney_all_indicators_b:
+        type: collection
+        title: dsra_idm6p2_sidney_all_indicators_b
+        description: dsra_idm6p2_sidney_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm6p2_sidney_all_indicators_b
+              id_field: Sauid
+
+    dsra_idm6p2_sidney_all_indicators_s:
+        type: collection
+        title: dsra_idm6p2_sidney_all_indicators_s
+        description: dsra_idm6p2_sidney_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm6p2_sidney_all_indicators_s
+              id_field: Sauid
+
+    dsra_idm6p4_sidney_all_indicators_b:
+        type: collection
+        title: dsra_idm6p4_sidney_all_indicators_b
+        description: dsra_idm6p4_sidney_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm6p4_sidney_all_indicators_b
+              id_field: Sauid
+
+    dsra_idm6p4_sidney_all_indicators_s:
+        type: collection
+        title: dsra_idm6p4_sidney_all_indicators_s
+        description: dsra_idm6p4_sidney_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm6p4_sidney_all_indicators_s
+              id_field: Sauid
+
+    dsra_idm6p6_sidney_all_indicators_b:
+        type: collection
+        title: dsra_idm6p6_sidney_all_indicators_b
+        description: dsra_idm6p6_sidney_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm6p6_sidney_all_indicators_b
+              id_field: Sauid
+
+    dsra_idm6p6_sidney_all_indicators_s:
+        type: collection
+        title: dsra_idm6p6_sidney_all_indicators_s
+        description: dsra_idm6p6_sidney_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm6p6_sidney_all_indicators_s
+              id_field: Sauid
+
+    dsra_idm6p8_jdfpathways_all_indicators_b:
+        type: collection
+        title: dsra_idm6p8_jdfpathways_all_indicators_b
+        description: dsra_idm6p8_jdfpathways_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm6p8_jdfpathways_all_indicators_b
+              id_field: Sauid
+
+    dsra_idm6p8_jdfpathways_all_indicators_s:
+        type: collection
+        title: dsra_idm6p8_jdfpathways_all_indicators_s
+        description: dsra_idm6p8_jdfpathways_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm6p8_jdfpathways_all_indicators_s
+              id_field: Sauid
+
+    dsra_idm6p8_sidney_all_indicators_b:
+        type: collection
+        title: dsra_idm6p8_sidney_all_indicators_b
+        description: dsra_idm6p8_sidney_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm6p8_sidney_all_indicators_b
+              id_field: Sauid
+
+    dsra_idm6p8_sidney_all_indicators_s:
+        type: collection
+        title: dsra_idm6p8_sidney_all_indicators_s
+        description: dsra_idm6p8_sidney_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm6p8_sidney_all_indicators_s
+              id_field: Sauid
+
+    dsra_idm7p0_sidney_all_indicators_b:
+        type: collection
+        title: dsra_idm7p0_sidney_all_indicators_b
+        description: dsra_idm7p0_sidney_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm7p0_sidney_all_indicators_b
+              id_field: Sauid
+
+    dsra_idm7p0_sidney_all_indicators_s:
+        type: collection
+        title: dsra_idm7p0_sidney_all_indicators_s
+        description: dsra_idm7p0_sidney_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm7p0_sidney_all_indicators_s
+              id_field: Sauid
+
+    dsra_idm7p1_sidney_all_indicators_b:
+        type: collection
+        title: dsra_idm7p1_sidney_all_indicators_b
+        description: dsra_idm7p1_sidney_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm7p1_sidney_all_indicators_b
+              id_field: Sauid
+
+    dsra_idm7p1_sidney_all_indicators_s:
+        type: collection
+        title: dsra_idm7p1_sidney_all_indicators_s
+        description: dsra_idm7p1_sidney_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm7p1_sidney_all_indicators_s
+              id_field: Sauid
+
+    dsra_idm7p1_sidneytest_all_indicators_b:
+        type: collection
+        title: dsra_idm7p1_sidneytest_all_indicators_b
+        description: dsra_idm7p1_sidneytest_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm7p1_sidneytest_all_indicators_b
+              id_field: Sauid
+
+    dsra_idm7p1_sidneytest_all_indicators_s:
+        type: collection
+        title: dsra_idm7p1_sidneytest_all_indicators_s
+        description: dsra_idm7p1_sidneytest_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_idm7p1_sidneytest_all_indicators_s
+              id_field: Sauid
+
+    dsra_scm7p0_montrealnw_all_indicators_b:
+        type: collection
+        title: dsra_scm7p0_montrealnw_all_indicators_b
+        description: dsra_scm7p0_montrealnw_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_scm7p0_montrealnw_all_indicators_b
+              id_field: Sauid
+
+    dsra_scm7p0_montrealnw_all_indicators_s:
+        type: collection
+        title: dsra_scm7p0_montrealnw_all_indicators_s
+        description: dsra_scm7p0_montrealnw_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_scm7p0_montrealnw_all_indicators_s
+              id_field: Sauid
+
+    dsra_scm7p0_montrealnwcanshm5_all_indicators_b:
+        type: collection
+        title: dsra_scm7p0_montrealnwcanshm5_all_indicators_b
+        description: dsra_scm7p0_montrealnwcanshm5_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_scm7p0_montrealnwcanshm5_all_indicators_b
+              id_field: Sauid
+
+    dsra_scm7p0_montrealnwcanshm5_all_indicators_s:
+        type: collection
+        title: dsra_scm7p0_montrealnwcanshm5_all_indicators_s
+        description: dsra_scm7p0_montrealnwcanshm5_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_scm7p0_montrealnwcanshm5_all_indicators_s
+              id_field: Sauid
+
+    dsra_sim9p0_cszlockedtrans_all_indicators_b:
+        type: collection
+        title: dsra_sim9p0_cszlockedtrans_all_indicators_b
+        description: dsra_sim9p0_cszlockedtrans_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_sim9p0_cszlockedtrans_all_indicators_b
+              id_field: Sauid
+
+    dsra_sim9p0_cszlockedtrans_all_indicators_s:
+        type: collection
+        title: dsra_sim9p0_cszlockedtrans_all_indicators_s
+        description: dsra_sim9p0_cszlockedtrans_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/dsra_sim9p0_cszlockedtrans_all_indicators_s
+              id_field: Sauid
+
+    nhsl_hazard_threat_all_indicators_s:
+        type: collection
+        title: nhsl_hazard_threat_all_indicators_s
+        description: nhsl_hazard_threat_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/nhsl_hazard_threat_all_indicators_s
+              id_field: Sauid
+
+    nhsl_physical_exposure_all_indicators_b:
+        type: collection
+        title: nhsl_physical_exposure_all_indicators_b
+        description: nhsl_physical_exposure_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/nhsl_physical_exposure_all_indicators_b
+              id_field: Sauid
+
+    nhsl_physical_exposure_all_indicators_s:
+        type: collection
+        title: nhsl_physical_exposure_all_indicators_s
+        description: nhsl_physical_exposure_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/nhsl_physical_exposure_all_indicators_s
+              id_field: Sauid
+
+    nhsl_risk_dynamics_all_indicators:
+        type: collection
+        title: nhsl_risk_dynamics_all_indicators
+        description: nhsl_risk_dynamics_all_indicators
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/nhsl_risk_dynamics_all_indicators
+              id_field: Sauid
+
+    nhsl_risk_dynamics_all_indicators_s:
+        type: collection
+        title: nhsl_risk_dynamics_all_indicators_s
+        description: nhsl_risk_dynamics_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/nhsl_risk_dynamics_all_indicators_s
+              id_field: Sauid
+
+    nhsl_social_fabric_all_indicators_s:
+        type: collection
+        title: nhsl_social_fabric_all_indicators_s
+        description: nhsl_social_fabric_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/nhsl_social_fabric_all_indicators_s
+              id_field: Sauid
+
+    psra_ab_all_indicators_b:
+        type: collection
+        title: psra_ab_all_indicators_b
+        description: psra_ab_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_ab_all_indicators_b
+              id_field: Sauid
+
+    psra_ab_all_indicators_s:
+        type: collection
+        title: psra_ab_all_indicators_s
+        description: psra_ab_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_ab_all_indicators_s
+              id_field: Sauid
+
+    psra_bc_all_indicators_b:
+        type: collection
+        title: psra_bc_all_indicators_b
+        description: psra_bc_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_bc_all_indicators_b
+              id_field: Sauid
+
+    psra_bc_all_indicators_s:
+        type: collection
+        title: psra_bc_all_indicators_s
+        description: psra_bc_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_bc_all_indicators_s
+              id_field: Sauid
+
+    psra_mb_all_indicators_b:
+        type: collection
+        title: psra_mb_all_indicators_b
+        description: psra_mb_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_mb_all_indicators_b
+              id_field: Sauid
+
+    psra_mb_all_indicators_s:
+        type: collection
+        title: psra_mb_all_indicators_s
+        description: psra_mb_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_mb_all_indicators_s
+              id_field: Sauid
+
+    psra_nb_all_indicators_b:
+        type: collection
+        title: psra_nb_all_indicators_b
+        description: psra_nb_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_nb_all_indicators_b
+              id_field: Sauid
+
+    psra_nb_all_indicators_s:
+        type: collection
+        title: psra_nb_all_indicators_s
+        description: psra_nb_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_nb_all_indicators_s
+              id_field: Sauid
+
+    psra_nl_all_indicators_b:
+        type: collection
+        title: psra_nl_all_indicators_b
+        description: psra_nl_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_nl_all_indicators_b
+              id_field: Sauid
+
+    psra_nl_all_indicators_s:
+        type: collection
+        title: psra_nl_all_indicators_s
+        description: psra_nl_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_nl_all_indicators_s
+              id_field: Sauid
+
+    psra_ns_all_indicators_b:
+        type: collection
+        title: psra_ns_all_indicators_b
+        description: psra_ns_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_ns_all_indicators_b
+              id_field: Sauid
+
+    psra_ns_all_indicators_s:
+        type: collection
+        title: psra_ns_all_indicators_s
+        description: psra_ns_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_ns_all_indicators_s
+              id_field: Sauid
+
+    psra_nt_all_indicators_b:
+        type: collection
+        title: psra_nt_all_indicators_b
+        description: psra_nt_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_nt_all_indicators_b
+              id_field: Sauid
+
+    psra_nt_all_indicators_s:
+        type: collection
+        title: psra_nt_all_indicators_s
+        description: psra_nt_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_nt_all_indicators_s
+              id_field: Sauid
+
+    psra_nu_all_indicators_b:
+        type: collection
+        title: psra_nu_all_indicators_b
+        description: psra_nu_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_nu_all_indicators_b
+              id_field: Sauid
+
+    psra_nu_all_indicators_s:
+        type: collection
+        title: psra_nu_all_indicators_s
+        description: psra_nu_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_nu_all_indicators_s
+              id_field: Sauid
+
+    psra_on_all_indicators_b:
+        type: collection
+        title: psra_on_all_indicators_b
+        description: psra_on_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_on_all_indicators_b
+              id_field: Sauid
+
+    psra_on_all_indicators_s:
+        type: collection
+        title: psra_on_all_indicators_s
+        description: psra_on_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_on_all_indicators_s
+              id_field: Sauid
+
+    psra_pe_all_indicators_b:
+        type: collection
+        title: psra_pe_all_indicators_b
+        description: psra_pe_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_pe_all_indicators_b
+              id_field: Sauid
+
+    psra_pe_all_indicators_s:
+        type: collection
+        title: psra_pe_all_indicators_s
+        description: psra_pe_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_pe_all_indicators_s
+              id_field: Sauid
+
+    psra_qc_all_indicators_b:
+        type: collection
+        title: psra_qc_all_indicators_b
+        description: psra_qc_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_qc_all_indicators_b
+              id_field: Sauid
+
+    psra_qc_all_indicators_s:
+        type: collection
+        title: psra_qc_all_indicators_s
+        description: psra_qc_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_qc_all_indicators_s
+              id_field: Sauid
+
+    psra_sk_all_indicators_b:
+        type: collection
+        title: psra_sk_all_indicators_b
+        description: psra_sk_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_sk_all_indicators_b
+              id_field: Sauid
+
+    psra_sk_all_indicators_s:
+        type: collection
+        title: psra_sk_all_indicators_s
+        description: psra_sk_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_sk_all_indicators_s
+              id_field: Sauid
+
+    psra_yt_all_indicators_b:
+        type: collection
+        title: psra_yt_all_indicators_b
+        description: psra_yt_all_indicators_b
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_yt_all_indicators_b
+              id_field: Sauid
+
+    psra_yt_all_indicators_s:
+        type: collection
+        title: psra_yt_all_indicators_s
+        description: psra_yt_all_indicators_s
+        keywords:
+            - earthquake
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: http://elasticsearch-opendrr:9200/psra_yt_all_indicators_s
+              id_field: Sauid
+
