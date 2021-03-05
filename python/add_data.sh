@@ -66,7 +66,7 @@ run_psql() {
 ############################################################################################
 
 # Read GitHub token from config.ini
-GITHUB_TOKEN=`grep -o 'github_token = *.*' config.ini | cut -f2- -d=`
+GITHUB_TOKEN=$(sed -n -e 's/github_token *= *\([0-9A-Fa-f]\+\)/\1/p' config.ini)
 
 status_code=$(curl --write-out %{http_code} --silent --output /dev/null -H "Authorization: token ${GITHUB_TOKEN}" \
   -O \
