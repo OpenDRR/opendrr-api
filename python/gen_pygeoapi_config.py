@@ -60,48 +60,47 @@ server:
     map:
         url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ'
-        # url: https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png
-        # attribution: '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia maps</a> | Map data &copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
 #    manager:
 #        name: TinyDB
 #        connection: /tmp/pygeoapi-process-manager.db
 #        output_dir: /tmp/
     # ogc_schemas_location: /opt/schemas.opengis.net
 
-# logging:
+logging:
     level: ERROR
-    logfile: /tmp/pygeoapi.log
+    # logfile: /tmp/pygeoapi.log
 
 metadata:
     identification:
-        title: pygeoapi default instance
-        description: pygeoapi provides an API to geospatial data
+        title: OpenDRR Web Feature Service
+        description: Developer API for geospatial data provided by the OpenDRR platform.
         keywords:
-            - geospatial
-            - data
-            - api
+            - land management
+            - sustainable development
+            - planning
+            - natural disasters
         keywords_type: theme
-        terms_of_service: https://creativecommons.org/licenses/by/4.0/
-        url: http://example.org
+        terms_of_service: http://open.canada.ca/en/open-government-licence-canada/
+        url: https://opendrr.github.io/
     license:
-        name: CC-BY 4.0 license
-        url: https://creativecommons.org/licenses/by/4.0/
+        name: Open Government Licence - Canada
+        url: http://open.canada.ca/en/open-government-licence-canada/
     provider:
-        name: Organization Name
-        url: https://pygeoapi.io
+        name: Government of Canada; Natural Resources Canada; Lands and Minerals Sector, Geological Survey of Canada
+        url: https://www.nrcan.gc.ca/
     contact:
-        name: Lastname, Firstname
-        position: Position Title
-        address: Mailing Address
-        city: City
-        stateorprovince: Administrative Area
-        postalcode: Zip or Postal Code
-        country: Country
-        phone: +xx-xxx-xxx-xxxx
-        fax: +xx-xxx-xxx-xxxx
-        email: you@example.org
-        url: Contact URL
-        hours: Mo-Fr 08:00-17:00
+        name: Hastings, Nicky
+        position: Project Manager
+        address: 1500 - 605 Robson Street
+        city: Vancouver
+        stateorprovince: British Columbia
+        postalcode: V6B 5J3
+        country: Canada
+        phone: +01-604-666-0529
+        fax: +01-604-666-1124
+        email: nicky.hastings@canada.ca
+        url: https://www.nrcan.gc.ca/
+        hours: Mo-Fr 08:30-16:30
         instructions: During hours of service. Off on weekends.
         role: pointOfContact
 
@@ -121,7 +120,7 @@ resources:\n\n"""
               hreflang: en-US
         extents:
             spatial:
-                bbox: [-180,-90,180,90]
+                bbox: [-141.003,41.6755,-52.6174,83.1139]
                 crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
             temporal:
                 begin: 2020-08-06
@@ -132,7 +131,7 @@ resources:\n\n"""
               data: """ + auth.get('es', 'es_endpoint') + """/{3}
               id_field: {4}"""
 
-    text_file = open("pygeoapi_config.txt", "w")
+    text_file = open("../pygeoapi/opendrr.config.yml", "w")
 
     id_field = "AssetID"
 
