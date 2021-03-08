@@ -17,6 +17,12 @@ docker build -t temp_image --no-cache .
 echo 'Starting the container...'
 docker run -d --name temp_container -p 5000:80 temp_image
 
+# make sure Elasticsearch is ready prior to creating indexes
+until $(curl -sSf -XGET --insecure 'http://localhost:5000' > /dev/null); do
+    printf 'pygeoapi not ready yet, trying again in 10 seconds \n'
+    sleep 10
+done
+
 # copy the openapi specfication document
 echo 'Copying the openapi configuration file...'
 docker cp temp_container:/pygeoapi/local.openapi.yml opendrr.openapi.yml
