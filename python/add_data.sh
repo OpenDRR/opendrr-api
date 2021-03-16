@@ -421,6 +421,8 @@ python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_4.Create_psra_saui
 python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_5.Create_psra_sauid_references_indicators.sql"
 done
 
+psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f psra_6.Create_psra_merge_into_national_indicators.sql
+
 ############################################################################################
 #######################     Process DSRA                             #######################
 ############################################################################################
