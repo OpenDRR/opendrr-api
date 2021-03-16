@@ -472,6 +472,8 @@ do
   python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_5.Create_psra_sauid_references_indicators.sql"
 done
 
+run_psql psra_6.Create_psra_merge_into_national_indicators.sql
+
 ############################################################################################
 #######################     Process DSRA                             #######################
 ############################################################################################
