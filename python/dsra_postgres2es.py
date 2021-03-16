@@ -59,62 +59,65 @@ def main():
         'eq_scenario': args.eqScenario,
         'dbview': args.dbview,
         'idField': args.idField[0]}).lower()
-    limit = 1000
+    limit = 10000
     offset = 0
     
     # create index
     es = Elasticsearch([auth.get('es', 'es_endpoint')], http_auth=(auth.get('es', 'es_un'), auth.get('es', 'es_pw')))
     if es.indices.exists(view):
         es.indices.delete(view)
+    if args.idField == 'sauid':
+        id_field = 'Sauid'
+        settings = {
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }
+    elif args.idField == 'building':
+        id_field = 'AssetID'
+        settings = {
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'coordinates': {
+                        'type': 'geo_point'
+                    }
+                }
+            }
+        }
     es.indices.create(index=view, body=settings, request_timeout=90)
 
 
     while True:
-        offset += limit
         if args.idField == 'sauid':
             id_field = 'Sauid'
             sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
-                FROM results_dsra_{eqScenario}.{view} order by Sauid LIMIT {limit} OFFSET {offset}'.format(**{
+                FROM results_dsra_{eqScenario}.{view} ORDER BY {view}."Sauid" LIMIT {limit} OFFSET {offset}'.format(**{
                 'eqScenario': args.eqScenario,
                 'view': view,
                 'limit': limit,
                 'offset': offset})
-            settings = {
-                'settings': {
-                    'number_of_shards': 1,
-                    'number_of_replicas': 0
-                },
-                'mappings': {
-                    'properties': {
-                        'geometry': {
-                            'type': 'geo_shape'
-                        }
-                    }
-                }
-            }
 
         elif args.idField == 'building':
             id_field = 'AssetID'
             sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
-                FROM results_dsra_{eqScenario}.{view} order by AssetID LIMIT {limit} OFFSET {offset}'.format(**{
+                FROM results_dsra_{eqScenario}.{view} ORDER BY {view}."AssetID" LIMIT {limit} OFFSET {offset}'.format(**{
                 'eqScenario': args.eqScenario,
                 'view': view,
                 'limit': limit,
                 'offset': offset})
-            settings = {
-                'settings': {
-                    'number_of_shards': 1,
-                    'number_of_replicas': 0
-                },
-                'mappings': {
-                    'properties': {
-                        'coordinates': {
-                            'type': 'geo_point'
-                        }
-                    }
-                }
-            }
-
+        offset += limit
         connection = None
         try:
             #Connect to the PostGIS database hosted on RDS
@@ -165,9 +168,11 @@ def main():
 
             else:
                 if(connection):
-                # cursor.close()
-                connection.close()
+                    # cursor.close()
+                    connection.close()
                 return
+
+        
 
         except (Exception, psycopg2.Error) as error :
             logging.error(error)
