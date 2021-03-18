@@ -116,21 +116,28 @@ echo "\n Importing Sovi"
 #need to source tables
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -O \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/social-vulnerability/social-vulnerability-census.csv
-DOWNLOAD_URL=`grep -o '"download_url": *.*' social-vulnerability-census.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
-curl -o social-vulnerability-census.csv \
+  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/social-vulnerability/social-vulnerability-census_2021.csv
+DOWNLOAD_URL=`grep -o '"download_url": *.*' social-vulnerability-census_2021.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
+curl -o social-vulnerability-census_2021.csv \
   -L $DOWNLOAD_URL
 
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -O \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/social-vulnerability/social-vulnerability-index.csv
-DOWNLOAD_URL=`grep -o '"download_url": *.*' social-vulnerability-index.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
-curl -o social-vulnerability-index.csv \
+  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/social-vulnerability/social-vulnerability-index_2021.csv
+DOWNLOAD_URL=`grep -o '"download_url": *.*' social-vulnerability-index_2021.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
+curl -o social-vulnerability-index_2021.csv \
+  -L $DOWNLOAD_URL
+
+curl -H "Authorization: token ${GITHUB_TOKEN}" \
+  -O \
+  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/social-vulnerability/social-vulnerability-thresholds_2021.csv
+DOWNLOAD_URL=`grep -o '"download_url": *.*' social-vulnerability-thresholds_2021.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
+curl -o social-vulnerability-thresholds_2021.csv \
   -L $DOWNLOAD_URL
 
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_sovi_index_canada_v2.sql
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_sovi_census_canada.sql
-#psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_sovi_thresholds.sql
+psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_sovi_thresholds.sql
 
 echo "\n Importing LUTs"
 #Collapse Probability
@@ -162,11 +169,20 @@ psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_GH
 
 echo "\n Importing MH Intensity"
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -o mh-intensity-sauid.csv \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/natural-hazards/mh-intensity-sauid.csv?ref=ab1b2d58dcea80a960c079ad2aff337bc22487c5
-DOWNLOAD_URL=`grep -o '"download_url": *.*' mh-intensity-sauid.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
-curl -o mh-intensity-sauid.csv \
+  -o HTi_sauid_2021.csv \
+  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/natural-hazards/HTi_sauid_2021.csv
+DOWNLOAD_URL=`grep -o '"download_url": *.*' HTi_sauid_2021.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
+curl -o HTi_sauid_2021.csv \
   -L $DOWNLOAD_URL
+
+echo "\n Importing Hazard Threat Thrsholds"
+curl -H "Authorization: token ${GITHUB_TOKEN}" \
+  -o HTi_thresholds_2021.csv \
+  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/natural-hazards/HTi_thresholds_2021.csv
+DOWNLOAD_URL=`grep -o '"download_url": *.*' HTi_thresholds_2021.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
+curl -o HTi_thresholds_2021.csv \
+  -L $DOWNLOAD_URL
+
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_mh_intensity_canada_v2.sql
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_mh_thresholds.sql
 
