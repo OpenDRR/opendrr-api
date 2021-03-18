@@ -127,15 +127,15 @@ def main():
         try:
             # Connect to the PostGIS database
             connection = psycopg2.connect(user=auth.get('rds',
-                                                      'postgres_un'),
-                                        password=auth.get('rds',
-                                                          'postgres_pw'),
-                                        host=auth.get('rds',
-                                                      'postgres_host'),
-                                        port=auth.get('rds',
-                                                      'postgres_port'),
-                                        database=auth.get('rds',
-                                                          'postgres_db'))
+                                                        'postgres_un'),
+                                          password=auth.get('rds',
+                                                            'postgres_pw'),
+                                          host=auth.get('rds',
+                                                        'postgres_host'),
+                                          port=auth.get('rds',
+                                                        'postgres_port'),
+                                          database=auth.get('rds',
+                                                            'postgres_db'))
             # Query the entire view with the geometries in geojson format
             cur = connection.cursor()
             cur.execute(sqlquerystring)
