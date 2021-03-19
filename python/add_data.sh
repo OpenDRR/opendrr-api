@@ -42,6 +42,8 @@ run_ogr2ogr() {
   local src_datasource_name="boundaries/Geometry_$id.gpkg"
   local nln="boundaries.Geometry_$id"
 
+  echo "  - ogr2ogr: Importing $src_datasource_name into $DB_NAME..."
+
   ogr2ogr -t_srs "$srs_def" \
 	  -f PostgreSQL \
 	  "$dst_datasource_name" \
@@ -58,7 +60,38 @@ run_psql() {
   fi
   local input_file="$1"
 
+  echo "  - psql: Running $input_file..."
   psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" -a -f "$input_file"
+}
+
+# fetch_csv downloads CSV data files from OpenDRR repos
+# with help from GitHub API with support for LFS files.
+# See https://docs.github.com/en/rest/reference/repos#get-repository-content
+fetch_csv() {
+  if [ "$#" -ne 2 ]; then
+    echo "Error: fetch_csv() requires exactly two arguments, but $# was given."
+    exit 1
+  fi
+  local owner="OpenDRR"
+  local repo="$1"
+  local path="$2"
+  local output_file=$(basename $path | sed -e 's/?.*//')
+  local response="github-api/$2.json"
+
+  mkdir -p github-api/$(dirname $path)
+
+  echo $repo/$path
+  curl -s -o "$response" \
+    -H "Authorization: token ${GITHUB_TOKEN}" \
+    -L "https://api.github.com/repos/$owner/$repo/contents/$path"
+
+  local download_url=$(jq -r '.download_url' "$response")
+  local size=$(jq -r '.size' "$response")
+
+  echo download_url=$download_url
+  echo size=$size
+
+  curl -o "$output_file" -L "$download_url"
 }
 
 ############################################################################################
@@ -108,109 +141,62 @@ run_psql Update_boundaries_SAUID_table.sql
 
 # Physical Exposure
 echo -e "\n Importing Physical Exposure Model into PostGIS"
-curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -o BldgExpRef_CA_master_v3p1.csv \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/general-building-stock/BldgExpRef_CA_master_v3p1.csv
-
-DOWNLOAD_URL=`grep -o '"download_url": *.*' BldgExpRef_CA_master_v3p1.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
-curl -o BldgExpRef_CA_master_v3p1.csv \
-  -L $DOWNLOAD_URL
+fetch_csv model-inputs \
+  exposure/general-building-stock/BldgExpRef_CA_master_v3p1.csv
 run_psql Create_table_canada_exposure.sql
 
-curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -o PhysExpRef_MetroVan_v4.csv \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/building-inventory/metro-vancouver/PhysExpRef_MetroVan_v4.csv
-
-DOWNLOAD_URL=`grep -o '"download_url": *.*' PhysExpRef_MetroVan_v4.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
-curl -o PhysExpRef_MetroVan_v4.csv \
-  -L $DOWNLOAD_URL
+fetch_csv model-inputs \
+  exposure/building-inventory/metro-vancouver/PhysExpRef_MetroVan_v4.csv
 run_psql Create_table_canada_site_exposure_ste.sql
 
 # VS30
 echo -e "\n Importing VS30 Model into PostGIS..."
-curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -O \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/earthquake/sites/regions/vs30_CAN_site_model_xref.csv
-DOWNLOAD_URL=`grep -o '"download_url": *.*' vs30_CAN_site_model_xref.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
-curl -o vs30_CAN_site_model_xref.csv \
-  -L $DOWNLOAD_URL
+fetch_csv model-inputs \
+  earthquake/sites/regions/vs30_CAN_site_model_xref.csv
 
-curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -O \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/earthquake/sites/regions/site-vgrid_CA.csv
-DOWNLOAD_URL=`grep -o '"download_url": *.*' site-vgrid_CA.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
-curl -o site-vgrid_CA.csv \
-  -L $DOWNLOAD_URL
+fetch_csv model-inputs \
+  earthquake/sites/regions/site-vgrid_CA.csv
 
 run_psql Create_table_vs_30_CAN_site_model.sql
 run_psql Create_table_vs_30_CAN_site_model_xref.sql
 
 # Census Data
 echo -e "\n Importing Census Data"
-curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -o census-attributes-2016.csv \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/census-ref-sauid/census-attributes-2016.csv?ref=ab1b2d58dcea80a960c079ad2aff337bc22487c5
-DOWNLOAD_URL=`grep -o '"download_url": *.*' census-attributes-2016.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
-curl -o census-attributes-2016.csv \
-  -L $DOWNLOAD_URL
+fetch_csv model-inputs \
+  exposure/census-ref-sauid/census-attributes-2016.csv?ref=ab1b2d58dcea80a960c079ad2aff337bc22487c5
 run_psql Create_table_2016_census_v3.sql
 
 
 echo -e "\n Importing Sovi"
 # Need to source tables
-curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -O \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/social-vulnerability/social-vulnerability-census.csv
-DOWNLOAD_URL=`grep -o '"download_url": *.*' social-vulnerability-census.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
-curl -o social-vulnerability-census.csv \
-  -L $DOWNLOAD_URL
+fetch_csv model-inputs \
+  social-vulnerability/social-vulnerability-census.csv
 
-curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -O \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/social-vulnerability/social-vulnerability-index.csv
-DOWNLOAD_URL=`grep -o '"download_url": *.*' social-vulnerability-index.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
-curl -o social-vulnerability-index.csv \
-  -L $DOWNLOAD_URL
+fetch_csv model-inputs \
+  social-vulnerability/social-vulnerability-index.csv
 
 run_psql Create_table_sovi_index_canada_v2.sql
 run_psql Create_table_sovi_census_canada.sql
 #run_psql Create_table_sovi_thresholds.sql
 
 echo -e "\n Importing LUTs"
-# Collapse Probability
-curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -o collapse_probability.csv \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/general-building-stock/documentation/collapse_probability.csv?ref=73d15ca7e48291ee98d8a8dd7fb49ae30548f34e
-DOWNLOAD_URL=`grep -o '"download_url": *.*' collapse_probability.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
-curl -o collapse_probability.csv \
-  -L $DOWNLOAD_URL
+fetch_csv model-inputs \
+  exposure/general-building-stock/documentation/collapse_probability.csv?ref=73d15ca7e48291ee98d8a8dd7fb49ae30548f34e
 run_psql Create_collapse_probability_table.sql
 
 # Retrofit Costs
-curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -o retrofit_costs.csv \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/exposure/general-building-stock/documentation/retrofit_costs.csv?ref=73d15ca7e48291ee98d8a8dd7fb49ae30548f34e
-DOWNLOAD_URL=`grep -o '"download_url": *.*' retrofit_costs.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
-curl -o retrofit_costs.csv \
-  -L $DOWNLOAD_URL
+fetch_csv model-inputs \
+  exposure/general-building-stock/documentation/retrofit_costs.csv?ref=73d15ca7e48291ee98d8a8dd7fb49ae30548f34e
 run_psql Create_retrofit_costs_table.sql
 
 echo -e "\n Importing GHSL"
-curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -o mh-intensity-ghsl.csv \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/natural-hazards/mh-intensity-ghsl.csv?ref=ab1b2d58dcea80a960c079ad2aff337bc22487c5
-DOWNLOAD_URL=`grep -o '"download_url": *.*' mh-intensity-ghsl.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
-curl -o mh-intensity-ghsl.csv \
-  -L $DOWNLOAD_URL
+fetch_csv model-inputs \
+  natural-hazards/mh-intensity-ghsl.csv?ref=ab1b2d58dcea80a960c079ad2aff337bc22487c5
 run_psql Create_table_GHSL.sql
 
 echo -e "\n Importing MH Intensity"
-curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  -o mh-intensity-sauid.csv \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/natural-hazards/mh-intensity-sauid.csv?ref=ab1b2d58dcea80a960c079ad2aff337bc22487c5
-DOWNLOAD_URL=`grep -o '"download_url": *.*' mh-intensity-sauid.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
-curl -o mh-intensity-sauid.csv \
-  -L $DOWNLOAD_URL
+fetch_csv model-inputs \
+  natural-hazards/mh-intensity-sauid.csv?ref=ab1b2d58dcea80a960c079ad2aff337bc22487c5
 run_psql Create_table_mh_intensity_canada_v2.sql
 run_psql Create_table_mh_thresholds.sql
 
