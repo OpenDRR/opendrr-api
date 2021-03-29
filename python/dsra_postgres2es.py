@@ -94,6 +94,9 @@ def main():
                 'properties': {
                     'coordinates': {
                         'type': 'geo_point'
+                    },
+                    'geometry': {
+                        'type': 'geo_shape'
                     }
                 }
             }

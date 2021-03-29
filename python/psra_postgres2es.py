@@ -68,12 +68,11 @@ def main():
             },
             'mappings': {
                 'properties': {
+                    'coordinates': {
+                        'type': 'geo_point'
+                    },
                     'geometry': {
-                        'properties': {
-                            'coordinates': {
-                                'type': 'geo_point'
-                            }
-                        }
+                        'type': 'geo_shape'
                     }
                 }
             }
@@ -101,15 +100,30 @@ def main():
 
         # Format the table into a geojson format for ES/Kibana consumption
         for row in rows:
-            feature = {
-                'type': 'Feature',
-                'geometry': json.loads(row[geomIndex]),
-                'properties': {},
-            }
-            for index, column in enumerate(columns):
-                if column != "st_asgeojson":
-                    value = row[index]
-                    feature['properties'][column] = value
+            if args.idField == 'sauid':
+                feature = {
+                    'type': 'Feature',
+                    'geometry': json.loads(row[geomIndex]),
+                    'properties': {},
+                }
+                for index, column in enumerate(columns):
+                    if column != "st_asgeojson":
+                        value = row[index]
+                        feature['properties'][column] = value
+
+            elif args.idField == 'building':
+                coordinates = json.loads(row[geomIndex])['coordinates']
+                feature = {
+                    'type': 'Feature',
+                    'geometry': json.loads(row[geomIndex]),
+                    'coordinates': coordinates,
+                    'properties': {},
+                }
+                for index, column in enumerate(columns):
+                    if column != "st_asgeojson":
+                        value = row[index]
+                        feature['properties'][column] = value
+
             feature_collection['features'].append(feature)
         geojsonobject = json.dumps(feature_collection,
                                    indent=2,
