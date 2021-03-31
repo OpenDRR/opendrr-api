@@ -529,7 +529,10 @@ do
         python3 DSRA_createRiskProfileIndicators.py --eqScenario=$eqscenario --aggregation=building --exposureModel=building
         python3 DSRA_createRiskProfileIndicators.py --eqScenario=$eqscenario --aggregation=sauid  --exposureModel=building
     fi
-done 
+done
+
+echo "\n Create Scenario Risk Master Tables at multiple aggregations"
+psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_scenario_risk_master_tables.sql
 
 ############################################################################################
 #######################     Import Data from PostGIS to ElasticSearch   ####################
