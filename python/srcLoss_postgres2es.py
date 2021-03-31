@@ -1,5 +1,30 @@
 # =================================================================
-
+#
+# Authors: Drew Rotheram <drew.rotheram@gmail.com>
+#
+# Copyright (c) 2020 Drew Rotheram
+#
+# Permission is hereby granted, free of charge, to any person
+# obtaining a copy of this software and associated documentation
+# files (the "Software"), to deal in the Software without
+# restriction, including without limitation the rights to use,
+# copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following
+# conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+# OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+# HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+# WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
 # =================================================================
 
 import json
@@ -15,10 +40,10 @@ from elasticsearch import Elasticsearch
 from elasticsearch import helpers
 
 '''
-Script to convert PSRA indicator views to ElasticSearch Index
+Script to convert src_loss tables to ElasticSearch Index
 Can be run from the command line with mandatory arguments
 Run this script with a command like:
-python3 psra_postgres2es.py --province={PT}
+python3 srcLoss_postgres2es.py --province={PT}
 '''
 
 
@@ -31,54 +56,21 @@ def main():
                                   logging.StreamHandler()])
     auth = get_config_params('config.ini')
     args = parse_args()
-    view = "psra_{province}_{dbview}_{idField}".format(**{
+    view = "psra_{province}_src_loss".format(**{
+        'province': args.province})
+    # if args.idField == 'sauid':
+    #     id_field = 'Sauid'
+    sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
+        FROM results_psra_{province}.{view}'.format(**{
         'province': args.province,
-        'dbview': args.dbview,
-        'idField': args.idField[0]}).lower()
-    if args.idField.lower() == 'sauid':
-        id_field = 'Sauid'
-        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
-            FROM results_psra_{province}.{view}'.format(**{
-            'province': args.province,
-            'view': view})
-        settings = {
-            'settings': {
-                'number_of_shards': 1,
-                'number_of_replicas': 0
-            },
-            'mappings': {
-                'properties': {
-                    'geometry': {
-                        'type': 'geo_shape'
-                    }
-                }
-            }
+        'view': view})
+    settings = {
+        'settings': {
+            'number_of_shards': 1,
+            'number_of_replicas': 0
         }
+    }
 
-    elif args.idField.lower() == 'building':
-        id_field = 'AssetID'
-        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
-            FROM results_psra_{province}.{view}'.format(**{
-            'province': args.province,
-            'view': view})
-        settings = {
-            'settings': {
-                'number_of_shards': 1,
-                'number_of_replicas': 0
-            },
-            'mappings': {
-                'properties': {
-                    'coordinates': {
-                        'type': 'geo_point'
-                    },
-                    'geometry': {
-                        'type': 'geo_shape'
-                    }
-                }
-            }
-        }
-
-    # es = Elasticsearch()
     es = Elasticsearch([auth.get('es', 'es_endpoint')],
                        http_auth=(auth.get('es', 'es_un'),
                                   auth.get('es', 'es_pw')))
@@ -100,29 +92,13 @@ def main():
 
         # Format the table into a geojson format for ES/Kibana consumption
         for row in rows:
-            if args.idField.lower() == 'sauid':
-                feature = {
-                    'type': 'Feature',
-                    'geometry': json.loads(row[geomIndex]),
-                    'properties': {},
-                }
-                for index, column in enumerate(columns):
-                    if column != "st_asgeojson":
-                        value = row[index]
-                        feature['properties'][column] = value
-
-            elif args.idField.lower() == 'building':
-                coordinates = json.loads(row[geomIndex])['coordinates']
-                feature = {
-                    'type': 'Feature',
-                    'geometry': json.loads(row[geomIndex]),
-                    'coordinates': coordinates,
-                    'properties': {},
-                }
-                for index, column in enumerate(columns):
-                    if column != "st_asgeojson":
-                        value = row[index]
-                        feature['properties'][column] = value
+            feature = {
+                'type': 'Feature',
+                'properties': {},
+            }
+            for index, column in enumerate(columns):
+                value = row[index]
+                feature['properties'][column] = value
 
             feature_collection['features'].append(feature)
         geojsonobject = json.dumps(feature_collection,
@@ -134,7 +110,6 @@ def main():
 
     finally:
         if(connection):
-            # cursor.close()
             connection.close()
 
     # create index
@@ -181,14 +156,6 @@ def parse_args():
                         type=str,
                         help="Two letters only",
                         required=True)
-    parser.add_argument("--dbview",
-                        type=str,
-                        help=" Thematic Database View",
-                        required=True)
-    parser.add_argument("--idField",
-                        type=str,
-                        help="Field to use as ElasticSearch Index ID",
-                        required=True)
     args = parser.parse_args()
 
     return args
@@ -196,3 +163,4 @@ def parse_args():
 
 if __name__ == '__main__':
     main()
+
