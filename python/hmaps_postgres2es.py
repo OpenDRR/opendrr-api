@@ -17,10 +17,10 @@ from elasticsearch import Elasticsearch
 from elasticsearch import helpers
 
 '''
-Script to convert uhs views to ElasticSearch Index
+Script to convert hmap indicator views to ElasticSearch Index
 Can be run from the command line with mandatory arguments
 Run this script with a command like:
-python3 uhs_postgres2es.py --province=${PT}
+python3 hmap_postgres2es.py --province=${PT}
 '''
 
 #Main Function
@@ -32,7 +32,7 @@ def main():
                                   logging.StreamHandler()])
     auth = get_config_params('config.ini')
     args = parse_args()
-    view = "psra_{province}_uhs".format(**{
+    view = "psra_{province}_hmaps".format(**{
         'province': args.province.lower()})
     limit = 10000
     offset = 0
@@ -43,8 +43,23 @@ def main():
                        auth.get('es', 'es_pw')))
     if es.indices.exists(view):
         es.indices.delete(view)
-
-    #id_field = 'AssetID'
+    # if args.idField == 'sauid':
+    #     id_field = 'Sauid'
+    #     settings = {
+    #         'settings': {
+    #             'number_of_shards': 1,
+    #             'number_of_replicas': 0
+    #         },
+    #         'mappings': {
+    #             'properties': {
+    #                 'geometry': {
+    #                     'type': 'geo_shape'
+    #                 }
+    #             }
+    #         }
+    #     }
+    # elif args.idField == 'building':
+    # id_field = 'AssetID'
     settings = {
         'settings': {
             'number_of_shards': 1,
@@ -64,6 +79,19 @@ def main():
     es.indices.create(index=view, body=settings, request_timeout=90)
 
     while True:
+        # if args.idField == 'sauid':
+        #     id_field = 'Sauid'
+        #     sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
+        #         FROM results_hmap_{eqScenario}.{view} \
+        #         ORDER BY {view}."Sauid" \
+        #         LIMIT {limit} \
+        #         OFFSET {offset}'.format(**{'eqScenario': args.eqScenario,
+        #                                    'view': view,
+        #                                    'limit': limit,
+        #                                    'offset': offset})
+
+        # elif args.idField == 'building':
+        # id_field = 'AssetID'
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom) \
             FROM results_psra_{province}.{view} \
             ORDER BY {view}."geom" \
@@ -95,6 +123,7 @@ def main():
                 geomIndex = columns.index('st_asgeojson')
                 feature_collection = {'type': 'FeatureCollection',
                                       'features': []}
+
                 # Format table into a geojson format for ES/Kibana consumption
                 for row in rows:
                     coordinates = json.loads(row[geomIndex])['coordinates']
@@ -120,6 +149,7 @@ def main():
 
             else:
                 if(connection):
+                    # cursor.close()
                     connection.close()
                 return
 
@@ -131,7 +161,6 @@ def gendata(data, view):
     for item in data['features']:
         yield {
             "_index": view,
-            #"_id": item['properties'][id_field],
             "_source": item
         }
 
