@@ -583,6 +583,9 @@ then
     do
       python3 psra_postgres2es.py --province=$PT --dbview="all_indicators" --idField="building"
       python3 psra_postgres2es.py --province=$PT --dbview="all_indicators" --idField="sauid"
+      python3 hmaps_postgres2es.py --province=$PT
+      python3 uhs_postgres2es.py --province=$PT
+      python3 srcLoss_postgres2es.py --province=$PT
     done
 
     echo "Creating PSRA Kibana Index Patterns"
