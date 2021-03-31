@@ -58,9 +58,7 @@ def main():
     args = parse_args()
     view = "psra_{province}_src_loss".format(**{
         'province': args.province})
-    # if args.idField == 'sauid':
-    #     id_field = 'Sauid'
-    sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
+    sqlquerystring = 'SELECT * \
         FROM results_psra_{province}.{view}'.format(**{
         'province': args.province,
         'view': view})
@@ -87,7 +85,6 @@ def main():
         cur.execute(sqlquerystring)
         rows = cur.fetchall()
         columns = [name[0] for name in cur.description]
-        geomIndex = columns.index('st_asgeojson')
         feature_collection = {'type': 'FeatureCollection', 'features': []}
 
         # Format the table into a geojson format for ES/Kibana consumption
