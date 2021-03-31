@@ -2,29 +2,6 @@
 #
 # Authors: Drew Rotheram <drew.rotheram@gmail.com>
 #
-# Copyright (c) 2020 Drew Rotheram
-#
-# Permission is hereby granted, free of charge, to any person
-# obtaining a copy of this software and associated documentation
-# files (the "Software"), to deal in the Software without
-# restriction, including without limitation the rights to use,
-# copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the
-# Software is furnished to do so, subject to the following
-# conditions:
-#
-# The above copyright notice and this permission notice shall be
-# included in all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-# OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-# HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-# WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-# OTHER DEALINGS IN THE SOFTWARE.
-#
 # =================================================================
 
 import json
@@ -57,10 +34,10 @@ def main():
     auth = get_config_params('config.ini')
     args = parse_args()
     view = "psra_{province}_src_loss".format(**{
-        'province': args.province})
+        'province': args.province.lower()})
     sqlquerystring = 'SELECT * \
         FROM results_psra_{province}.{view}'.format(**{
-        'province': args.province,
+        'province': args.province.lower(),
         'view': view})
     settings = {
         'settings': {
@@ -117,16 +94,15 @@ def main():
 
     d = json.loads(geojsonobject)
 
-    helpers.bulk(es, gendata(d, view, id_field), raise_on_error=False)
+    helpers.bulk(es, gendata(d, view), raise_on_error=False)
 
     return
 
 
-def gendata(data, view, id_field):
+def gendata(data, view):
     for item in data['features']:
         yield {
             "_index": view,
-            "_id": item['properties'][id_field],
             "_source": item
         }
 
