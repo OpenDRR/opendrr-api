@@ -571,6 +571,9 @@ do
     fi
 done
 
+echo -e "\n Create Scenario Risk Master Tables at multiple aggregations"
+run_psql Create_scenario_risk_master_tables.sql
+
 ############################################################################################
 #######################     Import Data from PostGIS to ElasticSearch   ####################
 ############################################################################################
