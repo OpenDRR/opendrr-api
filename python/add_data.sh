@@ -207,6 +207,8 @@ fetch_csv model-inputs \
 
 run_psql Create_table_mh_intensity_canada_v2.sql
 run_psql Create_table_mh_thresholds.sql
+run_psql Create_MH_risk_building_ALL.sql
+run_psql Create_MH_risk_sauid_ALL.sql
 
 # Use python to run \copy from a system call
 python3 copyAncillaryTables.py
