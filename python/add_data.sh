@@ -119,8 +119,8 @@ do
   sleep 2;
 done
 
-# Get model-factory scripts
-git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; git pull)
+# get model-factory scripts
+git clone https://github.com/OpenDRR/model-factory.git --branch update_sovi_hazthreat_feb2021 --depth 1 || (cd model-factory ; git pull)
 
 # Get boundary files
 git clone https://github.com/OpenDRR/boundaries.git --depth 1 || (cd boundaries ; git pull)
@@ -199,8 +199,14 @@ run_psql Create_table_GHSL.sql
 echo -e "\n Importing MH Intensity"
 fetch_csv model-inputs \
   natural-hazards/mh-intensity-sauid.csv?ref=ab1b2d58dcea80a960c079ad2aff337bc22487c5
+
+fetch_csv model-inputs \
+  natural-hazards/HTi_thresholds_2021.csv
+
 run_psql Create_table_mh_intensity_canada_v2.sql
 run_psql Create_table_mh_thresholds.sql
+run_psql Create_MH_risk_building_ALL.sql
+run_psql Create_MH_risk_sauid_ALL.sql
 
 # Use python to run \copy from a system call
 python3 copyAncillaryTables.py
@@ -527,11 +533,11 @@ do
     #echo $SITE
     if [ "$SITE" = "s" ]
     then
-    #echo "Site Model"
+        echo "Site Model"
         python3 DSRA_runCreateTableShakemapUpdate.py --eqScenario=$eqscenario --exposureAgg=$SITE
     elif [ "$SITE" = "b" ]
     then
-    #echo "Building Model"
+        echo "Building Model"
         python3 DSRA_runCreateTableShakemapUpdate.py --eqScenario=$eqscenario --exposureAgg=$SITE
     fi
     echo " "
