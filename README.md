@@ -248,6 +248,24 @@ OR using curl:
         }
     }'
     
+#### Nearest query
+
+    curl -XGET "http://localhost:9200/nhsl_hazard_threat_all_indicators_s/_search" -H 'Content-Type: 
+    application/json' -d'
+    {
+      "query": {
+        "geo_shape": {
+          "geometry": {
+            "shape": {
+              "type": "circle",
+              "radius": "20km",
+              "coordinates": [ -118, 49 ]
+            }
+          }
+        }
+      }
+    }'
+    
 ## Interacting with the spatial database
 
 The spatial database is implemented using PostGIS. You can connect to PostGIS using pgAdmin (https://www.pgadmin.org) with the connection parameters in your `.env` file. For example:
