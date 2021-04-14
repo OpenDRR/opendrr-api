@@ -130,9 +130,9 @@ curl -o social-vulnerability-index_2021.csv \
 
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -O \
-  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/social-vulnerability/social-vulnerability-thresholds_2021.csv
-DOWNLOAD_URL=`grep -o '"download_url": *.*' social-vulnerability-thresholds_2021.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
-curl -o social-vulnerability-thresholds_2021.csv \
+  -L https://api.github.com/repos/OpenDRR/model-inputs/contents/social-vulnerability/sovi_thresholds_2021.csv
+DOWNLOAD_URL=`grep -o '"download_url": *.*' sovi_thresholds_2021.csv | cut -f2- -d: | tr -d '"'| tr -d ',' `
+curl -o sovi_thresholds_2021.csv \
   -L $DOWNLOAD_URL
 
 psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${DB_NAME} -a -f Create_table_sovi_index_canada_v2.sql
