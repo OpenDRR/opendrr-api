@@ -176,7 +176,7 @@ fetch_csv model-inputs \
 fetch_csv model-inputs \
   social-vulnerability/social-vulnerability-index_2021.csv
 fetch_csv model-inputs \
-  social-vulnerability/social-vulnerability-thresholds_2021.csv
+  social-vulnerability/sovi_thresholds_2021.csv
 
 run_psql Create_table_sovi_index_canada_v2.sql
 run_psql Create_table_sovi_census_canada.sql
