@@ -35,7 +35,7 @@ def main():
         'province': args.province,
         'dbview': args.dbview,
         'idField': args.idField[0]}).lower()
-    if args.idField == 'sauid':
+    if args.idField.lower() == 'sauid':
         id_field = 'Sauid'
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
             FROM results_psra_{province}.{view}'.format(**{
@@ -55,7 +55,7 @@ def main():
             }
         }
 
-    elif args.idField == 'building':
+    elif args.idField.lower() == 'building':
         id_field = 'AssetID'
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
             FROM results_psra_{province}.{view}'.format(**{
@@ -100,7 +100,7 @@ def main():
 
         # Format the table into a geojson format for ES/Kibana consumption
         for row in rows:
-            if args.idField == 'sauid':
+            if args.idField.lower() == 'sauid':
                 feature = {
                     'type': 'Feature',
                     'geometry': json.loads(row[geomIndex]),
@@ -111,7 +111,7 @@ def main():
                         value = row[index]
                         feature['properties'][column] = value
 
-            elif args.idField == 'building':
+            elif args.idField.lower() == 'building':
                 coordinates = json.loads(row[geomIndex])['coordinates']
                 feature = {
                     'type': 'Feature',

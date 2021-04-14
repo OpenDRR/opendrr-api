@@ -59,7 +59,7 @@ def main():
                 }
             }
         }
-    elif args.idField == 'building':
+    elif args.idField.lower() == 'building':
         id_field = 'AssetID'
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
             FROM results_nhsl_hazard_threat.{view}'.format(**{
@@ -103,7 +103,7 @@ def main():
 
         # Format the table into a geojson format for ES/Kibana consumption
         for row in rows:
-            if args.idField == 'sauid':
+            if args.idField.lower() == 'sauid':
                 feature = {
                     'type': 'Feature',
                     'geometry': json.loads(row[geomIndex]),
@@ -114,7 +114,7 @@ def main():
                         value = row[index]
                         feature['properties'][column] = value
 
-            elif args.idField == 'building':
+            elif args.idField.lower() == 'building':
                 coordinates = json.loads(row[geomIndex])['coordinates']
                 feature = {
                     'type': 'Feature',
