@@ -112,7 +112,7 @@ def main():
                         value = row[index]
                         feature['properties'][column] = value
 
-            elif args.idField.lower() == 'ghslID':
+            elif args.idField == 'ghslID':
                 coordinates = json.loads(row[geomIndex])['coordinates']
                 feature = {
                     'type': 'Feature',
