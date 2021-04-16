@@ -68,7 +68,7 @@ def main():
                        auth.get('es', 'es_pw')))
     if es.indices.exists(view):
         es.indices.delete(view)
-    if args.idField == 'sauid':
+    if args.idField.lower() == 'sauid':
         id_field = 'Sauid'
         settings = {
             'settings': {
@@ -83,7 +83,7 @@ def main():
                 }
             }
         }
-    elif args.idField == 'building':
+    elif args.idField.lower() == 'building':
         id_field = 'AssetID'
         settings = {
             'settings': {
@@ -94,6 +94,9 @@ def main():
                 'properties': {
                     'coordinates': {
                         'type': 'geo_point'
+                    },
+                    'geometry': {
+                        'type': 'geo_shape'
                     }
                 }
             }
@@ -101,7 +104,7 @@ def main():
     es.indices.create(index=view, body=settings, request_timeout=90)
 
     while True:
-        if args.idField == 'sauid':
+        if args.idField.lower() == 'sauid':
             id_field = 'Sauid'
             sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
                 FROM results_dsra_{eqScenario}.{view} \
@@ -112,7 +115,7 @@ def main():
                                            'limit': limit,
                                            'offset': offset})
 
-        elif args.idField == 'building':
+        elif args.idField.lower() == 'building':
             id_field = 'AssetID'
             sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
                 FROM results_dsra_{eqScenario}.{view} \
@@ -148,7 +151,7 @@ def main():
 
                 # Format table into a geojson format for ES/Kibana consumption
                 for row in rows:
-                    if args.idField == 'sauid':
+                    if args.idField.lower() == 'sauid':
                         feature = {
                             'type': 'Feature',
                             'geometry': json.loads(row[geomIndex]),
@@ -159,7 +162,7 @@ def main():
                                 value = row[index]
                                 feature['properties'][column] = value
 
-                    elif args.idField == 'building':
+                    elif args.idField.lower() == 'building':
                         coordinates = json.loads(row[geomIndex])['coordinates']
                         feature = {
                             'type': 'Feature',

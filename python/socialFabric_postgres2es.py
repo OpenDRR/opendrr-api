@@ -59,7 +59,7 @@ def main():
                 }
             }
         }
-    elif args.idField == 'building':
+    elif args.idField.lower() == 'building':
         id_field = 'AssetID'
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
             FROM results_nhsl_hazard_threat.{view}'.format(**{
@@ -71,11 +71,11 @@ def main():
             },
             'mappings': {
                 'properties': {
+                    'coordinates': {
+                        'type': 'geo_point'
+                    },
                     'geometry': {
                         'type': 'geo_shape'
-                    },
-                    'geom_point': {
-                        'type': 'geo_point'
                     }
                 }
             }
@@ -103,15 +103,30 @@ def main():
 
         # Format the table into a geojson format for ES/Kibana consumption
         for row in rows:
-            feature = {
-                'type': 'Feature',
-                'geometry': json.loads(row[geomIndex]),
-                'properties': {},
-            }
-            for index, column in enumerate(columns):
-                if column != "st_asgeojson":
-                    value = row[index]
-                    feature['properties'][column] = value
+            if args.idField.lower() == 'sauid':
+                feature = {
+                    'type': 'Feature',
+                    'geometry': json.loads(row[geomIndex]),
+                    'properties': {},
+                }
+                for index, column in enumerate(columns):
+                    if column != "st_asgeojson":
+                        value = row[index]
+                        feature['properties'][column] = value
+
+            elif args.idField.lower() == 'building':
+                coordinates = json.loads(row[geomIndex])['coordinates']
+                feature = {
+                    'type': 'Feature',
+                    'geometry': json.loads(row[geomIndex]),
+                    'coordinates': coordinates,
+                    'properties': {},
+                }
+                for index, column in enumerate(columns):
+                    if column != "st_asgeojson":
+                        value = row[index]
+                        feature['properties'][column] = value
+
             feature_collection['features'].append(feature)
         geojsonobject = json.dumps(feature_collection,
                                    indent=2,

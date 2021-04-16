@@ -101,8 +101,8 @@ def main():
     view = "nhsl_physical_exposure_{type}_{aggregation}".format(**{
         'type': args.type,
         'aggregation': args.aggregation[0].lower()})
-    id_field = args.idField    
-    
+    id_field = args.idField
+
     # es = Elasticsearch()
     es = Elasticsearch([auth.get('es', 'es_endpoint')],
                        http_auth=(auth.get('es', 'es_un'),
