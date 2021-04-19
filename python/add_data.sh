@@ -82,6 +82,7 @@ fetch_csv() {
 
   echo $repo/$path
   curl -s -o "$response" \
+    --retry 999 --retry-max-time 0 \
     -H "Authorization: token ${GITHUB_TOKEN}" \
     -L "https://api.github.com/repos/$owner/$repo/contents/$path"
 
@@ -91,7 +92,8 @@ fetch_csv() {
   echo download_url=$download_url
   echo size=$size
 
-  curl -o "$output_file" -L "$download_url"
+  curl -o "$output_file" -L "$download_url" \
+    --retry 999 --retry-max-time 0
 }
 
 ############################################################################################
@@ -229,6 +231,7 @@ run_psql Create_MH_risk_sauid_ALL.sql
 echo "Importing Raw PSRA Tables"
 # Get list of provinces & territories
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
+  --retry 999 --retry-max-time 0 \
   -O \
   -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output
 PT_LIST=`grep -P -o '"name": "*.*' output | cut -f2- -d:`
@@ -242,6 +245,7 @@ done
 for PT in ${PT_LIST[@]}
 do
   curl -H "Authorization: token ${GITHUB_TOKEN}" \
+    --retry 999 --retry-max-time 0 \
     -O \
     -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output/${PT}
   DOWNLOAD_LIST=`grep -P -o '"url": "*.*csv*.*' ${PT} | cut -f2- -d:`
@@ -256,10 +260,12 @@ do
   do
     FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
     curl -H "Authorization: token ${GITHUB_TOKEN}" \
+      --retry 999 --retry-max-time 0 \
       -o $FILENAME \
       -L $file
     DOWNLOAD_URL=`grep -o '"download_url": *.*' ${FILENAME} | cut -f2- -d: | tr -d '"'| tr -d ',' `
     curl -o $FILENAME \
+      --retry 999 --retry-max-time 0 \
       -L $DOWNLOAD_URL
     sed -i '1d' $FILENAME
   done
@@ -286,6 +292,7 @@ done
 for PT in ${PT_LIST[@]}
 do
   curl -H "Authorization: token ${GITHUB_TOKEN}" \
+    --retry 999 --retry-max-time 0 \
     -O \
     -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cHazard/output/${PT}
   DOWNLOAD_LIST=`grep -P -o '"url": "*.*csv*.*' ${PT} | cut -f2- -d:`
@@ -300,10 +307,12 @@ do
   do
     FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
     curl -H "Authorization: token ${GITHUB_TOKEN}" \
+      --retry 999 --retry-max-time 0 \
       -o $FILENAME \
       -L $file
     DOWNLOAD_URL=`grep -o '"download_url": *.*' ${FILENAME} | cut -f2- -d: | tr -d '"'| tr -d ',' `
     curl -o $FILENAME \
+      --retry 999 --retry-max-time 0 \
       -L $DOWNLOAD_URL
     #if [ "$SITE" = "s" ]
     if [ "$FILENAME" = "cH_${PT}_hmaps_xref.csv" ]
@@ -322,6 +331,7 @@ done
 for PT in ${PT_LIST[@]}
 do
   curl -H "Authorization: token ${GITHUB_TOKEN}" \
+    --retry 999 --retry-max-time 0 \
     -O \
     -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/eDamage/output/${PT}
   DOWNLOAD_LIST=`grep -P -o '"url": "*.*csv*.*' ${PT} | cut -f2- -d:`
@@ -336,10 +346,12 @@ do
   do
     FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
     curl -H "Authorization: token ${GITHUB_TOKEN}" \
+      --retry 999 --retry-max-time 0 \
       -o $FILENAME \
       -L $file
     DOWNLOAD_URL=`grep -o '"download_url": *.*' ${FILENAME} | cut -f2- -d: | tr -d '"'| tr -d ',' `
     curl -o $FILENAME \
+      --retry 999 --retry-max-time 0 \
       -L $DOWNLOAD_URL
     sed -i '1d' $FILENAME
   done
@@ -366,6 +378,7 @@ done
 for PT in ${PT_LIST[@]}
 do
   curl -H "Authorization: token ${GITHUB_TOKEN}" \
+    --retry 999 --retry-max-time 0 \
     -O \
     -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/ebRisk/output/${PT}
   DOWNLOAD_LIST=`grep -P -o '"url": "*.*csv*.*' ${PT} | cut -f2- -d:`
@@ -380,10 +393,12 @@ do
   do
     FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
     curl -H "Authorization: token ${GITHUB_TOKEN}" \
+      --retry 999 --retry-max-time 0 \
       -o $FILENAME \
       -L $file
     DOWNLOAD_URL=`grep -o '"download_url": *.*' ${FILENAME} | cut -f2- -d: | tr -d '"'| tr -d ',' `
     curl -o $FILENAME \
+      --retry 999 --retry-max-time 0 \
       -L $DOWNLOAD_URL
     sed -i '1d' $FILENAME
   done
@@ -457,6 +472,7 @@ done
 
 # Get list of earthquake scenarios
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
+  --retry 999 --retry-max-time 0 \
   -O \
   -L https://api.github.com/repos/OpenDRR/scenario-catalogue/contents/FINISHED
 EQSCENARIO_LIST=`grep -P -o '"name": "s_lossesbyasset_*.*r2' FINISHED | cut -f3- -d_`
@@ -485,11 +501,13 @@ do
     # Get the shakemap
     shakemap_filename=$( echo $shakemap | cut -f9- -d/ | cut -f1 -d?)
     curl -H "Authorization: token ${GITHUB_TOKEN}" \
+      --retry 999 --retry-max-time 0 \
       -o $shakemap_filename \
       -L $shakemap
     DOWNLOAD_URL=`grep -o '"download_url": *.*' ${shakemap_filename} | cut -f2- -d: | tr -d '"'| tr -d ',' `
       echo $DOWNLOAD_URL
     curl -o $shakemap_filename \
+      --retry 999 --retry-max-time 0 \
       -L $DOWNLOAD_URL
     # Run Create_table_shakemap.sql
     python3 DSRA_runCreateTableShakemap.py --shakemapFile=$shakemap_filename
