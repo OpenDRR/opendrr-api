@@ -23,7 +23,8 @@ Run this script with a command like:
 python3 uhs_postgres2es.py --province=${PT}
 '''
 
-#Main Function
+
+# Main Function
 def main():
     logFileName = '{}.log'.format(os.path.splitext(sys.argv[0])[0])
     logging.basicConfig(level=logging.INFO,
@@ -44,7 +45,7 @@ def main():
     if es.indices.exists(view):
         es.indices.delete(view)
 
-    #id_field = 'AssetID'
+    # id_field = 'AssetID'
     settings = {
         'settings': {
             'number_of_shards': 1,
@@ -69,9 +70,9 @@ def main():
             ORDER BY {view}."geom" \
             LIMIT {limit} \
             OFFSET {offset}'.format(**{'province': args.province.lower(),
-                                        'view': view,
-                                        'limit': limit,
-                                        'offset': offset})
+                                       'view': view,
+                                       'limit': limit,
+                                       'offset': offset})
         offset += limit
         connection = None
         try:
@@ -131,15 +132,17 @@ def gendata(data, view):
     for item in data['features']:
         yield {
             "_index": view,
-            #"_id": item['properties'][id_field],
+            # "_id": item['properties'][id_field],
             "_source": item
         }
 
-#Function to handle decimal encoder error
+
+# Function to handle decimal encoder error
 def decimal_default(obj):
     if isinstance(obj, decimal.Decimal):
         return float(obj)
     raise TypeError
+
 
 def get_config_params(args):
     """
@@ -149,6 +152,7 @@ def get_config_params(args):
     configParseObj.read(args)
     return configParseObj
 
+
 def parse_args():
     parser = argparse.ArgumentParser(description="script description")
     parser.add_argument("--province",
@@ -157,6 +161,7 @@ def parse_args():
                         required=True)
     args = parser.parse_args()
     return args
+
 
 if __name__ == '__main__':
     main()
