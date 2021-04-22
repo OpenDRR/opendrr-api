@@ -119,7 +119,7 @@ do
   sleep 2;
 done
 
-# Get model-factory scripts
+# get model-factory scripts
 git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; git pull)
 
 # Get boundary files
@@ -199,8 +199,14 @@ run_psql Create_table_GHSL.sql
 echo -e "\n Importing MH Intensity"
 fetch_csv model-inputs \
   natural-hazards/mh-intensity-sauid.csv?ref=ab1b2d58dcea80a960c079ad2aff337bc22487c5
+
+fetch_csv model-inputs \
+  natural-hazards/HTi_thresholds_2021.csv
+
 run_psql Create_table_mh_intensity_canada_v2.sql
 run_psql Create_table_mh_thresholds.sql
+run_psql Create_MH_risk_building_ALL.sql
+run_psql Create_MH_risk_sauid_ALL.sql
 
 # Use python to run \copy from a system call
 python3 copyAncillaryTables.py
@@ -527,11 +533,11 @@ do
     #echo $SITE
     if [ "$SITE" = "s" ]
     then
-    #echo "Site Model"
+        echo "Site Model"
         python3 DSRA_runCreateTableShakemapUpdate.py --eqScenario=$eqscenario --exposureAgg=$SITE
     elif [ "$SITE" = "b" ]
     then
-    #echo "Building Model"
+        echo "Building Model"
         python3 DSRA_runCreateTableShakemapUpdate.py --eqScenario=$eqscenario --exposureAgg=$SITE
     fi
     echo " "
@@ -583,11 +589,17 @@ then
     do
       python3 psra_postgres2es.py --province=$PT --dbview="all_indicators" --idField="building"
       python3 psra_postgres2es.py --province=$PT --dbview="all_indicators" --idField="sauid"
+      python3 hmaps_postgres2es.py --province=$PT
+      python3 uhs_postgres2es.py --province=$PT
+      python3 srcLoss_postgres2es.py --province=$PT
     done
 
     echo "Creating PSRA Kibana Index Patterns"
     curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/saved_objects/index-pattern/psra*all_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra*all_indicators_s"}}'
     curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/saved_objects/index-pattern/psra*all_indicators_b" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra*all_indicators_b"}}'
+    curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/saved_objects/index-pattern/psra_*_hmaps" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_*_hmaps"}}'
+    curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/saved_objects/index-pattern/psra_*_uhs" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_*_uhs"}}'
+    curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/saved_objects/index-pattern/psra_*_srcLoss" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_*_srcLoss"}}'
 fi
 
 # Load Deterministic Model Indicators
