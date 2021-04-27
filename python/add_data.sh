@@ -119,7 +119,7 @@ do
   sleep 2;
 done
 
-# get model-factory scripts
+# Get model-factory scripts
 git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; git pull)
 
 # Get boundary files
@@ -172,14 +172,15 @@ run_psql Create_table_2016_census_v3.sql
 echo -e "\n Importing Sovi"
 # Need to source tables
 fetch_csv model-inputs \
-  social-vulnerability/social-vulnerability-census.csv
-
+  social-vulnerability/social-vulnerability-census_2021.csv
 fetch_csv model-inputs \
-  social-vulnerability/social-vulnerability-index.csv
+  social-vulnerability/social-vulnerability-index_2021.csv
+fetch_csv model-inputs \
+  social-vulnerability/sovi_thresholds_2021.csv
 
 run_psql Create_table_sovi_index_canada_v2.sql
 run_psql Create_table_sovi_census_canada.sql
-#run_psql Create_table_sovi_thresholds.sql
+run_psql Create_table_sovi_thresholds.sql
 
 echo -e "\n Importing LUTs"
 fetch_csv model-inputs \
@@ -198,8 +199,9 @@ run_psql Create_table_GHSL.sql
 
 echo -e "\n Importing MH Intensity"
 fetch_csv model-inputs \
-  natural-hazards/mh-intensity-sauid.csv?ref=ab1b2d58dcea80a960c079ad2aff337bc22487c5
+  natural-hazards/HTi_sauid_2021.csv
 
+echo -e "\n Importing Hazard Threat Thresholds"
 fetch_csv model-inputs \
   natural-hazards/HTi_thresholds_2021.csv
 
@@ -472,6 +474,8 @@ do
   python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_5.Create_psra_sauid_references_indicators.sql"
 done
 
+run_psql psra_6.Create_psra_merge_into_national_indicators.sql
+
 ############################################################################################
 #######################     Process DSRA                             #######################
 ############################################################################################
@@ -566,6 +570,9 @@ do
         python3 DSRA_createRiskProfileIndicators.py --eqScenario=$eqscenario --aggregation=sauid  --exposureModel=building
     fi
 done
+
+echo -e "\n Create Scenario Risk Master Tables at multiple aggregations"
+run_psql Create_scenario_risk_master_tables.sql
 
 ############################################################################################
 #######################     Import Data from PostGIS to ElasticSearch   ####################
