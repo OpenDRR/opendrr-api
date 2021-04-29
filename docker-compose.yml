@@ -78,5 +78,7 @@ services:
             POSTGRES_USER: ${POSTGRES_USER}
             POSTGRES_PASS: ${POSTGRES_PASS}
             POSTGRES_DB: ${DB_NAME}
-        
+
+        command: -c fsync=off -c full_page_writes=off -c synchronous_commit=off
+
         restart: on-failure
