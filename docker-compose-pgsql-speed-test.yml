@@ -1,0 +1,34 @@
+version: "3"
+
+volumes:
+    pg-data:
+    opendrr-scripts:
+
+services:
+    python-opendrr:
+        image: opendrr/python-env
+        build: ./python-pgsql-speed-test
+        env_file:
+            - .env
+        depends_on: 
+            - db-opendrr
+        volumes:
+            - opendrr-scripts:/usr/src/app
+    db-opendrr:
+        image: postgis/postgis
+        build: ./postgis
+        shm_size: 1g
+        env_file:
+            - .env
+        volumes: 
+            - pg-data:/var/lib/postgresql
+            - opendrr-scripts:/usr/src/app
+        ports: 
+            - ${POSTGRES_PORT}:5432
+        environment: 
+            POSTGRES_HOST_AUTH_METHOD: trust
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASS: ${POSTGRES_PASS}
+            POSTGRES_DB: ${DB_NAME}
+        command: -c fsync=off -c full_page_writes=off -c synchronous_commit=off
+        restart: on-failure
