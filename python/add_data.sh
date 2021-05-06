@@ -265,30 +265,24 @@ echo "Importing Raw PSRA Tables"
 # Get list of provinces & territories
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   --retry 999 --retry-max-time 0 \
-  -O \
+  -o output.json \
   -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output
-PT_LIST=`grep -P -o '"name": "*.*' output | cut -f2- -d:`
-PT_LIST=($(echo $PT_LIST | tr ', ' '\n'))
-for item in ${!PT_LIST[@]}
-do
-  PT_LIST[item]=${PT_LIST[item]:1:${#PT_LIST[item]}-2}
-done
+
+PT_LIST=($(jq -r '.[].name' output.json))
 
 # cDamage
 for PT in ${PT_LIST[@]}
 do
   curl -H "Authorization: token ${GITHUB_TOKEN}" \
     --retry 999 --retry-max-time 0 \
-    -O \
+    -o ${PT}.json \
     -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output/${PT}
-  DOWNLOAD_LIST=`grep -P -o '"url": "*.*csv*.*' ${PT} | cut -f2- -d:`
-  DOWNLOAD_LIST=($(echo $DOWNLOAD_LIST | tr ', ' '\n'))
-  for item in ${!DOWNLOAD_LIST[@]}
-  do
-    DOWNLOAD_LIST[item]=${DOWNLOAD_LIST[item]:1:${#DOWNLOAD_LIST[item]}-2}
-  done
+
+  DOWNLOAD_LIST=($(jq -r '.[].url | select(. | contains(".csv"))' ${PT}))
+
   mkdir -p cDamage/${PT}/
-  cd cDamage/${PT}/
+  pushd cDamage/${PT}/
+
   for file in ${DOWNLOAD_LIST[@]}
   do
     FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
@@ -296,7 +290,7 @@ do
       --retry 999 --retry-max-time 0 \
       -o $FILENAME \
       -L $file
-    DOWNLOAD_URL=`grep -o '"download_url": *.*' ${FILENAME} | cut -f2- -d: | tr -d '"'| tr -d ',' `
+    DOWNLOAD_URL=$(jq -r '.download_url' $FILENAME)
     curl -o $FILENAME \
       --retry 999 --retry-max-time 0 \
       -L $DOWNLOAD_URL
@@ -317,8 +311,8 @@ do
   done
   mv cD_${PT}_dmg-mean_r2_temp.csv cD_${PT}_dmg-mean_r2.csv
 
-  cd /usr/src/app/
-  rm -f ${PT}
+  popd
+  rm -f ${PT}.json
 done
 
 # cHazard
@@ -326,16 +320,14 @@ for PT in ${PT_LIST[@]}
 do
   curl -H "Authorization: token ${GITHUB_TOKEN}" \
     --retry 999 --retry-max-time 0 \
-    -O \
+    -o ${PT}.json \
     -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cHazard/output/${PT}
-  DOWNLOAD_LIST=`grep -P -o '"url": "*.*csv*.*' ${PT} | cut -f2- -d:`
-  DOWNLOAD_LIST=($(echo $DOWNLOAD_LIST | tr ', ' '\n'))
-  for item in ${!DOWNLOAD_LIST[@]}
-  do
-    DOWNLOAD_LIST[item]=${DOWNLOAD_LIST[item]:1:${#DOWNLOAD_LIST[item]}-2}
-  done
+
+  DOWNLOAD_LIST=($(jq -r '.[].url | select(. | contains(".csv"))' ${PT}))
+
   mkdir -p cHazard/${PT}/
-  cd cHazard/${PT}/
+  pushd cHazard/${PT}/
+
   for file in ${DOWNLOAD_LIST[@]}
   do
     FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
@@ -343,7 +335,7 @@ do
       --retry 999 --retry-max-time 0 \
       -o $FILENAME \
       -L $file
-    DOWNLOAD_URL=`grep -o '"download_url": *.*' ${FILENAME} | cut -f2- -d: | tr -d '"'| tr -d ',' `
+    DOWNLOAD_URL=$(jq -r '.download_url' $FILENAME)
     curl -o $FILENAME \
       --retry 999 --retry-max-time 0 \
       -L $DOWNLOAD_URL
@@ -355,9 +347,11 @@ do
       sed -i '1d' $FILENAME
     fi
   done
+
   python3 /usr/src/app/PSRA_hCurveTableCombine.py --hCurveDir=/usr/src/app/cHazard/${PT}/
-  cd /usr/src/app/
-  rm -f ${PT}
+
+  popd
+  rm -f ${PT}.json
 done
 
 # eDamage
@@ -365,16 +359,14 @@ for PT in ${PT_LIST[@]}
 do
   curl -H "Authorization: token ${GITHUB_TOKEN}" \
     --retry 999 --retry-max-time 0 \
-    -O \
+    -o ${PT}.json \
     -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/eDamage/output/${PT}
-  DOWNLOAD_LIST=`grep -P -o '"url": "*.*csv*.*' ${PT} | cut -f2- -d:`
-  DOWNLOAD_LIST=($(echo $DOWNLOAD_LIST | tr ', ' '\n'))
-  for item in ${!DOWNLOAD_LIST[@]}
-  do
-    DOWNLOAD_LIST[item]=${DOWNLOAD_LIST[item]:1:${#DOWNLOAD_LIST[item]}-2}
-  done
+
+  DOWNLOAD_LIST=($(jq -r '.[].url | select(. | contains(".csv"))' ${PT}))
+
   mkdir -p eDamage/${PT}/
-  cd eDamage/${PT}/
+  pushd eDamage/${PT}/
+
   for file in ${DOWNLOAD_LIST[@]}
   do
     FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
@@ -382,7 +374,7 @@ do
       --retry 999 --retry-max-time 0 \
       -o $FILENAME \
       -L $file
-    DOWNLOAD_URL=`grep -o '"download_url": *.*' ${FILENAME} | cut -f2- -d: | tr -d '"'| tr -d ',' `
+    DOWNLOAD_URL=$(jq -r '.download_url' $FILENAME)
     curl -o $FILENAME \
       --retry 999 --retry-max-time 0 \
       -L $DOWNLOAD_URL
@@ -403,8 +395,8 @@ do
   done
   mv eD_${PT}_damages-mean_r2_temp.csv eD_${PT}_damages-mean_r2.csv
 
-  cd /usr/src/app/
-  rm -f ${PT}
+  popd
+  rm -f ${PT}.json
 done
 
 # ebRisk
@@ -412,16 +404,14 @@ for PT in ${PT_LIST[@]}
 do
   curl -H "Authorization: token ${GITHUB_TOKEN}" \
     --retry 999 --retry-max-time 0 \
-    -O \
+    -o ${PT}.json \
     -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/ebRisk/output/${PT}
-  DOWNLOAD_LIST=`grep -P -o '"url": "*.*csv*.*' ${PT} | cut -f2- -d:`
-  DOWNLOAD_LIST=($(echo $DOWNLOAD_LIST | tr ', ' '\n'))
-  for item in ${!DOWNLOAD_LIST[@]}
-  do
-    DOWNLOAD_LIST[item]=${DOWNLOAD_LIST[item]:1:${#DOWNLOAD_LIST[item]}-2}
-  done
+
+  DOWNLOAD_LIST=($(jq -r '.[].url | select(. | contains(".csv"))' ${PT}))
+
   mkdir -p ebRisk/${PT}/
-  cd ebRisk/${PT}/
+  pushd ebRisk/${PT}/
+
   for file in ${DOWNLOAD_LIST[@]}
   do
     FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
@@ -429,7 +419,7 @@ do
       --retry 999 --retry-max-time 0 \
       -o $FILENAME \
       -L $file
-    DOWNLOAD_URL=`grep -o '"download_url": *.*' ${FILENAME} | cut -f2- -d: | tr -d '"'| tr -d ',' `
+    DOWNLOAD_URL=$(jq -r '.download_url' $FILENAME)
     curl -o $FILENAME \
       --retry 999 --retry-max-time 0 \
       -L $DOWNLOAD_URL
@@ -481,8 +471,8 @@ do
   # Combine source loss tables for runs that were split by economic region or sub-region
   python3 /usr/src/app/PSRA_combineSrcLossTable.py --srcLossDir=/usr/src/app/ebRisk/${PT}
 
-  cd /usr/src/app/
-  rm -f ${PT}
+  popd
+  rm -f ${PT}.json
 done
 
 # PSRA_0
@@ -508,18 +498,14 @@ run_psql psra_6.Create_psra_merge_into_national_indicators.sql
 # Get list of earthquake scenarios
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   --retry 999 --retry-max-time 0 \
-  -O \
+  -o FINISHED.json \
   -L https://api.github.com/repos/OpenDRR/scenario-catalogue/contents/FINISHED
-EQSCENARIO_LIST=`grep -P -o '"name": "s_lossesbyasset_*.*r2' FINISHED | cut -f3- -d_`
-EQSCENARIO_LIST=($(echo $EQSCENARIO_LIST | tr ' ' '\n'))
 
-EQSCENARIO_LIST_LONGFORM=`grep -P -o '"name": "s_lossesbyasset_*.*r2.*csv' FINISHED | cut -f3- -d_`
-EQSCENARIO_LIST_LONGFORM=($(echo $EQSCENARIO_LIST_LONGFORM | tr ' ' '\n'))
+# s_lossesbyasset_ACM6p5_Beaufort_r2_299_b.csv → ACM6p5_Beaufort
+EQSCENARIO_LIST=($(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*(?=_r2)")' FINISHED.json))
 
-for item in ${!EQSCENARIO_LIST[@]}
-do
-    EQSCENARIO_LIST[item]=${EQSCENARIO_LIST[item]:0:${#EQSCENARIO_LIST[item]}-3}
-done
+# s_lossesbyasset_ACM6p5_Beaufort_r2_299_b.csv → ACM6p5_Beaufort_r2_299_b.csv
+EQSCENARIO_LIST_LONGFORM=($(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*r2.*\\.csv")' FINISHED.json))
 
 echo -e "\n Importing scenario outputs into PostGIS..."
 for eqscenario in ${EQSCENARIO_LIST[*]}
@@ -529,8 +515,7 @@ done
 
 echo "Importing Shakemap"
 # Make a list of Shakemaps in the repo and download the raw csv files
-DOWNLOAD_URL_LIST=`grep -P -o '"url": "*.*s_shakemap_*.*csv' FINISHED | cut -f2- -d: | tr -d '"'| tr -d ',' | cut -f1 -d?`
-DOWNLOAD_URL_LIST=($(echo $DOWNLOAD_URL_LIST | tr ' ' '\n'))
+DOWNLOAD_URL_LIST=($(jq -r '.[].url | scan(".*s_shakemap_.*\\.csv")' FINISHED.json))
 for shakemap in ${DOWNLOAD_URL_LIST[*]}
 do
     # Get the shakemap
@@ -539,7 +524,7 @@ do
       --retry 999 --retry-max-time 0 \
       -o $shakemap_filename \
       -L $shakemap
-    DOWNLOAD_URL=`grep -o '"download_url": *.*' ${shakemap_filename} | cut -f2- -d: | tr -d '"'| tr -d ',' `
+    DOWNLOAD_URL=$(jq -r '.download_url' ${shakemap_filename})
       echo $DOWNLOAD_URL
     curl -o $shakemap_filename \
       --retry 999 --retry-max-time 0 \
@@ -549,8 +534,7 @@ do
 done
 
 # Run Create_table_shakemap_update.sql or Create_table_shakemap_update_ste.sql
-SHAKEMAP_LIST=`grep -P -o '"name": "s_shakemap_*.*csv' FINISHED | cut -f2- -d: | cut -f2- -d'"'`
-SHAKEMAP_LIST=($(echo $SHAKEMAP_LIST | tr ' ' '\n'))
+SHAKEMAP_LIST=($(jq -r '.[].name | scan("s_shakemap_.*\\.csv")' FINISHED.json))
 for ((i=0;i<${#EQSCENARIO_LIST_LONGFORM[@]};i++));
 do
     item=${EQSCENARIO_LIST_LONGFORM[i]}
