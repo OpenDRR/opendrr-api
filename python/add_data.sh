@@ -249,12 +249,7 @@ curl -H "Authorization: token ${GITHUB_TOKEN}" \
   --retry 999 --retry-max-time 0 \
   -O \
   -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output
-PT_LIST=`grep -P -o '"name": "*.*' output | cut -f2- -d:`
-PT_LIST=($(echo $PT_LIST | tr ', ' '\n'))
-for item in ${!PT_LIST[@]}
-do
-  PT_LIST[item]=${PT_LIST[item]:1:${#PT_LIST[item]}-2}
-done
+PT_LIST=($(jq -r '.[].name' output))
 
 # cDamage
 for PT in ${PT_LIST[@]}
@@ -263,12 +258,9 @@ do
     --retry 999 --retry-max-time 0 \
     -O \
     -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output/${PT}
-  DOWNLOAD_LIST=`grep -P -o '"url": "*.*csv*.*' ${PT} | cut -f2- -d:`
-  DOWNLOAD_LIST=($(echo $DOWNLOAD_LIST | tr ', ' '\n'))
-  for item in ${!DOWNLOAD_LIST[@]}
-  do
-    DOWNLOAD_LIST[item]=${DOWNLOAD_LIST[item]:1:${#DOWNLOAD_LIST[item]}-2}
-  done
+
+  DOWNLOAD_LIST=($(jq -r '.[].url | select(. | contains(".csv"))' ${PT}))
+
   mkdir -p cDamage/${PT}/
   cd cDamage/${PT}/
   for file in ${DOWNLOAD_LIST[@]}
@@ -310,12 +302,8 @@ do
     --retry 999 --retry-max-time 0 \
     -O \
     -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cHazard/output/${PT}
-  DOWNLOAD_LIST=`grep -P -o '"url": "*.*csv*.*' ${PT} | cut -f2- -d:`
-  DOWNLOAD_LIST=($(echo $DOWNLOAD_LIST | tr ', ' '\n'))
-  for item in ${!DOWNLOAD_LIST[@]}
-  do
-    DOWNLOAD_LIST[item]=${DOWNLOAD_LIST[item]:1:${#DOWNLOAD_LIST[item]}-2}
-  done
+  DOWNLOAD_LIST=($(jq -r '.[].url | select(. | contains(".csv"))' ${PT}))
+
   mkdir -p cHazard/${PT}/
   cd cHazard/${PT}/
   for file in ${DOWNLOAD_LIST[@]}
@@ -349,12 +337,9 @@ do
     --retry 999 --retry-max-time 0 \
     -O \
     -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/eDamage/output/${PT}
-  DOWNLOAD_LIST=`grep -P -o '"url": "*.*csv*.*' ${PT} | cut -f2- -d:`
-  DOWNLOAD_LIST=($(echo $DOWNLOAD_LIST | tr ', ' '\n'))
-  for item in ${!DOWNLOAD_LIST[@]}
-  do
-    DOWNLOAD_LIST[item]=${DOWNLOAD_LIST[item]:1:${#DOWNLOAD_LIST[item]}-2}
-  done
+
+  DOWNLOAD_LIST=($(jq -r '.[].url | select(. | contains(".csv"))' ${PT}))
+
   mkdir -p eDamage/${PT}/
   cd eDamage/${PT}/
   for file in ${DOWNLOAD_LIST[@]}
