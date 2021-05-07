@@ -39,8 +39,8 @@ run_ogr2ogr() {
 
   local srs_def="EPSG:4326"
   local dst_datasource_name=PG:"host='$POSTGRES_HOST' user='$POSTGRES_USER' dbname='$DB_NAME' password='$POSTGRES_PASS'"
-  local src_datasource_name="boundaries/Geometry_$id.gpkg"
-  local nln="boundaries.Geometry_$id"
+  local src_datasource_name="boundaries/$id.gpkg"
+  local nln="boundaries.$(basename $id)"
 
   echo "  - ogr2ogr: Importing $src_datasource_name into $DB_NAME..."
 
@@ -134,12 +134,19 @@ cp model-factory/scripts/*.* .
 ############################################################################################
 
 echo -e "\n Importing Census Boundaries"
+
 # Create boundaries schema geometry tables from default geopackages.
 for i in ADAUID CANADA CDUID CSDUID DAUID ERUID FSAUID PRUID SAUID; do
-  run_ogr2ogr "$i"
+  run_ogr2ogr "Geometry_$i"
 done
+
+for i in HexGrid_5km HexGrid_10km HexGrid_25km HexGrid_50km SAUID_HexGrid; do
+  run_ogr2ogr "hexbin_4326/$i"
+done
+
 #rm -rf boundaries
 run_psql Update_boundaries_SAUID_table.sql
+
 
 # Physical Exposure
 echo -e "\n Importing Physical Exposure Model into PostGIS"
