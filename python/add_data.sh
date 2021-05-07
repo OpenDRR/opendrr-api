@@ -122,9 +122,6 @@ done
 # Get model-factory scripts
 git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; git pull)
 
-# Get boundary files
-git clone https://github.com/OpenDRR/boundaries.git --depth 1 || (cd boundaries ; git pull)
-
 # Copy model-factory scripts to working directory
 cp model-factory/scripts/*.* .
 #rm -rf model-factory
@@ -135,16 +132,32 @@ cp model-factory/scripts/*.* .
 
 echo -e "\n Importing Census Boundaries"
 
-# Create boundaries schema geometry tables from default geopackages.
-for i in ADAUID CANADA CDUID CSDUID DAUID ERUID FSAUID PRUID SAUID; do
-  run_ogr2ogr "Geometry_$i"
-done
+echo " - Trying to download pre-generated PostGIS database dump (for speed)..."
+if curl -O -v --retry 999 --retry-max-time 0 https://opendrr.eccp.ca/file/OpenDRR/opendrr-boundaries.dump || \
+   curl -O -v --retry 999 --retry-max-time 0 https://f000.backblazeb2.com/file/OpenDRR/opendrr-boundaries.dump
+then
+  /usr/bin/time pg_restore -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" \
+    --verbose --clean --if-exists --create opendrr-boundaries.dump \
+    | while IFS= read -r line; do printf '%s %s\n' "$(date "+%Y-%m-%d %H:%M:%S")" "$line"; done
+else
+  echo " - WARNING: Unable to fetch pre-generated PostGIS database dump."
+  echo "            Fallback to fetching boundaries CSV from GitHub (LFS)..."
 
-for i in HexGrid_5km HexGrid_10km HexGrid_25km HexGrid_50km SAUID_HexGrid; do
-  run_ogr2ogr "hexbin_4326/$i"
-done
+  # Get boundary files
+  git clone https://github.com/OpenDRR/boundaries.git --depth 1 || (cd boundaries ; git pull)
 
-#rm -rf boundaries
+  # Create boundaries schema geometry tables from default geopackages.
+  for i in ADAUID CANADA CDUID CSDUID DAUID ERUID FSAUID PRUID SAUID; do
+    run_ogr2ogr "Geometry_$i"
+  done
+
+  for i in HexGrid_5km HexGrid_10km HexGrid_25km HexGrid_50km SAUID_HexGrid; do
+    run_ogr2ogr "hexbin_4326/$i"
+  done
+
+  #rm -rf boundaries
+fi
+
 run_psql Update_boundaries_SAUID_table.sql
 
 
