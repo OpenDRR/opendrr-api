@@ -1,4 +1,12 @@
-
+# =================================================================
+#!/bin/bash
+# SPDX-License-Identifier: MIT
+#
+# Copyright (C) 2020-2021 Government of Canada
+#
+# Main Authors: Drew Rotheram <drew.rotheram-clarke@canada.ca>
+#               Joost van Ulden <joost.vanulden@canada.ca>
+# =================================================================
 
 import json
 import os
