@@ -203,7 +203,7 @@ def parse_args():
     parser.add_argument("--dbview", type=str, help=" Thematic Database View. Allowable values: (casualties, damage_state, economic_loss, functional_state, recovery, scenario_hazard, scenario_hazard_threat,scenario_rupture, social_disruption)", required=True)
     parser.add_argument("--idField", type=str, help="Field to use as ElasticSearch Index ID", required=True)
     args = parser.parse_args()
-    
+
     return args
 
 if __name__ == '__main__':

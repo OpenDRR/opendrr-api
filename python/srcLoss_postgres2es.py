@@ -103,30 +103,6 @@ def main():
     return
 
 
-def gendata(data, view):
-    for item in data['features']:
-        yield {
-            "_index": view,
-            "_source": item
-        }
-
-
-# Function to handle decimal encoder error
-def decimal_default(obj):
-    if isinstance(obj, decimal.Decimal):
-        return float(obj)
-    raise TypeError
-
-
-def get_config_params(args):
-    """
-    Parse Input/Output columns from supplied *.ini file
-    """
-    configParseObj = configparser.ConfigParser()
-    configParseObj.read(args)
-    return configParseObj
-
-
 def parse_args():
     parser = argparse.ArgumentParser(description="script description")
     parser.add_argument("--province",
