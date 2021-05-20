@@ -10,11 +10,15 @@
 
 
 import utils
+from utils import ESConnection
+from utils import PostGISdataset
+from utils import PostGISConnection
+
 
 def main():
-    table = utils.PostGISdataset(
-        utils.PostGISConnection(),
-        utils.ESConnection(settings = {
+    table = PostGISdataset(
+        PostGISConnection(),
+        ESConnection(settings = {
             'settings': {
                 'number_of_shards': 1,
                 'number_of_replicas': 0
@@ -27,10 +31,10 @@ def main():
                 }
             }
         } ),
-        view = "dsra_all_scenarios_cduid",
+        view = "dsra_all_scenarios_dauid",
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom) \
-                    FROM dsra.dsra_all_scenarios_cduid \
-                    ORDER BY dsra_all_scenarios_cduid."cduid" \
+                    FROM dsra.dsra_all_scenarios_dauid \
+                    ORDER BY dsra_all_scenarios_dauid."dauid" \
                     LIMIT {limit} \
                     OFFSET {offset}'
     )
