@@ -96,6 +96,84 @@ fetch_csv() {
     --retry 999 --retry-max-time 0
 }
 
+
+# fetch_psra_csv_from_model fetches CSV files from the specified model
+# for all provinces and territories.
+fetch_psra_csv_from_model() {
+  if [ "$#" != "1" ]; then
+    echo "ERROR: ${FUNCNAME[0]} requires exactly one argument."
+    exit 1
+  fi
+
+  model=$1
+
+  for PT in ${PT_LIST[@]}; do
+    curl -H "Authorization: token ${GITHUB_TOKEN}" \
+      --retry 999 --retry-max-time 0 \
+      -o ${PT}.json \
+      -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/$model/output/${PT}
+
+    DOWNLOAD_LIST=($(jq -r '.[].url | select(. | contains(".csv"))' ${PT}.json))
+
+    mkdir -p $model/${PT}
+    ( cd $model/${PT}
+      for file in ${DOWNLOAD_LIST[@]}; do
+        FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
+        curl -H "Authorization: token ${GITHUB_TOKEN}" \
+          --retry 999 --retry-max-time 0 \
+          -o $FILENAME \
+          -L $file
+        DOWNLOAD_URL=$(jq -r '.download_url' $FILENAME)
+        curl -o $FILENAME \
+          --retry 999 --retry-max-time 0 \
+          -L $DOWNLOAD_URL
+
+        # Strip OpenQuake comment header if exists
+        # (safe for cH_${PT}_hmaps_xref.csv)
+        sed -i -r $'1{/^(\xEF\xBB\xBF)?#,/d}' $FILENAME
+      done
+      # TODO: Use a different for ${PT}.json, and keep for debugging
+      rm -f ${PT}.json
+    )
+  done
+}
+
+# merge_csv merges CSV files without repeating column headers.
+# The '#,,,,,"generated_by='OpenQuake engine 3.x..."' header is removed too.
+# Syntax: merge_cvs [INPUT_CSV_FILES]... [OUTPUT_FILE]
+merge_csv() {
+  if [ "$#" -lt "2" ]; then
+    echo "ERROR: ${FUNCNAME[0]} needs at least two arguments"
+    exit 1
+  fi
+  input_files="${@:1:$#-1}"
+  output_file="${@:$#}"
+
+  echo "merge_cvs input: $input_files"
+  echo "merge_cvs output: $output_file"
+
+  if [ "$#" = "2" -a "$1" = "$2" ]; then
+    echo "NOTICE: There is only one input file, and it has the same name as output file, skipping."
+    return
+  fi
+
+  if echo "$input_files" | grep -q "$output_file"; then
+    echo "ERROR: Output file \"$output_file\" is listed among input files: \"$input_files\""
+    exit 1
+  fi
+
+  if [ -e "$output_file" ]; then
+    echo "WARNING: Output file \"$output_file\" already exists!  Overwriting..."
+  fi
+
+  # The "awk" magic that merge CSV files while stripping duplicated headers.
+  # See https://apple.stackexchange.com/questions/80611/merging-multiple-csv-files-without-merging-the-header
+  #awk '(NR == 2) || (FNR > 2)' $input_files > "$output_file" # NOTE: Do not quote $input_files here!
+  awk '(NR == 1) || (FNR > 1)' $input_files > "$output_file" # NOTE: Do not quote $input_files here!
+
+  return
+}
+
 ############################################################################################
 #######################     Begin main processes                     #######################
 ############################################################################################
@@ -257,217 +335,61 @@ run_psql Create_MH_risk_sauid_ALL.sql
 ############################################################################################
 
 echo "Importing Raw PSRA Tables"
+
 # Get list of provinces & territories
 curl -H "Authorization: token ${GITHUB_TOKEN}" \
   --retry 999 --retry-max-time 0 \
   -o output.json \
   -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output
 
+# EXPECTED_PT_LIST=(AB BC MB NB NL NS NT NU ON PE QC SK)
+
 PT_LIST=($(jq -r '.[].name' output.json))
 
 # cDamage
-for PT in ${PT_LIST[@]}
-do
-  curl -H "Authorization: token ${GITHUB_TOKEN}" \
-    --retry 999 --retry-max-time 0 \
-    -o ${PT}.json \
-    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output/${PT}
+fetch_psra_csv_from_model cDamage
 
-  DOWNLOAD_LIST=($(jq -r '.[].url | select(. | contains(".csv"))' ${PT}))
-
-  mkdir -p cDamage/${PT}/
-  pushd cDamage/${PT}/
-
-  for file in ${DOWNLOAD_LIST[@]}
-  do
-    FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
-    curl -H "Authorization: token ${GITHUB_TOKEN}" \
-      --retry 999 --retry-max-time 0 \
-      -o $FILENAME \
-      -L $file
-    DOWNLOAD_URL=$(jq -r '.download_url' $FILENAME)
-    curl -o $FILENAME \
-      --retry 999 --retry-max-time 0 \
-      -L $DOWNLOAD_URL
-    sed -i '1d' $FILENAME
-  done
-
-  for file in cD_*dmg-mean_b0.csv
-  do
-    sed -i '1d' $file
-    cat $file >> cD_${PT}_dmg-mean_b0_temp.csv
-  done
-  mv cD_${PT}_dmg-mean_b0_temp.csv cD_${PT}_dmg-mean_b0.csv
-
-  for file in cD_*dmg-mean_r2.csv
-  do
-    sed -i '1d' $file
-    cat $file >> cD_${PT}_dmg-mean_r2_temp.csv
-  done
-  mv cD_${PT}_dmg-mean_r2_temp.csv cD_${PT}_dmg-mean_r2.csv
-
-  popd
-  rm -f ${PT}.json
+for PT in ${PT_LIST[@]}; do
+  ( cd cDamage/$PT
+    merge_csv cD_*dmg-mean_b0.csv cD_${PT}_dmg-mean_b0.csv
+    merge_csv cD_*dmg-mean_r2.csv cD_${PT}_dmg-mean_r2.csv
+  )
 done
 
 # cHazard
-for PT in ${PT_LIST[@]}
-do
-  curl -H "Authorization: token ${GITHUB_TOKEN}" \
-    --retry 999 --retry-max-time 0 \
-    -o ${PT}.json \
-    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cHazard/output/${PT}
+fetch_psra_csv_from_model cHazard
 
-  DOWNLOAD_LIST=($(jq -r '.[].url | select(. | contains(".csv"))' ${PT}))
-
-  mkdir -p cHazard/${PT}/
-  pushd cHazard/${PT}/
-
-  for file in ${DOWNLOAD_LIST[@]}
-  do
-    FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
-    curl -H "Authorization: token ${GITHUB_TOKEN}" \
-      --retry 999 --retry-max-time 0 \
-      -o $FILENAME \
-      -L $file
-    DOWNLOAD_URL=$(jq -r '.download_url' $FILENAME)
-    curl -o $FILENAME \
-      --retry 999 --retry-max-time 0 \
-      -L $DOWNLOAD_URL
-    #if [ "$SITE" = "s" ]
-    if [ "$FILENAME" = "cH_${PT}_hmaps_xref.csv" ]
-    then
-      echo "Leave Header Alone"
-    else
-      sed -i '1d' $FILENAME
-    fi
-  done
-
-  python3 /usr/src/app/PSRA_hCurveTableCombine.py --hCurveDir=/usr/src/app/cHazard/${PT}/
-
-  popd
-  rm -f ${PT}.json
+for PT in ${PT_LIST[@]}; do
+  ( cd cHazard/$PT
+    python3 /usr/src/app/PSRA_hCurveTableCombine.py --hCurveDir=/usr/src/app/cHazard/${PT}/
+  )
 done
 
 # eDamage
-for PT in ${PT_LIST[@]}
-do
-  curl -H "Authorization: token ${GITHUB_TOKEN}" \
-    --retry 999 --retry-max-time 0 \
-    -o ${PT}.json \
-    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/eDamage/output/${PT}
+fetch_psra_csv_from_model eDamage
 
-  DOWNLOAD_LIST=($(jq -r '.[].url | select(. | contains(".csv"))' ${PT}))
-
-  mkdir -p eDamage/${PT}/
-  pushd eDamage/${PT}/
-
-  for file in ${DOWNLOAD_LIST[@]}
-  do
-    FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
-    curl -H "Authorization: token ${GITHUB_TOKEN}" \
-      --retry 999 --retry-max-time 0 \
-      -o $FILENAME \
-      -L $file
-    DOWNLOAD_URL=$(jq -r '.download_url' $FILENAME)
-    curl -o $FILENAME \
-      --retry 999 --retry-max-time 0 \
-      -L $DOWNLOAD_URL
-    sed -i '1d' $FILENAME
-  done
-
-  for file in eD_*damages-mean_b0.csv
-  do
-    sed -i '1d' $file
-    cat $file >> eD_${PT}_damages-mean_b0_temp.csv
-  done
-  mv eD_${PT}_damages-mean_b0_temp.csv eD_${PT}_damages-mean_b0.csv
-
-  for file in eD_*damages-mean_r2.csv
-  do
-    sed -i '1d' $file
-    cat $file >> eD_${PT}_damages-mean_r2_temp.csv
-  done
-  mv eD_${PT}_damages-mean_r2_temp.csv eD_${PT}_damages-mean_r2.csv
-
-  popd
-  rm -f ${PT}.json
+for PT in ${PT_LIST[@]}; do
+  ( cd eDamage/$PT
+    merge_csv eD_*damages-mean_b0.csv eD_${PT}_damages-mean_b0.csv
+    merge_csv eD_*damages-mean_r2.csv eD_${PT}_damages-mean_r2.csv
+  )
 done
 
 # ebRisk
-for PT in ${PT_LIST[@]}
-do
-  curl -H "Authorization: token ${GITHUB_TOKEN}" \
-    --retry 999 --retry-max-time 0 \
-    -o ${PT}.json \
-    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/ebRisk/output/${PT}
+fetch_psra_csv_from_model ebRisk
 
-  DOWNLOAD_LIST=($(jq -r '.[].url | select(. | contains(".csv"))' ${PT}))
+for PT in ${PT_LIST[@]}; do
+  ( cd ebRisk/$PT
+    merge_csv ebR_*agg_curves-stats_b0.csv ebR_${PT}_agg_curves-stats_b0.csv
+    merge_csv ebR_*agg_curves-stats_r2.csv ebR_${PT}_agg_curves-stats_r2.csv
+    merge_csv ebR_*agg_losses-stats_b0.csv ebR_${PT}_agg_losses-stats_b0.csv
+    merge_csv ebR_*agg_losses-stats_r2.csv ebR_${PT}_agg_losses-stats_r2.csv
+    merge_csv ebR_*avg_losses-stats_b0.csv ebR_${PT}_avg_losses-stats_b0.csv
+    merge_csv ebR_*avg_losses-stats_r2.csv ebR_${PT}_avg_losses-stats_r2.csv
 
-  mkdir -p ebRisk/${PT}/
-  pushd ebRisk/${PT}/
-
-  for file in ${DOWNLOAD_LIST[@]}
-  do
-    FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
-    curl -H "Authorization: token ${GITHUB_TOKEN}" \
-      --retry 999 --retry-max-time 0 \
-      -o $FILENAME \
-      -L $file
-    DOWNLOAD_URL=$(jq -r '.download_url' $FILENAME)
-    curl -o $FILENAME \
-      --retry 999 --retry-max-time 0 \
-      -L $DOWNLOAD_URL
-    sed -i '1d' $FILENAME
-  done
-
-  for file in ebR_*agg_curves-stats_b0.csv
-  do
-    sed -i '1d' $file
-    cat $file >> ebR_${PT}_agg_curves-stats_b0_temp.csv
-  done
-  mv ebR_${PT}_agg_curves-stats_b0_temp.csv ebR_${PT}_agg_curves-stats_b0.csv
-
-  for file in ebR_*agg_curves-stats_r2.csv
-  do
-    sed -i '1d' $file
-    cat $file >> ebR_${PT}_agg_curves-stats_r2_temp.csv
-  done
-  mv ebR_${PT}_agg_curves-stats_r2_temp.csv ebR_${PT}_agg_curves-stats_r2.csv
-
-  for file in ebR_*agg_losses-stats_b0.csv
-  do
-    sed -i '1d' $file
-    cat $file >> ebR_${PT}_agg_losses-stats_b0_temp.csv
-  done
-  mv ebR_${PT}_agg_losses-stats_b0_temp.csv ebR_${PT}_agg_losses-stats_b0.csv
-
-  for file in ebR_*agg_losses-stats_r2.csv
-  do
-    sed -i '1d' $file
-    cat $file >> ebR_${PT}_agg_losses-stats_r2_temp.csv
-  done
-  mv ebR_${PT}_agg_losses-stats_r2_temp.csv ebR_${PT}_agg_losses-stats_r2.csv
-
-  for file in ebR_*avg_losses-stats_b0.csv
-  do
-    sed -i '1d' $file
-    cat $file >> ebR_${PT}_avg_losses-stats_b0_temp.csv
-  done
-  mv ebR_${PT}_avg_losses-stats_b0_temp.csv ebR_${PT}_avg_losses-stats_b0.csv
-
-  for file in ebR_*avg_losses-stats_r2.csv
-  do
-    sed -i '1d' $file
-    cat $file >> ebR_${PT}_avg_losses-stats_r2_temp.csv
-  done
-  mv ebR_${PT}_avg_losses-stats_r2_temp.csv ebR_${PT}_avg_losses-stats_r2.csv
-
-  # Combine source loss tables for runs that were split by economic region or sub-region
-  python3 /usr/src/app/PSRA_combineSrcLossTable.py --srcLossDir=/usr/src/app/ebRisk/${PT}
-
-  popd
-  rm -f ${PT}.json
+    # Combine source loss tables for runs that were split by economic region or sub-region
+    python3 /usr/src/app/PSRA_combineSrcLossTable.py --srcLossDir=/usr/src/app/ebRisk/${PT}
+  )
 done
 
 # PSRA_0
