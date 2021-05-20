@@ -64,12 +64,13 @@ run_psql() {
   psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" -a -f "$input_file"
 }
 
-# fetch_csv downloads CSV data files from OpenDRR repos
+
+# fetch_csv_lfs downloads CSV data files from OpenDRR repos
 # with help from GitHub API with support for LFS files.
 # See https://docs.github.com/en/rest/reference/repos#get-repository-content
-fetch_csv() {
+fetch_csv_lfs() {
   if [ "$#" -ne 2 ]; then
-    echo "Error: fetch_csv() requires exactly two arguments, but $# was given."
+    echo "Error: ${FUNCNAME[0]} requires exactly two arguments, but $# was given."
     exit 1
   fi
   local owner="OpenDRR"
@@ -92,8 +93,45 @@ fetch_csv() {
   echo download_url=$download_url
   echo size=$size
 
-  curl -o "$output_file" -L "$download_url" \
-    --retry 999 --retry-max-time 0
+  echo "${FUNCNAME[0]}: Download from $download_url"
+  curl -o "$output_file" -L "$download_url" --retry 999 --retry-max-time 0
+}
+
+# fetch_csv_xz downloads CSV data files from OpenDRR xz-compressed repos
+fetch_csv_xz() {
+  if [ "$#" -ne 2 ]; then
+    echo "ERROR: ${FUNCNAME[0]} requires exactly two arguments, but $# was given."
+    exit 1
+  fi
+  local owner="OpenDRR"
+  local repo="$1"
+  local path="$2"
+  local output_file=$(basename $path | sed -e 's/?.*//')
+  local response
+  local path_dir=$(dirname "$path")
+  echo $path_dir
+
+  # Fetch directory listing
+  mkdir -p github-api/$path_dir
+  response="github-api/$path_dir.dir.json"
+  curl -s -o "$response" \
+    --retry 999 --retry-max-time 0 \
+    -H "Authorization: token ${GITHUB_TOKEN}" \
+    -H "Accept: application/vnd.github.v3+json" \
+    -L "https://api.github.com/repos/$owner/$repo-xz/contents/$path_dir"
+
+  local download_url=$(jq -r '.[] | select(.name == "'"$output_file"'.xz") | .download_url' $response)
+  echo "${FUNCNAME[0]}: Download from $download_url"
+  curl -o "$output_file.xz" -L "$download_url" --retry 999 --retry-max-time 0
+
+  # TODO: Keep the compressed file somewhere, uncompress when needed
+  unxz $output_file.xz
+}
+
+# fetch_csv calls either fetch_csv_xz or fetch_csv_lfs to fetch CSV files
+fetch_csv() {
+  # TODO: Make it more intelligent.
+  time fetch_csv_xz "$@" || time fetch_csv_lfs "$@"
 }
 
 
