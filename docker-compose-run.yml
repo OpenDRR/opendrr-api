@@ -27,7 +27,7 @@ services:
             - 9200:9200
     
     pygeoapi-opendrr:
-        image: opendrr/pygeoapi
+        image: opendrr-pygeoapi
         build: ./pygeoapi
         
         ports:
@@ -39,7 +39,7 @@ services:
         restart: unless-stopped
     
     db-opendrr:
-        image: postgis/postgis
+        image: opendrr-postgis
         build: ./postgis
         shm_size: 1g
  
