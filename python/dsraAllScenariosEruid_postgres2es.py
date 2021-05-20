@@ -11,9 +11,8 @@
 
 import utils
 
-
 def main():
-    table = utils.PostGISdataset(
+    eruidTable = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings = {
             'settings': {
@@ -28,15 +27,15 @@ def main():
                 }
             }
         } ),
-        view = "dsra_all_scenarios_csduid",
+        view = "dsra_all_scenarios_eruid",
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom) \
-                    FROM dsra.dsra_all_scenarios_csduid \
-                    ORDER BY dsra_all_scenarios_csduid."csduid" \
+                    FROM dsra.dsra_all_scenarios_eruid \
+                    ORDER BY dsra_all_scenarios_eruid."eruid" \
                     LIMIT {limit} \
                     OFFSET {offset}'
     )
 
-    table.postgis2es()
+    eruidTable.postgis2es()
 
     return
 
