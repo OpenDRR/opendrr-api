@@ -28,6 +28,24 @@ DSRA_REPOSITORY=https://github.com/OpenDRR/scenario-catalogue/tree/master/FINISH
 #######################     Define helper functions                  #######################
 ############################################################################################
 
+# set_synchronous_commit sets database's synchronous_commit
+# to "off" for speed, or to "on" for reliability.
+set_synchronous_commit() {
+  if [ "$#" -ne 1 ]; then
+    echo "ERROR: ${FUNCNAME[0]} requires exactly one argument, but $# was given."
+    exit 1
+  fi
+  local on_off="$1"
+
+  echo "  - psql: Setting synchronous_commit TO $on_off..."
+  psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" -a \
+    -c "SHOW synchronous_commit;"
+  psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" -a \
+    -c "ALTER DATABASE $DB_NAME SET synchronous_commit TO $on_off;"
+  psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" -a \
+    -c "SHOW synchronous_commit;"
+}
+
 # run_ogr2ogr creates boundaries schema geometry tables from default geopackages.
 # (Change ogr2ogr PATH / geopackage path if necessary to run.)
 run_ogr2ogr() {
@@ -241,6 +259,10 @@ git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-fa
 # Copy model-factory scripts to working directory
 cp model-factory/scripts/*.* .
 #rm -rf model-factory
+
+
+# Speed up PostgreSQL operations
+set_synchronous_commit off
 
 ############################################################################################
 #######################     Process Exposure and Ancillary Data      #######################
@@ -615,5 +637,9 @@ fi
 
 echo -e "\n Loading Kibana Saved Objects"
 curl -X POST -H "securitytenant: global" "${KIBANA_ENDPOINT}/api/saved_objects/_import" -H "kbn-xsrf: true" --form file=@kibanaSavedObjects.ndjson
+
+
+# Restore PostgreSQL synchronous_commit default setting (on) for reliability
+set_synchronous_commit on
 
 tail -f /dev/null & wait
