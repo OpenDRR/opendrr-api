@@ -293,23 +293,23 @@ mkdir -p git
 )
 
 
-# Make sure PostGIS is ready to accept connections
-until pg_isready -h ${POSTGRES_HOST} -p 5432 -U ${POSTGRES_USER}
-do
-  echo "Waiting for postgres..."
-  sleep 2;
-done
-
 # Get model-factory scripts
-git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; git pull)
+RUN git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; RUN git pull)
 
 # Copy model-factory scripts to working directory
 cp model-factory/scripts/*.* .
 #rm -rf model-factory
 
 
+# Make sure PostGIS is ready to accept connections
+LOG "Wait until PostgreSQL is ready"
+until pg_isready -h ${POSTGRES_HOST} -p 5432 -U ${POSTGRES_USER}; do
+  sleep 2
+done
+
 # Speed up PostgreSQL operations
 set_synchronous_commit off
+
 
 ############################################################################################
 #######################     Process Exposure and Ancillary Data      #######################
