@@ -275,6 +275,28 @@ if [[ "$status_code" -ne 200 ]] ; then
   exit 0
 fi
 
+
+RUN git --version
+
+# Get model-factory scripts
+RUN git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; RUN git pull)
+
+# Copy model-factory scripts to working directory
+cp model-factory/scripts/*.* .
+#rm -rf model-factory
+
+LOG '## Fetch Git LFS pointers of CSV files for "oid sha256"'
+mkdir -p git
+( cd git &&
+  for repo in canada-srm2 model-inputs scenario-catalogue; do
+    RUN git clone --filter=blob:none --no-checkout https://$GITHUB_TOKEN@github.com/OpenDRR/$repo.git
+    ( cd $repo && \
+      git sparse-checkout set '*.csv' && \
+      GIT_LFS_SKIP_SMUDGE=1 git checkout )
+  done
+)
+
+
 # Make sure PostGIS is ready to accept connections
 until pg_isready -h ${POSTGRES_HOST} -p 5432 -U ${POSTGRES_USER}
 do
