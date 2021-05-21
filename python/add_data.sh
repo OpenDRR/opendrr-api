@@ -257,6 +257,12 @@ merge_csv() {
 #######################     Begin main processes                     #######################
 ############################################################################################
 
+# Speed up file writes with eatmydata
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+"$LD_LIBRARY_PATH:"}/usr/lib/libeatmydata
+LD_PRELOAD=${LD_PRELOAD:+"$LD_PRELOAD "}libeatmydata.so
+export LD_LIBRARY_PATH LD_PRELOAD
+
+
 # Read GitHub token from config.ini
 # See https://github.blog/changelog/2021-03-31-authentication-token-format-updates-are-generally-available/
 GITHUB_TOKEN=$(sed -n -r 's/^ *github_token *= *([A-Za-z0-9_]+)/\1/p' config.ini)
