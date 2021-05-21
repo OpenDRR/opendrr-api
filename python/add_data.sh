@@ -257,6 +257,12 @@ merge_csv() {
 #######################     Begin main processes                     #######################
 ############################################################################################
 
+# Speed up file writes with eatmydata
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+"$LD_LIBRARY_PATH:"}/usr/lib/libeatmydata
+LD_PRELOAD=${LD_PRELOAD:+"$LD_PRELOAD "}libeatmydata.so
+export LD_LIBRARY_PATH LD_PRELOAD
+
+
 # Read GitHub token from config.ini
 GITHUB_TOKEN=$(sed -n -e 's/github_token *= *\([0-9A-Fa-f]\+\)/\1/p' config.ini)
 
