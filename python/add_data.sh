@@ -101,7 +101,12 @@ fetch_csv() {
 ############################################################################################
 
 # Read GitHub token from config.ini
-GITHUB_TOKEN=$(sed -n -e 's/github_token *= *\([0-9A-Fa-f]\+\)/\1/p' config.ini)
+# See https://github.blog/changelog/2021-03-31-authentication-token-format-updates-are-generally-available/
+GITHUB_TOKEN=$(sed -n -r 's/^ *github_token *= *([A-Za-z0-9_]+)/\1/p' config.ini)
+
+if [[ ${#GITHUB_TOKEN} -lt 40 ]]; then
+  echo "WARNING: Your GITHUB_TOKEN has a length of ${#GITHUB_TOKEN} characters, but 40 or above is expected."
+fi
 
 status_code=$(curl --write-out %{http_code} --silent --output /dev/null -H "Authorization: token ${GITHUB_TOKEN}" \
   -O \
