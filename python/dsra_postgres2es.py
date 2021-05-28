@@ -1,29 +1,6 @@
 # =================================================================
 #
-# Authors: Tom Kralidis <tomkralidis@gmail.com>
-#
-# Copyright (c) 2020 Tom Kralidis
-#
-# Permission is hereby granted, free of charge, to any person
-# obtaining a copy of this software and associated documentation
-# files (the "Software"), to deal in the Software without
-# restriction, including without limitation the rights to use,
-# copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the
-# Software is furnished to do so, subject to the following
-# conditions:
-#
-# The above copyright notice and this permission notice shall be
-# included in all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-# OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-# HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-# WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-# OTHER DEALINGS IN THE SOFTWARE.
+# Authors: Drew Rotheram <drew.rotheram@gmail.com>
 #
 # =================================================================
 
@@ -59,12 +36,17 @@ def main():
         'eq_scenario': args.eqScenario,
         'dbview': args.dbview,
         'idField': args.idField[0]}).lower()
-    if args.idField == 'sauid':
+    limit = 10000
+    offset = 0
+
+    # create index
+    es = Elasticsearch([auth.get('es', 'es_endpoint')],
+                       http_auth=(auth.get('es', 'es_un'),
+                       auth.get('es', 'es_pw')))
+    if es.indices.exists(view):
+        es.indices.delete(view)
+    if args.idField.lower() == 'sauid':
         id_field = 'Sauid'
-        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
-            FROM results_dsra_{eqScenario}.{view}'.format(**{
-            'eqScenario': args.eqScenario,
-            'view': view})
         settings = {
             'settings': {
                 'number_of_shards': 1,
@@ -78,13 +60,8 @@ def main():
                 }
             }
         }
-
-    elif args.idField == 'building':
+    elif args.idField.lower() == 'building':
         id_field = 'AssetID'
-        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
-            FROM results_dsra_{eqScenario}.{view}'.format(**{
-            'eqScenario': args.eqScenario,
-            'view': view})
         settings = {
             'settings': {
                 'number_of_shards': 1,
@@ -94,78 +71,105 @@ def main():
                 'properties': {
                     'coordinates': {
                         'type': 'geo_point'
+                    },
+                    'geometry': {
+                        'type': 'geo_shape'
                     }
                 }
             }
         }
-
-
-    #es = Elasticsearch()
-    es = Elasticsearch([auth.get('es', 'es_endpoint')], http_auth=(auth.get('es', 'es_un'), auth.get('es', 'es_pw')))
-    connection = None
-    try:
-        #Connect to the PostGIS database hosted on RDS
-        connection = psycopg2.connect(user = auth.get('rds', 'postgres_un'),
-                                        password = auth.get('rds', 'postgres_pw'),
-                                        host = auth.get('rds', 'postgres_host'),
-                                        port = auth.get('rds', 'postgres_port'),
-                                        database = auth.get('rds', 'postgres_db'))
-        #Query the entire view with the geometries in geojson format
-        cur = connection.cursor()
-        cur.execute(sqlquerystring)
-        rows = cur.fetchall()
-        columns = [name[0] for name in cur.description]
-        geomIndex = columns.index('st_asgeojson')
-        feature_collection = {'type': 'FeatureCollection', 'features': []}
-
-        #Format the table into a geojson format for ES/Kibana consumption
-        for row in rows:
-            if args.idField == 'sauid':
-                feature = {
-                    'type': 'Feature',
-                    'geometry': json.loads(row[geomIndex]),
-                    'properties': {},
-                }
-                for index, column in enumerate(columns):
-                    if column != "st_asgeojson":
-                        value = row[index]
-                        feature['properties'][column] = value
-
-            elif args.idField == 'building':
-                coordinates = json.loads(row[geomIndex])['coordinates']
-                feature = {
-                    'type': 'Feature',
-                    'geometry': json.loads(row[geomIndex]),
-                    'coordinates': coordinates,
-                    'properties': {},
-                }
-                for index, column in enumerate(columns):
-                    if column != "st_asgeojson":
-                        value = row[index]
-                        feature['properties'][column] = value
-
-            feature_collection['features'].append(feature)
-        geojsonobject = json.dumps(feature_collection, indent=2, default=decimal_default)
-
-    except (Exception, psycopg2.Error) as error :
-        logging.error(error)
-
-    finally:
-        if(connection):
-            # cursor.close()
-            connection.close()
-
-    # create index
-    if es.indices.exists(view):
-        es.indices.delete(view)
-
     es.indices.create(index=view, body=settings, request_timeout=90)
 
-    d = json.loads(geojsonobject)
+    while True:
+        if args.idField.lower() == 'sauid':
+            id_field = 'Sauid'
+            sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
+                FROM results_dsra_{eqScenario}.{view} \
+                ORDER BY {view}."Sauid" \
+                LIMIT {limit} \
+                OFFSET {offset}'.format(**{'eqScenario': args.eqScenario,
+                                           'view': view,
+                                           'limit': limit,
+                                           'offset': offset})
 
-    helpers.bulk(es, gendata(d, view, id_field), raise_on_error=False)
+        elif args.idField.lower() == 'building':
+            id_field = 'AssetID'
+            sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
+                FROM results_dsra_{eqScenario}.{view} \
+                ORDER BY {view}."AssetID" \
+                LIMIT {limit} \
+                OFFSET {offset}'.format(**{'eqScenario': args.eqScenario,
+                                           'view': view,
+                                           'limit': limit,
+                                           'offset': offset})
+        offset += limit
+        connection = None
+        try:
+            # Connect to the PostGIS database
+            connection = psycopg2.connect(user=auth.get('rds',
+                                                        'postgres_un'),
+                                          password=auth.get('rds',
+                                                            'postgres_pw'),
+                                          host=auth.get('rds',
+                                                        'postgres_host'),
+                                          port=auth.get('rds',
+                                                        'postgres_port'),
+                                          database=auth.get('rds',
+                                                            'postgres_db'))
+            # Query the entire view with the geometries in geojson format
+            cur = connection.cursor()
+            cur.execute(sqlquerystring)
+            rows = cur.fetchall()
+            if rows:
+                columns = [name[0] for name in cur.description]
+                geomIndex = columns.index('st_asgeojson')
+                feature_collection = {'type': 'FeatureCollection',
+                                      'features': []}
 
-    return
+                # Format table into a geojson format for ES/Kibana consumption
+                for row in rows:
+                    if args.idField.lower() == 'sauid':
+                        feature = {
+                            'type': 'Feature',
+                            'geometry': json.loads(row[geomIndex]),
+                            'properties': {},
+                        }
+                        for index, column in enumerate(columns):
+                            if column != "st_asgeojson":
+                                value = row[index]
+                                feature['properties'][column] = value
+
+                    elif args.idField.lower() == 'building':
+                        coordinates = json.loads(row[geomIndex])['coordinates']
+                        feature = {
+                            'type': 'Feature',
+                            'geometry': json.loads(row[geomIndex]),
+                            'coordinates': coordinates,
+                            'properties': {},
+                        }
+                        for index, column in enumerate(columns):
+                            if column != "st_asgeojson":
+                                value = row[index]
+                                feature['properties'][column] = value
+
+                    feature_collection['features'].append(feature)
+                geojsonobject = json.dumps(feature_collection,
+                                           indent=2,
+                                           default=decimal_default)
+                d = json.loads(geojsonobject)
+                helpers.bulk(es,
+                             gendata(d, view, id_field),
+                             raise_on_error=False)
+
+            else:
+                if(connection):
+                    # cursor.close()
+                    connection.close()
+                return
+
+        except (Exception, psycopg2.Error) as error:
+            logging.error(error)
+
 
 def gendata(data, view, id_field):
     for item in data['features']:

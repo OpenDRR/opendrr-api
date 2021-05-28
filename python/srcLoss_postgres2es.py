@@ -1,5 +1,7 @@
 # =================================================================
-
+#
+# Authors: Drew Rotheram <drew.rotheram@gmail.com>
+#
 # =================================================================
 
 import json
@@ -15,10 +17,10 @@ from elasticsearch import Elasticsearch
 from elasticsearch import helpers
 
 '''
-Script to convert PSRA indicator views to ElasticSearch Index
+Script to convert src_loss tables to ElasticSearch Index
 Can be run from the command line with mandatory arguments
 Run this script with a command like:
-python3 psra_postgres2es.py --province={PT}
+python3 srcLoss_postgres2es.py --province={PT}
 '''
 
 
@@ -31,54 +33,19 @@ def main():
                                   logging.StreamHandler()])
     auth = get_config_params('config.ini')
     args = parse_args()
-    view = "psra_{province}_{dbview}_{idField}".format(**{
-        'province': args.province,
-        'dbview': args.dbview,
-        'idField': args.idField[0]}).lower()
-    if args.idField.lower() == 'sauid':
-        id_field = 'Sauid'
-        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
-            FROM results_psra_{province}.{view}'.format(**{
-            'province': args.province,
-            'view': view})
-        settings = {
-            'settings': {
-                'number_of_shards': 1,
-                'number_of_replicas': 0
-            },
-            'mappings': {
-                'properties': {
-                    'geometry': {
-                        'type': 'geo_shape'
-                    }
-                }
-            }
+    view = "psra_{province}_src_loss".format(**{
+        'province': args.province.lower()})
+    sqlquerystring = 'SELECT * \
+        FROM results_psra_{province}.{view}'.format(**{
+        'province': args.province.lower(),
+        'view': view})
+    settings = {
+        'settings': {
+            'number_of_shards': 1,
+            'number_of_replicas': 0
         }
+    }
 
-    elif args.idField.lower() == 'building':
-        id_field = 'AssetID'
-        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
-            FROM results_psra_{province}.{view}'.format(**{
-            'province': args.province,
-            'view': view})
-        settings = {
-            'settings': {
-                'number_of_shards': 1,
-                'number_of_replicas': 0
-            },
-            'mappings': {
-                'properties': {
-                    'coordinates': {
-                        'type': 'geo_point'
-                    },
-                    'geometry': {
-                        'type': 'geo_shape'
-                    }
-                }
-            }
-        }
-
-    # es = Elasticsearch()
     es = Elasticsearch([auth.get('es', 'es_endpoint')],
                        http_auth=(auth.get('es', 'es_un'),
                                   auth.get('es', 'es_pw')))
@@ -95,34 +62,17 @@ def main():
         cur.execute(sqlquerystring)
         rows = cur.fetchall()
         columns = [name[0] for name in cur.description]
-        geomIndex = columns.index('st_asgeojson')
         feature_collection = {'type': 'FeatureCollection', 'features': []}
 
         # Format the table into a geojson format for ES/Kibana consumption
         for row in rows:
-            if args.idField.lower() == 'sauid':
-                feature = {
-                    'type': 'Feature',
-                    'geometry': json.loads(row[geomIndex]),
-                    'properties': {},
-                }
-                for index, column in enumerate(columns):
-                    if column != "st_asgeojson":
-                        value = row[index]
-                        feature['properties'][column] = value
-
-            elif args.idField.lower() == 'building':
-                coordinates = json.loads(row[geomIndex])['coordinates']
-                feature = {
-                    'type': 'Feature',
-                    'geometry': json.loads(row[geomIndex]),
-                    'coordinates': coordinates,
-                    'properties': {},
-                }
-                for index, column in enumerate(columns):
-                    if column != "st_asgeojson":
-                        value = row[index]
-                        feature['properties'][column] = value
+            feature = {
+                'type': 'Feature',
+                'properties': {},
+            }
+            for index, column in enumerate(columns):
+                value = row[index]
+                feature['properties'][column] = value
 
             feature_collection['features'].append(feature)
         geojsonobject = json.dumps(feature_collection,
@@ -134,7 +84,6 @@ def main():
 
     finally:
         if(connection):
-            # cursor.close()
             connection.close()
 
     # create index
@@ -145,16 +94,15 @@ def main():
 
     d = json.loads(geojsonobject)
 
-    helpers.bulk(es, gendata(d, view, id_field), raise_on_error=False)
+    helpers.bulk(es, gendata(d, view), raise_on_error=False)
 
     return
 
 
-def gendata(data, view, id_field):
+def gendata(data, view):
     for item in data['features']:
         yield {
             "_index": view,
-            "_id": item['properties'][id_field],
             "_source": item
         }
 
@@ -180,14 +128,6 @@ def parse_args():
     parser.add_argument("--province",
                         type=str,
                         help="Two letters only",
-                        required=True)
-    parser.add_argument("--dbview",
-                        type=str,
-                        help=" Thematic Database View",
-                        required=True)
-    parser.add_argument("--idField",
-                        type=str,
-                        help="Field to use as ElasticSearch Index ID",
                         required=True)
     args = parser.parse_args()
 
