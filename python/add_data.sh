@@ -31,14 +31,18 @@ DSRA_REPOSITORY=https://github.com/OpenDRR/scenario-catalogue/tree/master/FINISH
 # LOG prints log message while preserving quoting
 LOG() {
   echo -n "[add_data]"
-  for i in "$@"; do
-    i="${i/$GITHUB_TOKEN/***}"
-    if echo "$i" | grep -q ' '; then
-      echo "$i" | grep -q "'" && i="\"$i\"" || i="'$i'"
-    fi
-    echo -n " $i"
-  done
-  echo
+  if [[ $# == 1 ]]; then
+    echo " $1"
+  else
+    for i in "$@"; do
+      i="${i/$GITHUB_TOKEN/***}"
+      if echo "$i" | grep -q ' '; then
+        echo "$i" | grep -q "'" && i="\"$i\"" || i="'$i'"
+      fi
+      echo -n " $i"
+    done
+    echo
+  fi
 }
 
 # RUN runs a command, logs, and prints timing and memory information
