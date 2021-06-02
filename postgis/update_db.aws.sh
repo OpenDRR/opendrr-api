@@ -29,7 +29,7 @@
 set -e
 
 echo "Creating schema..."
-psql -h ${POSTGRES_HOST} -d ${DB_NAME} -a -U ${POSTGRES_USER} -f /schema.sql
+psql -h "${POSTGRES_HOST}" -d "${DB_NAME}" -a -U "${POSTGRES_USER}" -f /schema.sql
 
 echo "Creating extensions..."
-psql -h ${POSTGRES_HOST} -d ${DB_NAME} -a -U ${POSTGRES_USER} -f /extensions.sql
+psql -h "${POSTGRES_HOST}" -d "${DB_NAME}" -a -U "${POSTGRES_USER}" -f /extensions.sql
