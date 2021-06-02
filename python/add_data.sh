@@ -45,9 +45,22 @@ LOG() {
   fi
 }
 
+INFO() {
+  LOG "INFO: $@"
+}
+
+WARN() {
+  LOG "WARNING: $@"
+}
+
+ERROR() {
+  LOG "ERROR: $@"
+}
+
+
 # RUN runs a command, logs, and prints timing and memory information
 RUN() {
-  LOG "$@"
+  LOG RUN "$@"
   if [ -n "$(type -p $1)" ]; then
     time /usr/bin/time "$@"	# file
   else
@@ -59,7 +72,7 @@ RUN() {
 # to "off" for speed, or to "on" for reliability.
 set_synchronous_commit() {
   if [ "$#" -ne 1 ]; then
-    echo "ERROR: ${FUNCNAME[0]} requires exactly one argument, but $# was given."
+    ERROR "${FUNCNAME[0]} requires exactly one argument, but $# was given."
     exit 1
   fi
   local on_off="$1"
@@ -77,7 +90,7 @@ set_synchronous_commit() {
 # (Change ogr2ogr PATH / geopackage path if necessary to run.)
 run_ogr2ogr() {
   if [ "$#" -ne 1 ]; then
-    echo "Error: run_ogr2ogr() requires exactly one argument, but $# was given."
+    ERROR "${FUNCNAME[0]} requires exactly one argument, but $# was given."
     exit 1
   fi
   local id="$1"
@@ -100,7 +113,7 @@ run_ogr2ogr() {
 # run_psql runs PostgreSQL queries from a given input SQL file.
 run_psql() {
   if [ "$#" -ne 1 ]; then
-    echo "Error: run_psql() requires exactly one argument, but $# was given."
+    ERROR "${FUNCNAME[0]} requires exactly one argument, but $# was given."
     exit 1
   fi
   local input_file="$1"
@@ -115,7 +128,7 @@ run_psql() {
 # See https://docs.github.com/en/rest/reference/repos#get-repository-content
 fetch_csv_lfs() {
   if [ "$#" -ne 2 ]; then
-    echo "Error: ${FUNCNAME[0]} requires exactly two arguments, but $# was given."
+    ERROR "${FUNCNAME[0]} requires exactly two arguments, but $# was given."
     exit 1
   fi
   local owner="OpenDRR"
@@ -145,7 +158,7 @@ fetch_csv_lfs() {
 # fetch_csv_xz downloads CSV data files from OpenDRR xz-compressed repos
 fetch_csv_xz() {
   if [ "$#" -ne 2 ]; then
-    echo "ERROR: ${FUNCNAME[0]} requires exactly two arguments, but $# was given."
+    ERROR "${FUNCNAME[0]} requires exactly two arguments, but $# was given."
     exit 1
   fi
   local owner="OpenDRR"
@@ -184,7 +197,7 @@ fetch_csv() {
 # for all provinces and territories.
 fetch_psra_csv_from_model() {
   if [ "$#" != "1" ]; then
-    echo "ERROR: ${FUNCNAME[0]} requires exactly one argument."
+    ERROR "${FUNCNAME[0]} requires exactly one argument, but $# was given."
     exit 1
   fi
 
@@ -226,7 +239,7 @@ fetch_psra_csv_from_model() {
 # Syntax: merge_cvs [INPUT_CSV_FILES]... [OUTPUT_FILE]
 merge_csv() {
   if [ "$#" -lt "2" ]; then
-    echo "ERROR: ${FUNCNAME[0]} needs at least two arguments"
+    ERROR "${FUNCNAME[0]} requires at least two arguments, but $# was given."
     exit 1
   fi
   input_files="${@:1:$#-1}"
@@ -236,17 +249,17 @@ merge_csv() {
   echo "merge_cvs output: $output_file"
 
   if [ "$#" = "2" -a "$1" = "$2" ]; then
-    echo "NOTICE: There is only one input file, and it has the same name as output file, skipping."
+    INFO "There is only one input file, and it has the same name as output file, skipping."
     return
   fi
 
   if echo "$input_files" | grep -q "$output_file"; then
-    echo "ERROR: Output file \"$output_file\" is listed among input files: \"$input_files\""
+    ERROR "Output file \"$output_file\" is listed among input files: \"$input_files\""
     exit 1
   fi
 
   if [ -e "$output_file" ]; then
-    echo "WARNING: Output file \"$output_file\" already exists!  Overwriting..."
+    WARN "Output file \"$output_file\" already exists!  Overwriting..."
   fi
 
   # The "awk" magic that merge CSV files while stripping duplicated headers.
@@ -256,6 +269,7 @@ merge_csv() {
 
   return
 }
+
 
 ############################################################################################
 #######################     Begin main processes                     #######################
@@ -267,12 +281,14 @@ LD_PRELOAD=${LD_PRELOAD:+"$LD_PRELOAD "}libeatmydata.so
 export LD_LIBRARY_PATH LD_PRELOAD
 
 
-# Read GitHub token from config.ini
+LOG "## Read GitHub token from config.ini"
 # See https://github.blog/changelog/2021-03-31-authentication-token-format-updates-are-generally-available/
 GITHUB_TOKEN=$(sed -n -r 's/^ *github_token *= *([A-Za-z0-9_]+)/\1/p' config.ini)
 
+INFO "GITHUB_TOKEN is ${#GITHUB_TOKEN} characters in length"
+
 if [[ ${#GITHUB_TOKEN} -lt 40 ]]; then
-  echo "WARNING: Your GITHUB_TOKEN has a length of ${#GITHUB_TOKEN} characters, but 40 or above is expected."
+  WARN "Your GITHUB_TOKEN has a length of ${#GITHUB_TOKEN} characters, but 40 or above is expected."
 fi
 
 status_code=$(curl --write-out %{http_code} --silent --output /dev/null -H "Authorization: token ${GITHUB_TOKEN}" \
@@ -329,8 +345,8 @@ then
     --verbose --clean --if-exists --create opendrr-boundaries.dump \
     | while IFS= read -r line; do printf '%s %s\n' "$(date "+%Y-%m-%d %H:%M:%S")" "$line"; done
 else
-  echo " - WARNING: Unable to fetch pre-generated PostGIS database dump."
-  echo "            Fallback to fetching boundaries CSV from GitHub (LFS)..."
+  WARN "Unable to fetch opendrr-boundaries.dump."
+  WARN "Fallback to fetching CSV via Git LFS:"
 
   # Get boundary files
   RUN git clone https://github.com/OpenDRR/boundaries.git --depth 1 || (cd boundaries ; RUN git pull)
