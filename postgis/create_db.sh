@@ -37,4 +37,4 @@ CREATE DATABASE ${DB_NAME} OWNER ${POSTGRES_USER};
 EOSQL
 
 echo "Creating schema..."
-psql -d ${DB_NAME} -a -U${POSTGRES_USER} -f /schema.sql
+psql -d "${DB_NAME}" -a -U"${POSTGRES_USER}" -f /schema.sql

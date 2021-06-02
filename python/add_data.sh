@@ -28,6 +28,14 @@ DSRA_REPOSITORY=https://github.com/OpenDRR/scenario-catalogue/tree/master/FINISH
 #######################     Define helper functions                  #######################
 ############################################################################################
 
+# Source: https://stackoverflow.com/questions/3685970/check-if-a-bash-array-contains-a-value
+contains_element () {
+  local e match="$1"
+  shift
+  for e; do [[ "$e" == "$match" ]] && return 0; done
+  return 1
+}
+
 is_dry_run() {
   [[ "${ADD_DATA_DRY_RUN,,}" =~ ^(true|1|y|yes|on)$ ]]
 }
@@ -75,9 +83,15 @@ RUN() {
 
   LOG RUN: "$@"
   if [[ -n $(type -p "$1") ]]; then
-    time /usr/bin/time "$@"	# file
+    # file
+    time /usr/bin/time "$@"
   else
-    is_dry_run && "$@" || time "$@"	# alias, keyword, function, or builtin
+    # alias, keyword, function, or builtin
+    if is_dry_run; then
+      "$@"
+    else
+      time "$@"
+    fi
   fi
 }
 
@@ -111,7 +125,8 @@ run_ogr2ogr() {
   local srs_def="EPSG:4326"
   local dst_datasource_name=PG:"host='$POSTGRES_HOST' user='$POSTGRES_USER' dbname='$DB_NAME' password='$POSTGRES_PASS'"
   local src_datasource_name="boundaries/$id.gpkg"
-  local nln="boundaries.$(basename $id)"
+  local nln
+  nln="boundaries.$(basename "$id")"
 
   LOG "ogr2ogr: Importing $src_datasource_name into $DB_NAME..."
 
@@ -146,10 +161,14 @@ fetch_csv_lfs() {
   local owner="OpenDRR"
   local repo="$1"
   local path="$2"
-  local output_file=$(basename $path | sed -e 's/?.*//')
+  local output_file
   local response="github-api/$2.json"
+  local download_url
+  local size
 
-  mkdir -p github-api/$(dirname $path)
+  output_file=$(basename "$path" | sed -e 's/?.*//')
+
+  mkdir -p github-api/"$(dirname "$path")"
 
   INFO "$repo/$path"
   RUN curl -s -o "$response" \
@@ -157,12 +176,12 @@ fetch_csv_lfs() {
     -H "Authorization: token ${GITHUB_TOKEN}" \
     -L "https://api.github.com/repos/$owner/$repo/contents/$path"
 
-  is_dry_run || local download_url=$(jq -r '.download_url' "$response")
-  is_dry_run || local size=$(jq -r '.size' "$response")
+  is_dry_run || download_url=$(jq -r '.download_url' "$response")
+  is_dry_run || size=$(jq -r '.size' "$response")
 
   # TODO: Actually use these values for verification
-  echo download_url=$download_url
-  echo size=$size
+  echo download_url="$download_url"
+  echo size="$size"
 
   LOG "Download from $download_url"
   RUN curl -o "$output_file" -L "$download_url" --retry 999 --retry-max-time 0
@@ -177,13 +196,18 @@ fetch_csv_xz() {
   local owner="OpenDRR"
   local repo="$1"
   local path="$2"
-  local output_file=$(basename $path | sed -e 's/?.*//')
+  local output_file
   local response
-  local path_dir=$(dirname "$path")
-  INFO $path_dir
+  local path_dir
+  local download_url
+
+  output_file=$(basename "$path" | sed -e 's/?.*//')
+  path_dir=$(dirname "$path")
+
+  INFO "$path_dir"
 
   # Fetch directory listing
-  RUN mkdir -p github-api/$path_dir
+  RUN mkdir -p "github-api/$path_dir"
   response="github-api/$path_dir.dir.json"
   RUN curl -s -o "$response" \
     --retry 999 --retry-max-time 0 \
@@ -191,12 +215,12 @@ fetch_csv_xz() {
     -H "Accept: application/vnd.github.v3+json" \
     -L "https://api.github.com/repos/$owner/$repo-xz/contents/$path_dir"
 
-  is_dry_run || local download_url=$(jq -r '.[] | select(.name == "'"$output_file"'.xz") | .download_url' $response)
+  is_dry_run || download_url=$(jq -r '.[] | select(.name == "'"$output_file"'.xz") | .download_url' "$response")
   LOG "${FUNCNAME[0]}: Download from $download_url"
   RUN curl -o "$output_file.xz" -L "$download_url" --retry 999 --retry-max-time 0
 
   # TODO: Keep the compressed file somewhere, uncompress when needed
-  RUN unxz $output_file.xz
+  RUN unxz "$output_file.xz"
 }
 
 # fetch_csv calls either fetch_csv_xz or fetch_csv_lfs to fetch CSV files
@@ -216,33 +240,33 @@ fetch_psra_csv_from_model() {
 
   model=$1
 
-  for PT in ${PT_LIST[@]}; do
+  for PT in "${PT_LIST[@]}"; do
     RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
       --retry 999 --retry-max-time 0 \
-      -o ${PT}.json \
-      -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/$model/output/${PT}
+      -o "${PT}.json" \
+      -L "https://api.github.com/repos/OpenDRR/canada-srm2/contents/$model/output/$PT"
 
-    is_dry_run || DOWNLOAD_LIST=($(jq -r '.[].url | select(. | contains(".csv"))' ${PT}.json))
+    RUN mapfile -t DOWNLOAD_LIST < <(jq -r '.[].url | select(. | contains(".csv"))' "${PT}.json")
 
-    mkdir -p $model/${PT}
-    ( cd $model/${PT}
-      for file in ${DOWNLOAD_LIST[@]}; do
-        FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
+    mkdir -p "$model/$PT"
+    ( cd "$model/$PT"
+      for file in "${DOWNLOAD_LIST[@]}"; do
+        FILENAME=$(echo "$file" | cut -f-1 -d? | cut -f11- -d/)
         RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
           --retry 999 --retry-max-time 0 \
-          -o $FILENAME \
-          -L $file
-        is_dry_run || DOWNLOAD_URL=$(jq -r '.download_url' $FILENAME)
-        RUN curl -o $FILENAME \
+          -o "$FILENAME" \
+          -L "$file"
+        is_dry_run || DOWNLOAD_URL=$(jq -r '.download_url' "$FILENAME")
+        RUN curl -o "$FILENAME" \
           --retry 999 --retry-max-time 0 \
-          -L $DOWNLOAD_URL
+          -L "$DOWNLOAD_URL"
 
         # Strip OpenQuake comment header if exists
         # (safe for cH_${PT}_hmaps_xref.csv)
-        RUN sed -i -r $'1{/^(\xEF\xBB\xBF)?#,/d}' $FILENAME
+        RUN sed -i -r $'1{/^(\xEF\xBB\xBF)?#,/d}' "$FILENAME"
       done
       # TODO: Use a different for ${PT}.json, and keep for debugging
-      RUN rm -f ${PT}.json
+      RUN rm -f "${PT}.json"
     )
   done
 }
@@ -255,19 +279,19 @@ merge_csv() {
     ERROR "${FUNCNAME[0]} requires at least two arguments, but $# was given."
     exit 1
   fi
-  input_files="${@:1:$#-1}"
-  output_file="${@:$#}"
+  local input_files=("${@:1:$#-1}")
+  local output_file="${*:$#}"
 
-  echo "merge_cvs input: $input_files"
-  echo "merge_cvs output: $output_file"
+  INFO "merge_cvs input: ${input_files[*]}"
+  INFO "merge_cvs output: $output_file"
 
-  if [ "$#" = "2" -a "$1" = "$2" ]; then
+  if [[ $# = 2 ]] && [[ $1 = "$2" ]]; then
     INFO "There is only one input file, and it has the same name as output file, skipping."
     return
   fi
 
-  if echo "$input_files" | grep -q "$output_file"; then
-    ERROR "Output file \"$output_file\" is listed among input files: \"$input_files\""
+  if contains_element "$output_file" "${input_files[@]}"; then
+    ERROR "Output file \"$output_file\" is listed among input files: \"${input_files[*]}\""
     exit 1
   fi
 
@@ -277,10 +301,7 @@ merge_csv() {
 
   # The "awk" magic that merge CSV files while stripping duplicated headers.
   # See https://apple.stackexchange.com/questions/80611/merging-multiple-csv-files-without-merging-the-header
-  #awk '(NR == 2) || (FNR > 2)' $input_files > "$output_file" # NOTE: Do not quote $input_files here!
-  RUN awk '(NR == 1) || (FNR > 1)' $input_files > "$output_file" # NOTE: Do not quote $input_files here!
-
-  return
+  RUN awk '(NR == 1) || (FNR > 1)' "${input_files[@]}" > "$output_file"
 }
 
 
@@ -304,7 +325,7 @@ if [[ ${#GITHUB_TOKEN} -lt 40 ]]; then
   WARN "Your GITHUB_TOKEN has a length of ${#GITHUB_TOKEN} characters, but 40 or above is expected."
 fi
 
-status_code=$(curl --write-out %{http_code} --silent --output /dev/null -H "Authorization: token ${GITHUB_TOKEN}" \
+status_code=$(curl --write-out "%{http_code}" --silent --output /dev/null -H "Authorization: token ${GITHUB_TOKEN}" \
   -O \
   -L https://api.github.com/repos/OpenDRR/scenario-catalogue/contents/deterministic/outputs)
 
@@ -318,7 +339,7 @@ LOG '## Fetch Git LFS pointers of CSV files for "oid sha256"'
 mkdir -p git
 ( cd git &&
   for repo in canada-srm2 model-inputs scenario-catalogue; do
-    RUN git clone --filter=blob:none --no-checkout https://$GITHUB_TOKEN@github.com/OpenDRR/$repo.git
+    RUN git clone --filter=blob:none --no-checkout "https://${GITHUB_TOKEN}@github.com/OpenDRR/${repo}.git"
     is_dry_run || \
       ( cd $repo && \
         git sparse-checkout set '*.csv' && \
@@ -328,6 +349,7 @@ mkdir -p git
 
 
 # Get model-factory scripts
+# TODO: Make this more robust
 RUN git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; RUN git pull)
 
 # Copy model-factory scripts to working directory
@@ -337,7 +359,7 @@ RUN cp model-factory/scripts/*.* .
 
 # Make sure PostGIS is ready to accept connections
 LOG "Wait until PostgreSQL is ready"
-until RUN pg_isready -h ${POSTGRES_HOST} -p 5432 -U ${POSTGRES_USER}; do
+until RUN pg_isready -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -U "$POSTGRES_USER"; do
   sleep 2
 done
 
@@ -490,51 +512,51 @@ RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
 PT_LIST=(AB BC MB NB NL NS NT NU ON PE QC SK)
 
 # TODO: Compare PT_LIST with FETCHED_PT_LIST
-is_dry_run || FETCHED_PT_LIST=($(jq -r '.[].name' output.json))
+RUN mapfile -t FETCHED_PT_LIST < <(jq -r '.[].name' output.json)
 
 LOG "### cDamage"
 RUN fetch_psra_csv_from_model cDamage
 
-for PT in ${PT_LIST[@]}; do
-  ( cd cDamage/$PT
-    RUN merge_csv cD_*dmg-mean_b0.csv cD_${PT}_dmg-mean_b0.csv
-    RUN merge_csv cD_*dmg-mean_r2.csv cD_${PT}_dmg-mean_r2.csv
+for PT in "${PT_LIST[@]}"; do
+  ( cd "cDamage/$PT"
+    RUN merge_csv cD_*dmg-mean_b0.csv "cD_${PT}_dmg-mean_b0.csv"
+    RUN merge_csv cD_*dmg-mean_r2.csv "cD_${PT}_dmg-mean_r2.csv"
   )
 done
 
 LOG "### cHazard"
 RUN fetch_psra_csv_from_model cHazard
 
-for PT in ${PT_LIST[@]}; do
-  ( cd cHazard/$PT
-    RUN python3 /usr/src/app/PSRA_hCurveTableCombine.py --hCurveDir=/usr/src/app/cHazard/${PT}/
+for PT in "${PT_LIST[@]}"; do
+  ( cd "cHazard/$PT"
+    RUN python3 /usr/src/app/PSRA_hCurveTableCombine.py --hCurveDir="/usr/src/app/cHazard/$PT/"
   )
 done
 
 LOG "### eDamage"
 RUN fetch_psra_csv_from_model eDamage
 
-for PT in ${PT_LIST[@]}; do
-  ( cd eDamage/$PT
-    RUN merge_csv eD_*damages-mean_b0.csv eD_${PT}_damages-mean_b0.csv
-    RUN merge_csv eD_*damages-mean_r2.csv eD_${PT}_damages-mean_r2.csv
+for PT in "${PT_LIST[@]}"; do
+  ( cd "eDamage/$PT"
+    RUN merge_csv eD_*damages-mean_b0.csv "eD_${PT}_damages-mean_b0.csv"
+    RUN merge_csv eD_*damages-mean_r2.csv "eD_${PT}_damages-mean_r2.csv"
   )
 done
 
 LOG "### ebRisk"
 RUN fetch_psra_csv_from_model ebRisk
 
-for PT in ${PT_LIST[@]}; do
-  ( cd ebRisk/$PT
-    RUN merge_csv ebR_*agg_curves-stats_b0.csv ebR_${PT}_agg_curves-stats_b0.csv
-    RUN merge_csv ebR_*agg_curves-stats_r2.csv ebR_${PT}_agg_curves-stats_r2.csv
-    RUN merge_csv ebR_*agg_losses-stats_b0.csv ebR_${PT}_agg_losses-stats_b0.csv
-    RUN merge_csv ebR_*agg_losses-stats_r2.csv ebR_${PT}_agg_losses-stats_r2.csv
-    RUN merge_csv ebR_*avg_losses-stats_b0.csv ebR_${PT}_avg_losses-stats_b0.csv
-    RUN merge_csv ebR_*avg_losses-stats_r2.csv ebR_${PT}_avg_losses-stats_r2.csv
+for PT in "${PT_LIST[@]}"; do
+  ( cd "ebRisk/$PT"
+    RUN merge_csv ebR_*agg_curves-stats_b0.csv "ebR_${PT}_agg_curves-stats_b0.csv"
+    RUN merge_csv ebR_*agg_curves-stats_r2.csv "ebR_${PT}_agg_curves-stats_r2.csv"
+    RUN merge_csv ebR_*agg_losses-stats_b0.csv "ebR_${PT}_agg_losses-stats_b0.csv"
+    RUN merge_csv ebR_*agg_losses-stats_r2.csv "ebR_${PT}_agg_losses-stats_r2.csv"
+    RUN merge_csv ebR_*avg_losses-stats_b0.csv "ebR_${PT}_avg_losses-stats_b0.csv"
+    RUN merge_csv ebR_*avg_losses-stats_r2.csv "ebR_${PT}_avg_losses-stats_r2.csv"
 
     # Combine source loss tables for runs that were split by economic region or sub-region
-    RUN python3 /usr/src/app/PSRA_combineSrcLossTable.py --srcLossDir=/usr/src/app/ebRisk/${PT}
+    RUN python3 /usr/src/app/PSRA_combineSrcLossTable.py --srcLossDir="/usr/src/app/ebRisk/$PT"
   )
 done
 
@@ -542,14 +564,13 @@ LOG "## PSRA_0"
 RUN run_psql psra_0.create_psra_schema.sql
 
 LOG "## PSRA_1-8"
-for PT in ${PT_LIST[@]}
-do
-  RUN python3 PSRA_runCreate_tables.py --province=${PT} --sqlScript="psra_1.Create_tables.sql"
-  RUN python3 PSRA_copyTables.py --province=${PT}
-  RUN python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_2.Create_table_updates.sql"
-  RUN python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_3.Create_psra_building_all_indicators.sql"
-  RUN python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_4.Create_psra_sauid_all_indicators.sql"
-  RUN python3 PSRA_sqlWrapper.py --province=${PT} --sqlScript="psra_5.Create_psra_sauid_references_indicators.sql"
+for PT in "${PT_LIST[@]}"; do
+  RUN python3 PSRA_runCreate_tables.py --province="$PT" --sqlScript="psra_1.Create_tables.sql"
+  RUN python3 PSRA_copyTables.py --province="$PT"
+  RUN python3 PSRA_sqlWrapper.py --province="$PT" --sqlScript="psra_2.Create_table_updates.sql"
+  RUN python3 PSRA_sqlWrapper.py --province="$PT" --sqlScript="psra_3.Create_psra_building_all_indicators.sql"
+  RUN python3 PSRA_sqlWrapper.py --province="$PT" --sqlScript="psra_4.Create_psra_sauid_all_indicators.sql"
+  RUN python3 PSRA_sqlWrapper.py --province="$PT" --sqlScript="psra_5.Create_psra_sauid_references_indicators.sql"
 done
 
 RUN run_psql psra_6.Create_psra_merge_into_national_indicators.sql
@@ -567,57 +588,57 @@ RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -L https://api.github.com/repos/OpenDRR/scenario-catalogue/contents/FINISHED
 
 # s_lossesbyasset_ACM6p5_Beaufort_r2_299_b.csv → ACM6p5_Beaufort
-is_dry_run || EQSCENARIO_LIST=($(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*(?=_r2)")' FINISHED.json))
+RUN mapfile -t EQSCENARIO_LIST < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*(?=_r2)")' FINISHED.json)
 
 # s_lossesbyasset_ACM6p5_Beaufort_r2_299_b.csv → ACM6p5_Beaufort_r2_299_b.csv
-is_dry_run || EQSCENARIO_LIST_LONGFORM=($(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*r2.*\\.csv")' FINISHED.json))
+RUN mapfile -t EQSCENARIO_LIST_LONGFORM < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*r2.*\\.csv")' FINISHED.json)
 
 LOG "## Importing scenario outputs into PostGIS"
 for eqscenario in ${EQSCENARIO_LIST[*]}
 do
-  RUN python3 DSRA_outputs2postgres_lfs.py --dsraModelDir=$DSRA_REPOSITORY --columnsINI=DSRA_outputs2postgres.ini --eqScenario=$eqscenario
+  RUN python3 DSRA_outputs2postgres_lfs.py --dsraModelDir=$DSRA_REPOSITORY --columnsINI=DSRA_outputs2postgres.ini --eqScenario="$eqscenario"
 done
 
 LOG "## Importing Shakemap"
 # Make a list of Shakemaps in the repo and download the raw csv files
-is_dry_run || DOWNLOAD_URL_LIST=($(jq -r '.[].url | scan(".*s_shakemap_.*\\.csv")' FINISHED.json))
+mapfile -t DOWNLOAD_URL_LIST < <(jq -r '.[].url | scan(".*s_shakemap_.*\\.csv")' FINISHED.json)
 for shakemap in ${DOWNLOAD_URL_LIST[*]}
 do
     # Get the shakemap
-    shakemap_filename=$( echo $shakemap | cut -f9- -d/ | cut -f1 -d?)
+    shakemap_filename=$( echo "$shakemap" | cut -f9- -d/ | cut -f1 -d?)
     RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
       --retry 999 --retry-max-time 0 \
-      -o $shakemap_filename \
-      -L $shakemap
-    is_dry_run || DOWNLOAD_URL=$(jq -r '.download_url' ${shakemap_filename})
-    LOG $DOWNLOAD_URL
-    RUN curl -o $shakemap_filename \
+      -o "$shakemap_filename" \
+      -L "$shakemap"
+    is_dry_run || DOWNLOAD_URL=$(jq -r '.download_url' "$shakemap_filename")
+    LOG "$DOWNLOAD_URL"
+    RUN curl -o "$shakemap_filename" \
       --retry 999 --retry-max-time 0 \
-      -L $DOWNLOAD_URL
+      -L "$DOWNLOAD_URL"
 
     # Run Create_table_shakemap.sql
-    RUN python3 DSRA_runCreateTableShakemap.py --shakemapFile=$shakemap_filename
+    RUN python3 DSRA_runCreateTableShakemap.py --shakemapFile="$shakemap_filename"
 done
 
 # Run Create_table_shakemap_update.sql or Create_table_shakemap_update_ste.sql
-is_dry_run || SHAKEMAP_LIST=($(jq -r '.[].name | scan("s_shakemap_.*\\.csv")' FINISHED.json))
+RUN mapfile -t SHAKEMAP_LIST < <(jq -r '.[].name | scan("s_shakemap_.*\\.csv")' FINISHED.json)
 for ((i=0;i<${#EQSCENARIO_LIST_LONGFORM[@]};i++));
 do
     item=${EQSCENARIO_LIST_LONGFORM[i]}
     #echo ${EQSCENARIO_LIST_LONGFORM[i]}
     #echo ${SHAKEMAP_LIST[i]}
-    SITE=$(echo $item | cut -f5- -d_ | cut -c 1-1)
-    eqscenario=$(echo $item | cut -f-2 -d_)
+    SITE=$(echo "$item" | cut -f5- -d_ | cut -c 1-1)
+    eqscenario=$(echo "$item" | cut -f-2 -d_)
     #echo $eqscenario
     #echo $SITE
     if [ "$SITE" = "s" ]
     then
         echo "Site Model"
-        RUN python3 DSRA_runCreateTableShakemapUpdate.py --eqScenario=$eqscenario --exposureAgg=$SITE
+        RUN python3 DSRA_runCreateTableShakemapUpdate.py --eqScenario="$eqscenario" --exposureAgg="$SITE"
     elif [ "$SITE" = "b" ]
     then
         echo "Building Model"
-        RUN python3 DSRA_runCreateTableShakemapUpdate.py --eqScenario=$eqscenario --exposureAgg=$SITE
+        RUN python3 DSRA_runCreateTableShakemapUpdate.py --eqScenario="$eqscenario" --exposureAgg="$SITE"
     fi
     echo " "
 done
@@ -628,21 +649,21 @@ RUN python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenD
 LOG "## Generating indicator views"
 for item in ${EQSCENARIO_LIST_LONGFORM[*]}
 do
-    SITE=$(echo $item | cut -f5- -d_ | cut -c 1-1)
-    eqscenario=$(echo $item | cut -f-2 -d_)
-    echo $eqscenario
-    echo $SITE
+    SITE=$(echo "$item" | cut -f5- -d_ | cut -c 1-1)
+    eqscenario=$(echo "$item" | cut -f-2 -d_)
+    echo "$eqscenario"
+    echo "$SITE"
     if [ "$SITE" = "s" ]
     then
         #echo "Site Model"
-        RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario=$eqscenario --aggregation=site_level --exposureModel=site
-        RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario=$eqscenario --aggregation=building --exposureModel=site
-        RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario=$eqscenario --aggregation=sauid  --exposureModel=site
+        RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario="$eqscenario" --aggregation=site_level --exposureModel=site
+        RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario="$eqscenario" --aggregation=building --exposureModel=site
+        RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario="$eqscenario" --aggregation=sauid  --exposureModel=site
     elif [ "$SITE" = "b" ]
     then
         #echo "Building Model"
-        RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario=$eqscenario --aggregation=building --exposureModel=building
-        RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario=$eqscenario --aggregation=sauid  --exposureModel=building
+        RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario="$eqscenario" --aggregation=building --exposureModel=building
+        RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario="$eqscenario" --aggregation=sauid  --exposureModel=building
     fi
 done
 
@@ -655,27 +676,28 @@ RUN run_psql Create_scenario_risk_master_tables.sql
 
 LOG "# Import Data from PostGIS to Elasticsearch"
 
-if [[ ! -z "$ES_USER" ]]; then
+if [[ -n $ES_USER ]]; then
   ES_CREDENTIALS="--user ${ES_USER}:${ES_PASS}"
 fi
 
 LOG "## Make sure Elasticsearch is ready prior to creating indexes"
-until RUN curl -sSf -XGET --insecure ${ES_CREDENTIALS:-} "${ES_ENDPOINT}/_cluster/health?wait_for_status=yellow"; do
+until RUN curl -sSf -XGET --insecure "${ES_CREDENTIALS:-}" "${ES_ENDPOINT}/_cluster/health?wait_for_status=yellow"; do
     LOG "No status yellow from Elasticsearch, trying again in 10 seconds"
     sleep 10
 done
 
 LOG "## Load Probabilistic Model Indicators"
+# shellcheck disable=SC2154
 if [ "$loadPsraModels" = true ]
 then
     LOG "Creating PSRA indices in Elasticsearch"
     for PT in ${PT_LIST[*]}
     do
-      RUN python3 psra_postgres2es.py --province=$PT --dbview="all_indicators" --idField="building"
-      RUN python3 psra_postgres2es.py --province=$PT --dbview="all_indicators" --idField="sauid"
-      RUN python3 hmaps_postgres2es.py --province=$PT
-      RUN python3 uhs_postgres2es.py --province=$PT
-      RUN python3 srcLoss_postgres2es.py --province=$PT
+      RUN python3 psra_postgres2es.py --province="$PT" --dbview="all_indicators" --idField="building"
+      RUN python3 psra_postgres2es.py --province="$PT" --dbview="all_indicators" --idField="sauid"
+      RUN python3 hmaps_postgres2es.py --province="$PT"
+      RUN python3 uhs_postgres2es.py --province="$PT"
+      RUN python3 srcLoss_postgres2es.py --province="$PT"
     done
 
     LOG "Creating PSRA Kibana Index Patterns"
@@ -687,40 +709,43 @@ then
 fi
 
 # Load Deterministic Model Indicators
-if [ "$loadDsraScenario" = true ]
+# shellcheck disable=SC2154
+if [[ "$loadDsraScenario" = true ]]
 then
     for eqscenario in ${EQSCENARIO_LIST[*]}
     do
         LOG "Creating Elasticsearch indexes for DSRA"
-        RUN python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="all_indicators" --idField="building"
-        RUN python3 dsra_postgres2es.py --eqScenario=$eqscenario --dbview="all_indicators" --idField="sauid"
+        RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="building"
+        RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="sauid"
     done
 fi
 
-
 # Load Hazard Threat Views
-if [ "$loadHazardThreat" = true ]
+# shellcheck disable=SC2154
+if [[ "$loadHazardThreat" = true ]]
 then
     # All Indicators
     RUN python3 hazardThreat_postgres2es.py  --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
 fi
 
-
 # Load physical exposure indicators
-if [ "$loadPhysicalExposure" = true ]
+# shellcheck disable=SC2154
+if [[ $loadPhysicalExposure = true ]]
 then
     RUN python3 exposure_postgres2es.py --type="all_indicators" --aggregation="building" --geometry=geom_point --idField="BldgID"
     RUN python3 exposure_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
 fi
 
 # Load Risk Dynamics Views
-if [ "$loadRiskDynamics" = true ]
+# shellcheck disable=SC2154
+if [[ $loadRiskDynamics = true ]]
 then
     RUN python3 riskDynamics_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_point --idField="ghslID"
 fi
 
 # Load Social Fabric Views
-if [ "$loadSocialFabric" = true ]
+# shellcheck disable=SC2154
+if [[ $loadSocialFabric = true ]]
 then
     RUN python3 socialFabric_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
 fi
@@ -734,7 +759,11 @@ RUN curl -X POST -H "securitytenant: global" "${KIBANA_ENDPOINT}/api/saved_objec
 RUN set_synchronous_commit on
 
 echo
-LOG "Congratulations!  add_data.sh ran successfully to the end."
-LOG "You may want to run 'docker compose logs -t python-opendrr'"
+LOG "=================================================================="
+LOG "Congratulations!"
+LOG "add_data.sh ran successfully to the end."
+LOG "Run 'docker compose logs -t python-opendrr' to check for warnings."
+LOG "Press Ctrl+C to exit."
+LOG "=================================================================="
 
 tail -f /dev/null & wait
