@@ -28,9 +28,17 @@ DSRA_REPOSITORY=https://github.com/OpenDRR/scenario-catalogue/tree/master/FINISH
 #######################     Define helper functions                  #######################
 ############################################################################################
 
+is_dry_run() {
+  [[ "${ADD_DATA_DRY_RUN,,}" =~ ^(true|1|y|yes|on)$ ]]
+}
+
 # LOG prints log message while preserving quoting
 LOG() {
-  echo -n "[add_data]"
+  [[ $# == 1 ]] && [[ "$1" =~ ^#{1,2}[[:space:]] ]] && echo
+
+  echo -n "[add_data:${BASH_LINENO[-2]}]"
+  #[[ ${FUNCNAME[2]} != "main" ]] && echo -n " ${FUNCNAME[2]}"
+
   if [[ $# == 1 ]]; then
     echo " $1"
   else
@@ -46,25 +54,30 @@ LOG() {
 }
 
 INFO() {
-  LOG "INFO: $@"
+  LOG "INFO: $*"
 }
 
 WARN() {
-  LOG "WARNING: $@"
+  LOG "WARNING: $*"
 }
 
 ERROR() {
-  LOG "ERROR: $@"
+  LOG "ERROR: $*"
 }
 
 
 # RUN runs a command, logs, and prints timing and memory information
 RUN() {
-  LOG RUN "$@"
-  if [ -n "$(type -p $1)" ]; then
+  if is_dry_run && [[ -n $(type -p "$1") ]]; then
+    LOG DRY_RUN: "$@"
+    return
+  fi
+
+  LOG RUN: "$@"
+  if [[ -n $(type -p "$1") ]]; then
     time /usr/bin/time "$@"	# file
   else
-    time "$@"	# alias, keyword, function, or builtin
+    is_dry_run && "$@" || time "$@"	# alias, keyword, function, or builtin
   fi
 }
 
@@ -78,11 +91,11 @@ set_synchronous_commit() {
   local on_off="$1"
 
   LOG "psql: Setting synchronous_commit TO $on_off..."
-  psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" -a \
+  RUN psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" -a \
     -c "SHOW synchronous_commit;"
-  psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" -a \
+  RUN psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" -a \
     -c "ALTER DATABASE $DB_NAME SET synchronous_commit TO $on_off;"
-  psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" -a \
+  RUN psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" -a \
     -c "SHOW synchronous_commit;"
 }
 
@@ -102,7 +115,7 @@ run_ogr2ogr() {
 
   LOG "ogr2ogr: Importing $src_datasource_name into $DB_NAME..."
 
-  ogr2ogr -t_srs "$srs_def" \
+  RUN ogr2ogr -t_srs "$srs_def" \
 	  -f PostgreSQL \
 	  "$dst_datasource_name" \
 	  "$src_datasource_name" \
@@ -118,8 +131,7 @@ run_psql() {
   fi
   local input_file="$1"
 
-  LOG "psql: Running $input_file..."
-  psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" -a -f "$input_file"
+  RUN psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" -a -f "$input_file"
 }
 
 
@@ -140,20 +152,20 @@ fetch_csv_lfs() {
   mkdir -p github-api/$(dirname $path)
 
   INFO "$repo/$path"
-  curl -s -o "$response" \
+  RUN curl -s -o "$response" \
     --retry 999 --retry-max-time 0 \
     -H "Authorization: token ${GITHUB_TOKEN}" \
     -L "https://api.github.com/repos/$owner/$repo/contents/$path"
 
-  local download_url=$(jq -r '.download_url' "$response")
-  local size=$(jq -r '.size' "$response")
+  is_dry_run || local download_url=$(jq -r '.download_url' "$response")
+  is_dry_run || local size=$(jq -r '.size' "$response")
 
   # TODO: Actually use these values for verification
   echo download_url=$download_url
   echo size=$size
 
   LOG "Download from $download_url"
-  curl -o "$output_file" -L "$download_url" --retry 999 --retry-max-time 0
+  RUN curl -o "$output_file" -L "$download_url" --retry 999 --retry-max-time 0
 }
 
 # fetch_csv_xz downloads CSV data files from OpenDRR xz-compressed repos
@@ -171,20 +183,20 @@ fetch_csv_xz() {
   INFO $path_dir
 
   # Fetch directory listing
-  mkdir -p github-api/$path_dir
+  RUN mkdir -p github-api/$path_dir
   response="github-api/$path_dir.dir.json"
-  curl -s -o "$response" \
+  RUN curl -s -o "$response" \
     --retry 999 --retry-max-time 0 \
     -H "Authorization: token ${GITHUB_TOKEN}" \
     -H "Accept: application/vnd.github.v3+json" \
     -L "https://api.github.com/repos/$owner/$repo-xz/contents/$path_dir"
 
-  local download_url=$(jq -r '.[] | select(.name == "'"$output_file"'.xz") | .download_url' $response)
+  is_dry_run || local download_url=$(jq -r '.[] | select(.name == "'"$output_file"'.xz") | .download_url' $response)
   LOG "${FUNCNAME[0]}: Download from $download_url"
-  curl -o "$output_file.xz" -L "$download_url" --retry 999 --retry-max-time 0
+  RUN curl -o "$output_file.xz" -L "$download_url" --retry 999 --retry-max-time 0
 
   # TODO: Keep the compressed file somewhere, uncompress when needed
-  unxz $output_file.xz
+  RUN unxz $output_file.xz
 }
 
 # fetch_csv calls either fetch_csv_xz or fetch_csv_lfs to fetch CSV files
@@ -205,32 +217,32 @@ fetch_psra_csv_from_model() {
   model=$1
 
   for PT in ${PT_LIST[@]}; do
-    curl -H "Authorization: token ${GITHUB_TOKEN}" \
+    RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
       --retry 999 --retry-max-time 0 \
       -o ${PT}.json \
       -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/$model/output/${PT}
 
-    DOWNLOAD_LIST=($(jq -r '.[].url | select(. | contains(".csv"))' ${PT}.json))
+    is_dry_run || DOWNLOAD_LIST=($(jq -r '.[].url | select(. | contains(".csv"))' ${PT}.json))
 
     mkdir -p $model/${PT}
     ( cd $model/${PT}
       for file in ${DOWNLOAD_LIST[@]}; do
         FILENAME=$(echo $file | cut -f-1 -d? | cut -f11- -d/)
-        curl -H "Authorization: token ${GITHUB_TOKEN}" \
+        RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
           --retry 999 --retry-max-time 0 \
           -o $FILENAME \
           -L $file
-        DOWNLOAD_URL=$(jq -r '.download_url' $FILENAME)
-        curl -o $FILENAME \
+        is_dry_run || DOWNLOAD_URL=$(jq -r '.download_url' $FILENAME)
+        RUN curl -o $FILENAME \
           --retry 999 --retry-max-time 0 \
           -L $DOWNLOAD_URL
 
         # Strip OpenQuake comment header if exists
         # (safe for cH_${PT}_hmaps_xref.csv)
-        sed -i -r $'1{/^(\xEF\xBB\xBF)?#,/d}' $FILENAME
+        RUN sed -i -r $'1{/^(\xEF\xBB\xBF)?#,/d}' $FILENAME
       done
       # TODO: Use a different for ${PT}.json, and keep for debugging
-      rm -f ${PT}.json
+      RUN rm -f ${PT}.json
     )
   done
 }
@@ -266,7 +278,7 @@ merge_csv() {
   # The "awk" magic that merge CSV files while stripping duplicated headers.
   # See https://apple.stackexchange.com/questions/80611/merging-multiple-csv-files-without-merging-the-header
   #awk '(NR == 2) || (FNR > 2)' $input_files > "$output_file" # NOTE: Do not quote $input_files here!
-  awk '(NR == 1) || (FNR > 1)' $input_files > "$output_file" # NOTE: Do not quote $input_files here!
+  RUN awk '(NR == 1) || (FNR > 1)' $input_files > "$output_file" # NOTE: Do not quote $input_files here!
 
   return
 }
@@ -298,7 +310,7 @@ status_code=$(curl --write-out %{http_code} --silent --output /dev/null -H "Auth
 
 if [[ "$status_code" -ne 200 ]] ; then
   echo "GitHub token is not valid! Exiting!"
-  exit 0
+  exit 1
 fi
 
 
@@ -307,9 +319,10 @@ mkdir -p git
 ( cd git &&
   for repo in canada-srm2 model-inputs scenario-catalogue; do
     RUN git clone --filter=blob:none --no-checkout https://$GITHUB_TOKEN@github.com/OpenDRR/$repo.git
-    ( cd $repo && \
-      git sparse-checkout set '*.csv' && \
-      GIT_LFS_SKIP_SMUDGE=1 git checkout )
+    is_dry_run || \
+      ( cd $repo && \
+        git sparse-checkout set '*.csv' && \
+        GIT_LFS_SKIP_SMUDGE=1 git checkout )
   done
 )
 
@@ -318,18 +331,18 @@ mkdir -p git
 RUN git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; RUN git pull)
 
 # Copy model-factory scripts to working directory
-cp model-factory/scripts/*.* .
+RUN cp model-factory/scripts/*.* .
 #rm -rf model-factory
 
 
 # Make sure PostGIS is ready to accept connections
 LOG "Wait until PostgreSQL is ready"
-until pg_isready -h ${POSTGRES_HOST} -p 5432 -U ${POSTGRES_USER}; do
+until RUN pg_isready -h ${POSTGRES_HOST} -p 5432 -U ${POSTGRES_USER}; do
   sleep 2
 done
 
 # Speed up PostgreSQL operations
-set_synchronous_commit off
+RUN set_synchronous_commit off
 
 
 ############################################################################################
@@ -474,9 +487,10 @@ RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -o output.json \
   -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output
 
-# EXPECTED_PT_LIST=(AB BC MB NB NL NS NT NU ON PE QC SK)
+PT_LIST=(AB BC MB NB NL NS NT NU ON PE QC SK)
 
-PT_LIST=($(jq -r '.[].name' output.json))
+# TODO: Compare PT_LIST with FETCHED_PT_LIST
+is_dry_run || FETCHED_PT_LIST=($(jq -r '.[].name' output.json))
 
 LOG "### cDamage"
 RUN fetch_psra_csv_from_model cDamage
@@ -520,7 +534,7 @@ for PT in ${PT_LIST[@]}; do
     RUN merge_csv ebR_*avg_losses-stats_r2.csv ebR_${PT}_avg_losses-stats_r2.csv
 
     # Combine source loss tables for runs that were split by economic region or sub-region
-    python3 /usr/src/app/PSRA_combineSrcLossTable.py --srcLossDir=/usr/src/app/ebRisk/${PT}
+    RUN python3 /usr/src/app/PSRA_combineSrcLossTable.py --srcLossDir=/usr/src/app/ebRisk/${PT}
   )
 done
 
@@ -553,10 +567,10 @@ RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
   -L https://api.github.com/repos/OpenDRR/scenario-catalogue/contents/FINISHED
 
 # s_lossesbyasset_ACM6p5_Beaufort_r2_299_b.csv → ACM6p5_Beaufort
-EQSCENARIO_LIST=($(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*(?=_r2)")' FINISHED.json))
+is_dry_run || EQSCENARIO_LIST=($(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*(?=_r2)")' FINISHED.json))
 
 # s_lossesbyasset_ACM6p5_Beaufort_r2_299_b.csv → ACM6p5_Beaufort_r2_299_b.csv
-EQSCENARIO_LIST_LONGFORM=($(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*r2.*\\.csv")' FINISHED.json))
+is_dry_run || EQSCENARIO_LIST_LONGFORM=($(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*r2.*\\.csv")' FINISHED.json))
 
 LOG "## Importing scenario outputs into PostGIS"
 for eqscenario in ${EQSCENARIO_LIST[*]}
@@ -566,7 +580,7 @@ done
 
 LOG "## Importing Shakemap"
 # Make a list of Shakemaps in the repo and download the raw csv files
-DOWNLOAD_URL_LIST=($(jq -r '.[].url | scan(".*s_shakemap_.*\\.csv")' FINISHED.json))
+is_dry_run || DOWNLOAD_URL_LIST=($(jq -r '.[].url | scan(".*s_shakemap_.*\\.csv")' FINISHED.json))
 for shakemap in ${DOWNLOAD_URL_LIST[*]}
 do
     # Get the shakemap
@@ -575,18 +589,18 @@ do
       --retry 999 --retry-max-time 0 \
       -o $shakemap_filename \
       -L $shakemap
-    DOWNLOAD_URL=$(jq -r '.download_url' ${shakemap_filename})
+    is_dry_run || DOWNLOAD_URL=$(jq -r '.download_url' ${shakemap_filename})
     LOG $DOWNLOAD_URL
     RUN curl -o $shakemap_filename \
       --retry 999 --retry-max-time 0 \
       -L $DOWNLOAD_URL
 
     # Run Create_table_shakemap.sql
-    python3 DSRA_runCreateTableShakemap.py --shakemapFile=$shakemap_filename
+    RUN python3 DSRA_runCreateTableShakemap.py --shakemapFile=$shakemap_filename
 done
 
 # Run Create_table_shakemap_update.sql or Create_table_shakemap_update_ste.sql
-SHAKEMAP_LIST=($(jq -r '.[].name | scan("s_shakemap_.*\\.csv")' FINISHED.json))
+is_dry_run || SHAKEMAP_LIST=($(jq -r '.[].name | scan("s_shakemap_.*\\.csv")' FINISHED.json))
 for ((i=0;i<${#EQSCENARIO_LIST_LONGFORM[@]};i++));
 do
     item=${EQSCENARIO_LIST_LONGFORM[i]}
@@ -609,7 +623,7 @@ do
 done
 
 LOG "## Importing Rupture Model"
-python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenDRR/scenario-catalogue/tree/master/deterministic/ruptures"
+RUN python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenDRR/scenario-catalogue/tree/master/deterministic/ruptures"
 
 LOG "## Generating indicator views"
 for item in ${EQSCENARIO_LIST_LONGFORM[*]}
@@ -646,7 +660,7 @@ if [[ ! -z "$ES_USER" ]]; then
 fi
 
 LOG "## Make sure Elasticsearch is ready prior to creating indexes"
-until $(curl -sSf -XGET --insecure ${ES_CREDENTIALS:-""} "${ES_ENDPOINT}/_cluster/health?wait_for_status=yellow" > /dev/null); do
+until RUN curl -sSf -XGET --insecure ${ES_CREDENTIALS:-} "${ES_ENDPOINT}/_cluster/health?wait_for_status=yellow"; do
     LOG "No status yellow from Elasticsearch, trying again in 10 seconds"
     sleep 10
 done
@@ -718,5 +732,9 @@ RUN curl -X POST -H "securitytenant: global" "${KIBANA_ENDPOINT}/api/saved_objec
 
 # Restore PostgreSQL synchronous_commit default setting (on) for reliability
 RUN set_synchronous_commit on
+
+echo
+LOG "Congratulations!  add_data.sh ran successfully to the end."
+LOG "You may want to run 'docker compose logs -t python-opendrr'"
 
 tail -f /dev/null & wait
