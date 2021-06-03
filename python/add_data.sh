@@ -11,16 +11,14 @@
 trap : TERM INT
 set -e
 
-POSTGRES_USER=$1
-POSTGRES_PASS=$2
-POSTGRES_PORT=$3
-DB_NAME=$4
-POSTGRES_HOST=$5
-
-ES_ENDPOINT=$6
-ES_USER=$7
-ES_PASS=$8
-KIBANA_ENDPOINT=$9
+# Needed variables (defined in .env for Docker Compose, or in a Amazon ECS task definition)
+ENV_VAR_LIST=(
+  POSTGRES_USER POSTGRES_PASS POSTGRES_PORT POSTGRES_HOST DB_NAME
+  POPULATE_DB \
+  KIBANA_ENDPOINT ES_ENDPOINT ES_USER ES_PASS \
+  loadDsraScenario loadPsraModels loadHazardThreat loadPhysicalExposure
+  loadRiskDynamics loadSocialFabric
+)
 
 DSRA_REPOSITORY=https://github.com/OpenDRR/scenario-catalogue/tree/master/FINISHED
 
@@ -312,6 +310,21 @@ merge_csv() {
 ############################################################################################
 #######################     Begin main processes                     #######################
 ############################################################################################
+
+LOG "# Begin main processes"
+
+LOG "## Check needed environment variables"
+
+for var in "${ENV_VAR_LIST[@]}"; do
+  INFO "$var = ${!var}"
+  if [[ -z ${!var} ]]; then
+    if [[ "$var" =~ ^(ES_USER|ES_PASS)$ ]]; then
+      INFO "$var is not set, but it is optional"
+    else
+      WARN "$var is mandatory but not set!  Your build will likely fail!"
+    fi
+  fi
+done
 
 # Speed up file writes with eatmydata
 LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+"$LD_LIBRARY_PATH:"}/usr/lib/libeatmydata
