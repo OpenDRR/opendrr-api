@@ -40,25 +40,29 @@ is_dry_run() {
   [[ "${ADD_DATA_DRY_RUN,,}" =~ ^(true|1|y|yes|on)$ ]]
 }
 
-# LOG prints log message while preserving quoting
+# LOG prints log message which hides secrets and preserves quoting
 LOG() {
   [[ $# == 1 ]] && [[ "$1" =~ ^#{1,2}[[:space:]] ]] && echo
 
   echo -n "[add_data:${BASH_LINENO[-2]}]"
   #[[ ${FUNCNAME[2]} != "main" ]] && echo -n " ${FUNCNAME[2]}"
 
-  if [[ $# == 1 ]]; then
-    echo " $1"
-  else
-    for i in "$@"; do
-      i="${i/$GITHUB_TOKEN/***}"
-      if echo "$i" | grep -q ' '; then
-        echo "$i" | grep -q "'" && i="\"$i\"" || i="'$i'"
+  for i in "$@"; do
+    # Hide secrets
+    i="${i//$GITHUB_TOKEN/***}"
+    [[ ${POSTGRES_PASS,,} != password ]] && i="${i//$POSTGRES_PASS/***}"
+    [[ ${ES_PASS,,} != password ]] && i="${i//$ES_PASS/***}"
+    # Try to add quotes as appropriate
+    if echo "$i" | grep -q ' '; then
+      if echo "$i" | grep -q "'"; then
+        i="\"$i\""
+      else
+        [[ $# -gt 1 ]] && i="'$i'"
       fi
-      echo -n " $i"
-    done
-    echo
-  fi
+    fi
+    echo -n " $i"
+  done
+  echo
 }
 
 INFO() {
