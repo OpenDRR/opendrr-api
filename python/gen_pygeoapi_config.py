@@ -1,10 +1,11 @@
-import json
+#!/usr/bin/python3
+
 import configparser
 
 from elasticsearch import Elasticsearch
-from elasticsearch import helpers
 
-#Main Function
+
+# Main Function
 def main():
 
     auth = get_config_params('config.ini')
@@ -59,7 +60,7 @@ server:
       # static: /path/to/static/folder # css/js/img
     map:
         url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ'
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, Points &copy; 2012 LINZ'
 #    manager:
 #        name: TinyDB
 #        connection: /tmp/pygeoapi-process-manager.db
@@ -143,12 +144,13 @@ resources:\n\n"""
             continue
 
         if index[-2:] == "_s":
-            id_field = "Sauid" 
+            id_field = "Sauid"
 
-        config += "    " +snippet.format(index, index, index, index, id_field) + "\n\n"
+        config += "    " + snippet.format(index, index, index, index, id_field) + "\n\n"
 
     text_file.write(config)
     text_file.close()
+
 
 def get_config_params(args):
     """
@@ -159,6 +161,5 @@ def get_config_params(args):
     return configParseObj
 
 
-
 if __name__ == '__main__':
-    main() 
+    main()
