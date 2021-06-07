@@ -253,6 +253,9 @@ fetch_csv() {
 
 # fetch_psra_csv_from_model fetches CSV files from the specified model
 # for all provinces and territories.
+# NOTE: Right now, this function strips the OpenQuake comment header too,
+#       but this may change when the support for downloading compressed CSV
+#       is added.
 fetch_psra_csv_from_model() {
   if [ "$#" != "1" ]; then
     ERROR "${FUNCNAME[0]} requires exactly one argument, but $# was given."
@@ -292,8 +295,10 @@ fetch_psra_csv_from_model() {
 }
 
 # merge_csv merges CSV files without repeating column headers.
-# The '#,,,,,"generated_by='OpenQuake engine 3.x..."' header is removed too.
 # Syntax: merge_cvs [INPUT_CSV_FILES]... [OUTPUT_FILE]
+# NOTE: The '#,,,,,"generated_by='OpenQuake engine 3.x..."' comment header
+#       is currently NOT removed removed by merge_csv()
+#       but by fetch_psra_csv_from_model().  This may change in the future.
 merge_csv() {
   if [ "$#" -lt "2" ]; then
     ERROR "${FUNCNAME[0]} requires at least two arguments, but $# was given."
