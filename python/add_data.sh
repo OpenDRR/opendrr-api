@@ -742,7 +742,7 @@ create_scenario_risk_master_tables() {
 ############    Define "Import Data from PostGIS to Elasticsearch" functions    ############
 ############################################################################################
 
-import_data_from_postgis_to_elasticsearch() {
+export_to_elasticsearch() {
   if [[ -n $ES_USER ]]; then
     ES_CREDENTIALS="--user ${ES_USER}:${ES_PASS}"
   fi
@@ -822,53 +822,53 @@ load_kibana_saved_objects() {
 
 main() {
   LOG "# Set up job"
-  setup_eatmydata
-  check_environment_variables
-  read_github_token
-  get_model_factory_scripts
-  get_git_lfs_pointers_of_csv_files
-  wait_for_postgres
+  RUN setup_eatmydata
+  RUN check_environment_variables
+  RUN read_github_token
+  RUN get_model_factory_scripts
+  RUN get_git_lfs_pointers_of_csv_files
+  RUN wait_for_postgres
   # Speed up PostgreSQL operations
   RUN set_synchronous_commit off
 
 
   LOG "# Process Exposure and Ancillary Data"
-  import_census_boundaries
-  import_physical_exposure_model
-  import_vs30_model
-  import_census_data
-  import_sovi
-  import_luts
-  import_retrofit_costs
-  import_ghsl
-  import_mh_intensity
-  import_hazard_threat_thresholds
-  post_process_mh_tables
-  copy_ancillary_tables
-  post_process_all_tables_update
-  generate_indicators
+  RUN import_census_boundaries
+  RUN import_physical_exposure_model
+  RUN import_vs30_model
+  RUN import_census_data
+  RUN import_sovi
+  RUN import_luts
+  RUN import_retrofit_costs
+  RUN import_ghsl
+  RUN import_mh_intensity
+  RUN import_hazard_threat_thresholds
+  RUN post_process_mh_tables
+  RUN copy_ancillary_tables
+  RUN post_process_all_tables_update
+  RUN generate_indicators
 
   LOG "# Process PSRA"
-  import_raw_psra_tables
-  post_process_psra_tables
+  RUN import_raw_psra_tables
+  RUN post_process_psra_tables
 
   LOG "# Process DSRA"
-  import_earthquake_scenarios
-  import_shakemap
-  import_rupture_model
-  create_scenario_risk_master_tables
+  RUN import_earthquake_scenarios
+  RUN import_shakemap
+  RUN import_rupture_model
+  RUN create_scenario_risk_master_tables
 
 
   LOG "# Import data from PostGIS to Elasticsearch"
-  import_data_from_postgis_to_elasticsearch
-  load_kibana_saved_objects
+  RUN export_to_elasticsearch
+  RUN load_kibana_saved_objects
 
 
   LOG "# Almost done!  Wrapping up..."
 
   # Restore PostgreSQL synchronous_commit default setting (on) for reliability
   RUN set_synchronous_commit on
-  sync
+  RUN sync
 
   echo
   LOG "=================================================================="
