@@ -46,7 +46,7 @@ class PostGISConnection:
 
     pass
 
-class PostGISdataset: #(self, view): 
+class PostGISdataset:
     """A class to represent a dataset stored in PostGIS with methods to connect to 
     a PostGIS database, query the table into a geojson object and post that geojson 
     to an ElasticSearch instance
@@ -142,6 +142,39 @@ class PostGISdataset: #(self, view):
 
         return
 
+
+class PostGISPointDataset(PostGISdataset):
+
+    def getGeoJson(self, sqlquerystring, pgConnection):
+        cur = pgConnection.pgConnection().cursor()
+        cur.execute(sqlquerystring)
+        rows = cur.fetchall()
+        if rows:
+            columns = [name[0] for name in cur.description]
+            geomIndex = columns.index('st_asgeojson')
+            feature_collection = {'type': 'FeatureCollection',
+                                    'features': []}
+
+            # Format table into a geojson format for ES/Kibana consumption
+            for row in rows:
+                coordinates = json.loads(row[geomIndex])['coordinates']
+                feature = {
+                    'type': 'Feature',
+                    'geometry': json.loads(row[geomIndex]),
+                    'coordinates': coordinates,
+                    'properties': {},
+                }
+                for index, column in enumerate(columns):
+                    if column != "st_asgeojson":
+                        value = row[index]
+                        feature['properties'][column] = value
+                feature_collection['features'].append(feature)
+            geojsonobject = json.dumps(feature_collection,
+                                        indent=2,
+                                        default=decimal_default)
+            return geojsonobject
+        else :
+            return None
 
 
 def gendata(data, view):
