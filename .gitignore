@@ -2,3 +2,9 @@
 postgis/config.ini
 python/config.ini
 .DS_Store
+
+# ShellSpec
+/.shellspec-local
+/.shellspec-quick.log
+/report/
+/coverage/

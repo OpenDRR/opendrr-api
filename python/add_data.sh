@@ -886,4 +886,7 @@ main() {
   tail -f /dev/null & wait
 }
 
+# If included from ShellSpec, the script ends here.
+${__SOURCED__:+return}
+
 main "$@"
