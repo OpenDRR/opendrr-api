@@ -328,7 +328,7 @@ merge_csv() {
 }
 
 ############################################################################################
-############    Define "Process Exposure and Ancillary Data" functions          ############
+############    Define "Set up job" functions                                   ############
 ############################################################################################
 
 # setup_eatmydata preloads libeatmydata to transparently disable fsync()
@@ -717,25 +717,25 @@ LOG "## Importing Rupture Model"
 RUN python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenDRR/scenario-catalogue/tree/master/deterministic/ruptures"
 
 LOG "## Generating indicator views"
-for item in ${EQSCENARIO_LIST_LONGFORM[*]}; do
-  SITE=$(echo "$item" | cut -f5- -d_ | cut -c 1-1)
-  eqscenario=$(echo "$item" | cut -f-2 -d_)
-  echo "$eqscenario"
-  echo "$SITE"
-  case $SITE in
-    s)
-      #echo "Site Model"
-      RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario="$eqscenario" --aggregation=site_level --exposureModel=site
-      RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario="$eqscenario" --aggregation=building --exposureModel=site
-      RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario="$eqscenario" --aggregation=sauid  --exposureModel=site
-      ;;
-    b)
-      #echo "Building Model"
-      RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario="$eqscenario" --aggregation=building --exposureModel=building
-      RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario="$eqscenario" --aggregation=sauid  --exposureModel=building
-      ;;
-  esac
-done
+  for item in ${EQSCENARIO_LIST_LONGFORM[*]}; do
+    SITE=$(echo "$item" | cut -f5- -d_ | cut -c 1-1)
+    eqscenario=$(echo "$item" | cut -f-2 -d_)
+    echo "$eqscenario"
+    echo "$SITE"
+    case $SITE in
+      s)
+        #echo "Site Model"
+        RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario="$eqscenario" --aggregation=site_level --exposureModel=site
+        RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario="$eqscenario" --aggregation=building --exposureModel=site
+        RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario="$eqscenario" --aggregation=sauid  --exposureModel=site
+        ;;
+      b)
+        #echo "Building Model"
+        RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario="$eqscenario" --aggregation=building --exposureModel=building
+        RUN python3 DSRA_createRiskProfileIndicators.py --eqScenario="$eqscenario" --aggregation=sauid  --exposureModel=building
+        ;;
+    esac
+  done
 }
 
 create_scenario_risk_master_tables() {
