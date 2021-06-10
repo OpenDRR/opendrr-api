@@ -410,7 +410,10 @@ get_git_lfs_pointers_of_csv_files() {
 # wait_for_postgres waits until PostGIS is ready to accept connections
 wait_for_postgres() {
   LOG "Wait until PostgreSQL is ready"
-  until RUN pg_isready -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -U "$POSTGRES_USER"; do
+  # NOTE: Replacing '-p 5432' with '-p "$POSTGRES_PORT"' does not work
+  # See the reviews in #105 for more information.
+  # TODO: Investigate and document, and resolve further if possible.
+  until RUN pg_isready -h "$POSTGRES_HOST" -p 5432 -U "$POSTGRES_USER"; do
     sleep 2
   done
 }
