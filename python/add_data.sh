@@ -324,7 +324,10 @@ merge_csv() {
 
   # The "awk" magic that merge CSV files while stripping duplicated headers.
   # See https://apple.stackexchange.com/questions/80611/merging-multiple-csv-files-without-merging-the-header
-  RUN awk '(NR == 1) || (FNR > 1)' "${input_files[@]}" > "$output_file"
+  # NOTE: DO NOT prepend RUN to the following awk command, as otherwise
+  #       the log would be the first line in the merged CSV file!
+  #       See reviews at #105 for more information.
+  awk '(NR == 1) || (FNR > 1)' "${input_files[@]}" > "$output_file"
 }
 
 ############################################################################################
