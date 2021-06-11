@@ -110,7 +110,7 @@ RUN() {
   fi
 
   LOG RUN: "$@"
-  if [[ -n $(type -p "$1") ]]; then
+  if [[ -x /usr/bin/time ]] && [[ -n $(type -p "$1") ]]; then
     # file
     time /usr/bin/time "$@"
   else
