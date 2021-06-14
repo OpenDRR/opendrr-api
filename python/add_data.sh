@@ -759,7 +759,8 @@ export_to_elasticsearch() {
   fi
 
   LOG "## Make sure Elasticsearch is ready prior to creating indexes"
-  until RUN curl -sSf -XGET --insecure "${ES_CREDENTIALS:-}" "${ES_ENDPOINT}/_cluster/health?wait_for_status=yellow"; do
+  # shellcheck disable=SC2086
+  until RUN curl -sSf -XGET --insecure ${ES_CREDENTIALS:-} "${ES_ENDPOINT}/_cluster/health?wait_for_status=yellow"; do
     LOG "No status yellow from Elasticsearch, trying again in 10 seconds"
     sleep 10
   done
