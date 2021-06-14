@@ -11,6 +11,7 @@
 import configparser
 import psycopg2
 import json
+import decimal
 
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
