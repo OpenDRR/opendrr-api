@@ -7,7 +7,7 @@ echo 'Generating the pygeoapi configuration...'
 python gen_pygeoapi_config.py &&
 
 # start up the local container
-cd ../pygeoapi
+cd ../pygeoapi || exit
 
 # build the image
 echo 'Building the container image...'
@@ -18,7 +18,7 @@ echo 'Starting the container...'
 docker run -d --name temp_container -p 5000:80 temp_image
 
 # make sure Elasticsearch is ready prior to creating indexes
-until $(curl -sSf -XGET --insecure 'http://localhost:5000' > /dev/null); do
+until curl -sSf -XGET --insecure 'http://localhost:5000' > /dev/null; do
     printf 'pygeoapi not ready yet, trying again in 10 seconds \n'
     sleep 10
 done
