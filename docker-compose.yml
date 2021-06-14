@@ -67,7 +67,7 @@ services:
             - .env
         
         volumes: 
-            - pg-data:/var/lib/postgresql
+            - pg-data:/var/lib/postgresql/data
             - opendrr-scripts:/usr/src/app
 
         ports: 
