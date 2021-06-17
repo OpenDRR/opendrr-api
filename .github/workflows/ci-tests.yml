@@ -1,0 +1,106 @@
+name: CI tests
+
+# Reference: https://docs.github.com/en/actions/guides/creating-postgresql-service-containers
+# jq, time, and aws are preinstalled in GitHub's ubuntu-20.04 runner
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  #schedule:
+  #  - cron: '38 2 */3 * *'
+  workflow_dispatch:
+
+jobs:
+  CI-tests-on-Ubuntu-runner:
+    runs-on: ubuntu-20.04
+    if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]')"
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: password
+      DB_NAME: opendrr
+
+    services:
+      postgis:
+        image: postgis/postgis
+        env:
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run psql to set up opendrr database
+        if: ${{ github.event_name != 'schedule' }}
+        run: |
+          psql --version
+          psql -c "CREATE DATABASE ${DB_NAME} OWNER ${PGUSER};"
+          psql -d "$DB_NAME" -c 'CREATE SCHEMA boundaries;'
+          psql -d "$DB_NAME" -c 'CREATE EXTENSION postgis;'
+          psql -d "$DB_NAME" -c 'CREATE EXTENSION postgis_topology;'
+          psql -d "$DB_NAME" -c 'CREATE EXTENSION fuzzystrmatch;'
+          psql -d "$DB_NAME" -c 'CREATE EXTENSION postgis_tiger_geocoder;'
+
+      - name: Set up python/config.ini
+        if: ${{ github.event_name != 'schedule' }}
+        env:
+          MY_PAT: ${{ secrets.MY_PAT }}
+        run: |
+          cat <<EOF > python/config.ini
+          [auth]
+          github_token = $MY_PAT
+          EOF
+          chmod 600 python/config.ini
+
+      - name: Dry-run add_data.sh and see if it completes.
+        if: ${{ github.event_name != 'schedule' }}
+        run: |
+          sudo rm -rf /usr/src/app
+          sudo mkdir /usr/src/app
+          sudo chown $(id -un):$(id -gn) /usr/src/app
+          cp -a python/* /usr/src/app
+          set -a && source sample.env && set +a
+
+          export ADD_DATA_DRY_RUN=true
+
+          cd /usr/src/app
+          ./add_data.sh
+
+      - name: Run add_data.sh and see how far it goes?
+        if: ${{ github.event_name != 'schedule' }}
+        run: |
+          sudo rm -rf /usr/src/app
+          sudo mkdir /usr/src/app
+          sudo chown $(id -un):$(id -gn) /usr/src/app
+          cp -a python/* /usr/src/app
+          set -a && source sample.env && set +a
+
+          cd /usr/src/app
+          ./add_data.sh
+
+  CI-tests-with-Docker-Compose:
+    runs-on: ubuntu-20.04
+    if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]')"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      #- name: docker compose up --build
+      #  run: |
+      #    docker compose up --build
+
+      - name: docker-compose up --build
+        run: |
+          docker-compose up --build
