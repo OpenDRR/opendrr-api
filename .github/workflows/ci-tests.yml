@@ -97,10 +97,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      #- name: docker compose up --build
-      #  run: |
-      #    docker compose up --build
+      - name: Install our own copy of Docker Engine
+        run: |
+          # See https://docs.docker.com/engine/install/ubuntu/
+          sudo eatmydata apt-get remove docker docker-engine docker.io containerd runc
 
-      - name: docker-compose up --build
+          sudo apt-get update
+          sudo apt-get install \
+            apt-transport-https \
+            ca-certificates \
+            curl \
+            gnupg \
+            lsb-release
+
+          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+          echo \
+            "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+            $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+          sudo apt-get update
+          sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+      - name: Run "docker compose up --build"
         run: |
           docker-compose up --build
