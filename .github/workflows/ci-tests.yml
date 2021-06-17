@@ -55,8 +55,8 @@ jobs:
       - name: Install required Python 3 libraries
         run: |
           sudo eatmydata apt-get update
-          sudo eatmydata apt-get install python3-elasticsearch python3-numpy python3-pandas
-          # TODO: What about jenkspy?  (No python3-jenkspy Debian package yet)
+          sudo eatmydata apt-get install python3-elasticsearch python3-numpy python3-pandas python3-psycopg2
+          eatmydata pip3 install --user jenkspy
 
       - name: Set up python/config.ini
         if: ${{ github.event_name != 'schedule' }}
@@ -130,9 +130,6 @@ jobs:
 
       - name: Install our own copy of Docker Engine (actually unnecessary)
         run: |
-          # Skipping
-          exit 0
-
           set -x
 
           docker version
