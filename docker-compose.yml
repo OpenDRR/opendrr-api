@@ -1,82 +1,73 @@
 version: "3"
 
-volumes:
-    pg-data:
-    opendrr-scripts:
-
 services:
+    db-opendrr:
+        image: postgis/postgis
+        build: ./postgis
+        shm_size: 1g
+        env_file:
+            - .env
+        volumes:
+            - pg-data:/var/lib/postgresql/data
+            - opendrr-scripts:/usr/src/app
+        ports:
+            - ${POSTGRES_PORT}:5432
+        environment:
+            POSTGRES_HOST_AUTH_METHOD: trust
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASS: ${POSTGRES_PASS}
+            POSTGRES_DB: ${DB_NAME}
+        restart: on-failure
 
     python-opendrr:
         image: opendrr-python-env
         build: ./python
-
         env_file:
             - .env
-
-        depends_on: 
+        depends_on:
             - db-opendrr
-            - elasticsearch-opendrr
-
+            #- elasticsearch-opendrr
         volumes:
             - opendrr-scripts:/usr/src/app
 
-
-    kibana-opendrr:
-        image: kibana:7.12.0
-        
-        environment:
-            ELASTICSEARCH_HOSTS: http://elasticsearch-opendrr:9200
-
-        ports: 
-            - 5601:5601
-        
-        depends_on: 
-            - elasticsearch-opendrr
-    
-    elasticsearch-opendrr: 
+    elasticsearch-opendrr:
         image: elasticsearch:7.12.0
-        
         environment:
             - discovery.type=single-node
             - "http.cors.allow-origin=http://localhost"
             - "http.cors.enabled=true"
             - "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
             - "http.cors.allow-credentials=true"
-        
-        ports: 
+        ports:
             - 9200:9200
-    
+        profiles:
+            - elasticsearch
+            - pygeoapi
+
+    kibana-opendrr:
+        image: kibana:7.12.0
+        environment:
+            ELASTICSEARCH_HOSTS: http://elasticsearch-opendrr:9200
+        ports:
+            - 5601:5601
+        depends_on:
+            - elasticsearch-opendrr
+        profiles:
+            - elasticsearch
+            - pygeoapi
+
     pygeoapi-opendrr:
         image: opendrr-pygeoapi
         build: ./pygeoapi
-        
         ports:
             - 5000:80
-        
         depends_on:
             - elasticsearch-opendrr
-        
         restart: unless-stopped
-    
-    db-opendrr:
-        image: opendrr-postgis
-        build: ./postgis
-        shm_size: 1g
- 
-        env_file:
-            - .env
-        
-        volumes: 
-            - pg-data:/var/lib/postgresql/data
-            - opendrr-scripts:/usr/src/app
+        profiles:
+            - elasticsearch
+            - pygeoapi
 
-        ports: 
-            - ${POSTGRES_PORT}:5432
-
-        environment: 
-            POSTGRES_HOST_AUTH_METHOD: trust
-            POSTGRES_USER: ${POSTGRES_USER}
-            POSTGRES_PASS: ${POSTGRES_PASS}
-            POSTGRES_DB: ${DB_NAME}
-        
-        restart: on-failure
+volumes:
+    pg-data:
+    opendrr-scripts:

@@ -52,6 +52,12 @@ jobs:
           psql -d "$DB_NAME" -c 'CREATE EXTENSION fuzzystrmatch;'
           psql -d "$DB_NAME" -c 'CREATE EXTENSION postgis_tiger_geocoder;'
 
+      - name: Install required Python 3 libraries
+        run: |
+          sudo eatmydata apt-get update
+          sudo eatmydata apt-get install python3-elasticsearch python3-numpy python3-pandas
+          # TODO: What about jenkspy?  (No python3-jenkspy Debian package yet)
+
       - name: Set up python/config.ini
         if: ${{ github.event_name != 'schedule' }}
         env:
@@ -153,7 +159,10 @@ jobs:
 
           docker version
 
+      - name: Install the new Docker Compose CLI
+        run: |
+          curl -L https://raw.githubusercontent.com/docker/compose-cli/main/scripts/install/install_linux.sh | sh
+
       - name: Run "docker compose up --build"
         run: |
-          stdbuf -oL docker compose up --build || echo "Error code: $?"
-          stdbuf -oL docker-compose up --build || echo "Error code: $?"
+          stdbuf -oL docker compose up --build --profile elasticsearch
