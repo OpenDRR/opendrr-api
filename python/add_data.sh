@@ -327,7 +327,7 @@ merge_csv() {
   # NOTE: DO NOT prepend RUN to the following awk command, as otherwise
   #       the log would be the first line in the merged CSV file!
   #       See reviews at #105 for more information.
-  awk '(NR == 1) || (FNR > 1)' "${input_files[@]}" > "$output_file"
+  is_dry_run || awk '(NR == 1) || (FNR > 1)' "${input_files[@]}" > "$output_file"
 }
 
 ############################################################################################
