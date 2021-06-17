@@ -429,7 +429,8 @@ import_census_boundaries() {
   LOG "## Importing Census Boundaries"
 
   INFO "Trying to download pre-generated PostGIS database dump (for speed)..."
-  if RUN curl -O -v --retry 999 --retry-max-time 0 https://opendrr.eccp.ca/file/OpenDRR/opendrr-boundaries.dump || \
+  if RUN aws s3 sync s3://opendrr-api-prebuilt-cache-1/boundaries/ . --exclude "*" --include "opendrr-boundaries.dump" || \
+    RUN curl -O -v --retry 999 --retry-max-time 0 https://opendrr.eccp.ca/file/OpenDRR/opendrr-boundaries.dump || \
     RUN curl -O -v --retry 999 --retry-max-time 0 https://f000.backblazeb2.com/file/OpenDRR/opendrr-boundaries.dump
   then
     RUN pg_restore -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" \
