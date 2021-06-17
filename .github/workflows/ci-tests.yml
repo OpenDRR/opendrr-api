@@ -63,6 +63,10 @@ jobs:
           EOF
           chmod 600 python/config.ini
 
+      - name: Remove the "wait" at the end of python/add_data.sh
+        run: |
+          sed '/tail -f \/dev\/null & wait/d' python/add_data.sh
+
       - name: Dry-run add_data.sh and see if it completes.
         if: ${{ github.event_name != 'schedule' }}
         run: |
