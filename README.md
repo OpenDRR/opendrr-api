@@ -4,6 +4,8 @@ REST API for OpenDRR data
 
 <img src="https://github.com/OpenDRR/documentation/blob/master/models/opendrr-stack.png" width="600">
 
+[![CI tests](https://github.com/anthonyfok/opendrr-api/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/anthonyfok/opendrr-api/actions/workflows/ci-tests.yml)
+
 ## Setup in your local environment
 
 ### 1. Prerequisites
