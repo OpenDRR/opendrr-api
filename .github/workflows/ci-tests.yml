@@ -76,8 +76,10 @@ jobs:
           sudo mkdir /usr/src/app
           sudo chown $(id -un):$(id -gn) /usr/src/app
           cp -a python/* /usr/src/app
-          set -a && source sample.env && set +a
 
+          set -a && source sample.env && set +a
+          # Override sample variables
+          export POSTGRES_HOST=localhost
           export ADD_DATA_DRY_RUN=true
 
           cd /usr/src/app
@@ -92,7 +94,10 @@ jobs:
           sudo mkdir /usr/src/app
           sudo chown $(id -un):$(id -gn) /usr/src/app
           cp -a python/* /usr/src/app
+
           set -a && source sample.env && set +a
+          # Override sample variables
+          export POSTGRES_HOST=localhost
 
           cd /usr/src/app
           stdbuf -oL ./add_data.sh
@@ -105,8 +110,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install our own copy of Docker Engine
+      - name: Set up .env and python/config.ini
+        if: ${{ github.event_name != 'schedule' }}
+        env:
+          MY_PAT: ${{ secrets.MY_PAT }}
         run: |
+          cp sample.env .env
+          cat <<EOF > python/config.ini
+          [auth]
+          github_token = $MY_PAT
+          EOF
+          chmod 600 python/config.ini
+
+      - name: Install our own copy of Docker Engine (actually unnecessary)
+        run: |
+          # Skipping
+          exit 0
+
           set -x
 
           docker version
