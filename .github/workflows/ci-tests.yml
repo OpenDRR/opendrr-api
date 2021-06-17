@@ -66,6 +66,8 @@ jobs:
       - name: Dry-run add_data.sh and see if it completes.
         if: ${{ github.event_name != 'schedule' }}
         run: |
+          set -x
+
           sudo rm -rf /usr/src/app
           sudo mkdir /usr/src/app
           sudo chown $(id -un):$(id -gn) /usr/src/app
@@ -75,11 +77,13 @@ jobs:
           export ADD_DATA_DRY_RUN=true
 
           cd /usr/src/app
-          ./add_data.sh
+          stdbuf -oL ./add_data.sh
 
       - name: Run add_data.sh and see how far it goes?
         if: ${{ github.event_name != 'schedule' }}
         run: |
+          set -x
+
           sudo rm -rf /usr/src/app
           sudo mkdir /usr/src/app
           sudo chown $(id -un):$(id -gn) /usr/src/app
@@ -87,7 +91,7 @@ jobs:
           set -a && source sample.env && set +a
 
           cd /usr/src/app
-          ./add_data.sh
+          stdbuf -oL ./add_data.sh
 
   CI-tests-with-Docker-Compose:
     runs-on: ubuntu-20.04
@@ -99,6 +103,10 @@ jobs:
 
       - name: Install our own copy of Docker Engine
         run: |
+          set -x
+
+          docker version
+
           # See https://docs.docker.com/engine/install/ubuntu/
           sudo eatmydata apt-get remove docker docker-engine docker.io containerd runc
 
@@ -119,6 +127,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install docker-ce docker-ce-cli containerd.io
 
+          docker version
+
       - name: Run "docker compose up --build"
         run: |
-          docker compose up --build
+          stdbuf -oL docker compose up --build
