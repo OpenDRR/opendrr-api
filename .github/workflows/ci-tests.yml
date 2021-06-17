@@ -65,7 +65,7 @@ jobs:
 
       - name: Remove the "wait" at the end of python/add_data.sh
         run: |
-          sed '/tail -f \/dev\/null & wait/d' python/add_data.sh
+          sed -i '/tail -f \/dev\/null & wait/d' python/add_data.sh
 
       - name: Dry-run add_data.sh and see if it completes.
         if: ${{ github.event_name != 'schedule' }}
@@ -135,4 +135,5 @@ jobs:
 
       - name: Run "docker compose up --build"
         run: |
-          stdbuf -oL docker compose up --build
+          stdbuf -oL docker compose up --build || echo "Error code: $?"
+          stdbuf -oL docker-compose up --build || echo "Error code: $?"
