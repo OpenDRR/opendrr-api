@@ -65,7 +65,6 @@ services:
             - elasticsearch-opendrr
         restart: unless-stopped
         profiles:
-            - elasticsearch
             - pygeoapi
 
 volumes:
