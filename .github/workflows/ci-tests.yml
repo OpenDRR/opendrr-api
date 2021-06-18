@@ -55,7 +55,7 @@ jobs:
       - name: Install required Python 3 libraries
         run: |
           sudo eatmydata apt-get update
-          sudo eatmydata apt-get install python3-elasticsearch python3-numpy python3-pandas python3-psycopg2
+          sudo eatmydata apt-get install python3-elasticsearch python3-numpy python3-pandas python3-psycopg2 python3-sqlalchemy
           eatmydata pip3 install --user jenkspy
 
       - name: Set up python/config.ini
