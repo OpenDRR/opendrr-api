@@ -197,6 +197,10 @@ jobs:
           docker compose convert || echo $?
           docker-compose config || echo $?
 
+      - name: Remove the "wait" at the end of python/add_data.sh
+        run: |
+          sed -i '/tail -f \/dev\/null & wait/d' python/add_data.sh
+
       - run: |
           DOCKER_BUILDKIT=1 stdbuf -oL docker compose --profile elasticsearch up --build || echo $?
 
