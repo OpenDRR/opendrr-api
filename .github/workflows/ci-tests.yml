@@ -197,3 +197,4 @@ jobs:
         run: |
           DOCKER_BUILDKIT=1 stdbuf -oL docker compose up --build --profile elasticsearch || echo $?
           DOCKER_BUILDKIT=1 stdbuf -oL docker-compose up --build --profile elasticsearch || echo $?
+          DOCKER_BUILDKIT=1 stdbuf -oL docker-compose up --build
