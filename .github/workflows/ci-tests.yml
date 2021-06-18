@@ -158,7 +158,8 @@ jobs:
           EOF
           chmod 600 python/config.ini
 
-      - name: Install our own copy of Docker Engine (actually unnecessary)
+      - name: "Skipped: Install our own copy of Docker Engine"
+        if: ${{ false }}
         run: |
           set -x
 
@@ -188,9 +189,19 @@ jobs:
 
       - name: Install the new Docker Compose CLI
         run: |
+          set -x
+          type -a docker
+          /usr/bin/docker version
           curl -L https://raw.githubusercontent.com/docker/compose-cli/main/scripts/install/install_linux.sh | sh
+          type -a docker
+          docker version
+          /usr/local/bin/docker version
 
       - name: Run "docker compose up --build"
         run: |
           set -x
-          stdbuf -oL docker compose up --build --profile elasticsearch
+          ls -l /usr/local/bin/docker /usr/bin/docker
+          type -a docker
+          hash -r
+          type -a docker
+          DOCKER_BUILDKIT=1 stdbuf -oL docker compose up --build --profile elasticsearch
