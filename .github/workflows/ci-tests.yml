@@ -191,17 +191,18 @@ jobs:
         run: |
           set -x
           type -a docker
-          /usr/bin/docker version
+          docker version
           curl -L https://raw.githubusercontent.com/docker/compose-cli/main/scripts/install/install_linux.sh | sh
           type -a docker
           docker version
-          /usr/local/bin/docker version
+          echo "test"
+          ls -l /usr/local/bin/docker /usr/local/bin/com.docker.cli
+          docker --context default ps || echo $?
+          docker compose --help || echo $?
+          docker compose convert || echo $?
+          docker-compose config || echo $?
 
       - name: Run "docker compose up --build"
         run: |
-          set -x
-          ls -l /usr/local/bin/docker /usr/bin/docker
-          type -a docker
-          hash -r
-          type -a docker
-          DOCKER_BUILDKIT=1 stdbuf -oL docker compose up --build --profile elasticsearch
+          DOCKER_BUILDKIT=1 stdbuf -oL docker compose up --build --profile elasticsearch || echo $?
+          DOCKER_BUILDKIT=1 stdbuf -oL docker-compose up --build --profile elasticsearch || echo $?
