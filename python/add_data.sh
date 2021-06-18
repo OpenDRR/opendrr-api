@@ -495,9 +495,9 @@ import_sovi() {
   LOG "## Importing Sovi"
   # Need to source tables
   RUN fetch_csv openquake-inputs \
-    social-vulnerability/social-vulnerability-census_2021.csv
+    social-vulnerability/social-vulnerability-census.csv
   RUN fetch_csv openquake-inputs \
-    social-vulnerability/social-vulnerability-index_2021.csv
+    social-vulnerability/social-vulnerability-index.csv
   RUN fetch_csv openquake-inputs \
     social-vulnerability/sovi_thresholds_2021.csv
 
@@ -509,16 +509,16 @@ import_sovi() {
 import_luts() {
   LOG "## Importing LUTs"
   RUN fetch_csv openquake-inputs \
-    exposure/general-building-stock/1. documentation/collapse_probability.csv
+    exposure/general-building-stock/1.%20documentation/collapse_probability.csv
   RUN run_psql Create_collapse_probability_table.sql
 }
 
-# import_retrofit_costs() {
-#   LOG "## Retrofit Costs"
-#   RUN fetch_csv openquake-inputs \
-#     exposure/general-building-stock/1. documentation/retrofit_costs.csv
-#   RUN run_psql Create_retrofit_costs_table.sql
-# }
+import_retrofit_costs() {
+  LOG "## Retrofit Costs"
+  RUN fetch_csv openquake-inputs \
+    exposure/general-building-stock/1. documentation/retrofit_costs.csv
+  RUN run_psql Create_retrofit_costs_table.sql
+}
 
 import_ghsl() {
   LOG "## Importing GHSL"
@@ -537,13 +537,17 @@ import_hazard_threat_thresholds() {
   LOG "## Importing Hazard Threat Thresholds"
   RUN fetch_csv openquake-inputs \
     natural-hazards/HTi_thresholds.csv
+  RUN fetch_csv openquake-inputs \
+    natural-hazards/hazard_threat_rating_thresholds.csv
 }
 
 post_process_mh_tables() {
   RUN run_psql Create_table_mh_intensity_canada_v2.sql
   RUN run_psql Create_table_mh_thresholds.sql
-  RUN run_psql Create_MH_risk_building_ALL.sql
-  RUN run_psql Create_MH_risk_sauid_ALL.sql
+  RUN run_psql Create_table_mh_rating_thresholds.sql
+  RUN run_psql Create_MH_risk_sauid_prioritization_prereq_tables.sql
+  RUN run_psql Create_MH_risk_sauid_prioritization_Canada.sql
+  # RUN run_psql Create_MH_risk_sauid_ALL.sql
 }
 
 copy_ancillary_tables() {
@@ -567,7 +571,7 @@ generate_indicators() {
   RUN run_psql Create_physical_exposure_site_level_indicators_PhysicalExposure_ste.sql
   RUN run_psql Create_risk_dynamics_indicators.sql
   RUN run_psql Create_social_vulnerability_sauid_indicators_SocialFabric.sql
-  RUN run_psql Create_MH_risk_sauid_ALL.sql
+  # RUN run_psql Create_MH_risk_sauid_ALL.sql
 }
 
 ############################################################################################
@@ -599,11 +603,12 @@ import_raw_psra_tables() {
   LOG "### cHazard"
   RUN fetch_psra_csv_from_model cHazard
 
-  for PT in "${PT_LIST[@]}"; do
-    ( cd "cHazard/$PT"
-      RUN python3 /usr/src/app/PSRA_hCurveTableCombine.py --hCurveDir="/usr/src/app/cHazard/$PT/"
-    )
-  done
+  # This was only needed when the cHazard data was divided by economic region
+  # for PT in "${PT_LIST[@]}"; do
+  #   ( cd "cHazard/$PT"
+  #     RUN python3 /usr/src/app/PSRA_hCurveTableCombine.py --hCurveDir="/usr/src/app/cHazard/$PT/"
+  #   )
+  # done
 
   LOG "### eDamage"
   RUN fetch_psra_csv_from_model eDamage
@@ -851,7 +856,7 @@ main() {
   RUN import_census_data
   RUN import_sovi
   RUN import_luts
-  RUN import_retrofit_costs
+  # RUN import_retrofit_costs
   RUN import_ghsl
   RUN import_mh_intensity
   RUN import_hazard_threat_thresholds
