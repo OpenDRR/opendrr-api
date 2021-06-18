@@ -38,8 +38,10 @@ jobs:
       - name: Run psql to set up opendrr database
         if: ${{ github.event_name != 'schedule' }}
         run: |
-          # Refer to postgis/create_db.sh for details.
+          # Read variables
+          set -a && source sample.env && set +a
           psql --version
+          # Refer to postgis/create_db.sh for details.
           psql -c "CREATE DATABASE ${DB_NAME} OWNER ${POSTGRES_USER};"
           psql -d "$DB_NAME" -a -U"$POSTGRES_USER" -f postgis/schema.sql
 
