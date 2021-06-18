@@ -16,12 +16,6 @@ jobs:
   CI-tests-on-Ubuntu-runner:
     runs-on: ubuntu-20.04
     if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]')"
-    env:
-      PGHOST: localhost
-      PGPORT: 5432
-      PGUSER: postgres
-      PGPASSWORD: password
-      DB_NAME: opendrr
 
     services:
       postgis:
@@ -44,13 +38,10 @@ jobs:
       - name: Run psql to set up opendrr database
         if: ${{ github.event_name != 'schedule' }}
         run: |
+          # Refer to postgis/create_db.sh for details.
           psql --version
-          psql -c "CREATE DATABASE ${DB_NAME} OWNER ${PGUSER};"
-          psql -d "$DB_NAME" -c 'CREATE SCHEMA boundaries;'
-          psql -d "$DB_NAME" -c 'CREATE EXTENSION postgis;'
-          psql -d "$DB_NAME" -c 'CREATE EXTENSION postgis_topology;'
-          psql -d "$DB_NAME" -c 'CREATE EXTENSION fuzzystrmatch;'
-          psql -d "$DB_NAME" -c 'CREATE EXTENSION postgis_tiger_geocoder;'
+          psql -c "CREATE DATABASE ${DB_NAME} OWNER ${POSTGRES_USER};"
+          psql -d "$DB_NAME" -a -U"$POSTGRES_USER" -f postgis/schema.sql
 
       - name: Install required Python 3 libraries
         run: |
@@ -159,7 +150,7 @@ jobs:
           chmod 600 python/config.ini
 
       - name: "Skipped: Install our own copy of Docker Engine"
-        if: ${{ false }}
+        #if: ${{ false }}
         run: |
           set -x
 
