@@ -159,7 +159,6 @@ jobs:
       - name: Free up disk space by deleting unused software
         if: ${{ github.event_name != 'schedule' }}
         run: |
-          set -x
           df -h
           $TIME_RUN sudo eatmydata rm -rf /usr/share/dotnet       # 24.1 GB
           $TIME_RUN sudo eatmydata rm -rf /usr/local/lib/android  # 11.3 GB
@@ -206,7 +205,8 @@ jobs:
       - name: Install Docker Compose V2
         run: |
           mkdir -p ~/.docker/cli-plugins
-          chown 600 ~/.docker
+          ls -ld ~/.docker
+          ls -l ~/.docker
           version=$(curl -s "https://api.github.com/repos/docker/compose-cli/tags" | jq -r '.[0].name')
           echo "Fetching Docker Compose $version"
           download_url=$(curl -s "https://api.github.com/repos/docker/compose-cli/releases/tags/$tag" | jq -r '.assets[] | select (.name | endswith("linux-amd64")).browser_download_url')
