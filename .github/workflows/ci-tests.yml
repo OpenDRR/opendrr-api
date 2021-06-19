@@ -214,6 +214,7 @@ jobs:
           docker compose version
 
       - name: Dry-run and tear down
+        run: |
           ADD_DATA_DRY_RUN=true docker compose --profile elasticsearch up --build
           docker compose down -v
 
