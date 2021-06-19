@@ -211,6 +211,9 @@ jobs:
           echo "Fetching Docker Compose $version"
           download_url=$(curl -s "https://api.github.com/repos/docker/compose-cli/releases/tags/$version" | jq -r '.assets[] | select (.name | endswith("linux-amd64")).browser_download_url')
           curl -L -o ~/.docker/cli-plugins/docker-compose "$download_url"
+          ls -l ~/.docker/cli-plugins
+          chmod +x ~/.docker/cli-plugins/docker-compose
+          ls -l ~/.docker/cli-plugins
           docker compose version
 
       - name: Dry-run and tear down
