@@ -16,7 +16,16 @@ jobs:
   CI-tests-on-Ubuntu-runner:
     runs-on: ubuntu-20.04
     if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]')"
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: password
+      DB_NAME: opendrr
+      TIME_RUN: /usr/bin/time stdbuf -oL eatmydata
+      TZ: America/Vancouver
 
+    # See https://docs.github.com/en/actions/guides/creating-postgresql-service-containers
     services:
       postgis:
         image: postgis/postgis
@@ -32,7 +41,18 @@ jobs:
           --health-retries 5
 
     steps:
-      - name: Checkout code
+      - name: Free up disk space by deleting unused software
+        if: ${{ github.event_name != 'schedule' }}
+        run: |
+          df -h
+          $TIME_RUN sudo eatmydata rm -rf /usr/share/dotnet       # 24.1 GB
+          $TIME_RUN sudo eatmydata rm -rf /usr/local/lib/android  # 11.3 GB
+          $TIME_RUN sudo eatmydata rm -rf /opt/ghc                #  1.8 GB
+          $TIME_RUN sudo eatmydata rm -rf /usr/share/swift        #  1.3 GB
+          $TIME_RUN sudo eatmydata rm -rf /usr/local/graalvm      #  1.0 GB
+          df -h
+
+      - name: Checkout OpenDRR/opendrr-api
         uses: actions/checkout@v2
 
       - name: Run psql to set up opendrr database
@@ -43,10 +63,10 @@ jobs:
           set -a && source sample.env && set +a
           export POSTGRES_HOST=localhost
           # for psql
-          export PGHOST="$POSTGRES_HOST"
-          export PGPORT="$POSTGRES_PORT"
-          export PGUSER="$POSTGRES_USER"
-          export PGPASSWORD="$POSTGRES_PASS"
+          #export PGHOST="$POSTGRES_HOST"
+          #export PGPORT="$POSTGRES_PORT"
+          #export PGUSER="$POSTGRES_USER"
+          #export PGPASSWORD="$POSTGRES_PASS"
 
           # Set up database according to postgis/create_db.sh          
           type -a psql
@@ -130,7 +150,22 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]')"
 
     steps:
-      - name: Checkout code
+      - name: Free up disk space by deleting unused software
+        if: ${{ github.event_name != 'schedule' }}
+        run: |
+          set -x
+          df -h
+          $TIME_RUN sudo eatmydata apt-get -q purge ~n^dotnet
+          df -h
+          $TIME_RUN sudo eatmydata rm -rf /usr/share/dotnet       # 24.1 GB
+          df -h
+          $TIME_RUN sudo eatmydata rm -rf /usr/local/lib/android  # 11.3 GB
+          $TIME_RUN sudo eatmydata rm -rf /opt/ghc                #  1.8 GB
+          $TIME_RUN sudo eatmydata rm -rf /usr/share/swift        #  1.3 GB
+          $TIME_RUN sudo eatmydata rm -rf /usr/local/graalvm      #  1.0 GB
+          df -h
+
+      - name: Checkout OpenDRR/opendrr-api
         uses: actions/checkout@v2
 
       - name: Set up .env and python/config.ini
@@ -161,34 +196,31 @@ jobs:
           EOF
           chmod 600 python/config.ini
 
-      - name: "Skipped: Install our own copy of Docker Engine"
+      - name: Install our own copy of Docker Engine
         #if: ${{ false }}
         run: |
           set -x
 
           docker version
+          ps auxwww | grep docker
 
           # See https://docs.docker.com/engine/install/ubuntu/
-          sudo eatmydata apt-get remove docker docker-engine docker.io containerd runc
+          sudo eatmydata apt-get -q autoremove --purge docker docker-engine docker.io containerd runc
+          sudo eatmydata apt-get -q autoremove --purge ~n^moby
 
-          sudo apt-get update
-          sudo apt-get install \
-            apt-transport-https \
-            ca-certificates \
-            curl \
-            gnupg \
-            lsb-release
+          sudo eatmydata apt-get -q update
+          sudo eatmydata apt-get install apt-transport-https ca-certificates curl gnupg lsb-release
 
           curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-
           echo \
             "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
             $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-          sudo apt-get update
-          sudo apt-get install docker-ce docker-ce-cli containerd.io
+          sudo eatmydata apt-get update
+          sudo eatmydata apt-get install docker-ce docker-ce-cli containerd.io
 
           docker version
+          ps auxwww | grep docker
 
       - name: Install the new Docker Compose CLI
         run: |
@@ -199,11 +231,15 @@ jobs:
           type -a docker
           docker version
           echo "test"
-          ls -l /usr/local/bin/docker /usr/local/bin/com.docker.cli
+          ls -l /usr/bin/docker /usr/local/bin/docker /usr/local/bin/com.docker.cli
           docker --context default ps || echo $?
           docker compose --help || echo $?
           docker compose convert || echo $?
           docker-compose config || echo $?
+          echo "One last test:"
+          /usr/bin/docker compose || echo $?
+          echo "One last test:"
+          /usr/local/bin/docker compose || echo $?
 
       - name: Remove the "wait" at the end of python/add_data.sh
         run: |
