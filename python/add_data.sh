@@ -363,7 +363,7 @@ check_environment_variables() {
 read_github_token() {
   LOG "## Read GitHub token from config.ini"
   # See https://github.blog/changelog/2021-03-31-authentication-token-format-updates-are-generally-available/
-  GITHUB_TOKEN=$(sed -n -r 's/^ *github_token *= *([A-Za-z0-9_]+)/\1/p' config.ini)
+  GITHUB_TOKEN=$(sed -n -r 's/^ *github_token *= *([A-Za-z0-9_]+).*/\1/p' config.ini)
 
   INFO "GITHUB_TOKEN is ${#GITHUB_TOKEN} characters in length"
 
