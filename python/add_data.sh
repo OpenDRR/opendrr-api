@@ -60,7 +60,7 @@ LOG() {
      [[ "${ADD_DATA_PRINT_FUNCNAME,,}" =~ ^(true|1|y|yes|on)$ ]]
   then
     local i=0
-    while [[ "${FUNCNAME[i]}" =~ ^(LOG|RUN|INFO|WARN)$ ]]; do
+    while [[ "${FUNCNAME[i]}" =~ ^(LOG|RUN|INFO|WARN|ERROR)$ ]]; do
       (( i += 1 ))
     done
     lineno=:${BASH_LINENO[i-1]}
