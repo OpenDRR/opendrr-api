@@ -74,11 +74,11 @@ LOG() {
     [[ ${POSTGRES_PASS,,} != password ]] && i="${i//$POSTGRES_PASS/***}"
     [[ ${ES_PASS,,} != password ]] && i="${i//$ES_PASS/***}"
     # Try to add quotes as appropriate
-    if [[ $# -gt 1 ]] && echo "$i" | grep -q ' '; then
-      if echo "$i" | grep -q "'"; then
-        i="\"$i\""
-      else
+    if [[ $# -gt 1 ]] && echo "$i" | egrep -q '^$| '; then
+      if echo "$i" | grep -q '"'; then
         i="'$i'"
+      else
+        i="\"$i\""
       fi
     fi
     echo -n " $i"
