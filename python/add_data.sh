@@ -478,6 +478,9 @@ import_vs30_model() {
   RUN fetch_csv openquake-inputs \
     earthquake/sites/regions/site-vgrid_CA.csv
 
+  #Correct CRLF 
+  sed -i 's/\r//g' /usr/src/app/site-vgrid_CA.csv
+
   RUN run_psql Create_table_vs_30_CAN_site_model.sql
   RUN run_psql Create_table_vs_30_CAN_site_model_xref.sql
 }
