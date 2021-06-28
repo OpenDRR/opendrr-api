@@ -398,8 +398,10 @@ get_model_factory_scripts() {
 # checksum verification later in the program.
 get_git_lfs_pointers_of_csv_files() {
   LOG '## Fetch Git LFS pointers of CSV files for "oid sha256"'
-  mkdir -p git
-  ( cd git &&
+  local base_dir=git-sha256
+  rm -rf "$base_dir"
+  mkdir -p "$base_dir"
+  ( cd "$base_dir" && \
     for repo in canada-srm2 model-inputs openquake-inputs scenario-catalogue; do
       RUN git clone --filter=blob:none --no-checkout "https://${GITHUB_TOKEN}@github.com/OpenDRR/${repo}.git"
       is_dry_run || \
