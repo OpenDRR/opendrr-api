@@ -548,8 +548,8 @@ post_process_mh_tables() {
   RUN run_psql Create_table_mh_intensity_canada_v2.sql
   RUN run_psql Create_table_mh_thresholds.sql
   RUN run_psql Create_table_mh_rating_thresholds.sql
-  RUN run_psql Create_MH_risk_sauid_prioritization_prereq_tables.sql
-  RUN run_psql Create_MH_risk_sauid_prioritization_Canada.sql
+  # RUN run_psql Create_MH_risk_sauid_prioritization_prereq_tables.sql
+  # RUN run_psql Create_MH_risk_sauid_prioritization_Canada.sql
   # RUN run_psql Create_MH_risk_sauid_ALL.sql
 }
 
@@ -574,6 +574,8 @@ generate_indicators() {
   RUN run_psql Create_physical_exposure_site_level_indicators_PhysicalExposure_ste.sql
   RUN run_psql Create_risk_dynamics_indicators.sql
   RUN run_psql Create_social_vulnerability_sauid_indicators_SocialFabric.sql
+  RUN run_psql Create_MH_risk_sauid_prioritization_prereq_tables.sql
+  RUN run_psql Create_MH_risk_sauid_prioritization_Canada.sql
   # RUN run_psql Create_MH_risk_sauid_ALL.sql
 }
 
