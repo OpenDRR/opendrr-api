@@ -31,7 +31,7 @@ def main():
         view = "hexgrid_25km",
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom) \
                     FROM boundaries."HexGrid_25km" \
-                    ORDER BY "HexGrid_25km"."gridid25" \
+                    ORDER BY "HexGrid_25km"."gridid_25" \
                     LIMIT {limit} \
                     OFFSET {offset}'
     )
