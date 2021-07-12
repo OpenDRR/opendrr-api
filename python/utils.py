@@ -20,7 +20,7 @@ class ESConnection:
     def __init__(self, settings):
         self._settings = settings
         self._auth = get_config_params('config.ini')
-        
+
     def settings(self):
         return self._settings
 
@@ -132,7 +132,7 @@ class PostGISdataset:
                                                         'offset': self.OFFSET})
         geojsonobject = self.getGeoJson(sqlquerystring, self.pgConnection())
         while geojsonobject is not None:
-            
+
             print(sqlquerystring)
             self.populateElasticSearchIndex(self.esConnection(), geojsonobject, self.auth(), self.view())
             self.OFFSET+=self.LIMIT
