@@ -27,7 +27,7 @@ ENV_VAR_LIST=(
 ADD_DATA_PRINT_FUNCNAME=${ADD_DATA_PRINT_FUNCNAME:-true}
 ADD_DATA_PRINT_LINENO=${ADD_DATA_PRINT_LINENO:-true}
 
-DSRA_REPOSITORY=https://github.com/OpenDRR/scenario-catalogue/tree/master/FINISHED
+DSRA_REPOSITORY=https://github.com/OpenDRR/earthquake-scenarios/tree/master/FINISHED
 
 PT_LIST=(AB BC MB NB NL NS NT NU ON PE QC SK YT)
 
@@ -373,7 +373,7 @@ read_github_token() {
 
   status_code=$(curl --write-out "%{http_code}" --silent --output /dev/null -H "Authorization: token ${GITHUB_TOKEN}" \
     -O \
-    -L https://api.github.com/repos/OpenDRR/scenario-catalogue/contents/deterministic/outputs)
+    -L https://api.github.com/repos/OpenDRR/earthquake-scenarios/contents/deterministic/outputs)
 
   if [[ "$status_code" -ne 200 ]] ; then
     echo "GitHub token is not valid! Exiting!"
@@ -402,7 +402,7 @@ get_git_lfs_pointers_of_csv_files() {
   rm -rf "$base_dir"
   mkdir -p "$base_dir"
   ( cd "$base_dir" && \
-    for repo in canada-srm2 model-inputs openquake-inputs scenario-catalogue; do
+    for repo in canada-srm2 model-inputs openquake-inputs earthquake-scenarios; do
       RUN git clone --filter=blob:none --no-checkout "https://${GITHUB_TOKEN}@github.com/OpenDRR/${repo}.git"
       is_dry_run || \
         ( cd $repo && \
@@ -447,7 +447,7 @@ import_census_boundaries() {
       RUN run_ogr2ogr "Geometry_$i"
     done
 
-    for i in HexGrid_5km HexGrid_10km HexGrid_25km HexGrid_50km SAUID_HexGrid; do
+    for i in HexGrid_5km HexGrid_10km HexGrid_25km HexGrid_50km SAUID_HexGrid SAUID_HexGrid_5km_intersect SAUID_HexGrid_10km_intersect SAUID_HexGrid_25km_intersect SAUID_HexGrid_50km_intersect SAUID_HexGrid_100km_intersect; do
       RUN run_ogr2ogr "hexbin_4326/$i"
     done
 
@@ -579,6 +579,12 @@ generate_indicators() {
   RUN run_psql Create_MH_risk_sauid_prioritization_prereq_tables.sql
   RUN run_psql Create_MH_risk_sauid_prioritization_Canada.sql
   # RUN run_psql Create_MH_risk_sauid_ALL.sql
+  RUN run_psql Create_hexbin_physical_exposure_aggregation_area_proxy.sql
+  RUN run_psql Create_hexbin_physical_exposure_hexbin_aggregation_centroid.sql
+  RUN run_psql Create_hexbin_MH_risk_sauid_prioritization_aggregation_area.sql
+  RUN run_psql Create_hexbin_MH_risk_sauid_prioritization_aggregation_centroid.sql
+  RUN run_psql Create_hexbin_social_vulnerability_aggregation_area_proxy.sql
+  RUN run_psql Create_hexbin_social_vulnerability_aggregation_centroid.sql
 }
 
 ############################################################################################
@@ -671,7 +677,7 @@ import_earthquake_scenarios() {
   RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
     --retry 999 --retry-max-time 0 \
     -o FINISHED.json \
-    -L https://api.github.com/repos/OpenDRR/scenario-catalogue/contents/FINISHED
+    -L https://api.github.com/repos/OpenDRR/earthquake-scenarios/contents/FINISHED
 
   # s_lossesbyasset_ACM6p5_Beaufort_r2_299_b.csv → ACM6p5_Beaufort
   RUN mapfile -t EQSCENARIO_LIST < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*(?=_r2)")' FINISHED.json)
@@ -732,7 +738,7 @@ import_shakemap() {
 
 import_rupture_model() {
 LOG "## Importing Rupture Model"
-RUN python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenDRR/scenario-catalogue/tree/master/deterministic/ruptures"
+RUN python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenDRR/earthquake-scenarios/tree/master/deterministic/ruptures"
 
 LOG "## Generating indicator views"
   for item in ${EQSCENARIO_LIST_LONGFORM[*]}; do
