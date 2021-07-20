@@ -373,7 +373,7 @@ read_github_token() {
 
   status_code=$(curl --write-out "%{http_code}" --silent --output /dev/null -H "Authorization: token ${GITHUB_TOKEN}" \
     -O \
-    -L https://api.github.com/repos/OpenDRR/earthquake-scenarios/contents/deterministic/outputs)
+    -L https://api.github.com/repos/OpenDRR/earthquake-scenarios/contents/FINISHED)
 
   if [[ "$status_code" -ne 200 ]] ; then
     echo "GitHub token is not valid! Exiting!"
@@ -385,7 +385,7 @@ read_github_token() {
 # from the OpenDRR/model-factory repository
 get_model_factory_scripts() {
   # TODO: Make this more robust
-  RUN git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; RUN git pull)
+  RUN git clone https://github.com/OpenDRR/model-factory.git --branch update_hexbin_and_dsra_source --depth 1 || (cd model-factory ; RUN git pull)
 
   # Copy model-factory scripts to working directory
   # TODO: Find ways to keep these scripts in their place without copying them all to WORKDIR
@@ -679,11 +679,11 @@ import_earthquake_scenarios() {
     -o FINISHED.json \
     -L https://api.github.com/repos/OpenDRR/earthquake-scenarios/contents/FINISHED
 
-  # s_lossesbyasset_ACM6p5_Beaufort_r2_299_b.csv → ACM6p5_Beaufort
-  RUN mapfile -t EQSCENARIO_LIST < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*(?=_r2)")' FINISHED.json)
+  # s_lossesbyasset_ACM6p5_Beaufort_r1_299_b.csv → ACM6p5_Beaufort
+  RUN mapfile -t EQSCENARIO_LIST < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*(?=_r1)")' FINISHED.json)
 
-  # s_lossesbyasset_ACM6p5_Beaufort_r2_299_b.csv → ACM6p5_Beaufort_r2_299_b.csv
-  RUN mapfile -t EQSCENARIO_LIST_LONGFORM < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*r2.*\\.csv")' FINISHED.json)
+  # s_lossesbyasset_ACM6p5_Beaufort_r1_299_b.csv → ACM6p5_Beaufort_r1_299_b.csv
+  RUN mapfile -t EQSCENARIO_LIST_LONGFORM < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*r1.*\\.csv")' FINISHED.json)
 
   LOG "## Importing scenario outputs into PostGIS"
   for eqscenario in ${EQSCENARIO_LIST[*]}; do
@@ -738,7 +738,7 @@ import_shakemap() {
 
 import_rupture_model() {
 LOG "## Importing Rupture Model"
-RUN python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenDRR/earthquake-scenarios/tree/master/deterministic/ruptures"
+RUN python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenDRR/earthquake-scenarios/tree/master/ruptures"
 
 LOG "## Generating indicator views"
   for item in ${EQSCENARIO_LIST_LONGFORM[*]}; do
