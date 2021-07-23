@@ -205,22 +205,19 @@ jobs:
       - name: Install Docker Compose V2
         run: |
           mkdir -p ~/.docker/cli-plugins
-          ls -ld ~/.docker
-          ls -l ~/.docker
           version=$(curl -s "https://api.github.com/repos/docker/compose-cli/tags" | jq -r '.[0].name')
           echo "Fetching Docker Compose $version"
           download_url=$(curl -s "https://api.github.com/repos/docker/compose-cli/releases/tags/$version" | jq -r '.assets[] | select (.name | endswith("linux-amd64")).browser_download_url')
           curl -L -o ~/.docker/cli-plugins/docker-compose "$download_url"
-          ls -l ~/.docker/cli-plugins
           chmod +x ~/.docker/cli-plugins/docker-compose
           ls -l ~/.docker/cli-plugins
           docker compose version
 
       - name: Dry-run and tear down
         run: |
-          ADD_DATA_DRY_RUN=true docker compose --profile elasticsearch up --build
+          ADD_DATA_DRY_RUN=true docker compose up --build
           docker compose down -v
 
       - name: Run "docker compose up" for real; see how far we get?
         run: |
-          DOCKER_BUILDKIT=1 docker compose --profile elasticsearch up --build
+          docker compose --profile elasticsearch up --build

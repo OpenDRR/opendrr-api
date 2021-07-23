@@ -112,15 +112,20 @@ RUN() {
   LOG RUN: "$@"
   if [[ -x /usr/bin/time ]] && [[ -n $(type -p "$1") ]]; then
     # file
-    time /usr/bin/time "$@"
+    if [[ "${ADD_DATA_TIMING,,}" =~ ^(true|1|y|yes|on)$ ]]; then
+      /usr/bin/time "$@"
+    else
+      "$@"
+    fi
   else
     # alias, keyword, function, or builtin
-    if is_dry_run; then
+    if is_dry_run || ! [[ "${ADD_DATA_TIMING,,}" =~ ^(true|1|y|yes|on)$ ]]; then
       "$@"
     else
       time "$@"
     fi
   fi
+  #LOG END: "$@"
 }
 
 # set_synchronous_commit sets database's synchronous_commit
@@ -174,6 +179,42 @@ run_psql() {
   RUN psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" -a -f "$input_file"
 }
 
+# download_with_retries
+# Based on https://github.com/actions/virtual-environments/pull/955 by Vladimir Safonkin (@vsafonkin)
+# as found in https://github.com/actions/virtual-environments/blob/main/images/linux/scripts/helpers/install.sh
+download_with_retries() {
+  # Due to restrictions of bash functions, positional arguments are used here.
+  # In case if you using latest argument NAME, you should also set value to all previous parameters.
+  # Example: download_with_retries $ANDROID_SDK_URL "." "android_sdk.zip"
+  local URL="$1"
+  local DEST="${2:-.}"
+  local NAME="${3:-${URL##*/}}"
+  local COMPRESSED="$4"
+
+  is_dry_run && return
+  [[ -z $URL ]] && ERROR "${FUNCNAME[0]}: No URL specified!"
+
+  if [[ $COMPRESSED == "compressed" ]]; then
+    COMMAND="curl $URL -4 -sL --compressed -o '$DEST/$NAME'"
+  else
+    COMMAND="curl $URL -4 -sL -o '$DEST/$NAME'"
+  fi
+
+  echo "Downloading $URL..."
+  retries=20
+  while [ $retries -gt 0 ]; do
+    ((retries--))
+    if ! eval RUN $COMMAND; then
+      sleep 5
+    else
+      return 0
+    fi
+  done
+
+  echo "Could not download $URL"
+  return 1
+}
+
 # fetch_csv_lfs downloads CSV data files from OpenDRR repos
 # with help from GitHub API with support for LFS files.
 # See https://docs.github.com/en/rest/reference/repos#get-repository-content
@@ -191,9 +232,9 @@ fetch_csv_lfs() {
 
   output_file=$(basename "$path" | sed -e 's/?.*//')
 
-  mkdir -p github-api/"$(dirname "$path")"
+  mkdir -p github-api/"$repo/$(dirname "$path")"
 
-  INFO "$repo/$path"
+  #INFO "$repo/$path"
   RUN curl -s -o "$response" \
     --retry 999 --retry-max-time 0 \
     -H "Authorization: token ${GITHUB_TOKEN}" \
@@ -207,7 +248,7 @@ fetch_csv_lfs() {
   echo size="$size"
 
   LOG "Download from $download_url"
-  RUN curl -o "$output_file" -L "$download_url" --retry 999 --retry-max-time 0
+  RUN download_with_retries "$download_url" . "$output_file"
 }
 
 # fetch_csv_xz downloads CSV data files from OpenDRR xz-compressed repos
@@ -226,23 +267,27 @@ fetch_csv_xz() {
   output_file=$(basename "$path" | sed -e 's/?.*//')
   path_dir=$(dirname "$path")
 
-  INFO "$path_dir"
+  INFO path_dir="$path_dir"
 
   # Fetch directory listing
-  RUN mkdir -p "github-api/$path_dir"
-  response="github-api/$path_dir.dir.json"
-  RUN curl -s -o "$response" \
+  RUN mkdir -p "github-api/$repo/$path_dir"
+  response="github-api/$repo/$path_dir/dir.json"
+  RUN curl -o "$response" \
     --retry 999 --retry-max-time 0 \
     -H "Authorization: token ${GITHUB_TOKEN}" \
     -H "Accept: application/vnd.github.v3+json" \
-    -L "https://api.github.com/repos/$owner/$repo-xz/contents/$path_dir"
+    -L "https://api.github.com/repos/$owner/$repo-xz/contents/${path_dir// /%20}"
 
-  is_dry_run || download_url=$(jq -r '.[] | select(.name == "'"$output_file"'.xz") | .download_url' "$response")
-  LOG "${FUNCNAME[0]}: Download from $download_url"
-  RUN curl -o "$output_file.xz" -L "$download_url" --retry 999 --retry-max-time 0
+  if ! is_dry_run; then
+    download_url=$(jq -r '.[] | select(.name == "'"$output_file"'.xz") | .download_url' "$response") || \
+      { cat "$response"
+        ERROR "Directory \"$path_dir\" does not exist in $repo"
+      }
+  fi
+  RUN download_with_retries "$download_url" . "${output_file}.xz"
 
   # TODO: Keep the compressed file somewhere, uncompress when needed
-  RUN unxz "$output_file.xz"
+  RUN unxz -kv "${output_file}.xz"
 }
 
 # fetch_csv calls either fetch_csv_xz or fetch_csv_lfs to fetch CSV files
@@ -916,6 +961,23 @@ load_kibana_saved_objects() {
 ############################################################################################
 
 main() {
+  if [[ -n $ADD_DATA_TEST_COMMAND ]]; then
+    local test_command
+    read -ra test_command <<<"${ADD_DATA_TEST_COMMAND}"
+    LOG Test mode
+    RUN read_github_token
+    #RUN "${test_command[@]}"
+    RUN "$@"
+    exit 0
+    echo =====================================================================================================
+    RUN fetch_csv_xz openquake-inputs "exposure/general-building-stock/1. documentation/lapsed.csv"
+    echo =====================================================================================================
+    RUN fetch_csv_xz openquake-inputs "exposure/general-building-stock/1. documentation/collapse_probability.csv"
+    echo =====================================================================================================
+    exit 0
+  fi
+
+
   LOG "# Set up job"
   RUN setup_eatmydata
   RUN check_environment_variables

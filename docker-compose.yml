@@ -1,5 +1,3 @@
-version: "3"
-
 services:
     db-opendrr:
         image: postgis/postgis
@@ -24,6 +22,9 @@ services:
         build: ./python
         env_file:
             - .env
+        environment:
+            ADD_DATA_DRY_RUN: ${ADD_DATA_DRY_RUN}
+            ADD_DATA_TEST_COMMAND:
         depends_on:
             - db-opendrr
             #- elasticsearch-opendrr
