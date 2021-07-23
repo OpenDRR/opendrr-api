@@ -17,36 +17,40 @@ Make a copy of the `sample.env` file and rename it to `.env`. Make changes if re
 
 The settings below can be found in the .env file and control which data sets are loaded into ElasticSearch and Kibana:
 
+```ini
 loadDsraScenario=true
 loadPsraModels=true
 loadHazardThreat=false
 loadPhysicalExposure=true
 loadRiskDynamics=true
 loadSocialFabric=true
+```
 
 ### 3. Edit the Python container configuration
 
 Make a copy of `python/sample_config.ini` and rename it `config.ini`. Open this file in an editor, add the required github_token (see https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) and set the remaining parameters as follows:
 
-    [auth]
-    # Github Token for Private Repo Accesss
-    github_token = a00049ba79152d03380c34652f2cb612
+```ini
+[auth]
+# Github Token for Private Repo Accesss
+github_token = a00049ba79152d03380c34652f2cb612
 
-    [rds]
-    # PostGIS Connection Details
-    postgres_host = db-opendrr
-    postgres_port = 5432
-    postgres_un = postgres
-    postgres_pw = password
-    postgres_db = opendrr
-    postgres_address = db-opendrr:5432/opendrr
+[rds]
+# PostGIS Connection Details
+postgres_host = db-opendrr
+postgres_port = 5432
+postgres_un = postgres
+postgres_pw = password
+postgres_db = opendrr
+postgres_address = db-opendrr:5432/opendrr
 
-    [es]
-    # Elasticsearch Connection Details
-    es_un = elastic
-    es_pw = changeme
-    es_endpoint = elasticsearch-opendrr:9200
-    kibana_endpoint = localhost:5601
+[es]
+# Elasticsearch Connection Details
+es_un = elastic
+es_pw = changeme
+es_endpoint = elasticsearch-opendrr:9200
+kibana_endpoint = localhost:5601
+```
 
 ### 4. Run docker-compose
 
@@ -92,82 +96,84 @@ http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_build
 
 You should see something similar to:
 
-    {
-        "type": "FeatureCollection",
-        "features": [
-            {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                -117.58484079,
-                49.58943143
-                ]
-            },
-            "properties": {
-                "AssetID": "59002092-RES3A-W1-PC",
-                "Sauid": "59002092",
-                "sL_Asset_b0": 27.602575,
-                "sL_Bldg_b0": 27.602575,
-                "sLr_Bldg_b0": 1,
-                "sLr2_BCR_b0": 0.000819,
-                "SLr2_RoI": 0.001359,
-                "sL_Str_b0": 27.602575,
-                "sLsd_Str_b0": 23.4638,
-                "sL_NStr_b0": 0,
-                "sLsd_NStr_b0": 0,
-                "sL_Cont_b0": 0,
-                "sLsd_Cont_b0": 0,
-                "sL_Asset_r2": 0.311704,
-                "sL_Bldg_r2": 0.311704,
-                "sLr_Bldg_r2": 1,
-                "sL_Str_r2": 0.311704,
-                "sLsd_Str_r2": 0.264966,
-                "sL_NStr_r2": 0,
-                "sLsd_NStr_r2": 0,
-                "sL_Cont_r2": 0,
-                "sLsd_Cont_r2": 0,
-                "geom_point": "0101000020E6100000AD9A10086E655DC0D18A357D72CB4840"
-            },
-            "id": "59002092"
-            }
-        ],
-        "numberMatched": 173630,
-        "numberReturned": 1,
-        "links": [
-            {
-            "type": "application/geo+json",
-            "rel": "self",
-            "title": "This document as GeoJSON",
-            "href": "http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=json&amp;limit=1"
-            },
-            {
-            "rel": "alternate",
-            "type": "application/ld+json",
-            "title": "This document as RDF (JSON-LD)",
-            "href": "http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=jsonld&amp;limit=1"
-            },
-            {
-            "type": "text/html",
-            "rel": "alternate",
-            "title": "This document as HTML",
-            "href": "http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=html&amp;limit=1"
-            },
-            {
-            "type": "application/geo+json",
-            "rel": "next",
-            "title": "items (next)",
-            "href": "http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?startindex=1&amp;limit=1"
-            },
-            {
-            "type": "application/json",
-            "title": "Economic loss buildings",
-            "rel": "collection",
-            "href": "http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building"
-            }
-        ],
-        "timeStamp": "2020-08-18T22:46:10.513010Z"
+```json
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+            -117.58484079,
+            49.58943143
+            ]
+        },
+        "properties": {
+            "AssetID": "59002092-RES3A-W1-PC",
+            "Sauid": "59002092",
+            "sL_Asset_b0": 27.602575,
+            "sL_Bldg_b0": 27.602575,
+            "sLr_Bldg_b0": 1,
+            "sLr2_BCR_b0": 0.000819,
+            "SLr2_RoI": 0.001359,
+            "sL_Str_b0": 27.602575,
+            "sLsd_Str_b0": 23.4638,
+            "sL_NStr_b0": 0,
+            "sLsd_NStr_b0": 0,
+            "sL_Cont_b0": 0,
+            "sLsd_Cont_b0": 0,
+            "sL_Asset_r2": 0.311704,
+            "sL_Bldg_r2": 0.311704,
+            "sLr_Bldg_r2": 1,
+            "sL_Str_r2": 0.311704,
+            "sLsd_Str_r2": 0.264966,
+            "sL_NStr_r2": 0,
+            "sLsd_NStr_r2": 0,
+            "sL_Cont_r2": 0,
+            "sLsd_Cont_r2": 0,
+            "geom_point": "0101000020E6100000AD9A10086E655DC0D18A357D72CB4840"
+        },
+        "id": "59002092"
         }
+    ],
+    "numberMatched": 173630,
+    "numberReturned": 1,
+    "links": [
+        {
+        "type": "application/geo+json",
+        "rel": "self",
+        "title": "This document as GeoJSON",
+        "href": "http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=json&amp;limit=1"
+        },
+        {
+        "rel": "alternate",
+        "type": "application/ld+json",
+        "title": "This document as RDF (JSON-LD)",
+        "href": "http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=jsonld&amp;limit=1"
+        },
+        {
+        "type": "text/html",
+        "rel": "alternate",
+        "title": "This document as HTML",
+        "href": "http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=html&amp;limit=1"
+        },
+        {
+        "type": "application/geo+json",
+        "rel": "next",
+        "title": "items (next)",
+        "href": "http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?startindex=1&amp;limit=1"
+        },
+        {
+        "type": "application/json",
+        "title": "Economic loss buildings",
+        "rel": "collection",
+        "href": "http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building"
+        }
+    ],
+    "timeStamp": "2020-08-18T22:46:10.513010Z"
+}
+```
 
 ## Interacting with the endpoints
 
