@@ -580,11 +580,11 @@ generate_indicators() {
   RUN run_psql Create_MH_risk_sauid_prioritization_Canada.sql
   # RUN run_psql Create_MH_risk_sauid_ALL.sql
   RUN run_psql Create_hexbin_physical_exposure_aggregation_area_proxy.sql
-  RUN run_psql Create_hexbin_physical_exposure_hexbin_aggregation_centroid.sql
+  # RUN run_psql Create_hexbin_physical_exposure_hexbin_aggregation_centroid.sql
   RUN run_psql Create_hexbin_MH_risk_sauid_prioritization_aggregation_area.sql
-  RUN run_psql Create_hexbin_MH_risk_sauid_prioritization_aggregation_centroid.sql
+  # RUN run_psql Create_hexbin_MH_risk_sauid_prioritization_aggregation_centroid.sql
   RUN run_psql Create_hexbin_social_vulnerability_aggregation_area_proxy.sql
-  RUN run_psql Create_hexbin_social_vulnerability_aggregation_centroid.sql
+  # RUN run_psql Create_hexbin_social_vulnerability_aggregation_centroid.sql
 }
 
 ############################################################################################
