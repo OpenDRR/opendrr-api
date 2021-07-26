@@ -1,4 +1,3 @@
-
 # =================================================================
 #!/bin/bash
 # SPDX-License-Identifier: MIT
@@ -9,10 +8,12 @@
 #               Joost van Ulden <joost.vanulden@canada.ca>
 # =================================================================
 
+
 import utils
 
+
 def main():
-    psraTable = utils.PostGISdataset(
+    table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings = {
             'settings': {
@@ -27,15 +28,15 @@ def main():
                 }
             }
         } ),
-        view = "psra_all_indicators_s",
-        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
-                    FROM results_psra_national.psra_all_indicators_s \
-                    ORDER BY psra_all_indicators_s."Sauid" \
+        view = "dsra_all_scenarios_csduid",
+        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom) \
+                    FROM dsra.dsra_all_scenarios_csduid \
+                    ORDER BY dsra_all_scenarios_csduid."csduid" \
                     LIMIT {limit} \
                     OFFSET {offset}'
     )
 
-    psraTable.postgis2es()
+    table.postgis2es()
 
     return
 
