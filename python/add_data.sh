@@ -787,9 +787,8 @@ export_to_elasticsearch() {
   # shellcheck disable=SC2154
   if [ "$loadPsraModels" = true ]; then
     LOG "Creating PSRA indices in Elasticsearch"
+    RUN python3 psra_postgres2es.py
     for PT in ${PT_LIST[*]}; do
-      RUN python3 psra_postgres2es.py --province="$PT" --dbview="all_indicators" --idField="building"
-      RUN python3 psra_postgres2es.py --province="$PT" --dbview="all_indicators" --idField="sauid"
       RUN python3 hmaps_postgres2es.py --province="$PT"
       RUN python3 uhs_postgres2es.py --province="$PT"
       RUN python3 srcLoss_postgres2es.py --province="$PT"
