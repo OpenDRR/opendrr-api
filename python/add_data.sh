@@ -788,11 +788,9 @@ export_to_elasticsearch() {
   if [ "$loadPsraModels" = true ]; then
     LOG "Creating PSRA indices in Elasticsearch"
     RUN python3 psra_postgres2es.py
-    for PT in ${PT_LIST[*]}; do
-      RUN python3 hmaps_postgres2es.py --province="$PT"
-      RUN python3 uhs_postgres2es.py --province="$PT"
-      RUN python3 srcLoss_postgres2es.py --province="$PT"
-    done
+    RUN python3 hmaps_postgres2es.py
+    RUN python3 uhs_postgres2es.py
+    RUN python3 srcLoss_postgres2es.py
 
     LOG "Creating PSRA Kibana Index Patterns"
     RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/saved_objects/index-pattern/psra*all_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra*all_indicators_s"}}'
