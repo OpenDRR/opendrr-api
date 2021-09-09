@@ -31,13 +31,12 @@ def main():
                 }
             }
         } ), 
-        view="psra_{province}_uhs".format(**{
-            'province': args.province.lower()}),
+        view="psra_uhs",
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom) \
-                FROM results_psra_{province}.psra_{province}_uhs \
-                ORDER BY psra_{province}_uhs."geom" \
+                FROM results_psra_national.psra_uhs \
+                ORDER BY psra_uhs."geom" \
                 LIMIT {{limit}} \
-                OFFSET {{offset}}'.format(**{'province': args.province.lower()})
+                OFFSET {{offset}}'
     )
 
     table.postgis2es()
@@ -46,10 +45,6 @@ def main():
 
 def parse_args():
     parser = argparse.ArgumentParser(description="script description")
-    parser.add_argument("--province",
-                        type=str,
-                        help="Two letters only",
-                        required=True)
     args = parser.parse_args()
     return args
 
