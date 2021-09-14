@@ -783,6 +783,9 @@ export_to_elasticsearch() {
     sleep 10
   done
 
+  LOG "## Create Kibana Space"
+  RUN curl  -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/spaces/space"  -H "kbn-xsrf: true" -d '{"id": "gsc-cgc","name": "GSC-CGC","description" : "Geological Survey of Canada Private Space","color": "#aabbcc","initials": "G"}'
+
   LOG "## Load Probabilistic Model Indicators"
   # shellcheck disable=SC2154
   if [ "$loadPsraModels" = true ]; then
@@ -793,11 +796,11 @@ export_to_elasticsearch() {
     RUN python3 srcLoss_postgres2es.py
 
     LOG "Creating PSRA Kibana Index Patterns"
-    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/saved_objects/index-pattern/psra*all_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra*all_indicators_s"}}'
-    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/saved_objects/index-pattern/psra*all_indicators_b" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra*all_indicators_b"}}'
-    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/saved_objects/index-pattern/psra_*_hmaps" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_*_hmaps"}}'
-    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/saved_objects/index-pattern/psra_*_uhs" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_*_uhs"}}'
-    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/saved_objects/index-pattern/psra_*_srcLoss" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_*_srcLoss"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/psra_all_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_all_indicators_s"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/psra_all_indicators_b" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_all_indicators_b"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/psra_hmaps" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_hmaps"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/psra_uhs" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_uhs"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/psra_srcLoss" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_srcLoss"}}'
   fi
 
   # Load Deterministic Model Indicators
@@ -834,6 +837,17 @@ export_to_elasticsearch() {
   # shellcheck disable=SC2154
   if [[ $loadSocialFabric = true ]]; then
     RUN python3 socialFabric_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+  fi
+
+  # Load Hexgrid Geometries
+  # shellcheck disable=SC2154
+  if [[ $loadHexGrid = true ]]; then
+    RUN python3 hexgrid_5km_postgres2es.py
+    RUN python3 hexgrid_10km_postgres2es.py
+    RUN python3 hexgrid_25km_postgres2es.py
+    RUN python3 hexgrid_50km_postgres2es.py
+    RUN python3 hexgrid_100km_postgres2es.py
+    RUN python3 hexgrid_sauid_postgres2es.py
   fi
 }
 
