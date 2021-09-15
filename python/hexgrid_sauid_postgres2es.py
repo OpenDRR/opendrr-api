@@ -28,7 +28,7 @@ def main():
                 }
             }
         } ),
-        view = "sauid_hexgrid",
+        view = "opendrr_sauid_hexgrid",
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom) \
                     FROM boundaries."SAUID_HexGrid" \
                     ORDER BY "SAUID_HexGrid"."sauid" \

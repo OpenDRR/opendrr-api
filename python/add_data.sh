@@ -796,21 +796,21 @@ export_to_elasticsearch() {
     RUN python3 srcLoss_postgres2es.py
 
     LOG "Creating PSRA Kibana Index Patterns"
-    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/psra_all_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_all_indicators_s"}}'
-    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/psra_all_indicators_b" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_all_indicators_b"}}'
-    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/psra_hmaps" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_hmaps"}}'
-    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/psra_uhs" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_uhs"}}'
-    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/psra_srcLoss" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_srcLoss"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_psra_all_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_psra_all_indicators_s"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_psra_all_indicators_b" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_psra_all_indicators_b"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_psra_hmaps" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_psra_hmaps"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_psra_uhs" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_psra_uhs"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_psra_srcLoss" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_psra_srcLoss"}}'
   fi
 
   # Load Deterministic Model Indicators
   # shellcheck disable=SC2154
   if [[ "$loadDsraScenario" = true ]]; then
-    for eqscenario in ${EQSCENARIO_LIST[*]}; do
-      LOG "Creating Elasticsearch indexes for DSRA"
-      RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="building"
-      RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="sauid"
-    done
+  for eqscenario in ${EQSCENARIO_LIST[*]}; do
+    LOG "Creating Elasticsearch indexes for DSRA"
+    RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="building"
+    RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="sauid"
+  done
   fi
 
   # Load Hazard Threat Views

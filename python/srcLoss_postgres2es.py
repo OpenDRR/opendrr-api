@@ -13,7 +13,7 @@ import argparse
 
 def main():
     args = parse_args()
-    table = utils.PostGISdataset(
+    table = utils.PostGISTable(
         utils.PostGISConnection(),
         utils.ESConnection(settings = {
             'settings': {
@@ -31,12 +31,12 @@ def main():
                 }
             }
         } ), 
-        view="psra_src_loss",
-        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom) \
+        view="opendrr_psra_src_loss",
+        sqlquerystring = 'SELECT * \
                 FROM results_psra_national.psra_src_loss \
                 ORDER BY psra_src_loss."region" \
-                LIMIT {{limit}} \
-                OFFSET {{offset}}'
+                LIMIT {limit} \
+                OFFSET {offset}'
     )
 
     table.postgis2es()

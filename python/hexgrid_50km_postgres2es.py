@@ -28,7 +28,7 @@ def main():
                 }
             }
         } ),
-        view = "hexgrid_50km",
+        view = "opendrr_hexgrid_50km",
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom) \
                     FROM boundaries."HexGrid_50km" \
                     ORDER BY "HexGrid_50km"."gridid_50" \

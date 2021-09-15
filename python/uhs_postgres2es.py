@@ -31,12 +31,12 @@ def main():
                 }
             }
         } ), 
-        view="psra_uhs",
+        view="opendrr_psra_uhs",
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom) \
                 FROM results_psra_national.psra_uhs \
                 ORDER BY psra_uhs."geom" \
-                LIMIT {{limit}} \
-                OFFSET {{offset}}'
+                LIMIT {limit} \
+                OFFSET {offset}'
     )
 
     table.postgis2es()

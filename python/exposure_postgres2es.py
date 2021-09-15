@@ -44,7 +44,7 @@ def main():
                     }
                 }
             } ),
-            view = "nhsl_physical_exposure_all_indicators_{aggregation}".format(**{
+            view = "opendrr_nhsl_physical_exposure_all_indicators_{aggregation}".format(**{
                     'aggregation': args.aggregation[0].lower()}),
             sqlquerystring =  'SELECT *, ST_AsGeoJSON(geom_poly) \
                     FROM results_nhsl_physical_exposure.nhsl_physical_exposure_all_indicators_{aggregation} \
@@ -72,7 +72,7 @@ def main():
                     }
                 }
             } ), 
-            view = "nhsl_physical_exposure_all_indicators_{aggregation}".format(**{
+            view = "opendrr_nhsl_physical_exposure_all_indicators_{aggregation}".format(**{
                     'aggregation': args.aggregation[0].lower()}),
             sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
                     FROM results_nhsl_physical_exposure.nhsl_physical_exposure_all_indicators_{aggregation} \

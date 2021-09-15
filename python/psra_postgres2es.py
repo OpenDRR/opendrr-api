@@ -26,7 +26,7 @@ def main():
                 }
             }
         } ),
-        view = "psra_all_indicators_s",
+        view = "opendrr_psra_all_indicators_s",
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
                     FROM results_psra_national.psra_all_indicators_s \
                     ORDER BY psra_all_indicators_s."Sauid" \
@@ -54,7 +54,7 @@ def main():
                     }
                 }
             } ), 
-            view = "psra_all_indicators_b",
+            view = "opendrr_psra_all_indicators_b",
             sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
                     FROM results_psra_national.psra_all_indicators_b \
                     ORDER BY psra_all_indicators_b."AssetID" \

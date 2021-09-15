@@ -28,7 +28,7 @@ def main():
                 }
             }
         } ),
-        view = "geometry_sauid",
+        view = "opendrr_geometry_sauid",
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom) \
                     FROM boundaries."Geometry_SAUID" \
                     ORDER BY "Geometry_SAUID"."OBJECTID" \

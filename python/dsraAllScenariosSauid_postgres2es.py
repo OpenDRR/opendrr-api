@@ -31,7 +31,7 @@ def main():
                 }
             }
         } ),
-        view = "dsra_all_scenarios_sauid",
+        view = "opendrr_dsra_all_scenarios_sauid",
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom) \
                     FROM dsra.dsra_all_scenarios_sauid \
                     ORDER BY dsra_all_scenarios_sauid."sauid" \

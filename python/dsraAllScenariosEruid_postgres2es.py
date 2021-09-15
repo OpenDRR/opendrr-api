@@ -27,7 +27,7 @@ def main():
                 }
             }
         } ),
-        view = "dsra_all_scenarios_eruid",
+        view = "opendrr_dsra_all_scenarios_eruid",
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom) \
                     FROM dsra.dsra_all_scenarios_eruid \
                     ORDER BY dsra_all_scenarios_eruid."eruid" \
