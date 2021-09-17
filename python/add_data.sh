@@ -823,8 +823,8 @@ export_to_elasticsearch() {
   # Load physical exposure indicators
   # shellcheck disable=SC2154
   if [[ $loadPhysicalExposure = true ]]; then
-    RUN python3 exposure_postgres2es.py --type="all_indicators" --aggregation="building" --geometry=geom_point --idField="BldgID"
-    RUN python3 exposure_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    RUN python3 exposure_postgres2es.py --aggregation="building" --geometry=geom_point
+    RUN python3 exposure_postgres2es.py --aggregation="sauid" --geometry=geom_poly
   fi
 
   # Load Risk Dynamics Views
@@ -836,7 +836,12 @@ export_to_elasticsearch() {
   # Load Social Fabric Views
   # shellcheck disable=SC2154
   if [[ $loadSocialFabric = true ]]; then
-    RUN python3 socialFabric_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+    RUN python3 socialFabric_postgres2es.py --aggregation="sauid" --geometry=geom_poly --sortfield="Sauid"
+    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_5km" --geometry=geom --sortfield="gridid_5"
+    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_10km" --geometry=geom --sortfield="gridid_10"
+    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_25km" --geometry=geom --sortfield="gridid_25"
+    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_50km" --geometry=geom --sortfield="gridid_50"
+    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_100km" --geometry=geom --sortfield="gridid_100"
   fi
 
   # Load Hexgrid Geometries
@@ -853,7 +858,7 @@ export_to_elasticsearch() {
 
 load_kibana_saved_objects() {
   LOG "# Loading Kibana Saved Objects"
-  RUN curl -X POST -H "securitytenant: global" "${KIBANA_ENDPOINT}/api/saved_objects/_import" -H "kbn-xsrf: true" --form file=@kibanaSavedObjects.ndjson
+  RUN curl -X POST -H "securitytenant: global" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/_import" -H "kbn-xsrf: true" --form file=@kibanaSavedObjects.ndjson
 }
 
 
