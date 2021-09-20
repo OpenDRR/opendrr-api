@@ -810,6 +810,10 @@ export_to_elasticsearch() {
     LOG "Creating Elasticsearch indexes for DSRA"
     RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="building"
     RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="sauid"
+
+    LOG "Creating DSRA Kibana Index Patterns"
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_dsra_${eqscenario}_all_indicators_s" -H "kbn-xsrf: true" -d "{ 'attributes': { 'title':'opendrr_dsra_${eqscenario}_all_indicators_s'}}"
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_dsra_${eqscenario}_all_indicators_b" -H "kbn-xsrf: true" -d "{ 'attributes': { 'title':'opendrr_dsra_${eqscenario}_all_indicators_b'}}"
   done
   fi
 
@@ -817,31 +821,53 @@ export_to_elasticsearch() {
   # shellcheck disable=SC2154
   if [[ "$loadHazardThreat" = true ]]; then
     # All Indicators
+    LOG "Creating Elasticsearch indexes for Hazard Threat"
     RUN python3 hazardThreat_postgres2es.py  --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+
+    LOG "Creating Hazard Threat Kibana Index Patterns"
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hazard_threat_all_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hazard_threat_all_indicators_s"}}'
   fi
 
   # Load physical exposure indicators
   # shellcheck disable=SC2154
   if [[ $loadPhysicalExposure = true ]]; then
+    LOG "Creating Elasticsearch indexes for Physical Exposure"
     RUN python3 exposure_postgres2es.py --aggregation="building" --geometry=geom_point
     RUN python3 exposure_postgres2es.py --aggregation="sauid" --geometry=geom_poly
+
+    LOG "Creating Exposure Kibana Index Patterns"
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_physical_exposure_all_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_physical_exposure_all_indicators_s"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_physical_exposure_all_indicators_b" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_physical_exposure_all_indicators_b"}}'
   fi
 
   # Load Risk Dynamics Views
   # shellcheck disable=SC2154
   if [[ $loadRiskDynamics = true ]]; then
+    LOG "Creating Elasticsearch indexes for Risk Dynamics"
     RUN python3 riskDynamics_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_point --idField="ghslID"
+
+    LOG "Creating Risk Dynamics Kibana Index Patterns"
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_risk_dynamics_all_indicators" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_risk_dynamics_all_indicators"}}'
   fi
 
   # Load Social Fabric Views
   # shellcheck disable=SC2154
   if [[ $loadSocialFabric = true ]]; then
+    LOG "Creating Elasticsearch indexes for Social Fabric"
     RUN python3 socialFabric_postgres2es.py --aggregation="sauid" --geometry=geom_poly --sortfield="Sauid"
     RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_5km" --geometry=geom --sortfield="gridid_5"
     RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_10km" --geometry=geom --sortfield="gridid_10"
     RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_25km" --geometry=geom --sortfield="gridid_25"
     RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_50km" --geometry=geom --sortfield="gridid_50"
-    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_100km" --geometry=geom --sortfield="gridid_100"
+    # RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_100km" --geometry=geom --sortfield="gridid_100"
+
+    LOG "Creating Social Fabric Kibana Index Patterns"
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_social_fabric_all_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_social_fabric_all_indicators_s"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_social_fabric_all_indicators_hexgrid_5km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_social_fabric_all_indicators_hexgrid_5km"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_social_fabric_all_indicators_hexgrid_10km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_social_fabric_all_indicators_hexgrid_10km"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_social_fabric_all_indicators_hexgrid_25km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_social_fabric_all_indicators_hexgrid_25km"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_social_fabric_all_indicators_hexgrid_50km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_social_fabric_all_indicators_hexgrid_50km"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_social_fabric_all_indicators_hexgrid_100km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_social_fabric_all_indicators_hexgrid_100km"}}'
   fi
 
   # Load Hexgrid Geometries
