@@ -120,7 +120,10 @@ class PostGISdataset:
         d = json.loads(geojsonobject)
         es = Elasticsearch([auth.get('es', 'es_endpoint')],
                        http_auth=(auth.get('es', 'es_un'),
-                       auth.get('es', 'es_pw')))
+                       auth.get('es', 'es_pw')),
+                       timeout=30,
+                       max_retries=10,
+                       retry_on_timeout=True)
         helpers.bulk(es,
                         gendata(d, view),
                         raise_on_error=False)
