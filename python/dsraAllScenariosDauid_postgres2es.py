@@ -9,7 +9,6 @@
 # =================================================================
 
 
-import utils
 from utils import ESConnection
 from utils import PostGISdataset
 from utils import PostGISConnection

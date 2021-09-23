@@ -11,6 +11,7 @@
 
 import utils
 
+
 def main():
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
@@ -38,6 +39,7 @@ def main():
     table.postgis2es()
 
     return
+
 
 if __name__ == '__main__':
     main()
