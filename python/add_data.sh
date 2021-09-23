@@ -805,18 +805,18 @@ export_to_elasticsearch() {
 
   # Load Deterministic Model Indicators
   # shellcheck disable=SC2154
-if [[ "$loadDsraScenario" = true ]]; then
+  if [[ "$loadDsraScenario" = true ]]; then
 for eqscenario in ${EQSCENARIO_LIST[*]}; do
   LOG "Creating Elasticsearch indexes for DSRA"
-  # RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="building"
-  # RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="sauid"
+  RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="building"
+  RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="sauid"
 
   # LOG "Creating DSRA Kibana Index Patterns"
   # Need to develop saved object workflow for automated index patern generation
   # RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_dsra_${eqscenario}_all_indicators_s" -H "kbn-xsrf: true" -d "{ 'attributes': { 'title':'opendrr_dsra_${eqscenario}_all_indicators_s'}}"
   # RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_dsra_${eqscenario}_all_indicators_b" -H "kbn-xsrf: true" -d "{ 'attributes': { 'title':'opendrr_dsra_${eqscenario}_all_indicators_b'}}"
 done
-fi
+  fi
 
   # Load Hazard Threat Views
   # shellcheck disable=SC2154
