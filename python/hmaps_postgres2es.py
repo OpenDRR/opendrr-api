@@ -28,7 +28,7 @@ def main():
                 }
             }
         }),
-        view = "opendrr_psra_hmaps",
+        view="opendrr_psra_hmaps",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                     FROM results_psra_national."psra_hmaps" \
                     ORDER BY "psra_hmaps"."geom" \

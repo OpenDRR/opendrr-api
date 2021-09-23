@@ -44,22 +44,23 @@ def main():
                     }
                 }
             } ),
-            view = "opendrr_nhsl_physical_exposure_all_indicators_{aggregation}".format(**{
-                    'aggregation': args.aggregation[0].lower()}),
-            sqlquerystring =  'SELECT *, ST_AsGeoJSON(geom_poly) \
-                    FROM results_nhsl_physical_exposure.nhsl_physical_exposure_all_indicators_{aggregation} \
-                    LIMIT {{limit}} \
-                    OFFSET {{offset}}'.format(**{
-                    'aggregation': args.aggregation[0].lower()})
+            view="opendrr_nhsl_physical_exposure_all_indicators_{agg}".format(**{
+                    'agg': args.aggregation[0].lower()}),
+            sqlquerystring='SELECT *, ST_AsGeoJSON(geom_poly) \
+                FROM \
+                results_nhsl_physical_exposure.nhsl_physical_exposure_all_indicators_{agg} \
+                LIMIT {{limit}} \
+                OFFSET {{offset}}'.format(**{
+                    'agg': args.aggregation[0].lower()})
         )
 
     elif args.geometry == "geom_point":
-        table = utils.PostGISdataset(
+        table=utils.PostGISdataset(
             utils.PostGISConnection(),
-            utils.ESConnection(settings = {
+            utils.ESConnection(settings={
                 'settings': {
-                        'number_of_shards': 1,
-                        'number_of_replicas': 0
+                    'number_of_shards': 1,
+                    'number_of_replicas': 0
                 },
                 'mappings': {
                     'properties': {
@@ -71,19 +72,20 @@ def main():
                         }
                     }
                 }
-            } ), 
-            view = "opendrr_nhsl_physical_exposure_all_indicators_{aggregation}".format(**{
-                    'aggregation': args.aggregation[0].lower()}),
-            sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
-                    FROM results_nhsl_physical_exposure.nhsl_physical_exposure_all_indicators_{aggregation} \
-                    LIMIT {{limit}} \
-                    OFFSET {{offset}}'.format(**{
-                    'aggregation': args.aggregation[0].lower()})
+            }),
+            view="opendrr_nhsl_physical_exposure_all_indicators_{agg}".format(**{
+                'agg': args.aggregation[0].lower()}),
+            sqlquerystring='SELECT *, ST_AsGeoJSON(geom_point) \
+                FROM \
+                results_nhsl_physical_exposure.nhsl_physical_exposure_all_indicators_{agg} \
+                LIMIT {{limit}} \
+                OFFSET {{offset}}'.format(**{
+                'agg': args.aggregation[0].lower()})
         )
 
     table.postgis2es()
 
-    return 
+    return
 
 
 def parse_args():
