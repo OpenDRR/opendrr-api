@@ -57,9 +57,9 @@ def main():
                 ORDER BY "{sort_field}" \
                 LIMIT {{limit}} \
                 OFFSET {{offset}}'.format(**{
-                    'geom': args.geometry,
-                    'agg': aggregation,
-                    'sort_field': args.sortfield})
+                'geom': args.geometry,
+                'agg': aggregation,
+                'sort_field': args.sortfield})
         )
 
     elif args.geometry == "geom_point":
@@ -81,15 +81,16 @@ def main():
                     }
                 }
             }),
-            view="opendrr_nhsl_social_fabric_all_indicators_{aggregation}".format(**{
-                'aggregation': args.aggregation[0].lower()}),
+            view="opendrr_nhsl_social_fabric_all_indicators_{agg}".format(**{
+                'agg': args.aggregation[0].lower()}),
             sqlquerystring='SELECT *, ST_AsGeoJSON(geom_point) \
-                FROM results_nhsl_social_fabric.nhsl_social_fabric_all_indicators_{aggregation} \
+                FROM \
+                results_nhsl_social_fabric.nhsl_social_fabric_all_indicators_{agg} \
                 ORDER BY "{sort_field}" \
                 LIMIT {{limit}} \
                 OFFSET {{offset}}'.format(**{
-                    'aggregation': aggregation,
-                    'sort_field': sortfield})
+                'agg': aggregation,
+                'sort_field': args.sortfield})
         )
 
     table.postgis2es()

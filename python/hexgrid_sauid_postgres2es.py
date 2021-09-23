@@ -1,5 +1,5 @@
 # =================================================================
-#!/bin/bash
+# !/bin/bash
 # SPDX-License-Identifier: MIT
 #
 # Copyright (C) 2020-2021 Government of Canada
@@ -15,7 +15,7 @@ import utils
 def main():
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
-        utils.ESConnection(settings = {
+        utils.ESConnection(settings={
             'settings': {
                 'number_of_shards': 1,
                 'number_of_replicas': 0
@@ -27,9 +27,9 @@ def main():
                     }
                 }
             }
-        } ),
-        view = "opendrr_sauid_hexgrid",
-        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom) \
+        }),
+        view="opendrr_sauid_hexgrid",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                     FROM boundaries."SAUID_HexGrid" \
                     ORDER BY "SAUID_HexGrid"."sauid" \
                     LIMIT {limit} \
@@ -39,6 +39,7 @@ def main():
     table.postgis2es()
 
     return
+
 
 if __name__ == '__main__':
     main()

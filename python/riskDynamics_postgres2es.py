@@ -142,12 +142,14 @@ def main():
     if es.indices.exists("opendrr_" + view):
         es.indices.delete("opendrr_" + view)
 
-    es.indices.create(index="opendrr_" + view, body=settings, request_timeout=90)
+    es.indices.create(index="opendrr_" + view,
+                      body=settings,
+                      request_timeout=90)
 
     d = json.loads(geojsonobject)
 
     helpers.bulk(es,
-                 gendata(d, "opendrr_"+view, id_field),
+                 gendata(d, "opendrr_" + view, id_field),
                  raise_on_error=False)
 
     return
