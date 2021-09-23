@@ -43,8 +43,8 @@ def main():
     es = Elasticsearch([auth.get('es', 'es_endpoint')],
                        http_auth=(auth.get('es', 'es_un'),
                        auth.get('es', 'es_pw')))
-    if es.indices.exists("opendrr_"+view):
-        es.indices.delete("opendrr_"+view)
+    if es.indices.exists("opendrr_" + view):
+        es.indices.delete("opendrr_" + view)
     if args.idField.lower() == 'sauid':
         id_field = 'Sauid'
         settings = {
@@ -78,7 +78,7 @@ def main():
                 }
             }
         }
-    es.indices.create(index="opendrr_"+view, body=settings, request_timeout=90)
+    es.indices.create(index="opendrr_" + view, body=settings, request_timeout=90)
 
     while True:
         if args.idField.lower() == 'sauid':
@@ -158,7 +158,7 @@ def main():
                                            default=decimal_default)
                 d = json.loads(geojsonobject)
                 helpers.bulk(es,
-                             gendata(d, "opendrr_"+view, id_field),
+                             gendata(d, "opendrr_" + view, id_field),
                              raise_on_error=False)
 
             else:

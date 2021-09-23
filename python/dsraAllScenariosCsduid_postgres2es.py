@@ -1,5 +1,5 @@
 # =================================================================
-#!/bin/bash
+# !/bin/bash
 # SPDX-License-Identifier: MIT
 #
 # Copyright (C) 2020-2021 Government of Canada
@@ -15,7 +15,7 @@ import utils
 def main():
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
-        utils.ESConnection(settings = {
+        utils.ESConnection(settings={
             'settings': {
                 'number_of_shards': 1,
                 'number_of_replicas': 0
@@ -27,9 +27,9 @@ def main():
                     }
                 }
             }
-        } ),
-        view = "opendrr_dsra_all_scenarios_csduid",
-        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom) \
+        }),
+        view="opendrr_dsra_all_scenarios_csduid",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                     FROM dsra.dsra_all_scenarios_csduid \
                     ORDER BY dsra_all_scenarios_csduid."csduid" \
                     LIMIT {limit} \
@@ -39,6 +39,7 @@ def main():
     table.postgis2es()
 
     return
+
 
 if __name__ == '__main__':
     main()

@@ -1,5 +1,5 @@
 # =================================================================
-#!/bin/bash
+# !/bin/bash
 # SPDX-License-Identifier: MIT
 #
 # Copyright (C) 2020-2021 Government of Canada
@@ -8,7 +8,7 @@
 #               Joost van Ulden <joost.vanulden@canada.ca>
 # =================================================================
 
-import utils 
+import utils
 import argparse
 
 
@@ -31,7 +31,7 @@ def main():
     if args.geometry == "geom_poly":
         table = utils.PostGISdataset(
             utils.PostGISConnection(),
-            utils.ESConnection(settings = {
+            utils.ESConnection(settings={
                 'settings': {
                     'number_of_shards': 1,
                     'number_of_replicas': 0
@@ -43,19 +43,19 @@ def main():
                         }
                     }
                 }
-            } ),
+            }),
             view="opendrr_nhsl_physical_exposure_all_indicators_{agg}".format(**{
-                    'agg': args.aggregation[0].lower()}),
+                'agg': args.aggregation[0].lower()}),
             sqlquerystring='SELECT *, ST_AsGeoJSON(geom_poly) \
                 FROM \
                 results_nhsl_physical_exposure.nhsl_physical_exposure_all_indicators_{agg} \
                 LIMIT {{limit}} \
                 OFFSET {{offset}}'.format(**{
-                    'agg': args.aggregation[0].lower()})
+                'agg': args.aggregation[0].lower()})
         )
 
     elif args.geometry == "geom_point":
-        table=utils.PostGISdataset(
+        table = utils.PostGISdataset(
             utils.PostGISConnection(),
             utils.ESConnection(settings={
                 'settings': {
