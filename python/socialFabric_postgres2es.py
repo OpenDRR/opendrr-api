@@ -1,5 +1,5 @@
 # =================================================================
-#!/bin/bash
+# !/bin/bash
 # SPDX-License-Identifier: MIT
 #
 # Copyright (C) 2020-2021 Government of Canada
@@ -8,7 +8,7 @@
 #               Joost van Ulden <joost.vanulden@canada.ca>
 # =================================================================
 
-import utils 
+import utils
 import argparse
 
 
@@ -23,21 +23,20 @@ python3 socialFabric_postgres2es.py
     --idField="Sauid"
 '''
 
-#Main Function
+# Main Function
 def main():
     args = parse_args()
 
     if args.aggregation.lower() == "sauid":
         aggregation = args.aggregation[0].lower()
-    else :
+    else:
         aggregation = args.aggregation
-
 
     # index settings
     if args.geometry == "geom_poly" or "geom":
         table = utils.PostGISdataset(
             utils.PostGISConnection(),
-            utils.ESConnection(settings = {
+            utils.ESConnection(settings={
                 'settings': {
                     'number_of_shards': 1,
                     'number_of_replicas': 0
@@ -49,26 +48,27 @@ def main():
                         }
                     }
                 }
-            } ),
-            view = "opendrr_nhsl_social_fabric_all_indicators_{aggregation}".format(**{
-                    'aggregation': aggregation}),
-            sqlquerystring =  'SELECT *, ST_AsGeoJSON({geom}) \
-                    FROM results_nhsl_social_fabric.nhsl_social_fabric_all_indicators_{aggregation} \
-                    ORDER BY "{sort_field}" \
-                    LIMIT {{limit}} \
-                    OFFSET {{offset}}'.format(**{
-                    'geom' : args.geometry,
-                    'aggregation': aggregation,
-                    'sort_field' : args.sortfield})
+            }),
+            view="opendrr_nhsl_social_fabric_all_indicators_{agg}".format(**{
+                'agg': aggregation}),
+            sqlquerystring='SELECT *, ST_AsGeoJSON({geom}) \
+                FROM \
+                results_nhsl_social_fabric.nhsl_social_fabric_all_indicators_{agg} \
+                ORDER BY "{sort_field}" \
+                LIMIT {{limit}} \
+                OFFSET {{offset}}'.format(**{
+                    'geom': args.geometry,
+                    'agg': aggregation,
+                    'sort_field': args.sortfield})
         )
 
     elif args.geometry == "geom_point":
         table = utils.PostGISdataset(
             utils.PostGISConnection(),
-            utils.ESConnection(settings = {
+            utils.ESConnection(settings={
                 'settings': {
-                        'number_of_shards': 1,
-                        'number_of_replicas': 0
+                    'number_of_shards': 1,
+                    'number_of_replicas': 0
                 },
                 'mappings': {
                     'properties': {
@@ -80,21 +80,21 @@ def main():
                         }
                     }
                 }
-            } ), 
-            view = "opendrr_nhsl_social_fabric_all_indicators_{aggregation}".format(**{
-                    'aggregation': args.aggregation[0].lower()}),
-            sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
-                    FROM results_nhsl_social_fabric.nhsl_social_fabric_all_indicators_{aggregation} \
-                    ORDER BY "{sort_field}" \
-                    LIMIT {{limit}} \
-                    OFFSET {{offset}}'.format(**{
+            }),
+            view="opendrr_nhsl_social_fabric_all_indicators_{aggregation}".format(**{
+                'aggregation': args.aggregation[0].lower()}),
+            sqlquerystring='SELECT *, ST_AsGeoJSON(geom_point) \
+                FROM results_nhsl_social_fabric.nhsl_social_fabric_all_indicators_{aggregation} \
+                ORDER BY "{sort_field}" \
+                LIMIT {{limit}} \
+                OFFSET {{offset}}'.format(**{
                     'aggregation': aggregation,
-                    'sort_field' : args.sortfield})
+                    'sort_field': sortfield})
         )
 
     table.postgis2es()
 
-    return 
+    return
 
 
 def parse_args():
@@ -116,4 +116,4 @@ def parse_args():
     return args
 
 if __name__ == '__main__':
-    main() 
+    main()

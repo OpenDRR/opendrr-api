@@ -1,5 +1,5 @@
 # =================================================================
-#!/bin/bash
+# !/bin/bash
 # SPDX-License-Identifier: MIT
 #
 # Copyright (C) 2020-2021 Government of Canada
@@ -13,7 +13,7 @@ import utils
 def main():
     psraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
-        utils.ESConnection(settings = {
+        utils.ESConnection(settings={
             'settings': {
                 'number_of_shards': 1,
                 'number_of_replicas': 0
@@ -25,9 +25,9 @@ def main():
                     }
                 }
             }
-        } ),
-        view = "opendrr_psra_indicators_s",
-        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_poly) \
+        }),
+        view="opendrr_psra_indicators_s",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom_poly) \
                     FROM results_psra_national.psra_all_indicators_s \
                     ORDER BY psra_all_indicators_s."Sauid" \
                     LIMIT {limit} \
@@ -37,29 +37,29 @@ def main():
     psraTable.postgis2es()
 
     psraTable = utils.PostGISdataset(
-            utils.PostGISConnection(),
-            utils.ESConnection(settings = {
-                'settings': {
-                        'number_of_shards': 1,
-                        'number_of_replicas': 0
-                },
-                'mappings': {
-                    'properties': {
-                        'coordinates': {
-                            'type': 'geo_point'
-                        },
-                        'geometry': {
-                            'type': 'geo_shape'
-                        }
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'coordinates': {
+                        'type': 'geo_point'
+                    },
+                    'geometry': {
+                        'type': 'geo_shape'
                     }
                 }
-            } ), 
-            view = "opendrr_psra_indicators_b",
-            sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom_point) \
-                    FROM results_psra_national.psra_all_indicators_b \
-                    ORDER BY psra_all_indicators_b."AssetID" \
-                    LIMIT {limit} \
-                    OFFSET {offset}'
+            }
+        }),
+        view="opendrr_psra_indicators_b",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom_point) \
+                FROM results_psra_national.psra_all_indicators_b \
+                ORDER BY psra_all_indicators_b."AssetID" \
+                LIMIT {limit} \
+                OFFSET {offset}'
     )
 
     psraTable.postgis2es()

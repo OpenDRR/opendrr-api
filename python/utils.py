@@ -1,5 +1,5 @@
 # =================================================================
-#!/bin/bash
+# !/bin/bash
 # SPDX-License-Identifier: MIT
 #
 # Copyright (C) 2020-2021 Government of Canada
@@ -31,16 +31,12 @@ class ESConnection:
 class PostGISConnection:
     def __init__(self):
         self._auth = get_config_params('config.ini')
-        self._pgConnection = psycopg2.connect(user=self._auth.get('rds',
-                                                  'postgres_un'),
-                                              password=self._auth.get('rds',
-                                                  'postgres_pw'),
-                                              host=self._auth.get('rds',
-                                                  'postgres_host'),
-                                              port=self._auth.get('rds',
-                                                  'postgres_port'),
-                                              database=self._auth.get('rds',
-                                                  'postgres_db'))
+        self._pgConnection = psycopg2.connect(
+            user=self._auth.get('rds', 'postgres_un'),
+            password=self._auth.get('rds', 'postgres_pw'),
+            host=self._auth.get('rds', 'postgres_host'),
+            port=self._auth.get('rds', 'postgres_port'),
+            database=self._auth.get('rds', 'postgres_db'))
 
     def auth(self):
         return self._auth
@@ -123,17 +119,17 @@ class PostGISdataset:
         return
 
     def populateElasticSearchIndex(self,
-                                   esConnection, 
-                                   eojsonobject,
+                                   esConnection,
+                                   geojsonobject,
                                    auth,
                                    view):
         d = json.loads(geojsonobject)
         es = Elasticsearch([auth.get('es', 'es_endpoint')],
-            http_auth=(auth.get('es', 'es_un'),
-            auth.get('es', 'es_pw')),
-            timeout=30,
-            max_retries=10,
-            retry_on_timeout=True)
+                           http_auth=(auth.get('es', 'es_un'),
+                                      auth.get('es', 'es_pw')),
+                           timeout=30,
+                           max_retries=10,
+                           retry_on_timeout=True)
         helpers.bulk(es,
                      gendata(d, view),
                      raise_on_error=False)
@@ -143,8 +139,9 @@ class PostGISdataset:
         self.initializeElasticSearchIndex(self.esConnection(),
                                           self.auth(),
                                           self.view())
-        sqlquerystring = self.sqlquerystring().format(**{'limit': self.LIMIT,
-                                                         'offset': self.OFFSET})
+        sqlquerystring = self.sqlquerystring().format(
+            **{'limit': self.LIMIT,
+               'offset': self.OFFSET})
         geojsonobject = self.getGeoJson(sqlquerystring, self.pgConnection())
         while geojsonobject is not None:
 
@@ -155,8 +152,9 @@ class PostGISdataset:
                                             self.view())
             self.OFFSET += self.LIMIT
 
-            sqlquerystring = self.sqlquerystring().format(**{'limit': self.LIMIT,
-                                                             'offset': self.OFFSET})
+            sqlquerystring = self.sqlquerystring().format(
+                **{'limit': self.LIMIT,
+                   'offset': self.OFFSET})
             geojsonobject = self.getGeoJson(sqlquerystring,
                                             self.pgConnection())
 

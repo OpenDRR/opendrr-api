@@ -1,5 +1,5 @@
 # =================================================================
-#!/bin/bash
+# !/bin/bash
 # SPDX-License-Identifier: MIT
 #
 # Copyright (C) 2020-2021 Government of Canada
@@ -8,14 +8,14 @@
 #               Joost van Ulden <joost.vanulden@canada.ca>
 # =================================================================
 
-import utils 
+import utils
 import argparse
 
 def main():
     args = parse_args()
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
-        utils.ESConnection(settings = {
+        utils.ESConnection(settings={
             'settings': {
                 'number_of_shards': 1,
                 'number_of_replicas': 0
@@ -30,7 +30,7 @@ def main():
                     }
                 }
             }
-        } ), 
+        }),
         view="opendrr_psra_uhs",
         sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom) \
                 FROM results_psra_national.psra_uhs \
