@@ -27,7 +27,7 @@ ENV_VAR_LIST=(
 ADD_DATA_PRINT_FUNCNAME=${ADD_DATA_PRINT_FUNCNAME:-true}
 ADD_DATA_PRINT_LINENO=${ADD_DATA_PRINT_LINENO:-true}
 
-DSRA_REPOSITORY=https://github.com/OpenDRR/earthquake-scenarios/tree/master/FINISHED
+DSRA_REPOSITORY=https://github.com/OpenDRR/scenario-catalogue/tree/master/FINISHED
 
 PT_LIST=(AB BC MB NB NL NS NT NU ON PE QC SK YT)
 
@@ -373,7 +373,7 @@ read_github_token() {
 
   status_code=$(curl --write-out "%{http_code}" --silent --output /dev/null -H "Authorization: token ${GITHUB_TOKEN}" \
     -O \
-    -L https://api.github.com/repos/OpenDRR/earthquake-scenarios/contents/FINISHED)
+    -L https://api.github.com/repos/OpenDRR/scenario-catalogue/contents/deterministic/outputs)
 
   if [[ "$status_code" -ne 200 ]] ; then
     echo "GitHub token is not valid! Exiting!"
@@ -385,7 +385,7 @@ read_github_token() {
 # from the OpenDRR/model-factory repository
 get_model_factory_scripts() {
   # TODO: Make this more robust
-  RUN git clone https://github.com/OpenDRR/model-factory.git --branch update_hexbin_and_dsra_source --depth 1 || (cd model-factory ; RUN git pull)
+  RUN git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; RUN git pull)
 
   # Copy model-factory scripts to working directory
   # TODO: Find ways to keep these scripts in their place without copying them all to WORKDIR
@@ -402,7 +402,7 @@ get_git_lfs_pointers_of_csv_files() {
   rm -rf "$base_dir"
   mkdir -p "$base_dir"
   ( cd "$base_dir" && \
-    for repo in canada-srm2 model-inputs openquake-inputs earthquake-scenarios; do
+    for repo in canada-srm2 model-inputs openquake-inputs scenario-catalogue; do
       RUN git clone --filter=blob:none --no-checkout "https://${GITHUB_TOKEN}@github.com/OpenDRR/${repo}.git"
       is_dry_run || \
         ( cd $repo && \
@@ -447,7 +447,7 @@ import_census_boundaries() {
       RUN run_ogr2ogr "Geometry_$i"
     done
 
-    for i in HexGrid_5km HexGrid_10km HexGrid_25km HexGrid_50km HexGrid_GlobalFabric SAUID_HexGrid SAUID_HexGrid_5km_intersect SAUID_HexGrid_10km_intersect SAUID_HexGrid_25km_intersect SAUID_HexGrid_50km_intersect SAUID_HexGrid_100km_intersect SAUID_HexGrid_GlobalFabric_intersect; do
+    for i in HexGrid_5km HexGrid_10km HexGrid_25km HexGrid_50km SAUID_HexGrid; do
       RUN run_ogr2ogr "hexbin_4326/$i"
     done
 
@@ -579,12 +579,6 @@ generate_indicators() {
   RUN run_psql Create_MH_risk_sauid_prioritization_prereq_tables.sql
   RUN run_psql Create_MH_risk_sauid_prioritization_Canada.sql
   # RUN run_psql Create_MH_risk_sauid_ALL.sql
-  RUN run_psql Create_hexbin_physical_exposure_aggregation_area_proxy.sql
-  # RUN run_psql Create_hexbin_physical_exposure_hexbin_aggregation_centroid.sql
-  RUN run_psql Create_hexbin_MH_risk_sauid_prioritization_aggregation_area.sql
-  # RUN run_psql Create_hexbin_MH_risk_sauid_prioritization_aggregation_centroid.sql
-  RUN run_psql Create_hexbin_social_vulnerability_aggregation_area_proxy.sql
-  # RUN run_psql Create_hexbin_social_vulnerability_aggregation_centroid.sql
 }
 
 ############################################################################################
@@ -677,13 +671,13 @@ import_earthquake_scenarios() {
   RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
     --retry 999 --retry-max-time 0 \
     -o FINISHED.json \
-    -L https://api.github.com/repos/OpenDRR/earthquake-scenarios/contents/FINISHED
+    -L https://api.github.com/repos/OpenDRR/scenario-catalogue/contents/FINISHED
 
-  # s_lossesbyasset_ACM6p5_Beaufort_r1_299_b.csv → ACM6p5_Beaufort
-  RUN mapfile -t EQSCENARIO_LIST < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*(?=_r1)")' FINISHED.json)
+  # s_lossesbyasset_ACM6p5_Beaufort_r2_299_b.csv → ACM6p5_Beaufort
+  RUN mapfile -t EQSCENARIO_LIST < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*(?=_r2)")' FINISHED.json)
 
-  # s_lossesbyasset_ACM6p5_Beaufort_r1_299_b.csv → ACM6p5_Beaufort_r1_299_b.csv
-  RUN mapfile -t EQSCENARIO_LIST_LONGFORM < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*r1.*\\.csv")' FINISHED.json)
+  # s_lossesbyasset_ACM6p5_Beaufort_r2_299_b.csv → ACM6p5_Beaufort_r2_299_b.csv
+  RUN mapfile -t EQSCENARIO_LIST_LONGFORM < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*r2.*\\.csv")' FINISHED.json)
 
   LOG "## Importing scenario outputs into PostGIS"
   for eqscenario in ${EQSCENARIO_LIST[*]}; do
@@ -738,7 +732,7 @@ import_shakemap() {
 
 import_rupture_model() {
 LOG "## Importing Rupture Model"
-RUN python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenDRR/earthquake-scenarios/tree/master/ruptures"
+RUN python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenDRR/scenario-catalogue/tree/master/deterministic/ruptures"
 
 LOG "## Generating indicator views"
   for item in ${EQSCENARIO_LIST_LONGFORM[*]}; do
@@ -783,120 +777,66 @@ export_to_elasticsearch() {
     sleep 10
   done
 
-  LOG "## Create Kibana Space"
-  RUN curl  -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/spaces/space"  -H "kbn-xsrf: true" -d '{"id": "gsc-cgc","name": "GSC-CGC","description" : "Geological Survey of Canada Private Space","color": "#aabbcc","initials": "G"}'
-
   LOG "## Load Probabilistic Model Indicators"
   # shellcheck disable=SC2154
   if [ "$loadPsraModels" = true ]; then
     LOG "Creating PSRA indices in Elasticsearch"
-    RUN python3 psra_postgres2es.py
-    RUN python3 hmaps_postgres2es.py
-    RUN python3 uhs_postgres2es.py
-    RUN python3 srcLoss_postgres2es.py
+    for PT in ${PT_LIST[*]}; do
+      RUN python3 psra_postgres2es.py --province="$PT" --dbview="all_indicators" --idField="building"
+      RUN python3 psra_postgres2es.py --province="$PT" --dbview="all_indicators" --idField="sauid"
+      RUN python3 hmaps_postgres2es.py --province="$PT"
+      RUN python3 uhs_postgres2es.py --province="$PT"
+      RUN python3 srcLoss_postgres2es.py --province="$PT"
+    done
 
     LOG "Creating PSRA Kibana Index Patterns"
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_psra_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_psra_indicators_s"}}'
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_psra_indicators_b" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_psra_indicators_b"}}'
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_psra_hmaps" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_psra_hmaps"}}'
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_psra_uhs" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_psra_uhs"}}'
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_psra_srcLoss" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_psra_srcLoss"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/saved_objects/index-pattern/psra*all_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra*all_indicators_s"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/saved_objects/index-pattern/psra*all_indicators_b" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra*all_indicators_b"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/saved_objects/index-pattern/psra_*_hmaps" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_*_hmaps"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/saved_objects/index-pattern/psra_*_uhs" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_*_uhs"}}'
+    RUN curl -X POST -H "securitytenant: global" -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/api/saved_objects/index-pattern/psra_*_srcLoss" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"psra_*_srcLoss"}}'
   fi
 
   # Load Deterministic Model Indicators
   # shellcheck disable=SC2154
   if [[ "$loadDsraScenario" = true ]]; then
-for eqscenario in ${EQSCENARIO_LIST[*]}; do
-  LOG "Creating Elasticsearch indexes for DSRA"
-  RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="building"
-  RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="sauid"
-
-  # LOG "Creating DSRA Kibana Index Patterns"
-  # Need to develop saved object workflow for automated index patern generation
-  # RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_dsra_${eqscenario}_all_indicators_s" -H "kbn-xsrf: true" -d "{ 'attributes': { 'title':'opendrr_dsra_${eqscenario}_all_indicators_s'}}"
-  # RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_dsra_${eqscenario}_all_indicators_b" -H "kbn-xsrf: true" -d "{ 'attributes': { 'title':'opendrr_dsra_${eqscenario}_all_indicators_b'}}"
-done
+    for eqscenario in ${EQSCENARIO_LIST[*]}; do
+      LOG "Creating Elasticsearch indexes for DSRA"
+      RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="building"
+      RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="sauid"
+    done
   fi
 
   # Load Hazard Threat Views
   # shellcheck disable=SC2154
-  # 2021/09/21 DR - Keeping Hazard Threah and Risk Dynamics out of ES for the time being
-  # if [[ "$loadHazardThreat" = true ]]; then
-  #   # All Indicators
-  #   LOG "Creating Elasticsearch indexes for Hazard Threat"
-  #   RUN python3 hazardThreat_postgres2es.py  --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
-
-  #   LOG "Creating Hazard Threat Kibana Index Patterns"
-  #   RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hazard_threat_all_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hazard_threat_all_indicators_s"}}'
-  # fi
+  if [[ "$loadHazardThreat" = true ]]; then
+    # All Indicators
+    RUN python3 hazardThreat_postgres2es.py  --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+  fi
 
   # Load physical exposure indicators
   # shellcheck disable=SC2154
   if [[ $loadPhysicalExposure = true ]]; then
-    LOG "Creating Elasticsearch indexes for Physical Exposure"
-    RUN python3 exposure_postgres2es.py --aggregation="building" --geometry=geom_point
-    RUN python3 exposure_postgres2es.py --aggregation="sauid" --geometry=geom_poly
-
-    LOG "Creating Exposure Kibana Index Patterns"
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_physical_exposure_all_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_physical_exposure_all_indicators_s"}}'
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_physical_exposure_all_indicators_b" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_physical_exposure_all_indicators_b"}}'
+    RUN python3 exposure_postgres2es.py --type="all_indicators" --aggregation="building" --geometry=geom_point --idField="BldgID"
+    RUN python3 exposure_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
   fi
 
   # Load Risk Dynamics Views
   # shellcheck disable=SC2154
-  # 2021/09/21 DR - Keeping Hazard Threah and Risk Dynamics out of ES for the time being
-  # if [[ $loadRiskDynamics = true ]]; then
-  #   LOG "Creating Elasticsearch indexes for Risk Dynamics"
-  #   RUN python3 riskDynamics_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_point --idField="ghslID"
-
-  #   LOG "Creating Risk Dynamics Kibana Index Patterns"
-  #   RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_risk_dynamics_all_indicators" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_risk_dynamics_all_indicators"}}'
-  # fi
+  if [[ $loadRiskDynamics = true ]]; then
+    RUN python3 riskDynamics_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_point --idField="ghslID"
+  fi
 
   # Load Social Fabric Views
   # shellcheck disable=SC2154
   if [[ $loadSocialFabric = true ]]; then
-    LOG "Creating Elasticsearch indexes for Social Fabric"
-    RUN python3 socialFabric_postgres2es.py --aggregation="sauid" --geometry=geom_poly --sortfield="Sauid"
-    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_5km" --geometry=geom --sortfield="gridid_5"
-    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_10km" --geometry=geom --sortfield="gridid_10"
-    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_25km" --geometry=geom --sortfield="gridid_25"
-    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_50km" --geometry=geom --sortfield="gridid_50"
-    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_100km" --geometry=geom --sortfield="gridid_100"
-
-    LOG "Creating Social Fabric Kibana Index Patterns"
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_social_fabric_all_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_social_fabric_all_indicators_s"}}'
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_social_fabric_all_indicators_hexgrid_5km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_social_fabric_all_indicators_hexgrid_5km"}}'
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_social_fabric_all_indicators_hexgrid_10km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_social_fabric_all_indicators_hexgrid_10km"}}'
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_social_fabric_all_indicators_hexgrid_25km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_social_fabric_all_indicators_hexgrid_25km"}}'
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_social_fabric_all_indicators_hexgrid_50km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_social_fabric_all_indicators_hexgrid_50km"}}'
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_social_fabric_all_indicators_hexgrid_100km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_social_fabric_all_indicators_hexgrid_100km"}}'
-  fi
-
-  # Load Hexgrid Geometries
-  # shellcheck disable=SC2154
-  if [[ $loadHexGrid = true ]]; then
-    LOG "Creating Elasticsearch indexes for Hexgrids"
-    RUN python3 hexgrid_5km_postgres2es.py
-    RUN python3 hexgrid_10km_postgres2es.py
-    RUN python3 hexgrid_25km_postgres2es.py
-    RUN python3 hexgrid_50km_postgres2es.py
-    RUN python3 hexgrid_100km_postgres2es.py
-    RUN python3 hexgrid_sauid_postgres2es.py
-
-    LOG "Creating HexGrid Kibana Index Patterns"
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_5km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_5km"}}'
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_10km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_10km"}}'
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_25km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_25km"}}'
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_50km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_50km"}}'
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_100km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_100km"}}'
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_sauid_hexgrid" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_sauid_hexgrid"}}'
+    RUN python3 socialFabric_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
   fi
 }
 
 load_kibana_saved_objects() {
   LOG "# Loading Kibana Saved Objects"
-  RUN curl -X POST "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/_import" -H "kbn-xsrf: true" --form file=@kibanaSavedObjects.ndjson
+  RUN curl -X POST -H "securitytenant: global" "${KIBANA_ENDPOINT}/api/saved_objects/_import" -H "kbn-xsrf: true" --form file=@kibanaSavedObjects.ndjson
 }
 
 
