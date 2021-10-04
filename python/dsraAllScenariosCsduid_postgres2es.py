@@ -8,12 +8,12 @@
 #               Joost van Ulden <joost.vanulden@canada.ca>
 # =================================================================
 
+
 import utils
-import argparse
+
 
 def main():
-    args = parse_args()
-    table = utils.PostGISTable(
+    table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
             'settings': {
@@ -22,31 +22,23 @@ def main():
             },
             'mappings': {
                 'properties': {
-                    'coordinates': {
-                        'type': 'geo_point'
-                    },
                     'geometry': {
                         'type': 'geo_shape'
                     }
                 }
             }
         }),
-        view="opendrr_psra_src_loss",
-        sqlquerystring='SELECT * \
-                FROM results_psra_national.psra_src_loss \
-                ORDER BY psra_src_loss."region" \
-                LIMIT {limit} \
-                OFFSET {offset}'
+        view="opendrr_dsra_all_scenarios_csduid",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+                    FROM dsra.dsra_all_scenarios_csduid \
+                    ORDER BY dsra_all_scenarios_csduid."csduid" \
+                    LIMIT {limit} \
+                    OFFSET {offset}'
     )
 
     table.postgis2es()
 
     return
-
-def parse_args():
-    parser = argparse.ArgumentParser(description="script description")
-    args = parser.parse_args()
-    return args
 
 
 if __name__ == '__main__':
