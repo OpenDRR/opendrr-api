@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # =================================================================
 #
 # Authors: Drew Rotheram <drew.rotheram@gmail.com>
@@ -18,12 +19,13 @@ from elasticsearch import helpers
 
 '''
 Script to convert DSRA indicator views to ElasticSearch Index
-Can be run from the command line with mandatory arguments 
+Can be run from the command line with mandatory arguments
 Run this script with a command like:
 python3 dsra_postgres2es.py --eqScenario="sim6p8_cr2022_rlz_1" --dbview=casualties_agg_view --idField="Sauid"
 '''
 
-#Main Function
+
+# Main Function
 def main():
     logFileName = '{}.log'.format(os.path.splitext(sys.argv[0])[0])
     logging.basicConfig(level=logging.INFO,
@@ -179,11 +181,13 @@ def gendata(data, view, id_field):
             "_source": item
         }
 
-#Function to handle decimal encoder error
+
 def decimal_default(obj):
+    """Handle decimal encoder error."""
     if isinstance(obj, decimal.Decimal):
         return float(obj)
     raise TypeError
+
 
 def get_config_params(args):
     """
@@ -193,14 +197,23 @@ def get_config_params(args):
     configParseObj.read(args)
     return configParseObj
 
+
 def parse_args():
     parser = argparse.ArgumentParser(description="script description")
-    parser.add_argument("--eqScenario", type=str, help="Earthquake scenario id", required=True)
-    parser.add_argument("--dbview", type=str, help=" Thematic Database View. Allowable values: (casualties, damage_state, economic_loss, functional_state, recovery, scenario_hazard, scenario_hazard_threat,scenario_rupture, social_disruption)", required=True)
-    parser.add_argument("--idField", type=str, help="Field to use as ElasticSearch Index ID", required=True)
+    parser.add_argument("--eqScenario", type=str, required=True,
+                        help="Earthquake scenario id")
+    parser.add_argument("--dbview", type=str, required=True,
+                        help="""Thematic Database View.
+                        Allowable values: (casualties, damage_state,
+                        economic_loss, functional_state, recovery,
+                        scenario_hazard, scenario_hazard_threat,
+                        scenario_rupture, social_disruption)""")
+    parser.add_argument("--idField", type=str, required=True,
+                        help="Field to use as ElasticSearch Index ID")
     args = parser.parse_args()
-    
+
     return args
 
+
 if __name__ == '__main__':
-    main() 
+    main()
