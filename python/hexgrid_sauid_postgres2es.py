@@ -1,5 +1,5 @@
+#!/usr/bin/python3
 # =================================================================
-# !/bin/bash
 # SPDX-License-Identifier: MIT
 #
 # Copyright (C) 2020-2021 Government of Canada

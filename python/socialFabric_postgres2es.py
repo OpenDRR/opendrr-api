@@ -1,5 +1,5 @@
+#!/usr/bin/python3
 # =================================================================
-# !/bin/bash
 # SPDX-License-Identifier: MIT
 #
 # Copyright (C) 2020-2021 Government of Canada
@@ -22,6 +22,7 @@ python3 socialFabric_postgres2es.py
     --geometry=geom_poly
     --idField="Sauid"
 '''
+
 
 # Main Function
 def main():
@@ -115,6 +116,7 @@ def parse_args():
     args = parser.parse_args()
 
     return args
+
 
 if __name__ == '__main__':
     main()

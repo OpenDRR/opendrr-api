@@ -1,5 +1,5 @@
+#!/usr/bin/python3
 # =================================================================
-# !/bin/bash
 # SPDX-License-Identifier: MIT
 #
 # Copyright (C) 2020-2021 Government of Canada
@@ -23,7 +23,8 @@ python3 exposure_postgres2es.py
     --idField="BldgID"
 '''
 
-#Main Function
+
+# Main Function
 def main():
     args = parse_args()
 
@@ -107,8 +108,9 @@ def parse_args():
     #                     help="Field to use as Index ID. AssetID or Sauid",
     #                     required=True)
     args = parser.parse_args()
-    
+
     return args
 
+
 if __name__ == '__main__':
-    main() 
+    main()
