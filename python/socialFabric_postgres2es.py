@@ -17,7 +17,7 @@ Script to convert Social Fabric Views to ElasticSearch Index
 Can be run from the command line with mandatory arguments
 Run this script with a command like:
 python3 socialFabric_postgres2es.py
-    --type="all_indicators"
+    --type="indicators"
     --aggregation="sauid"
     --geometry=geom_poly
     --idField="Sauid"
@@ -49,11 +49,11 @@ def main():
                     }
                 }
             }),
-            view="opendrr_nhsl_social_fabric_all_indicators_{agg}".format(**{
+            view="opendrr_nhsl_social_fabric_indicators_{agg}".format(**{
                 'agg': aggregation}),
             sqlquerystring='SELECT *, ST_AsGeoJSON({geom}) \
                 FROM \
-                results_nhsl_social_fabric.nhsl_social_fabric_all_indicators_{agg} \
+                results_nhsl_social_fabric.nhsl_social_fabric_indicators_{agg} \
                 ORDER BY "{sort_field}" \
                 LIMIT {{limit}} \
                 OFFSET {{offset}}'.format(**{
@@ -81,11 +81,11 @@ def main():
                     }
                 }
             }),
-            view="opendrr_nhsl_social_fabric_all_indicators_{agg}".format(**{
+            view="opendrr_nhsl_social_fabric_indicators_{agg}".format(**{
                 'agg': args.aggregation[0].lower()}),
             sqlquerystring='SELECT *, ST_AsGeoJSON(geom_point) \
                 FROM \
-                results_nhsl_social_fabric.nhsl_social_fabric_all_indicators_{agg} \
+                results_nhsl_social_fabric.nhsl_social_fabric_indicators_{agg} \
                 ORDER BY "{sort_field}" \
                 LIMIT {{limit}} \
                 OFFSET {{offset}}'.format(**{
