@@ -44,11 +44,11 @@ def main():
                     }
                 }
             }),
-            view="opendrr_nhsl_physical_exposure_all_indicators_{agg}".format(**{
+            view="opendrr_nhsl_physical_exposure_indicators_{agg}".format(**{
                 'agg': args.aggregation[0].lower()}),
             sqlquerystring='SELECT *, ST_AsGeoJSON(geom_poly) \
                 FROM \
-                results_nhsl_physical_exposure.nhsl_physical_exposure_all_indicators_{agg} \
+                results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_{agg} \
                 LIMIT {{limit}} \
                 OFFSET {{offset}}'.format(**{
                 'agg': args.aggregation[0].lower()})
@@ -73,11 +73,11 @@ def main():
                     }
                 }
             }),
-            view="opendrr_nhsl_physical_exposure_all_indicators_{agg}".format(**{
+            view="opendrr_nhsl_physical_exposure_indicators_{agg}".format(**{
                 'agg': args.aggregation[0].lower()}),
             sqlquerystring='SELECT *, ST_AsGeoJSON(geom_point) \
                 FROM \
-                results_nhsl_physical_exposure.nhsl_physical_exposure_all_indicators_{agg} \
+                results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_{agg} \
                 LIMIT {{limit}} \
                 OFFSET {{offset}}'.format(**{
                 'agg': args.aggregation[0].lower()})

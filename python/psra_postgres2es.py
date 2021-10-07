@@ -28,8 +28,8 @@ def main():
         }),
         view="opendrr_psra_indicators_s",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom_poly) \
-                    FROM results_psra_national.psra_all_indicators_s \
-                    ORDER BY psra_all_indicators_s."Sauid" \
+                    FROM results_psra_national.psra_indicators_s \
+                    ORDER BY psra_indicators_s."Sauid" \
                     LIMIT {limit} \
                     OFFSET {offset}'
     )
@@ -56,8 +56,8 @@ def main():
         }),
         view="opendrr_psra_indicators_b",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom_point) \
-                FROM results_psra_national.psra_all_indicators_b \
-                ORDER BY psra_all_indicators_b."AssetID" \
+                FROM results_psra_national.psra_indicators_b \
+                ORDER BY psra_indicators_b."AssetID" \
                 LIMIT {limit} \
                 OFFSET {offset}'
     )
