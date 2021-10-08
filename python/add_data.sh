@@ -29,7 +29,8 @@ ADD_DATA_PRINT_LINENO=${ADD_DATA_PRINT_LINENO:-true}
 
 DSRA_REPOSITORY=https://github.com/OpenDRR/earthquake-scenarios/tree/master/FINISHED
 
-PT_LIST=(AB BC MB NB NL NS NT NU ON PE QC SK YT)
+#PT_LIST=(AB BC MB NB NL NS NT NU ON PE QC SK YT)
+PT_LIST=(NB NL NS PE)
 
 ############################################################################################
 ############    Define helper and utility functions                             ############
@@ -267,7 +268,7 @@ fetch_psra_csv_from_model() {
     RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
       --retry 999 --retry-max-time 0 \
       -o "${PT}.json" \
-      -L "https://api.github.com/repos/OpenDRR/canada-srm2/contents/$model/output/$PT"
+      -L "https://api.github.com/repos/OpenDRR/canada-srm2/contents/$model/output/${PT}?ref=tieg_natmodel2021"
 
     RUN mapfile -t DOWNLOAD_LIST < <(jq -r '.[].url | select(. | contains(".csv"))' "${PT}.json")
 
@@ -396,7 +397,7 @@ read_github_token() {
 # from the OpenDRR/model-factory repository
 get_model_factory_scripts() {
   # TODO: Make this more robust
-  RUN git clone https://github.com/OpenDRR/model-factory.git --depth 1 || (cd model-factory ; RUN git pull)
+RUN git clone https://github.com/OpenDRR/model-factory.git --branch update_dsra_psra_oct2021 --depth 1 || (cd model-factory ; RUN git pull)
 
   # Copy model-factory scripts to working directory
   # TODO: Find ways to keep these scripts in their place without copying them all to WORKDIR
@@ -609,7 +610,7 @@ import_raw_psra_tables() {
   RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
     --retry 999 --retry-max-time 0 \
     -o output.json \
-    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output
+    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output?ref=tieg_natmodel2021
 
   # TODO: Compare PT_LIST with FETCHED_PT_LIST
   RUN mapfile -t FETCHED_PT_LIST < <(jq -r '.[].name' output.json)
@@ -640,7 +641,7 @@ import_raw_psra_tables() {
   for PT in "${PT_LIST[@]}"; do
     ( cd "eDamage/$PT"
       RUN merge_csv eD_*damages-mean_b0.csv "eD_${PT}_damages-mean_b0.csv"
-      RUN merge_csv eD_*damages-mean_r2.csv "eD_${PT}_damages-mean_r2.csv"
+      RUN merge_csv eD_*damages-mean_r1.csv "eD_${PT}_damages-mean_r1.csv"
     )
   done
 
@@ -650,11 +651,11 @@ import_raw_psra_tables() {
   for PT in "${PT_LIST[@]}"; do
     ( cd "ebRisk/$PT"
       RUN merge_csv ebR_*agg_curves-stats_b0.csv "ebR_${PT}_agg_curves-stats_b0.csv"
-      RUN merge_csv ebR_*agg_curves-stats_r2.csv "ebR_${PT}_agg_curves-stats_r2.csv"
+      RUN merge_csv ebR_*agg_curves-stats_r1.csv "ebR_${PT}_agg_curves-stats_r1.csv"
       RUN merge_csv ebR_*agg_losses-stats_b0.csv "ebR_${PT}_agg_losses-stats_b0.csv"
-      RUN merge_csv ebR_*agg_losses-stats_r2.csv "ebR_${PT}_agg_losses-stats_r2.csv"
+      RUN merge_csv ebR_*agg_losses-stats_r1.csv "ebR_${PT}_agg_losses-stats_r1.csv"
       RUN merge_csv ebR_*avg_losses-stats_b0.csv "ebR_${PT}_avg_losses-stats_b0.csv"
-      RUN merge_csv ebR_*avg_losses-stats_r2.csv "ebR_${PT}_avg_losses-stats_r2.csv"
+      RUN merge_csv ebR_*avg_losses-stats_r1.csv "ebR_${PT}_avg_losses-stats_r1.csv"
 
       # Combine source loss tables for runs that were split by economic region or sub-region
       RUN python3 /usr/src/app/PSRA_combineSrcLossTable.py --srcLossDir="/usr/src/app/ebRisk/$PT"
