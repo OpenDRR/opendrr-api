@@ -34,7 +34,7 @@ def main():
         view="opendrr_psra_src_loss",
         sqlquerystring='SELECT * \
                 FROM results_psra_national.psra_src_loss \
-                ORDER BY psra_src_loss."region" \
+                ORDER BY psra_src_loss."fid" \
                 LIMIT {limit} \
                 OFFSET {offset}'
     )
