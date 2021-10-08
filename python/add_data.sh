@@ -296,7 +296,7 @@ fetch_psra_csv_from_model() {
 }
 
 # merge_csv merges CSV files without repeating column headers.
-# Syntax: merge_cvs [INPUT_CSV_FILES]... [OUTPUT_FILE]
+# Syntax: merge_csv [INPUT_CSV_FILES]... [OUTPUT_FILE]
 # NOTE: The '#,,,,,"generated_by='OpenQuake engine 3.x..."' comment header
 #       is currently NOT removed removed by merge_csv()
 #       but by fetch_psra_csv_from_model().  This may change in the future.
@@ -307,8 +307,8 @@ merge_csv() {
   local input_files=("${@:1:$#-1}")
   local output_file="${*:$#}"
 
-  INFO "merge_cvs input: ${input_files[*]}"
-  INFO "merge_cvs output: $output_file"
+  INFO "merge_csv input: ${input_files[*]}"
+  INFO "merge_csv output: $output_file"
 
   if [[ $# = 2 ]] && [[ $1 = "$2" ]]; then
     INFO "There is only one input file, and it has the same name as output file, skipping."
@@ -641,8 +641,16 @@ import_raw_psra_tables() {
     ( cd "ebRisk/$PT"
       RUN merge_csv ebR_*agg_curves-stats_b0.csv "ebR_${PT}_agg_curves-stats_b0.csv"
       RUN merge_csv ebR_*agg_curves-stats_r1.csv "ebR_${PT}_agg_curves-stats_r1.csv"
+      RUN merge_csv ebR_*agg_curves-q05_b0.csv "ebR_${PT}_agg_curves-q05_b0.csv "
+      RUN merge_csv ebR_*agg_curves-q05_r1.csv "ebR_${PT}_agg_curves-q05_r1.csv "
+      RUN merge_csv ebR_*agg_curves-q95_b0.csv "ebR_${PT}_agg_curves-q95_b0.csv "
+      RUN merge_csv ebR_*agg_curves-q95_r1.csv "ebR_${PT}_agg_curves-q95_r1.csv "
       RUN merge_csv ebR_*agg_losses-stats_b0.csv "ebR_${PT}_agg_losses-stats_b0.csv"
       RUN merge_csv ebR_*agg_losses-stats_r1.csv "ebR_${PT}_agg_losses-stats_r1.csv"
+      RUN merge_csv ebR_*agg_losses-q05_b0.csv "ebR_${PT}_agg_losses-q05_b0.csv"
+      RUN merge_csv ebR_*agg_losses-q05_r1.csv "ebR_${PT}_agg_losses-q05_r1.csv"
+      RUN merge_csv ebR_*agg_losses-q95_b0.csv "ebR_${PT}_agg_losses-q95_b0.csv"
+      RUN merge_csv ebR_*agg_losses-q95_r1.csv "ebR_${PT}_agg_losses-q95_r1.csv"
       RUN merge_csv ebR_*avg_losses-stats_b0.csv "ebR_${PT}_avg_losses-stats_b0.csv"
       RUN merge_csv ebR_*avg_losses-stats_r1.csv "ebR_${PT}_avg_losses-stats_r1.csv"
 
