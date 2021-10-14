@@ -1,4 +1,4 @@
-FROM opendrr/pygeoapi
+FROM ghcr.io/opendrr/pygeoapi
 
 LABEL maintainer="Joost van Ulden <joost.vanulden@canada.ca>"
 
