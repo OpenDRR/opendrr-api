@@ -11,9 +11,11 @@ def main():
     auth = get_config_params('config.ini')
 
     # es = Elasticsearch()
-    es = Elasticsearch([auth.get('es', 'es_endpoint')],
-                       http_auth=(auth.get('es', 'es_un'),
-                                  auth.get('es', 'es_pw')))
+    # es = Elasticsearch([auth.get('es', 'es_endpoint')],
+    #                    http_auth=(auth.get('es', 'es_un'),
+    #                               auth.get('es', 'es_pw')))
+
+    es = Elasticsearch([auth.get('es', 'es_endpoint')])
 
     config = """# =================================================================
 #
