@@ -363,21 +363,32 @@ check_environment_variables() {
 read_github_token() {
   LOG "## Read GitHub token from config.ini"
   # See https://github.blog/changelog/2021-03-31-authentication-token-format-updates-are-generally-available/
-  GITHUB_TOKEN=$(sed -n -r 's/^ *github_token *= *([A-Za-z0-9_]+).*/\1/p' config.ini)
-
+  GITHUB_TOKEN=$(sed -n -r 's/^\s*github_token\s*=\s*([A-Za-z0-9_]+).*/\1/p' config.ini | tail -1)
   INFO "GITHUB_TOKEN is ${#GITHUB_TOKEN} characters in length"
 
   if [[ ${#GITHUB_TOKEN} -lt 40 ]]; then
     WARN "Your GITHUB_TOKEN has a length of ${#GITHUB_TOKEN} characters, but 40 or above is expected."
   fi
 
-  status_code=$(curl --write-out "%{http_code}" --silent --output /dev/null -H "Authorization: token ${GITHUB_TOKEN}" \
-    -O \
-    -L https://api.github.com/repos/OpenDRR/earthquake-scenarios/contents/FINISHED)
+  tmpfile=$(mktemp)
+  status_code=$(curl --write-out "%{http_code}" --silent --output "$tmpfile" \
+    -H "Authorization: token ${GITHUB_TOKEN}" \
+    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output)
+  INFO "Access to OpenDRR/canada-srm2 returns HTTP status code $status_code"
 
   if [[ "$status_code" -ne 200 ]] ; then
-    echo "GitHub token is not valid! Exiting!"
-    exit 1
+    cat "$tmpfile"
+    case "$status_code" in
+      401)
+        ERROR "Your GitHub token is invalid or has expired. Aborting..."
+        ;;
+      404)
+        ERROR "Your GitHub token was unable to access https://github.com/OpenDRR/canada-srm2. Please ensure the \"repo\" scope is enabled for the token. Aborting..."
+        ;;
+      *)
+        ERROR "Unhandled error ($status_code): Please try again. Aborting..."
+        ;;
+    esac
   fi
 }
 
