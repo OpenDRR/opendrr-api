@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 # =================================================================
 # SPDX-License-Identifier: MIT
 #
@@ -9,9 +8,14 @@
 # =================================================================
 
 import configparser
-import psycopg2
 import json
 import decimal
+
+import platform
+if platform.python_implementation() == "PyPy":
+    import psycopg2cffi as psycopg2
+else:
+    import psycopg2
 
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
