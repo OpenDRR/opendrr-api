@@ -639,6 +639,10 @@ import_raw_psra_tables() {
 
   for PT in "${PT_LIST[@]}"; do
     ( cd "ebRisk/$PT"
+      # Add region fields to the agg losses and agg curves
+      RUN python3 /usr/src/app/PSRA_combineAggCurvesStats.py --aggCurvesDir="/usr/src/app/ebRisk/$PT"
+      RUN python3 /usr/src/app/PSRA_combineAggLossStats.py --aggLossDir="/usr/src/app/ebRisk/$PT"
+
       RUN merge_csv ebR_*agg_curves-stats_b0.csv "ebR_${PT}_agg_curves-stats_b0.csv"
       RUN merge_csv ebR_*agg_curves-stats_r1.csv "ebR_${PT}_agg_curves-stats_r1.csv"
       RUN merge_csv ebR_*agg_curves-q05_b0.csv "ebR_${PT}_agg_curves-q05_b0.csv "
