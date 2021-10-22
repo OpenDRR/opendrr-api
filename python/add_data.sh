@@ -790,10 +790,10 @@ export_to_elasticsearch() {
   # shellcheck disable=SC2154
   if [ "$loadPsraModels" = true ]; then
     LOG "Creating PSRA indices in Elasticsearch"
-    RUN python3 psra_postgres2es.py
-    RUN python3 hmaps_postgres2es.py
-    RUN python3 uhs_postgres2es.py
-    RUN python3 srcLoss_postgres2es.py
+    RUN pypy3 psra_postgres2es.py
+    RUN pypy3 hmaps_postgres2es.py
+    RUN pypy3 uhs_postgres2es.py
+    RUN pypy3 srcLoss_postgres2es.py
 
     LOG "Creating PSRA Kibana Index Patterns"
     RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_psra_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_psra_indicators_s"}}'
@@ -808,8 +808,8 @@ export_to_elasticsearch() {
   if [[ "$loadDsraScenario" = true ]]; then
 for eqscenario in ${EQSCENARIO_LIST[*]}; do
   LOG "Creating Elasticsearch indexes for DSRA"
-  RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="building"
-  RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="sauid"
+  RUN pypy3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="building"
+  RUN pypy3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="all_indicators" --idField="sauid"
 
   # LOG "Creating DSRA Kibana Index Patterns"
   # Need to develop saved object workflow for automated index patern generation
@@ -824,7 +824,7 @@ done
   # if [[ "$loadHazardThreat" = true ]]; then
   #   # All Indicators
   #   LOG "Creating Elasticsearch indexes for Hazard Threat"
-  #   RUN python3 hazardThreat_postgres2es.py  --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
+  #   RUN pypy3 hazardThreat_postgres2es.py  --type="all_indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
 
   #   LOG "Creating Hazard Threat Kibana Index Patterns"
   #   RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hazard_threat_all_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hazard_threat_all_indicators_s"}}'
@@ -834,8 +834,8 @@ done
   # shellcheck disable=SC2154
   if [[ $loadPhysicalExposure = true ]]; then
     LOG "Creating Elasticsearch indexes for Physical Exposure"
-    RUN python3 exposure_postgres2es.py --aggregation="building" --geometry=geom_point
-    RUN python3 exposure_postgres2es.py --aggregation="sauid" --geometry=geom_poly
+    RUN pypy3 exposure_postgres2es.py --aggregation="building" --geometry=geom_point
+    RUN pypy3 exposure_postgres2es.py --aggregation="sauid" --geometry=geom_poly
 
     LOG "Creating Exposure Kibana Index Patterns"
     RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_physical_exposure_all_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_physical_exposure_all_indicators_s"}}'
@@ -847,7 +847,7 @@ done
   # 2021/09/21 DR - Keeping Hazard Threah and Risk Dynamics out of ES for the time being
   # if [[ $loadRiskDynamics = true ]]; then
   #   LOG "Creating Elasticsearch indexes for Risk Dynamics"
-  #   RUN python3 riskDynamics_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_point --idField="ghslID"
+  #   RUN pypy3 riskDynamics_postgres2es.py --type="all_indicators" --aggregation="sauid" --geometry=geom_point --idField="ghslID"
 
   #   LOG "Creating Risk Dynamics Kibana Index Patterns"
   #   RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_risk_dynamics_all_indicators" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_risk_dynamics_all_indicators"}}'
@@ -857,12 +857,12 @@ done
   # shellcheck disable=SC2154
   if [[ $loadSocialFabric = true ]]; then
     LOG "Creating Elasticsearch indexes for Social Fabric"
-    RUN python3 socialFabric_postgres2es.py --aggregation="sauid" --geometry=geom_poly --sortfield="Sauid"
-    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_5km" --geometry=geom --sortfield="gridid_5"
-    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_10km" --geometry=geom --sortfield="gridid_10"
-    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_25km" --geometry=geom --sortfield="gridid_25"
-    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_50km" --geometry=geom --sortfield="gridid_50"
-    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_100km" --geometry=geom --sortfield="gridid_100"
+    RUN pypy3 socialFabric_postgres2es.py --aggregation="sauid" --geometry=geom_poly --sortfield="Sauid"
+    RUN pypy3 socialFabric_postgres2es.py --aggregation="hexgrid_5km" --geometry=geom --sortfield="gridid_5"
+    RUN pypy3 socialFabric_postgres2es.py --aggregation="hexgrid_10km" --geometry=geom --sortfield="gridid_10"
+    RUN pypy3 socialFabric_postgres2es.py --aggregation="hexgrid_25km" --geometry=geom --sortfield="gridid_25"
+    RUN pypy3 socialFabric_postgres2es.py --aggregation="hexgrid_50km" --geometry=geom --sortfield="gridid_50"
+    RUN pypy3 socialFabric_postgres2es.py --aggregation="hexgrid_100km" --geometry=geom --sortfield="gridid_100"
 
     LOG "Creating Social Fabric Kibana Index Patterns"
     RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_social_fabric_all_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_social_fabric_all_indicators_s"}}'
@@ -877,12 +877,12 @@ done
   # shellcheck disable=SC2154
   if [[ $loadHexGrid = true ]]; then
     LOG "Creating Elasticsearch indexes for Hexgrids"
-    RUN python3 hexgrid_5km_postgres2es.py
-    RUN python3 hexgrid_10km_postgres2es.py
-    RUN python3 hexgrid_25km_postgres2es.py
-    RUN python3 hexgrid_50km_postgres2es.py
-    RUN python3 hexgrid_100km_postgres2es.py
-    RUN python3 hexgrid_sauid_postgres2es.py
+    RUN pypy3 hexgrid_5km_postgres2es.py
+    RUN pypy3 hexgrid_10km_postgres2es.py
+    RUN pypy3 hexgrid_25km_postgres2es.py
+    RUN pypy3 hexgrid_50km_postgres2es.py
+    RUN pypy3 hexgrid_100km_postgres2es.py
+    RUN pypy3 hexgrid_sauid_postgres2es.py
 
     LOG "Creating HexGrid Kibana Index Patterns"
     RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_5km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_5km"}}'
