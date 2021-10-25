@@ -528,6 +528,10 @@ import_luts() {
   RUN fetch_csv openquake-inputs \
     exposure/general-building-stock/1.%20documentation/collapse_probability.csv
   RUN run_psql Create_collapse_probability_table.sql
+  # RUN fetch_csv canada-srm2 \
+  #   blob/tieg_natmodel2021/sourceTypes.csv
+  RUN fetch_csv canada-srm2 \
+    sourceTypes.csv?ref=tieg_natmodel2021
 }
 
 import_retrofit_costs() {
