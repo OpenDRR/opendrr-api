@@ -33,7 +33,7 @@ def main():
                 }
             }
         }),
-        view = "dsra_{eqScenario}_indicators_b".format(**{
+        view = "opendrr_dsra_{eqScenario}_indicators_b".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom_point) \
                     FROM results_dsra_{eqScenario}.dsra_{eqScenario}_indicators_b \
@@ -60,7 +60,7 @@ def main():
                 }
             }
         }),
-        view = "dsra_{eqScenario}_indicators_s".format(**{
+        view = "opendrr_dsra_{eqScenario}_indicators_s".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom_poly) \
                     FROM results_dsra_{eqScenario}.dsra_{eqScenario}_indicators_s \
@@ -87,7 +87,7 @@ def main():
                 }
             }
         }),
-        view = "dsra_{eqScenario}_indicators_csd".format(**{
+        view = "opendrr_dsra_{eqScenario}_indicators_csd".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                     FROM results_dsra_{eqScenario}.dsra_{eqScenario}_indicators_csd \
@@ -117,7 +117,7 @@ def main():
                 }
             }
         }),
-        view = "dsra_{eqScenario}_shakemap".format(**{
+        view = "opendrr_dsra_{eqScenario}_shakemap".format(**{
             'eqScenario': eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                     FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap \
@@ -150,7 +150,7 @@ def main():
                 }
             }
         }),
-        view = "dsra_{eqScenario}_shakemap_kibana_viz".format(**{
+        view = "opendrr_dsra_{eqScenario}_shakemap_kibana_viz".format(**{
             'eqScenario': eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                     FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap \
