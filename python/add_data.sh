@@ -819,8 +819,6 @@ export_to_elasticsearch() {
   if [ "$loadPsraModels" = true ]; then
     LOG "Creating PSRA indices in Elasticsearch"
     RUN python3 psra_postgres2es.py
-    RUN python3 hmaps_postgres2es.py
-    RUN python3 uhs_postgres2es.py
     RUN python3 srcLoss_postgres2es.py
 
     LOG "Creating PSRA Kibana Index Patterns"
