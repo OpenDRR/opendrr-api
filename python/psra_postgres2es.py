@@ -90,7 +90,7 @@ def main():
     psraTable.postgis2es()
 
     # Agg loss
-    psraTable = utils.PostGISdataset(
+    psraTable = utils.PostGISTable(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
             'settings': {
@@ -108,7 +108,7 @@ def main():
     psraTable.postgis2es()
 
     # expected loss fsa
-    psraTable = utils.PostGISdataset(
+    psraTable = utils.PostGISTable(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
             'settings': {
@@ -117,7 +117,7 @@ def main():
             }
         }),
         view="opendrr_psra_expected_loss_fsa",
-        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+        sqlquerystring='SELECT * \
                     FROM results_psra_national.psra_expected_loss_fsa \
                     ORDER BY psra_expected_loss_fsa."fid" \
                     LIMIT {limit} \
