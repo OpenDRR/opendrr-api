@@ -118,13 +118,13 @@ def main():
             }
         }),
         view = "opendrr_dsra_{eqScenario}_shakemap".format(**{
-            'eqScenario': eqScenario}).lower(),
+            'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                     FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap \
                     ORDER BY dsra_{eqScenario}_shakemap."site_id" \
                     LIMIT {{limit}} \
                     OFFSET {{offset}}'.format(**{
-                        'eqScenario': eqScenario})
+                        'eqScenario': args.eqScenario})
     )
     dsraTable.postgis2es()
 
@@ -151,13 +151,13 @@ def main():
             }
         }),
         view = "opendrr_dsra_{eqScenario}_shakemap_kibana_viz".format(**{
-            'eqScenario': eqScenario}).lower(),
+            'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                     FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap \
                     ORDER BY dsra_{eqScenario}_shakemap."site_id" \
                     LIMIT {{limit}} \
                     OFFSET {{offset}}'.format(**{
-                        'eqScenario': eqScenario})
+                        'eqScenario': args.eqScenario})
     )
     dsraTable.postgis2es()
     return
