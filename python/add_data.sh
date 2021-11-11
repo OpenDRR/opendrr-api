@@ -644,6 +644,10 @@ import_raw_psra_tables() {
 
   for PT in "${PT_LIST[@]}"; do
     ( cd "eDamage/$PT"
+      RUN merge_csv eD_*damages-q05_b0.csv "eD_${PT}_damages-q05_b0.csv"
+      RUN merge_csv eD_*damages-q05_r1.csv "eD_${PT}_damages-q05_r1.csv"
+      RUN merge_csv eD_*damages-q95_b0.csv "eD_${PT}_damages-q95_b0.csv"
+      RUN merge_csv eD_*damages-q95_r1.csv "eD_${PT}_damages-q95_r1.csv"
       RUN merge_csv eD_*damages-mean_b0.csv "eD_${PT}_damages-mean_b0.csv"
       RUN merge_csv eD_*damages-mean_r1.csv "eD_${PT}_damages-mean_r1.csv"
     )
