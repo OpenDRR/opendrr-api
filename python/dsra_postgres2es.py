@@ -121,7 +121,7 @@ def main():
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                     FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap \
-                    ORDER BY dsra_{eqScenario}_shakemap."site_id" \
+                    ORDER BY dsra_{eqScenario}_shakemap."SiteID" \
                     LIMIT {{limit}} \
                     OFFSET {{offset}}'.format(**{
                         'eqScenario': args.eqScenario})
