@@ -27,7 +27,7 @@ def main():
                 }
             }
         }),
-        view = "shakemap_scenario_extents_test",
+        view = "opendrr_shakemap_scenario_extents",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                     FROM gmf.shakemap_scenario_extents \
                     LIMIT {limit} \
