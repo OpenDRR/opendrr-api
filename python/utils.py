@@ -178,8 +178,8 @@ class PostGISPointDataset(PostGISdataset):
                 coordinates = json.loads(row[geomIndex])['coordinates']
                 feature = {
                     'type': 'Feature',
-                    'coordinates': json.loads(row[geomIndex]),
-                    # 'coordinates': coordinates,
+                    'geometry': json.loads(row[geomIndex]),
+                    'coordinates': coordinates,
                     'properties': {},
                 }
                 for index, column in enumerate(columns):
