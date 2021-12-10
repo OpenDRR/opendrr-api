@@ -21,20 +21,17 @@ def main():
             },
             'mappings': {
                 'properties': {
-                    'coordinates': {
-                        'type': 'geo_point'
-                    },
                     'geometry': {
                         'type': 'geo_shape'
                     }
                 }
             }
         }),
-        view = "shakemap_scenario_extents",
+        view = "shakemap_scenario_extents_test",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                     FROM gmf.shakemap_scenario_extents \
-                    LIMIT {{limit}} \
-                    OFFSET {{offset}}'
+                    LIMIT {limit} \
+                    OFFSET {offset}'
     )
     dsraTable.postgis2es()
     return
