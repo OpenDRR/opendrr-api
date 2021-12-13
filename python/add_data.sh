@@ -707,7 +707,7 @@ import_earthquake_scenarios() {
   RUN mapfile -t EQSCENARIO_LIST_LONGFORM < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*r1.*\\.csv")' FINISHED.json)
 
   LOG "## Importing scenario outputs into PostGIS"
-  for eqscenario in ${EQSCENARIO_LIST[*]}; do
+  for eqscenario in "${EQSCENARIO_LIST[@]}"; do
     RUN python3 DSRA_outputs2postgres_lfs.py --dsraModelDir=$DSRA_REPOSITORY --columnsINI=DSRA_outputs2postgres.ini --eqScenario="$eqscenario"
   done
 }
@@ -716,7 +716,7 @@ import_shakemap() {
   LOG "## Importing Shakemap"
   # Make a list of Shakemaps in the repo and download the raw csv files
   mapfile -t DOWNLOAD_URL_LIST < <(jq -r '.[].url | scan(".*s_shakemap_.*\\.csv")' FINISHED.json)
-  for shakemap in ${DOWNLOAD_URL_LIST[*]}; do
+  for shakemap in "${DOWNLOAD_URL_LIST[@]}"; do
     # Get the shakemap
     shakemap_filename=$( echo "$shakemap" | cut -f9- -d/ | cut -f1 -d?)
     RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
@@ -762,7 +762,7 @@ LOG "## Importing Rupture Model"
 RUN python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenDRR/earthquake-scenarios/tree/master/ruptures"
 
 LOG "## Generating indicator views"
-  for item in ${EQSCENARIO_LIST_LONGFORM[*]}; do
+  for item in "${EQSCENARIO_LIST_LONGFORM[@]}"; do
     SITE=$(echo "$item" | cut -f5- -d_ | cut -c 1-1)
     eqscenario=$(echo "$item" | cut -f-2 -d_)
     echo "$eqscenario"
@@ -825,7 +825,7 @@ export_to_elasticsearch() {
   # Load Deterministic Model Indicators
   # shellcheck disable=SC2154
   if [[ "$loadDsraScenario" = true ]]; then
-for eqscenario in ${EQSCENARIO_LIST[*]}; do
+for eqscenario in "${EQSCENARIO_LIST[@]}"; do
   LOG "Creating Elasticsearch indexes for DSRA"
   #RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="indicators" --idField="building"
   RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario"
