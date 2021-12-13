@@ -22,19 +22,19 @@ services:
 
 
     kibana-opendrr:
-        image: kibana:7.12.0
-        
+        image: kibana:7.16.1
+
         environment:
             ELASTICSEARCH_HOSTS: http://elasticsearch-opendrr:9200
 
         ports: 
             - 5601:5601
-        
+
         depends_on: 
             - elasticsearch-opendrr
     
     elasticsearch-opendrr: 
-        image: elasticsearch:7.12.0
+        image: elasticsearch:7.16.1
         
         environment:
             - discovery.type=single-node
