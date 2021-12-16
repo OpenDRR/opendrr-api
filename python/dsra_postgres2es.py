@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 # =================================================================
 # !/bin/bash
 # SPDX-License-Identifier: MIT
@@ -16,7 +15,7 @@ def main():
     args = parse_args()
 
     # Create building level aggregation object and load to ES
-    dsraTable = utils.PostGISdataset(
+    dsraTable = utils.PostGISPointDataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
             'settings': {
@@ -34,7 +33,7 @@ def main():
                 }
             }
         }),
-        view = "dsra_{eqScenario}_indicators_b".format(**{
+        view = "opendrr_dsra_{eqScenario}_indicators_b".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom_point) \
                     FROM results_dsra_{eqScenario}.dsra_{eqScenario}_indicators_b \
@@ -61,7 +60,7 @@ def main():
                 }
             }
         }),
-        view = "dsra_{eqScenario}_indicators_s".format(**{
+        view = "opendrr_dsra_{eqScenario}_indicators_s".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom_poly) \
                     FROM results_dsra_{eqScenario}.dsra_{eqScenario}_indicators_s \
@@ -88,7 +87,7 @@ def main():
     #             }
     #         }
     #     }),
-    #     view = "dsra_{eqScenario}_indicators_csd".format(**{
+    #     view = "opendrr_dsra_{eqScenario}_indicators_csd".format(**{
     #         'eqScenario': args.eqScenario}).lower(),
     #     sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
     #                 FROM results_dsra_{eqScenario}.dsra_{eqScenario}_indicators_csd \
@@ -118,19 +117,17 @@ def main():
                 }
             }
         }),
-        view = "dsra_{eqScenario}_shakemap".format(**{
+        view = "opendrr_dsra_{eqScenario}_shakemap".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                     FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap \
-                    ORDER BY dsra_{eqScenario}_shakemap."site_id" \
+                    ORDER BY dsra_{eqScenario}_shakemap."SiteID" \
                     LIMIT {{limit}} \
                     OFFSET {{offset}}'.format(**{
                         'eqScenario': args.eqScenario})
     )
     dsraTable.postgis2es()
-
     return
-
 
 def parse_args():
     parser = argparse.ArgumentParser(description="script description")
@@ -138,7 +135,6 @@ def parse_args():
     args = parser.parse_args()
 
     return args
-
 
 if __name__ == '__main__':
     main()
