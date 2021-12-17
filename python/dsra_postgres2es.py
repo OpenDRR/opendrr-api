@@ -36,8 +36,8 @@ def main():
         view = "opendrr_dsra_{eqScenario}_indicators_b".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom_point) \
-                    FROM results_dsra_{eqScenario}.dsra_{eqScenario}_indicators_b \
-                    ORDER BY dsra_{eqScenario}_indicators_b."AssetID" \
+                    FROM results_dsra_{eqScenario}.dsra_{eqScenario}_all_indicators_b \
+                    ORDER BY dsra_{eqScenario}_all_indicators_b."AssetID" \
                     LIMIT {{limit}} \
                     OFFSET {{offset}}'.format(**{
                         'eqScenario': args.eqScenario})
@@ -63,8 +63,8 @@ def main():
         view = "opendrr_dsra_{eqScenario}_indicators_s".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom_poly) \
-                    FROM results_dsra_{eqScenario}.dsra_{eqScenario}_indicators_s \
-                    ORDER BY dsra_{eqScenario}_indicators_s."Sauid" \
+                    FROM results_dsra_{eqScenario}.dsra_{eqScenario}_all_indicators_s \
+                    ORDER BY dsra_{eqScenario}_all_indicators_s."Sauid" \
                     LIMIT {{limit}} \
                     OFFSET {{offset}}'.format(**{
                         'eqScenario': args.eqScenario})
