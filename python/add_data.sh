@@ -30,7 +30,7 @@ ADD_DATA_PRINT_LINENO=${ADD_DATA_PRINT_LINENO:-true}
 DSRA_REPOSITORY=https://github.com/OpenDRR/earthquake-scenarios/tree/master/FINISHED
 
 #PT_LIST=(AB BC MB NB NL NS NT NU ON PE QC SK YT)
-PT_LIST=(AB MB NB NL NS NT NU ON)
+PT_LIST=(AB MB NB NL NS NT NU ON PE QC SK YT)
 
 ############################################################################################
 ############    Define helper and utility functions                             ############
