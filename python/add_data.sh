@@ -708,10 +708,10 @@ import_raw_psra_tables() {
       RUN python3 /usr/src/app/PSRA_combineSrcLossTable.py --srcLossDir="/usr/src/app/ebRisk/$PT"
     )
   done
-}
 
   LOG "### ebRisk - Canada"
   RUN fetch_psra_csv_from_national_model ebRisk
+}
 
 post_process_psra_tables() {
   LOG "## PSRA_0"
