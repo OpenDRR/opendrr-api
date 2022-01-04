@@ -295,6 +295,44 @@ fetch_psra_csv_from_model() {
   done
 }
 
+fetch_psra_csv_from_national_model() {
+  if [ "$#" != "1" ]; then
+    ERROR "${FUNCNAME[0]} requires exactly one argument, but $# was given."
+  fi
+
+  model=$1
+  PT=Canada
+
+  RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
+    --retry 999 --retry-max-time 0 \
+    -o "${PT}.json" \
+    -L "https://api.github.com/repos/OpenDRR/canada-srm2/contents/$model/output/Canada?ref=tieg_natmodel2021"
+
+  RUN mapfile -t DOWNLOAD_LIST < <(jq -r '.[].url | select(. | contains(".csv"))' "${PT}.json")
+
+  mkdir -p "$model/$PT"
+  ( cd "$model/$PT"
+    for file in "${DOWNLOAD_LIST[@]}"; do
+      FILENAME=$(echo "$file" | cut -f-1 -d? | cut -f11- -d/)
+      RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
+        --retry 999 --retry-max-time 0 \
+        -o "$FILENAME" \
+        -L "$file"
+      is_dry_run || DOWNLOAD_URL=$(jq -r '.download_url' "$FILENAME")
+      RUN curl -o "$FILENAME" \
+        --retry 999 --retry-max-time 0 \
+        -L "$DOWNLOAD_URL"
+
+      # Strip OpenQuake comment header if exists
+      # (safe for cH_${PT}_hmaps_xref.csv)
+      RUN sed -i -r $'1{/^(\xEF\xBB\xBF)?#,/d}' "$FILENAME"
+    done
+    # TODO: Use a different for ${PT}.json, and keep for debugging
+    RUN rm -f "${PT}.json"
+  )
+
+}
+
 # merge_csv merges CSV files without repeating column headers.
 # Syntax: merge_csv [INPUT_CSV_FILES]... [OUTPUT_FILE]
 # NOTE: The '#,,,,,"generated_by='OpenQuake engine 3.x..."' comment header
@@ -682,6 +720,9 @@ import_raw_psra_tables() {
     )
   done
 }
+
+  LOG "### ebRisk - Canada"
+  RUN fetch_psra_csv_from_national_model ebRisk
 
 post_process_psra_tables() {
   LOG "## PSRA_0"
