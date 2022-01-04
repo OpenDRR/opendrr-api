@@ -717,7 +717,7 @@ post_process_psra_tables() {
   LOG "## PSRA_0"
   RUN run_psql psra_0.create_psra_schema.sql
 
-  LOG "## PSRA_1-8"
+  LOG "## PSRA_1-6"
   for PT in "${PT_LIST[@]}"; do
     RUN python3 PSRA_runCreate_tables.py --province="$PT" --sqlScript="psra_1.Create_tables.sql"
     RUN python3 PSRA_copyTables.py --province="$PT"
@@ -726,6 +726,12 @@ post_process_psra_tables() {
     RUN python3 PSRA_sqlWrapper.py --province="$PT" --sqlScript="psra_4.Create_psra_sauid_all_indicators.sql"
     RUN python3 PSRA_sqlWrapper.py --province="$PT" --sqlScript="psra_5.Create_psra_sauid_references_indicators.sql"
   done
+
+  LOG '## PSRA Canada'
+  RUN python3 PSRA_runCreate_tables.py --sqlScript="psra_1.Create_tables_Canada.sql"
+  RUN python3 PSRA_copyTables_Canada.py
+  RUN python3 PSRA_sqlWrapper.py  --province="Canada" --sqlScript="psra_2.Create_table_updates_Canada.sql"
+  RUN python3 PSRA_sqlWrapper.py --province="$PT" --sqlScript="psra_4.Create_psra_sauid_all_indicators_Canada.sql"
 
   RUN run_psql psra_6.Create_psra_merge_into_national_indicators.sql
 }
