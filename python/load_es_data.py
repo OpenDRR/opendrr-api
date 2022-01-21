@@ -67,6 +67,7 @@ es.indices.create(index=index_name, body=settings, request_timeout=90)
 with open(sys.argv[1]) as fh:
     d = json.load(fh)
 
+
 def gendata(data):
     for item in data['features']:
         yield {
@@ -74,5 +75,6 @@ def gendata(data):
             "_id": item['properties'][id_field],
             "_source": item
         }
+
 
 helpers.bulk(es, gendata(d), raise_on_error=False)

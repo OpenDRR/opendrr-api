@@ -11,8 +11,9 @@
 import utils
 import argparse
 
+
 def main():
-    args = parse_args()
+    # args = parse_args()
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -32,7 +33,7 @@ def main():
             }
         }),
         view="opendrr_psra_uhs",
-        sqlquerystring = 'SELECT *, ST_AsGeoJSON(geom) \
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                 FROM results_psra_national.psra_uhs \
                 ORDER BY psra_uhs."geom" \
                 LIMIT {limit} \
@@ -42,6 +43,7 @@ def main():
     table.postgis2es()
 
     return
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description="script description")

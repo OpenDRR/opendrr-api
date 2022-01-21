@@ -11,6 +11,7 @@
 import utils
 import argparse
 
+
 def main():
     dsraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
@@ -27,7 +28,7 @@ def main():
                 }
             }
         }),
-        view = "opendrr_shakemap_scenario_extents",
+        view="opendrr_shakemap_scenario_extents",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                     FROM gmf.shakemap_scenario_extents \
                     LIMIT {limit} \
@@ -36,12 +37,14 @@ def main():
     dsraTable.postgis2es()
     return
 
+
 def parse_args():
     parser = argparse.ArgumentParser(description='''
         Create ES index with DSRA Scenario Extents''')
     args = parser.parse_args()
 
     return args
+
 
 if __name__ == '__main__':
     main()

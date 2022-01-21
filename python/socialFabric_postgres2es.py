@@ -23,6 +23,7 @@ python3 socialFabric_postgres2es.py
     --idField="Sauid"
 '''
 
+
 # Main Function
 def main():
     args = parse_args()
@@ -115,6 +116,7 @@ def parse_args():
     args = parser.parse_args()
 
     return args
+
 
 if __name__ == '__main__':
     main()

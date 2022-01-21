@@ -10,6 +10,7 @@
 
 import utils
 
+
 def main():
     # building level aggregation
     psraTable = utils.PostGISdataset(
@@ -125,6 +126,7 @@ def main():
     )
     psraTable.postgis2es()
     return
+
 
 if __name__ == '__main__':
     main()

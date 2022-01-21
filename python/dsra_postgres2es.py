@@ -11,6 +11,7 @@
 import utils
 import argparse
 
+
 def main():
     args = parse_args()
 
@@ -33,14 +34,13 @@ def main():
                 }
             }
         }),
-        view = "opendrr_dsra_{eqScenario}_indicators_b".format(**{
+        view="opendrr_dsra_{eqScenario}_indicators_b".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom_point) \
-                    FROM results_dsra_{eqScenario}.dsra_{eqScenario}_indicators_b \
-                    ORDER BY dsra_{eqScenario}_indicators_b."AssetID" \
-                    LIMIT {{limit}} \
-                    OFFSET {{offset}}'.format(**{
-                        'eqScenario': args.eqScenario})
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_indicators_b \
+            ORDER BY dsra_{eqScenario}_indicators_b."AssetID" \
+            LIMIT {{limit}} \
+            OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
     )
     dsraTable.postgis2es()
 
@@ -60,14 +60,13 @@ def main():
                 }
             }
         }),
-        view = "opendrr_dsra_{eqScenario}_indicators_s".format(**{
+        view="opendrr_dsra_{eqScenario}_indicators_s".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom_poly) \
-                    FROM results_dsra_{eqScenario}.dsra_{eqScenario}_indicators_s \
-                    ORDER BY dsra_{eqScenario}_indicators_s."Sauid" \
-                    LIMIT {{limit}} \
-                    OFFSET {{offset}}'.format(**{
-                        'eqScenario': args.eqScenario})
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_indicators_s \
+            ORDER BY dsra_{eqScenario}_indicators_s."Sauid" \
+            LIMIT {{limit}} \
+            OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
     )
     dsraTable.postgis2es()
 
@@ -87,14 +86,13 @@ def main():
                 }
             }
         }),
-        view = "opendrr_dsra_{eqScenario}_indicators_csd".format(**{
+        view="opendrr_dsra_{eqScenario}_indicators_csd".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
-                    FROM results_dsra_{eqScenario}.dsra_{eqScenario}_indicators_csd \
-                    ORDER BY dsra_{eqScenario}_indicators_csd."csduid" \
-                    LIMIT {{limit}} \
-                    OFFSET {{offset}}'.format(**{
-                        'eqScenario': args.eqScenario})
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_indicators_csd \
+            ORDER BY dsra_{eqScenario}_indicators_csd."csduid" \
+            LIMIT {{limit}} \
+            OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
     )
     dsraTable.postgis2es()
 
@@ -146,17 +144,17 @@ def main():
                 }
             }
         }),
-        view = "opendrr_dsra_{eqScenario}_shakemap".format(**{
+        view="opendrr_dsra_{eqScenario}_shakemap".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
-                    FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap \
-                    ORDER BY dsra_{eqScenario}_shakemap."SiteID" \
-                    LIMIT {{limit}} \
-                    OFFSET {{offset}}'.format(**{
-                        'eqScenario': args.eqScenario})
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap \
+            ORDER BY dsra_{eqScenario}_shakemap."SiteID" \
+            LIMIT {{limit}} \
+            OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
     )
     dsraTable.postgis2es()
     return
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description="script description")
@@ -164,6 +162,7 @@ def parse_args():
     args = parser.parse_args()
 
     return args
+
 
 if __name__ == '__main__':
     main()
