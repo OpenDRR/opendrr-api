@@ -1,5 +1,5 @@
-#!/usr/bin/python3
 # =================================================================
+# !/bin/bash
 # SPDX-License-Identifier: MIT
 #
 # Copyright (C) 2020-2021 Government of Canada
@@ -38,7 +38,6 @@ def main():
     table.postgis2es()
 
     return
-
 
 if __name__ == '__main__':
     main()

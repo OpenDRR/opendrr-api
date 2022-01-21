@@ -1,5 +1,5 @@
-#!/usr/bin/python3
 # =================================================================
+# !/bin/bash
 # SPDX-License-Identifier: MIT
 #
 # Copyright (C) 2020-2021 Government of Canada
@@ -11,9 +11,8 @@
 import utils
 import argparse
 
-
 def main():
-    # args = parse_args()
+    args = parse_args()
     table = utils.PostGISTable(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -43,7 +42,6 @@ def main():
     table.postgis2es()
 
     return
-
 
 def parse_args():
     parser = argparse.ArgumentParser(description="script description")
