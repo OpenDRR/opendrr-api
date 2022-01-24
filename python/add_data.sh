@@ -435,7 +435,7 @@ read_github_token() {
 # from the OpenDRR/model-factory repository
 get_model_factory_scripts() {
   # TODO: Make this more robust
-RUN git clone https://github.com/OpenDRR/model-factory.git -- branch update_social_fabric_jan2022 --depth 1 || (cd model-factory ; RUN git pull)
+RUN git clone https://github.com/OpenDRR/model-factory.git --update_social_fabric_jan2022 --depth 1 || (cd model-factory ; RUN git pull)
 
   # Copy model-factory scripts to working directory
   # TODO: Find ways to keep these scripts in their place without copying them all to WORKDIR
