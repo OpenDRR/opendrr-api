@@ -549,16 +549,19 @@ import_census_data() {
 import_sovi() {
   LOG "## Importing Sovi"
   # Need to source tables
+  # RUN fetch_csv openquake-inputs \
+  #   social-vulnerability/social-vulnerability-census.csv
+  # RUN fetch_csv openquake-inputs \
+  #   social-vulnerability/social-vulnerability-index.csv
+  # RUN fetch_csv openquake-inputs \
+  #   social-vulnerability/sovi_thresholds_2021.csv
   RUN fetch_csv openquake-inputs \
-    social-vulnerability/social-vulnerability-census.csv
-  RUN fetch_csv openquake-inputs \
-    social-vulnerability/social-vulnerability-index.csv
-  RUN fetch_csv openquake-inputs \
-    social-vulnerability/sovi_thresholds_2021.csv
+    social-vulnerability/sovi_sauid_nov2021.csv
 
-  RUN run_psql Create_table_sovi_index_canada_v2.sql
-  RUN run_psql Create_table_sovi_census_canada.sql
-  RUN run_psql Create_table_sovi_thresholds.sql
+  # RUN run_psql Create_table_sovi_index_canada_v2.sql
+  # RUN run_psql Create_table_sovi_census_canada.sql
+  # RUN run_psql Create_table_sovi_thresholds.sql
+  RUN run_psql Create_table_sovi_sauid.sql
 }
 
 import_luts() {
