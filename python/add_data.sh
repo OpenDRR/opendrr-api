@@ -774,7 +774,7 @@ import_earthquake_scenarios() {
 import_shakemap() {
   LOG "## Importing Shakemap"
   # Make a list of Shakemaps in the repo and download the raw csv files
-  mapfile -t DOWNLOAD_URL_LIST < <(jq -r '.[].url | scan(".*s_shakemap_.*\\.csv")' FINISHED.json)
+  mapfile -t DOWNLOAD_URL_LIST < <(jq -r '.[].url | scan(".*s_shakemap_.*(?<!MMI)\\.csv")' FINISHED.json)
   for shakemap in "${DOWNLOAD_URL_LIST[@]}"; do
     # Get the shakemap
     shakemap_filename=$( echo "$shakemap" | cut -f9- -d/ | cut -f1 -d?)
