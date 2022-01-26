@@ -31,7 +31,7 @@ services:
         build: ./pygeoapi
         
         ports:
-            - 5000:80
+            - 5001:80
         
         depends_on:
             - elasticsearch-opendrr
