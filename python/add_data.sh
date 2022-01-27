@@ -849,6 +849,11 @@ create_scenario_risk_master_tables() {
   RUN run_psql Create_scenario_risk_master_tables.sql
 }
 
+create_database_check() {
+  LOG "## Create table to check row counts for each table/view"
+  RUN run_psql Database_check.sql
+}
+
 ############################################################################################
 ############    Define "Import Data from PostGIS to Elasticsearch" functions    ############
 ############################################################################################
