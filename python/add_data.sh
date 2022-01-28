@@ -435,12 +435,12 @@ read_github_token() {
 # from the OpenDRR/model-factory repository
 get_model_factory_scripts() {
   # TODO: Make this more robust
-  curl -L -o model-factory.tar.gz https://github.com/OpenDRR/model-factory/archive/refs/tags/v1.3.0.tar.gz
+  curl -L -o model-factory.tar.gz https://github.com/OpenDRR/model-factory/archive/refs/tags/v1.3.1.tar.gz
   tar -xf model-factory.tar.gz
 
   # Copy model-factory scripts to working directory
   # TODO: Find ways to keep these scripts in their place without copying them all to WORKDIR
-  RUN cp model-factory-1.3.0/scripts/*.* .
+  RUN cp model-factory-1.3.1/scripts/*.* .
   #rm -rf model-factory
 }
 
@@ -550,16 +550,19 @@ import_census_data() {
 import_sovi() {
   LOG "## Importing Sovi"
   # Need to source tables
+  # RUN fetch_csv openquake-inputs \
+  #   social-vulnerability/social-vulnerability-census.csv
+  # RUN fetch_csv openquake-inputs \
+  #   social-vulnerability/social-vulnerability-index.csv
+  # RUN fetch_csv openquake-inputs \
+  #   social-vulnerability/sovi_thresholds_2021.csv
   RUN fetch_csv openquake-inputs \
-    social-vulnerability/social-vulnerability-census.csv
-  RUN fetch_csv openquake-inputs \
-    social-vulnerability/social-vulnerability-index.csv
-  RUN fetch_csv openquake-inputs \
-    social-vulnerability/sovi_thresholds_2021.csv
+    social-vulnerability/sovi_sauid_nov2021.csv
 
-  RUN run_psql Create_table_sovi_index_canada_v2.sql
-  RUN run_psql Create_table_sovi_census_canada.sql
-  RUN run_psql Create_table_sovi_thresholds.sql
+  # RUN run_psql Create_table_sovi_index_canada_v2.sql
+  # RUN run_psql Create_table_sovi_census_canada.sql
+  # RUN run_psql Create_table_sovi_thresholds.sql
+  RUN run_psql Create_table_sovi_sauid.sql
 }
 
 import_luts() {
@@ -847,6 +850,11 @@ create_scenario_risk_master_tables() {
   RUN run_psql Create_scenario_risk_master_tables.sql
 }
 
+create_database_check() {
+  LOG "## Create table to check row counts for each table/view"
+  RUN run_psql Database_check.sql
+}
+
 ############################################################################################
 ############    Define "Import Data from PostGIS to Elasticsearch" functions    ############
 ############################################################################################
@@ -1020,6 +1028,7 @@ main() {
   RUN import_shakemap
   RUN import_rupture_model
   RUN create_scenario_risk_master_tables
+  RUN create_database_check
 
 
   LOG "# Import data from PostGIS to Elasticsearch"
