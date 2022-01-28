@@ -49,8 +49,8 @@ def main():
 server:
     bind:
         host: 0.0.0.0
-        port: 5000
-    url: http://localhost:5000
+        port: 5001
+    url: http://localhost:5001
     mimetype: application/json; charset=UTF-8
     encoding: utf-8
     language: en-US

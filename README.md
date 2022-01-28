@@ -84,11 +84,11 @@ http://localhost:5601
 
 Check pygeoapi to make sure the collections can be accessed
 
-http://localhost:5000/collections
+http://localhost:5001/collections
 
 Feature collections can be accessed as follows or by clicking on the links provided on the collections page
 
-http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=json&limit=1
+http://localhost:5001/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=json&limit=1
 
 You should see something similar to:
 
@@ -139,31 +139,31 @@ You should see something similar to:
             "type": "application/geo+json",
             "rel": "self",
             "title": "This document as GeoJSON",
-            "href": "http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=json&amp;limit=1"
+            "href": "http://localhost:5001/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=json&amp;limit=1"
             },
             {
             "rel": "alternate",
             "type": "application/ld+json",
             "title": "This document as RDF (JSON-LD)",
-            "href": "http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=jsonld&amp;limit=1"
+            "href": "http://localhost:5001/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=jsonld&amp;limit=1"
             },
             {
             "type": "text/html",
             "rel": "alternate",
             "title": "This document as HTML",
-            "href": "http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=html&amp;limit=1"
+            "href": "http://localhost:5001/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=html&amp;limit=1"
             },
             {
             "type": "application/geo+json",
             "rel": "next",
             "title": "items (next)",
-            "href": "http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?startindex=1&amp;limit=1"
+            "href": "http://localhost:5001/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?startindex=1&amp;limit=1"
             },
             {
             "type": "application/json",
             "title": "Economic loss buildings",
             "rel": "collection",
-            "href": "http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building"
+            "href": "http://localhost:5001/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building"
             }
         ],
         "timeStamp": "2020-08-18T22:46:10.513010Z"
@@ -175,17 +175,17 @@ You should see something similar to:
 
 Refer to the pygeoapi documentation for general guidance:
 
-http://localhost:5000/openapi?f=html
+http://localhost:5001/openapi?f=html
 
 > NOTE: querying is currently limited to spatial extent and exact value queries. For more complex querying use Elasticsearch (see below).
 
 #### To filter on a specfic attribute
 
-http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?sH_Mag=7.2
+http://localhost:5001/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?sH_Mag=7.2
 
 #### To filter using a bounding box
 
-http://localhost:5000/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?bbox=-119,48.8,-118.9,49.8&f=json
+http://localhost:5001/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?bbox=-119,48.8,-118.9,49.8&f=json
 
 ### Querying Elasticsearch
 
@@ -290,7 +290,7 @@ You have two options:
 
 1. Add a "New Connection" by right clicking on the "WFS / OGC API -Features" data type in the browser
 2. Enter a name for your connection (i.e. "OpenDRR")
-3. Enter `http://localhost:5000` in the URL field
+3. Enter `http://localhost:5001` in the URL field
 4. Select "OGC API - Features" in the "Version" dropdown
 4. Click the "OK" button
 
