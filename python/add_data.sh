@@ -1027,6 +1027,7 @@ main() {
   RUN import_shakemap
   RUN import_rupture_model
   RUN create_scenario_risk_master_tables
+  RUN create_database_check
 
 
   LOG "# Import data from PostGIS to Elasticsearch"
