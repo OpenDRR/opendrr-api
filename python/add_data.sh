@@ -435,12 +435,14 @@ read_github_token() {
 # from the OpenDRR/model-factory repository
 get_model_factory_scripts() {
   # TODO: Make this more robust
-  curl -L -o model-factory.tar.gz https://github.com/OpenDRR/model-factory/archive/refs/tags/v1.3.1.tar.gz
-  tar -xf model-factory.tar.gz
+  # curl -L -o model-factory.tar.gz https://github.com/OpenDRR/model-factory/archive/refs/tags/v1.3.1.tar.gz
+  # tar -xf model-factory.tar.gz
+  RUN git clone https://github.com/OpenDRR/model-factory.git --branch update_hexbin1km_feb2022 --depth 1 || (cd model-factory ; RUN git pull)
 
   # Copy model-factory scripts to working directory
   # TODO: Find ways to keep these scripts in their place without copying them all to WORKDIR
-  RUN cp model-factory-1.3.1/scripts/*.* .
+  # RUN cp model-factory-1.3.1/scripts/*.* .
+  RUN cp model-factory/scripts/*.* .
   #rm -rf model-factory
 }
 
@@ -498,7 +500,8 @@ import_census_boundaries() {
       RUN run_ogr2ogr "Geometry_$i"
     done
 
-    for i in HexGrid_5km HexGrid_10km HexGrid_25km HexGrid_50km HexGrid_GlobalFabric SAUID_HexGrid SAUID_HexGrid_5km_intersect SAUID_HexGrid_10km_intersect SAUID_HexGrid_25km_intersect SAUID_HexGrid_50km_intersect SAUID_HexGrid_100km_intersect SAUID_HexGrid_GlobalFabric_intersect; do
+    for i in HexGrid_1km_AB HexGrid_1km_BC HexGrid_1km_MB HexGrid_1km_NB HexGrid_1km_NL HexGrid_1km_NS HexGrid_1km_NT HexGrid_1km_NU HexGrid_1km_ON HexGrid_1km_PE HexGrid_1km_QC HexGrid_1km_SK HexGrid_1km_YT HexGrid_5km HexGrid_10km HexGrid_25km HexGrid_50km 
+      HexGrid_GlobalFabric SAUID_HexGrid SAUID_HexGrid_1km_intersect SAUID_HexGrid_5km_intersect SAUID_HexGrid_10km_intersect SAUID_HexGrid_25km_intersect SAUID_HexGrid_50km_intersect SAUID_HexGrid_100km_intersect SAUID_HexGrid_GlobalFabric_intersect; do
       RUN run_ogr2ogr "hexbin_4326/$i"
     done
 
