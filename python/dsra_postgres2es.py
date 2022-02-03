@@ -96,63 +96,6 @@ def main():
     )
     dsraTable.postgis2es()
 
-    # Create shakemap object and load to ES
-    # dsraTable = utils.PostGISPointDataset(
-    #     utils.PostGISConnection(),
-    #     utils.ESConnection(settings={
-    #         'settings': {
-    #             'number_of_shards': 1,
-    #             'number_of_replicas': 0
-    #         },
-    #         'mappings': {
-    #             'properties': {
-    #                 'coordinates': {
-    #                     'type': 'geo_point'
-    #                 },
-    #                 'geometry': {
-    #                     'type': 'geo_shape'
-    #                 }
-    #             }
-    #         }
-    #     }),
-    #     view = "opendrr_dsra_{eqScenario}_shakemap".format(**{
-    #         'eqScenario': args.eqScenario}).lower(),
-    #     sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
-    #                 FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap \
-    #                 ORDER BY dsra_{eqScenario}_shakemap."SiteID" \
-    #                 LIMIT {{limit}} \
-    #                 OFFSET {{offset}}'.format(**{
-    #                     'eqScenario': args.eqScenario})
-    # )
-    # dsraTable.postgis2es()
-    # Create shakemap object and load to ES
-    dsraTable = utils.PostGISdataset(
-        utils.PostGISConnection(),
-        utils.ESConnection(settings={
-            'settings': {
-                'number_of_shards': 1,
-                'number_of_replicas': 0
-            },
-            'mappings': {
-                'properties': {
-                    'coordinates': {
-                        'type': 'geo_point'
-                    },
-                    'geometry': {
-                        'type': 'geo_shape'
-                    }
-                }
-            }
-        }),
-        view="opendrr_dsra_{eqScenario}_shakemap".format(**{
-            'eqScenario': args.eqScenario}).lower(),
-        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
-            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap \
-            ORDER BY dsra_{eqScenario}_shakemap."SiteID" \
-            LIMIT {{limit}} \
-            OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
-    )
-    dsraTable.postgis2es()
     return
 
 
