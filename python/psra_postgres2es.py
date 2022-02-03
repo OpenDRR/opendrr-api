@@ -125,8 +125,60 @@ def main():
                     OFFSET {offset}'
     )
     psraTable.postgis2es()
-    return
 
+    # psra Canada agg loss
+    psraTable = utils.PostGISTable(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            }
+        }),
+        view="opendrr_psra_canada_agg_loss",
+        sqlquerystring='SELECT * \
+                    FROM results_psra_canada.psra_canada_agg_loss \
+                    LIMIT {limit} \
+                    OFFSET {offset}'
+    )
+    psraTable.postgis2es()
+
+    # psra Canada expected loss
+    psraTable = utils.PostGISTable(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            }
+        }),
+        view="opendrr_psra_canada_expected_loss",
+        sqlquerystring='SELECT * \
+                    FROM results_psra_canada.psra_canada_expected_loss \
+                    LIMIT {limit} \
+                    OFFSET {offset}'
+    )
+    psraTable.postgis2es()
+
+    # psra Canada src loss
+    psraTable = utils.PostGISTable(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            }
+        }),
+        view="opendrr_psra_canada_src_loss",
+        sqlquerystring='SELECT * \
+                    FROM results_psra_canada.psra_canada_src_loss \
+                    LIMIT {limit} \
+                    OFFSET {offset}'
+    )
+    psraTable.postgis2es()
+
+
+    return
 
 if __name__ == '__main__':
     main()
