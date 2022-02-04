@@ -30,6 +30,11 @@ def main():
         if k not in indices:
             del layers[k]
 
+    # list indices missing from opendrr_config_template.yml
+    for i in list(indices.keys()):
+        if i not in layers:
+            print(i)
+
     config['resources'] = layers
 
     text_file.write(yaml.dump(config))

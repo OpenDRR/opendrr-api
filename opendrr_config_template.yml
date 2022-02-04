@@ -281,6 +281,166 @@ resources:
               data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap
               id_field: SiteID
 
+    opendrr_dsra_idm7p1_sidney_shakemap_hexbin_100km:
+        type: collection
+        title: 
+            en: Sidney Scenario Shake Map 100km Hexbin
+            fr: Carte des secousses du scénario de Sidney à 100km d'hexagone
+        description: 
+            en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney, BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php - Strike selected to approximately parallel the strike of the subducting slab for this deep intraslab extensional event.
+            fr: Évaluation de l'impact de l'augmentation de la magnitude à l'aide de l'hypocentre du tremblement de terre de Sidney (Colombie-Britannique) de 2015 (Mw 4,7). Plus d'informations sur https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php - La direction choisie est approximativement parallèle à celle de la dalle subductrice pour ce profond événement d'extension intraslabique.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.4321, 51.3518]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_100km
+              id_field: gridid_100
+
+    opendrr_dsra_idm7p1_sidney_shakemap_hexbin_10km:
+        type: collection
+        title: 
+            en: Sidney Scenario Shake Map 10km Hexbin
+            fr: Carte des secousses du scénario de Sidney à 10km d'hexagone
+        description: 
+            en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney, BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php - Strike selected to approximately parallel the strike of the subducting slab for this deep intraslab extensional event.
+            fr: Évaluation de l'impact de l'augmentation de la magnitude à l'aide de l'hypocentre du tremblement de terre de Sidney (Colombie-Britannique) de 2015 (Mw 4,7). Plus d'informations sur https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php - La direction choisie est approximativement parallèle à celle de la dalle subductrice pour ce profond événement d'extension intraslabique.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.4321, 51.3518]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_10km
+              id_field: gridid_10
+
+    opendrr_dsra_idm7p1_sidney_shakemap_hexbin_25km:
+        type: collection
+        title: 
+            en: Sidney Scenario Shake Map 25km Hexbin
+            fr: Carte des secousses du scénario de Sidney à 25km d'hexagone
+        description: 
+            en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney, BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php - Strike selected to approximately parallel the strike of the subducting slab for this deep intraslab extensional event.
+            fr: Évaluation de l'impact de l'augmentation de la magnitude à l'aide de l'hypocentre du tremblement de terre de Sidney (Colombie-Britannique) de 2015 (Mw 4,7). Plus d'informations sur https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php - La direction choisie est approximativement parallèle à celle de la dalle subductrice pour ce profond événement d'extension intraslabique.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.4321, 51.3518]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_25km
+              id_field: gridid_25
+
+    opendrr_dsra_idm7p1_sidney_shakemap_hexbin_50km:
+        type: collection
+        title: 
+            en: Sidney Scenario Shake Map 50km Hexbin
+            fr: Carte des secousses du scénario de Sidney à 50km d'hexagone
+        description: 
+            en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney, BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php - Strike selected to approximately parallel the strike of the subducting slab for this deep intraslab extensional event.
+            fr: Évaluation de l'impact de l'augmentation de la magnitude à l'aide de l'hypocentre du tremblement de terre de Sidney (Colombie-Britannique) de 2015 (Mw 4,7). Plus d'informations sur https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php - La direction choisie est approximativement parallèle à celle de la dalle subductrice pour ce profond événement d'extension intraslabique.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.4321, 51.3518]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_50km
+              id_field: gridid_50
+
+    opendrr_dsra_idm7p1_sidney_shakemap_hexbin_5km:
+        type: collection
+        title: 
+            en: Sidney Scenario Shake Map 5km Hexbin
+            fr: Carte des secousses du scénario de Sidney à 5km d'hexagone
+        description: 
+            en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney, BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php - Strike selected to approximately parallel the strike of the subducting slab for this deep intraslab extensional event.
+            fr: Évaluation de l'impact de l'augmentation de la magnitude à l'aide de l'hypocentre du tremblement de terre de Sidney (Colombie-Britannique) de 2015 (Mw 4,7). Plus d'informations sur https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php - La direction choisie est approximativement parallèle à celle de la dalle subductrice pour ce profond événement d'extension intraslabique.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.4321, 51.3518]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_5km
+              id_field: gridid_5
+
     opendrr_dsra_scm7p5_valdesbois_indicators_s:
         type: collection
         title: 
@@ -408,6 +568,166 @@ resources:
               name: Elasticsearch
               data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap
               id_field: SiteID
+
+    opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_100km:
+        type: collection
+        title: 
+            en: Val Des Bois Scenario Shake Map 100km Hexbin
+            fr: Carte des secousses du scénario Val Des Bois à 100km d'hexagone
+        description: 
+            en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians, 2010. This scenario uses a larger magnitude event than those that have been observed to date for that location, within bounds of the national seismic hazard model. Maximum magnitude of 7.95 is obtained from CanSHM6 for GATINEAU region.
+            fr: Scénario de planification pour Ottawa utilisant la géométrie de l'hypocentre et du plan de faille du tremblement de terre de 2010 à Val-de-bois, QC, d'après Ma & Motazedian, 2012 et Atkinson & Assatourians, 2010. Ce scénario utilise un événement de plus grande magnitude que ceux qui ont été observés à ce jour pour cet endroit, dans les limites du modèle national d'aléa sismique. La magnitude maximale de 7,95 est obtenue de CanSHM6 pour la région de la GATINEAU.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.4321, 51.3518]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_100km
+              id_field: gridid_100
+
+    opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_10km:
+        type: collection
+        title: 
+            en: Val Des Bois Scenario Shake Map 10km Hexbin
+            fr: Carte des secousses du scénario Val Des Bois à 10km d'hexagone
+        description: 
+            en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians, 2010. This scenario uses a larger magnitude event than those that have been observed to date for that location, within bounds of the national seismic hazard model. Maximum magnitude of 7.95 is obtained from CanSHM6 for GATINEAU region.
+            fr: Scénario de planification pour Ottawa utilisant la géométrie de l'hypocentre et du plan de faille du tremblement de terre de 2010 à Val-de-bois, QC, d'après Ma & Motazedian, 2012 et Atkinson & Assatourians, 2010. Ce scénario utilise un événement de plus grande magnitude que ceux qui ont été observés à ce jour pour cet endroit, dans les limites du modèle national d'aléa sismique. La magnitude maximale de 7,95 est obtenue de CanSHM6 pour la région de la GATINEAU.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.4321, 51.3518]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_10km
+              id_field: gridid_10
+
+    opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_25km:
+        type: collection
+        title: 
+            en: Val Des Bois Scenario Shake Map 25km Hexbin
+            fr: Carte des secousses du scénario Val Des Bois à 25km d'hexagone
+        description: 
+            en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians, 2010. This scenario uses a larger magnitude event than those that have been observed to date for that location, within bounds of the national seismic hazard model. Maximum magnitude of 7.95 is obtained from CanSHM6 for GATINEAU region.
+            fr: Scénario de planification pour Ottawa utilisant la géométrie de l'hypocentre et du plan de faille du tremblement de terre de 2010 à Val-de-bois, QC, d'après Ma & Motazedian, 2012 et Atkinson & Assatourians, 2010. Ce scénario utilise un événement de plus grande magnitude que ceux qui ont été observés à ce jour pour cet endroit, dans les limites du modèle national d'aléa sismique. La magnitude maximale de 7,95 est obtenue de CanSHM6 pour la région de la GATINEAU.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.4321, 51.3518]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_25km
+              id_field: gridid_25
+
+    opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_50km:
+        type: collection
+        title: 
+            en: Val Des Bois Scenario Shake Map 50km Hexbin
+            fr: Carte des secousses du scénario Val Des Bois à 50km d'hexagone
+        description: 
+            en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians, 2010. This scenario uses a larger magnitude event than those that have been observed to date for that location, within bounds of the national seismic hazard model. Maximum magnitude of 7.95 is obtained from CanSHM6 for GATINEAU region.
+            fr: Scénario de planification pour Ottawa utilisant la géométrie de l'hypocentre et du plan de faille du tremblement de terre de 2010 à Val-de-bois, QC, d'après Ma & Motazedian, 2012 et Atkinson & Assatourians, 2010. Ce scénario utilise un événement de plus grande magnitude que ceux qui ont été observés à ce jour pour cet endroit, dans les limites du modèle national d'aléa sismique. La magnitude maximale de 7,95 est obtenue de CanSHM6 pour la région de la GATINEAU.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.4321, 51.3518]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_50km
+              id_field: gridid_50
+
+    opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_5km:
+        type: collection
+        title: 
+            en: Val Des Bois Scenario Shake Map 5km Hexbin
+            fr: Carte des secousses du scénario Val Des Bois à 5km d'hexagone
+        description: 
+            en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians, 2010. This scenario uses a larger magnitude event than those that have been observed to date for that location, within bounds of the national seismic hazard model. Maximum magnitude of 7.95 is obtained from CanSHM6 for GATINEAU region.
+            fr: Scénario de planification pour Ottawa utilisant la géométrie de l'hypocentre et du plan de faille du tremblement de terre de 2010 à Val-de-bois, QC, d'après Ma & Motazedian, 2012 et Atkinson & Assatourians, 2010. Ce scénario utilise un événement de plus grande magnitude que ceux qui ont été observés à ce jour pour cet endroit, dans les limites du modèle national d'aléa sismique. La magnitude maximale de 7,95 est obtenue de CanSHM6 pour la région de la GATINEAU.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.4321, 51.3518]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_5km
+              id_field: gridid_5
 
     opendrr_dsra_acm7p0_georgiastraitfault_indicators_s:
         type: collection
@@ -537,6 +857,166 @@ resources:
               data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap
               id_field: SiteID
 
+    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_100km:
+        type: collection
+        title: 
+            en: Georgia Strait Scenario Shake Map 100km Hexbin
+            fr: Carte des secousses du scénario Georgia Strait à 100km d'hexagone
+        description: 
+            en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000, BSSA). These scenarios use a mapped crustal marine fault near Vancouver, but consider larger magnitude events than those that have been observed to date for that location. Maximum magnitude (7.5) is obtained from CanSHM6 for PUGET SOUND SHALLOW.
+            fr: Scénarios de rupture dans le détroit de Georgia utilisant l'hypocentre du séisme de 1997 dans le détroit de Georgia et la géométrie du plan de faille de Cassidy, Rogers et Waldhauser (2000, BSSA). Ces scénarios utilisent une faille marine crustale cartographiée près de Vancouver, mais considèrent des événements de plus grande magnitude que ceux qui ont été observés à ce jour pour cet endroit. La magnitude maximale (7,5) est obtenue de CanSHM6 pour PUGET SOUND SHALLOW.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.4321, 51.3518]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_100km
+              id_field: gridid_100
+
+    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_10km:
+        type: collection
+        title: 
+            en: Georgia Strait Scenario Shake Map 10km Hexbin
+            fr: Carte des secousses du scénario Georgia Strait à 10km d'hexagone
+        description: 
+            en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000, BSSA). These scenarios use a mapped crustal marine fault near Vancouver, but consider larger magnitude events than those that have been observed to date for that location. Maximum magnitude (7.5) is obtained from CanSHM6 for PUGET SOUND SHALLOW.
+            fr: Scénarios de rupture dans le détroit de Georgia utilisant l'hypocentre du séisme de 1997 dans le détroit de Georgia et la géométrie du plan de faille de Cassidy, Rogers et Waldhauser (2000, BSSA). Ces scénarios utilisent une faille marine crustale cartographiée près de Vancouver, mais considèrent des événements de plus grande magnitude que ceux qui ont été observés à ce jour pour cet endroit. La magnitude maximale (7,5) est obtenue de CanSHM6 pour PUGET SOUND SHALLOW.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.4321, 51.3518]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_10km
+              id_field: gridid_10
+
+    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_25km:
+        type: collection
+        title: 
+            en: Georgia Strait Scenario Shake Map 25km Hexbin
+            fr: Carte des secousses du scénario Georgia Strait à 25km d'hexagone
+        description: 
+            en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000, BSSA). These scenarios use a mapped crustal marine fault near Vancouver, but consider larger magnitude events than those that have been observed to date for that location. Maximum magnitude (7.5) is obtained from CanSHM6 for PUGET SOUND SHALLOW.
+            fr: Scénarios de rupture dans le détroit de Georgia utilisant l'hypocentre du séisme de 1997 dans le détroit de Georgia et la géométrie du plan de faille de Cassidy, Rogers et Waldhauser (2000, BSSA). Ces scénarios utilisent une faille marine crustale cartographiée près de Vancouver, mais considèrent des événements de plus grande magnitude que ceux qui ont été observés à ce jour pour cet endroit. La magnitude maximale (7,5) est obtenue de CanSHM6 pour PUGET SOUND SHALLOW.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.4321, 51.3518]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_25km
+              id_field: gridid_25
+
+    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_50km:
+        type: collection
+        title: 
+            en: Georgia Strait Scenario Shake Map 50km Hexbin
+            fr: Carte des secousses du scénario Georgia Strait à 50km d'hexagone
+        description: 
+            en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000, BSSA). These scenarios use a mapped crustal marine fault near Vancouver, but consider larger magnitude events than those that have been observed to date for that location. Maximum magnitude (7.5) is obtained from CanSHM6 for PUGET SOUND SHALLOW.
+            fr: Scénarios de rupture dans le détroit de Georgia utilisant l'hypocentre du séisme de 1997 dans le détroit de Georgia et la géométrie du plan de faille de Cassidy, Rogers et Waldhauser (2000, BSSA). Ces scénarios utilisent une faille marine crustale cartographiée près de Vancouver, mais considèrent des événements de plus grande magnitude que ceux qui ont été observés à ce jour pour cet endroit. La magnitude maximale (7,5) est obtenue de CanSHM6 pour PUGET SOUND SHALLOW.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.4321, 51.3518]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_50km
+              id_field: gridid_50
+    
+    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_5km:
+        type: collection
+        title: 
+            en: Georgia Strait Scenario Shake Map 5km Hexbin
+            fr: Carte des secousses du scénario Georgia Strait à 5km d'hexagone
+        description: 
+            en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000, BSSA). These scenarios use a mapped crustal marine fault near Vancouver, but consider larger magnitude events than those that have been observed to date for that location. Maximum magnitude (7.5) is obtained from CanSHM6 for PUGET SOUND SHALLOW.
+            fr: Scénarios de rupture dans le détroit de Georgia utilisant l'hypocentre du séisme de 1997 dans le détroit de Georgia et la géométrie du plan de faille de Cassidy, Rogers et Waldhauser (2000, BSSA). Ces scénarios utilisent une faille marine crustale cartographiée près de Vancouver, mais considèrent des événements de plus grande magnitude que ceux qui ont été observés à ce jour pour cet endroit. La magnitude maximale (7,5) est obtenue de CanSHM6 pour PUGET SOUND SHALLOW.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.4321, 51.3518]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_5km
+              id_field: gridid_2
+
     opendrr_dsra_acm7p3_leechriverfullfault_indicators_s:
         type: collection
         title: 
@@ -665,6 +1145,169 @@ resources:
               data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap
               id_field: SiteID
 
+    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_100km:
+        type: collection
+        title: 
+            en: Leech River Fault Scenario Shake Map 100km Hexbin
+            fr: Carte des secousses du scénario de faille de la rivière Leech à 100km d'hexagone
+        description: 
+            en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model implementation of the Leech River Full Fault. Aggregated at the building level.
+            fr: Scénario de magnitude 7,3 basé sur une rupture complète de la mise en œuvre du modèle de risque CanSHM6 de la faille complète de Leech River. Agrégé au niveau de l'immeuble habité.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.5390, 51.0802]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_100km
+              id_field: gridid_100
+
+    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_10km:
+        type: collection
+        title: 
+            en: Leech River Fault Scenario Shake Map 10km Hexbin
+            fr: Carte des secousses du scénario de faille de la rivière Leech à 10km d'hexagone
+        description: 
+            en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model implementation of the Leech River Full Fault. Aggregated at the building level.
+            fr: Scénario de magnitude 7,3 basé sur une rupture complète de la mise en œuvre du modèle de risque CanSHM6 de la faille complète de Leech River. Agrégé au niveau de l'immeuble habité.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.5390, 51.0802]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_10km
+              id_field: gridid_10
+
+
+    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_25km:
+        type: collection
+        title: 
+            en: Leech River Fault Scenario Shake Map 25km Hexbin
+            fr: Carte des secousses du scénario de faille de la rivière Leech à 25km d'hexagone
+        description: 
+            en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model implementation of the Leech River Full Fault. Aggregated at the building level.
+            fr: Scénario de magnitude 7,3 basé sur une rupture complète de la mise en œuvre du modèle de risque CanSHM6 de la faille complète de Leech River. Agrégé au niveau de l'immeuble habité.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.5390, 51.0802]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_25km
+              id_field: gridid_25
+
+
+    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_50km:
+        type: collection
+        title: 
+            en: Leech River Fault Scenario Shake Map 50km Hexbin
+            fr: Carte des secousses du scénario de faille de la rivière Leech à 50km d'hexagone
+        description: 
+            en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model implementation of the Leech River Full Fault. Aggregated at the building level.
+            fr: Scénario de magnitude 7,3 basé sur une rupture complète de la mise en œuvre du modèle de risque CanSHM6 de la faille complète de Leech River. Agrégé au niveau de l'immeuble habité.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.5390, 51.0802]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_50km
+              id_field: gridid_50
+
+
+    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_5km:
+        type: collection
+        title: 
+            en: Leech River Fault Scenario Shake Map 5km Hexbin
+            fr: Carte des secousses du scénario de faille de la rivière Leech à 5km d'hexagone
+        description: 
+            en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model implementation of the Leech River Full Fault. Aggregated at the building level.
+            fr: Scénario de magnitude 7,3 basé sur une rupture complète de la mise en œuvre du modèle de risque CanSHM6 de la faille complète de Leech River. Agrégé au niveau de l'immeuble habité.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-126.6567, 48.3089, -119.5390, 51.0802]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_5km
+              id_field: gridid_5
+
     opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_b:
         type: collection
         title: 
@@ -792,6 +1435,166 @@ resources:
               name: Elasticsearch
               data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap
               id_field: SiteID
+
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_100km:
+        type: collection
+        title: 
+            en: Cascadia Fault Scenario Shake Map 100km Hexbin
+            fr: Carte des secousses du scénario de la faille Cascadia à 100km d'hexagone
+        description: 
+            en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model implementation of the Cascadia Interface Best Fault.
+            fr: Scénario de magnitude 9.0 basé sur la rupture complète de l'implémentation du modèle de risque CanSHM6 de la meilleure faille d'interface de Cascadia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-123.7527, 48.3089, -118.1974, 52.4875]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_100km
+              id_field: gridid_100
+
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_10km:
+        type: collection
+        title: 
+            en: Cascadia Fault Scenario Shake Map 10km Hexbin
+            fr: Carte des secousses du scénario de la faille Cascadia à 10km d'hexagone
+        description: 
+            en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model implementation of the Cascadia Interface Best Fault.
+            fr: Scénario de magnitude 9.0 basé sur la rupture complète de l'implémentation du modèle de risque CanSHM6 de la meilleure faille d'interface de Cascadia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-123.7527, 48.3089, -118.1974, 52.4875]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_10km
+              id_field: gridid_10
+    
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_25km:
+        type: collection
+        title: 
+            en: Cascadia Fault Scenario Shake Map 25km Hexbin
+            fr: Carte des secousses du scénario de la faille Cascadia à 25km d'hexagone
+        description: 
+            en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model implementation of the Cascadia Interface Best Fault.
+            fr: Scénario de magnitude 9.0 basé sur la rupture complète de l'implémentation du modèle de risque CanSHM6 de la meilleure faille d'interface de Cascadia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-123.7527, 48.3089, -118.1974, 52.4875]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_25km
+              id_field: gridid_25
+
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_50km:
+        type: collection
+        title: 
+            en: Cascadia Fault Scenario Shake Map 50km Hexbin
+            fr: Carte des secousses du scénario de la faille Cascadia à 50km d'hexagone
+        description: 
+            en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model implementation of the Cascadia Interface Best Fault.
+            fr: Scénario de magnitude 9.0 basé sur la rupture complète de l'implémentation du modèle de risque CanSHM6 de la meilleure faille d'interface de Cascadia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-123.7527, 48.3089, -118.1974, 52.4875]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_50km
+              id_field: gridid_50
+    
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_5km:
+        type: collection
+        title: 
+            en: Cascadia Fault Scenario Shake Map 5km Hexbin
+            fr: Carte des secousses du scénario de la faille Cascadia à 5km d'hexagone
+        description: 
+            en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model implementation of the Cascadia Interface Best Fault.
+            fr: Scénario de magnitude 9.0 basé sur la rupture complète de l'implémentation du modèle de risque CanSHM6 de la meilleure faille d'interface de Cascadia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-123.7527, 48.3089, -118.1974, 52.4875]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_5km
+              id_field: gridid_5
 
     opendrr_hexgrid_100km:
         type: collection
@@ -1281,37 +2084,37 @@ resources:
               data: https://api.stage.riskprofiler.ca/opendrr_psra_indicators_s
               id_field: Sauid
     
-    # opendrr_psra_src_loss:
-    #     type: collection
-    #     title: 
-    #         en: opendrr_psra_src_loss
-    #         fr: opendrr_psra_src_loss
-    #     description: 
-    #         en: opendrr_psra_src_loss
-    #         fr: opendrr_psra_src_loss
-    #     keywords:
-    #         en: 
-    #         - base data
-    #         fr: 
-    #         - données de base
-    #     links:
-    #         - type: text/html
-    #           rel: canonical
-    #           title: Information
-    #           href: https://github.com/OpenDRR/boundaries
-    #           hreflang: en-US
-    #     extents:
-    #         spatial:
-    #             bbox: [-141.003, 41.6755, -52.6174, 83.1139]
-    #             crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-    #         temporal:
-    #             begin: 2020-08-06
-    #             end: null # or empty (either means open ended)
-    #     providers:
-    #         - type: feature
-    #           name: Elasticsearch
-    #           data: https://api.stage.riskprofiler.ca/opendrr_psra_src_loss
-    #           id_field: Sauid
+    opendrr_psra_src_loss:
+        type: collection
+        title: 
+            en: opendrr_psra_src_loss
+            fr: opendrr_psra_src_loss
+        description: 
+            en: opendrr_psra_src_loss
+            fr: opendrr_psra_src_loss
+        keywords:
+            en: 
+            - base data
+            fr: 
+            - données de base
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/canada-srm2
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_psra_src_loss
+              id_field: fid
     
     opendrr_psra_hmaps:
         type: collection    
@@ -1330,7 +2133,7 @@ resources:
             - type: text/html
               rel: canonical
               title: Information
-              href: https://github.com/OpenDRR/boundaries
+              href: https://github.com/OpenDRR/canada-srm2
               hreflang: en-US
         extents:
             spatial:
@@ -1362,7 +2165,7 @@ resources:
             - type: text/html
               rel: canonical
               title: Information
-              href: https://github.com/OpenDRR/boundaries
+              href: https://github.com/OpenDRR/canada-srm2
               hreflang: en-US
         extents:
             spatial:
@@ -1376,39 +2179,134 @@ resources:
               name: Elasticsearch
               data: https://api.stage.riskprofiler.ca/opendrr_psra_uhs
               id_field: geom
-    
-    # sauid_hexgrid:
-    #     type: collection
-    #     title: 
-    #         en: Settled Area Grid Reference
-    #         fr: Référence de grille de la zone habitée
-    #     description: 
-    #         en: Table referencing the centroid of each settled area id (SAUID) to the various HexGrid geometries (5opendrr_hexgrid_,10opendrr_hexgrid_,25km,50km,100km) used for aggregation purposes.
-    #         fr: Tableau référençant le centroïde de chaque identifiant de zone habitée (SAUID) aux différentes géométries HexGrid (5km,10km,25km,50km,100km) utilisées à des fins d'agrégation.
-    #     keywords:
-    #         en: 
-    #         - base data
-    #         fr: 
-    #         - données de base
-    #     links:
-    #         - type: text/html
-    #           rel: canonical
-    #           title: Information
-    #           href: https://github.com/OpenDRR/boundaries
-    #           hreflang: en-US
-    #     extents:
-    #         spatial:
-    #             bbox: [-141.003, 41.6755, -52.6174, 83.1139]
-    #             crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-    #         temporal:
-    #             begin: 2020-08-06
-    #             end: null # or empty (either means open ended)
-    #     providers:
-    #         - type: feature
-    #           name: Elasticsearch
-    #           data: https://api.stage.riskprofiler.ca/sauid_hexgrid
-    #           id_field: Sauid
 
+    opendrr_psra_agg_loss_fsa:
+        type: collection
+        title: 
+            en: opendrr_psra_agg_loss_fsa
+            fr: opendrr_psra_agg_loss_fsa
+        description: 
+            en: opendrr_psra_agg_loss_fsa
+            fr: opendrr_psra_agg_loss_fsa
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/canada-srm2
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_psra_agg_loss_fsa
+              id_field: fid
+
+    opendrr_psra_expected_loss_fsa:
+        type: collection
+        title: 
+            en: opendrr_psra_expected_loss_fsa
+            fr: opendrr_psra_expected_loss_fsa
+        description: 
+            en: opendrr_psra_expected_loss_fsa
+            fr: opendrr_psra_expected_loss_fsa
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/canada-srm2
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_psra_expected_loss_fsa
+              id_field: fid
+    
+    opendrr_psra_indicators_csd:
+        type: collection
+        title: 
+            en: opendrr_psra_indicators_csd
+            fr: opendrr_psra_indicators_csd
+        description: 
+            en: opendrr_psra_indicators_csd
+            fr: opendrr_psra_indicators_csd
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/canada-srm2
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_psra_indicators_csd
+              id_field: csduid
+    
+    opendrr_sauid_hexgrid:
+        type: collection
+        title: 
+            en: Settled Area Grid Reference
+            fr: Référence de grille de la zone habitée
+        description: 
+            en: Table referencing the centroid of each settled area id (SAUID) to the various HexGrid geometries (5opendrr_hexgrid_,10opendrr_hexgrid_,25km,50km,100km) used for aggregation purposes.
+            fr: Tableau référençant le centroïde de chaque identifiant de zone habitée (SAUID) aux différentes géométries HexGrid (5km,10km,25km,50km,100km) utilisées à des fins d'agrégation.
+        keywords:
+            en: 
+            - base data
+            fr: 
+            - données de base
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/boundaries
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: https://api.stage.riskprofiler.ca/opendrr_sauid_hexgrid
+              id_field: Sauid
 
     opendrr_shakemap_scenario_extents:
         type: collection
