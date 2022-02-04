@@ -27,13 +27,13 @@ done
 echo 'Copying the openapi configuration file...'
 docker cp temp_container:/pygeoapi/local.openapi.yml opendrr.openapi.yml
 
-# # shut down the container and delete it
-# echo 'Shutting down the container and removing it...'
-# docker stop temp_container
-# docker rm temp_container
+# shut down the container and delete it
+echo 'Shutting down the container and removing it...'
+docker stop temp_container
+docker rm temp_container
 
-# # remove the image
-# docker rmi temp_image
+# remove the image
+docker rmi temp_image
 
-# echo 'Done!'
+echo 'Done!'
 
