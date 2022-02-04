@@ -2084,165 +2084,165 @@ resources:
               data: https://api.stage.riskprofiler.ca/opendrr_psra_indicators_s
               id_field: Sauid
     
-    opendrr_psra_src_loss:
-        type: collection
-        title: 
-            en: opendrr_psra_src_loss
-            fr: opendrr_psra_src_loss
-        description: 
-            en: opendrr_psra_src_loss
-            fr: opendrr_psra_src_loss
-        keywords:
-            en: 
-            - base data
-            fr: 
-            - données de base
-        links:
-            - type: text/html
-              rel: canonical
-              title: Information
-              href: https://github.com/OpenDRR/canada-srm2
-              hreflang: en-US
-        extents:
-            spatial:
-                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2020-08-06
-                end: null # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_psra_src_loss
-              id_field: fid
+    # opendrr_psra_src_loss:
+    #     type: collection
+    #     title: 
+    #         en: opendrr_psra_src_loss
+    #         fr: opendrr_psra_src_loss
+    #     description: 
+    #         en: opendrr_psra_src_loss
+    #         fr: opendrr_psra_src_loss
+    #     keywords:
+    #         en: 
+    #         - base data
+    #         fr: 
+    #         - données de base
+    #     links:
+    #         - type: text/html
+    #           rel: canonical
+    #           title: Information
+    #           href: https://github.com/OpenDRR/canada-srm2
+    #           hreflang: en-US
+    #     extents:
+    #         spatial:
+    #             bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+    #             crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+    #         temporal:
+    #             begin: 2020-08-06
+    #             end: null # or empty (either means open ended)
+    #     providers:
+    #         - type: feature
+    #           name: Elasticsearch
+    #           data: https://api.stage.riskprofiler.ca/opendrr_psra_src_loss
+    #           id_field: fid
     
-    opendrr_psra_hmaps:
-        type: collection    
-        title: 
-            en: Hazard Maps
-            fr: Cartes des risques
-        description: 
-            en: opendrr_psra_hmaps
-            fr: opendrr_psra_hmaps
-        keywords:
-            en:
-            - earthquake
-            fr: 
-            - tremblement de terre
-        links:
-            - type: text/html
-              rel: canonical
-              title: Information
-              href: https://github.com/OpenDRR/canada-srm2
-              hreflang: en-US
-        extents:
-            spatial:
-                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2020-08-06
-                end: null # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_psra_hmaps
-              id_field: geom
+    # opendrr_psra_hmaps:
+    #     type: collection    
+    #     title: 
+    #         en: Hazard Maps
+    #         fr: Cartes des risques
+    #     description: 
+    #         en: opendrr_psra_hmaps
+    #         fr: opendrr_psra_hmaps
+    #     keywords:
+    #         en:
+    #         - earthquake
+    #         fr: 
+    #         - tremblement de terre
+    #     links:
+    #         - type: text/html
+    #           rel: canonical
+    #           title: Information
+    #           href: https://github.com/OpenDRR/canada-srm2
+    #           hreflang: en-US
+    #     extents:
+    #         spatial:
+    #             bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+    #             crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+    #         temporal:
+    #             begin: 2020-08-06
+    #             end: null # or empty (either means open ended)
+    #     providers:
+    #         - type: feature
+    #           name: Elasticsearch
+    #           data: https://api.stage.riskprofiler.ca/opendrr_psra_hmaps
+    #           id_field: geom
     
-    opendrr_psra_uhs:
-        type: collection    
-        title: 
-            en: Uniform Hazard Spectra
-            fr: Spectres uniformes de danger
-        description: 
-            en: opendrr_psra_uhs
-            fr: opendrr_psra_uhs
-        keywords:
-            en:
-            - earthquake
-            fr: 
-            - tremblement de terre
-        links:
-            - type: text/html
-              rel: canonical
-              title: Information
-              href: https://github.com/OpenDRR/canada-srm2
-              hreflang: en-US
-        extents:
-            spatial:
-                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2020-08-06
-                end: null # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_psra_uhs
-              id_field: geom
+    # opendrr_psra_uhs:
+    #     type: collection    
+    #     title: 
+    #         en: Uniform Hazard Spectra
+    #         fr: Spectres uniformes de danger
+    #     description: 
+    #         en: opendrr_psra_uhs
+    #         fr: opendrr_psra_uhs
+    #     keywords:
+    #         en:
+    #         - earthquake
+    #         fr: 
+    #         - tremblement de terre
+    #     links:
+    #         - type: text/html
+    #           rel: canonical
+    #           title: Information
+    #           href: https://github.com/OpenDRR/canada-srm2
+    #           hreflang: en-US
+    #     extents:
+    #         spatial:
+    #             bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+    #             crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+    #         temporal:
+    #             begin: 2020-08-06
+    #             end: null # or empty (either means open ended)
+    #     providers:
+    #         - type: feature
+    #           name: Elasticsearch
+    #           data: https://api.stage.riskprofiler.ca/opendrr_psra_uhs
+    #           id_field: geom
 
-    opendrr_psra_agg_loss_fsa:
-        type: collection
-        title: 
-            en: opendrr_psra_agg_loss_fsa
-            fr: opendrr_psra_agg_loss_fsa
-        description: 
-            en: opendrr_psra_agg_loss_fsa
-            fr: opendrr_psra_agg_loss_fsa
-        keywords:
-            en:
-            - earthquake
-            fr: 
-            - tremblement de terre
-        links:
-            - type: text/html
-              rel: canonical
-              title: Information
-              href: https://github.com/OpenDRR/canada-srm2
-              hreflang: en-US
-        extents:
-            spatial:
-                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2020-08-06
-                end: null # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_psra_agg_loss_fsa
-              id_field: fid
+    # opendrr_psra_agg_loss_fsa:
+    #     type: collection
+    #     title: 
+    #         en: opendrr_psra_agg_loss_fsa
+    #         fr: opendrr_psra_agg_loss_fsa
+    #     description: 
+    #         en: opendrr_psra_agg_loss_fsa
+    #         fr: opendrr_psra_agg_loss_fsa
+    #     keywords:
+    #         en:
+    #         - earthquake
+    #         fr: 
+    #         - tremblement de terre
+    #     links:
+    #         - type: text/html
+    #           rel: canonical
+    #           title: Information
+    #           href: https://github.com/OpenDRR/canada-srm2
+    #           hreflang: en-US
+    #     extents:
+    #         spatial:
+    #             bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+    #             crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+    #         temporal:
+    #             begin: 2020-08-06
+    #             end: null # or empty (either means open ended)
+    #     providers:
+    #         - type: feature
+    #           name: Elasticsearch
+    #           data: https://api.stage.riskprofiler.ca/opendrr_psra_agg_loss_fsa
+    #           id_field: fid
 
-    opendrr_psra_expected_loss_fsa:
-        type: collection
-        title: 
-            en: opendrr_psra_expected_loss_fsa
-            fr: opendrr_psra_expected_loss_fsa
-        description: 
-            en: opendrr_psra_expected_loss_fsa
-            fr: opendrr_psra_expected_loss_fsa
-        keywords:
-            en:
-            - earthquake
-            fr: 
-            - tremblement de terre
-        links:
-            - type: text/html
-              rel: canonical
-              title: Information
-              href: https://github.com/OpenDRR/canada-srm2
-              hreflang: en-US
-        extents:
-            spatial:
-                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2020-08-06
-                end: null # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_psra_expected_loss_fsa
-              id_field: fid
+    # opendrr_psra_expected_loss_fsa:
+    #     type: collection
+    #     title: 
+    #         en: opendrr_psra_expected_loss_fsa
+    #         fr: opendrr_psra_expected_loss_fsa
+    #     description: 
+    #         en: opendrr_psra_expected_loss_fsa
+    #         fr: opendrr_psra_expected_loss_fsa
+    #     keywords:
+    #         en:
+    #         - earthquake
+    #         fr: 
+    #         - tremblement de terre
+    #     links:
+    #         - type: text/html
+    #           rel: canonical
+    #           title: Information
+    #           href: https://github.com/OpenDRR/canada-srm2
+    #           hreflang: en-US
+    #     extents:
+    #         spatial:
+    #             bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+    #             crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+    #         temporal:
+    #             begin: 2020-08-06
+    #             end: null # or empty (either means open ended)
+    #     providers:
+    #         - type: feature
+    #           name: Elasticsearch
+    #           data: https://api.stage.riskprofiler.ca/opendrr_psra_expected_loss_fsa
+    #           id_field: fid
     
     opendrr_psra_indicators_csd:
         type: collection
