@@ -2,3 +2,4 @@
 postgis/config.ini
 python/config.ini
 .DS_Store
+/venv
