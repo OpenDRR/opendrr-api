@@ -896,7 +896,7 @@ export_to_elasticsearch() {
       LOG "Creating Elasticsearch indexes for DSRA"
       #RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="indicators" --idField="building"
       RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario"
-      RUN python3 dsraShakemap_postgres2es --eqScenario="$eqscenario"
+      RUN python3 dsraShakemap_postgres2es.py --eqScenario="$eqscenario"
 
       # LOG "Creating DSRA Kibana Index Patterns"
       # Need to develop saved object workflow for automated index patern generation

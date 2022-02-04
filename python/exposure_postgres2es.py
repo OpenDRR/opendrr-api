@@ -48,9 +48,9 @@ def main():
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom_poly) \
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_s \
-            ORDER BY nhsl_physical_exposure_indicators_indicators_s."Sauid" \
-            LIMIT {{limit}} \
-            OFFSET {{offset}}'
+            ORDER BY nhsl_physical_exposure_indicators_s."Sauid" \
+            LIMIT {limit} \
+            OFFSET {offset}'
     )
     table.postgis2es()
 
@@ -77,9 +77,9 @@ def main():
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom_point) \
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_b \
-            ORDER BY nhsl_physical_exposure_indicators_indicators_b."BldgID" \
-            LIMIT {{limit}} \
-            OFFSET {{offset}}'
+            ORDER BY nhsl_physical_exposure_indicators_b."BldgID" \
+            LIMIT {limit} \
+            OFFSET {offset}'
     )
     table.postgis2es()
 
@@ -104,8 +104,8 @@ def main():
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_5km \
             ORDER BY nhsl_physical_exposure_indicators_hexbin_5km."gridid_5" \
-            LIMIT {{limit}} \
-            OFFSET {{offset}}'
+            LIMIT {limit} \
+            OFFSET {offset}'
     )
     table.postgis2es()
 
@@ -130,8 +130,8 @@ def main():
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_10km \
             ORDER BY nhsl_physical_exposure_indicators_hexbin_10km."gridid_10" \
-            LIMIT {{limit}} \
-            OFFSET {{offset}}'
+            LIMIT {limit} \
+            OFFSET {offset}'
     )
     table.postgis2es()
 
@@ -156,8 +156,8 @@ def main():
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_25km \
             ORDER BY nhsl_physical_exposure_indicators_hexbin_25km."gridid_25" \
-            LIMIT {{limit}} \
-            OFFSET {{offset}}'
+            LIMIT {limit} \
+            OFFSET {offset}'
     )
     table.postgis2es()
 
@@ -182,8 +182,8 @@ def main():
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_50km \
             ORDER BY nhsl_physical_exposure_indicators_hexbin_50km."gridid_50" \
-            LIMIT {{limit}} \
-            OFFSET {{offset}}'
+            LIMIT {limit} \
+            OFFSET {offset}'
     )
     table.postgis2es()
 
@@ -208,8 +208,8 @@ def main():
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_100km \
             ORDER BY nhsl_physical_exposure_indicators_hexbin_100km."gridid_100" \
-            LIMIT {{limit}} \
-            OFFSET {{offset}}'
+            LIMIT {limit} \
+            OFFSET {offset}'
     )
     table.postgis2es()
 
@@ -234,8 +234,8 @@ def main():
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_global_fabric \
             ORDER BY nhsl_physical_exposure_indicators_hexbin_global_fabric."gridid" \
-            LIMIT {{limit}} \
-            OFFSET {{offset}}'
+            LIMIT {limit} \
+            OFFSET {offset}'
     )
     table.postgis2es()
 
