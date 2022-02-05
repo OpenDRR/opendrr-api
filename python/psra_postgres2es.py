@@ -177,7 +177,6 @@ def main():
     )
     psraTable.postgis2es()
 
-
     return
 
 if __name__ == '__main__':
