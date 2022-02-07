@@ -892,16 +892,17 @@ export_to_elasticsearch() {
   # Load Deterministic Model Indicators
   # shellcheck disable=SC2154
   if [[ "$loadDsraScenario" = true ]]; then
-for eqscenario in "${EQSCENARIO_LIST[@]}"; do
-  LOG "Creating Elasticsearch indexes for DSRA"
-  #RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="indicators" --idField="building"
-  RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario"
+    for eqscenario in "${EQSCENARIO_LIST[@]}"; do
+      LOG "Creating Elasticsearch indexes for DSRA"
+      #RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="indicators" --idField="building"
+      RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario"
+      RUN python3 dsraShakemap_postgres2es.py --eqScenario="$eqscenario"
 
-  # LOG "Creating DSRA Kibana Index Patterns"
-  # Need to develop saved object workflow for automated index patern generation
-  # RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_dsra_${eqscenario}_indicators_s" -H "kbn-xsrf: true" -d "{ 'attributes': { 'title':'opendrr_dsra_${eqscenario}_indicators_s'}}"
-  # RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_dsra_${eqscenario}_indicators_b" -H "kbn-xsrf: true" -d "{ 'attributes': { 'title':'opendrr_dsra_${eqscenario}_indicators_b'}}"
-done
+      # LOG "Creating DSRA Kibana Index Patterns"
+      # Need to develop saved object workflow for automated index patern generation
+      # RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_dsra_${eqscenario}_indicators_s" -H "kbn-xsrf: true" -d "{ 'attributes': { 'title':'opendrr_dsra_${eqscenario}_indicators_s'}}"
+      # RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_dsra_${eqscenario}_indicators_b" -H "kbn-xsrf: true" -d "{ 'attributes': { 'title':'opendrr_dsra_${eqscenario}_indicators_b'}}"
+    done
   RUN python3 dsraExtents_postgres2es.py
   fi
 
@@ -921,8 +922,7 @@ done
   # shellcheck disable=SC2154
   if [[ $loadPhysicalExposure = true ]]; then
     LOG "Creating Elasticsearch indexes for Physical Exposure"
-    RUN python3 exposure_postgres2es.py --aggregation="building" --geometry=geom_point
-    RUN python3 exposure_postgres2es.py --aggregation="sauid" --geometry=geom_poly
+    RUN python3 exposure_postgres2es.py
 
     LOG "Creating Exposure Kibana Index Patterns"
     RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_physical_exposure_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_physical_exposure_indicators_s"}}'
