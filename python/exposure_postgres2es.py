@@ -26,7 +26,6 @@ python3 exposure_postgres2es.py
 
 # Main Function
 def main():
-    args = parse_args()
 
     # sauid level aggregation
     table = utils.PostGISdataset(
