@@ -182,7 +182,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_indicators_s
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_indicators_s
               id_field: Sauid
  
     opendrr_dsra_idm7p1_sidney_indicators_b:
@@ -214,7 +214,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_indicators_b
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_indicators_b
               id_field: AssetID
 
     opendrr_dsra_idm7p1_sidney_indicators_csd:
@@ -246,7 +246,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_indicators_csd
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_indicators_csd
               id_field: csduid
     
     opendrr_dsra_idm7p1_sidney_shakemap:
@@ -278,7 +278,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap
               id_field: SiteID
 
     opendrr_dsra_idm7p1_sidney_shakemap_hexbin_100km:
@@ -310,7 +310,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_100km
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_100km
               id_field: gridid_100
 
     opendrr_dsra_idm7p1_sidney_shakemap_hexbin_10km:
@@ -342,7 +342,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_10km
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_10km
               id_field: gridid_10
 
     opendrr_dsra_idm7p1_sidney_shakemap_hexbin_25km:
@@ -374,7 +374,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_25km
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_25km
               id_field: gridid_25
 
     opendrr_dsra_idm7p1_sidney_shakemap_hexbin_50km:
@@ -406,7 +406,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_50km
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_50km
               id_field: gridid_50
 
     opendrr_dsra_idm7p1_sidney_shakemap_hexbin_5km:
@@ -438,7 +438,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_5km
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_5km
               id_field: gridid_5
 
     opendrr_dsra_scm7p5_valdesbois_indicators_s:
@@ -470,7 +470,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_indicators_s
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_indicators_s
               id_field: Sauid
  
     opendrr_dsra_scm7p5_valdesbois_indicators_b:
@@ -502,7 +502,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_indicators_b
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_indicators_b
               id_field: AssetID
 
     opendrr_dsra_scm7p5_valdesbois_indicators_csd:
@@ -534,7 +534,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_indicators_csd
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_indicators_csd
               id_field: csduid
     
     opendrr_dsra_scm7p5_valdesbois_shakemap:
@@ -566,7 +566,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap
               id_field: SiteID
 
     opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_100km:
@@ -598,7 +598,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_100km
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_100km
               id_field: gridid_100
 
     opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_10km:
@@ -630,7 +630,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_10km
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_10km
               id_field: gridid_10
 
     opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_25km:
@@ -662,7 +662,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_25km
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_25km
               id_field: gridid_25
 
     opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_50km:
@@ -694,7 +694,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_50km
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_50km
               id_field: gridid_50
 
     opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_5km:
@@ -726,7 +726,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_5km
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_5km
               id_field: gridid_5
 
     opendrr_dsra_acm7p0_georgiastraitfault_indicators_s:
@@ -758,7 +758,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_indicators_s
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_indicators_s
               id_field: Sauid
  
     opendrr_dsra_acm7p0_georgiastraitfault_indicators_b:
@@ -790,7 +790,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_indicators_b
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_indicators_b
               id_field: AssetID
 
     opendrr_dsra_acm7p0_georgiastraitfault_indicators_csd:
@@ -822,7 +822,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_indicators_csd
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_indicators_csd
               id_field: csduid
     
     opendrr_dsra_acm7p0_georgiastraitfault_shakemap:
@@ -854,7 +854,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap
               id_field: SiteID
 
     opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_100km:
@@ -886,7 +886,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_100km
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_100km
               id_field: gridid_100
 
     opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_10km:
@@ -918,7 +918,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_10km
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_10km
               id_field: gridid_10
 
     opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_25km:
@@ -950,7 +950,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_25km
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_25km
               id_field: gridid_25
 
     opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_50km:
@@ -982,7 +982,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_50km
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_50km
               id_field: gridid_50
     
     opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_5km:
@@ -1014,8 +1014,8 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_5km
-              id_field: gridid_2
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_5km
+              id_field: gridid_5
 
     opendrr_dsra_acm7p3_leechriverfullfault_indicators_s:
         type: collection
@@ -1046,7 +1046,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_indicators_s
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_indicators_s
               id_field: Sauid
 
     opendrr_dsra_acm7p3_leechriverfullfault_indicators_b:
@@ -1078,7 +1078,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_indicators_b
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_indicators_b
               id_field: AssetID
 
     opendrr_dsra_acm7p3_leechriverfullfault_indicators_csd:
@@ -1110,7 +1110,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_indicators_csd
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_indicators_csd
               id_field: csduid
 
     opendrr_dsra_acm7p3_leechriverfullfault_shakemap:
@@ -1142,7 +1142,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap
               id_field: SiteID
 
     opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_100km:
@@ -1174,7 +1174,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_100km
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_100km
               id_field: gridid_100
 
     opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_10km:
@@ -1206,7 +1206,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_10km
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_10km
               id_field: gridid_10
 
 
@@ -1239,7 +1239,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_25km
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_25km
               id_field: gridid_25
 
 
@@ -1272,7 +1272,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_50km
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_50km
               id_field: gridid_50
 
 
@@ -1305,7 +1305,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_5km
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_5km
               id_field: gridid_5
 
     opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_b:
@@ -1337,7 +1337,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_b
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_b
               id_field: Sauid
     
     opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_s:
@@ -1369,7 +1369,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_s
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_s
               id_field: Sauid
 
     opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_csd:
@@ -1401,7 +1401,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_csd
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_csd
               id_field: csduid
 
     opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap:
@@ -1433,7 +1433,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap
               id_field: SiteID
 
     opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_100km:
@@ -1465,7 +1465,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_100km
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_100km
               id_field: gridid_100
 
     opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_10km:
@@ -1497,7 +1497,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_10km
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_10km
               id_field: gridid_10
     
     opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_25km:
@@ -1529,7 +1529,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_25km
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_25km
               id_field: gridid_25
 
     opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_50km:
@@ -1561,7 +1561,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_50km
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_50km
               id_field: gridid_50
     
     opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_5km:
@@ -1593,7 +1593,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_5km
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_5km
               id_field: gridid_5
 
     opendrr_hexgrid_100km:
@@ -1625,7 +1625,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_hexgrid_100km
+              data: ES_ENDPOINT/opendrr_hexgrid_100km
               id_field: fid
 
     opendrr_hexgrid_10km:
@@ -1657,7 +1657,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_hexgrid_10km
+              data: ES_ENDPOINT/opendrr_hexgrid_10km
               id_field: fid
 
     opendrr_hexgrid_25km:
@@ -1689,7 +1689,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_hexgrid_25km
+              data: ES_ENDPOINT/opendrr_hexgrid_25km
               id_field: fid
 
     opendrr_hexgrid_50km:
@@ -1721,7 +1721,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_hexgrid_50km
+              data: ES_ENDPOINT/opendrr_hexgrid_50km
               id_field: fid
 
     opendrr_hexgrid_5km:
@@ -1753,7 +1753,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_hexgrid_5km
+              data: ES_ENDPOINT/opendrr_hexgrid_5km
               id_field: fid
 
     opendrr_nhsl_physical_exposure_indicators_b:
@@ -1786,7 +1786,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_nhsl_physical_exposure_indicators_b
+              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_b
               id_field: Sauid
 
     opendrr_nhsl_physical_exposure_indicators_s:
@@ -1819,7 +1819,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_nhsl_physical_exposure_indicators_s
+              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_s
               id_field: Sauid
 
     opendrr_nhsl_social_fabric_indicators_s:
@@ -1852,7 +1852,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_s
+              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_s
               id_field: Sauid
 
     opendrr_nhsl_social_fabric_indicators_hexgrid_5km:
@@ -1885,7 +1885,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_5km
+              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_5km
               id_field: gridid_5
     
     opendrr_nhsl_social_fabric_indicators_hexgrid_10km:
@@ -1918,7 +1918,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_10km
+              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_10km
               id_field: gridid_10
 
     opendrr_nhsl_social_fabric_indicators_hexgrid_25km:
@@ -1951,7 +1951,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_25km
+              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_25km
               id_field: gridid_25
 
     opendrr_nhsl_social_fabric_indicators_hexgrid_50km:
@@ -1984,7 +1984,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_50km
+              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_50km
               id_field: gridid_50
 
     opendrr_nhsl_social_fabric_indicators_hexgrid_100km:
@@ -2017,7 +2017,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_100km
+              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_100km
               id_field: gridid_100
     
     opendrr_psra_indicators_b:
@@ -2049,7 +2049,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_psra_indicators_b
+              data: ES_ENDPOINT/opendrr_psra_indicators_b
               id_field: Sauid
 
     opendrr_psra_indicators_s:
@@ -2081,7 +2081,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_psra_indicators_s
+              data: ES_ENDPOINT/opendrr_psra_indicators_s
               id_field: Sauid
     
     # opendrr_psra_src_loss:
@@ -2113,7 +2113,7 @@ resources:
     #     providers:
     #         - type: feature
     #           name: Elasticsearch
-    #           data: https://api.stage.riskprofiler.ca/opendrr_psra_src_loss
+    #           data: ES_ENDPOINT/opendrr_psra_src_loss
     #           id_field: fid
     
     # opendrr_psra_hmaps:
@@ -2145,7 +2145,7 @@ resources:
     #     providers:
     #         - type: feature
     #           name: Elasticsearch
-    #           data: https://api.stage.riskprofiler.ca/opendrr_psra_hmaps
+    #           data: ES_ENDPOINT/opendrr_psra_hmaps
     #           id_field: geom
     
     # opendrr_psra_uhs:
@@ -2177,7 +2177,7 @@ resources:
     #     providers:
     #         - type: feature
     #           name: Elasticsearch
-    #           data: https://api.stage.riskprofiler.ca/opendrr_psra_uhs
+    #           data: ES_ENDPOINT/opendrr_psra_uhs
     #           id_field: geom
 
     # opendrr_psra_agg_loss_fsa:
@@ -2209,7 +2209,7 @@ resources:
     #     providers:
     #         - type: feature
     #           name: Elasticsearch
-    #           data: https://api.stage.riskprofiler.ca/opendrr_psra_agg_loss_fsa
+    #           data: ES_ENDPOINT/opendrr_psra_agg_loss_fsa
     #           id_field: fid
 
     # opendrr_psra_expected_loss_fsa:
@@ -2241,7 +2241,7 @@ resources:
     #     providers:
     #         - type: feature
     #           name: Elasticsearch
-    #           data: https://api.stage.riskprofiler.ca/opendrr_psra_expected_loss_fsa
+    #           data: ES_ENDPOINT/opendrr_psra_expected_loss_fsa
     #           id_field: fid
     
     opendrr_psra_indicators_csd:
@@ -2273,7 +2273,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_psra_indicators_csd
+              data: ES_ENDPOINT/opendrr_psra_indicators_csd
               id_field: csduid
     
     opendrr_sauid_hexgrid:
@@ -2305,7 +2305,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_sauid_hexgrid
+              data: ES_ENDPOINT/opendrr_sauid_hexgrid
               id_field: Sauid
 
     opendrr_shakemap_scenario_extents:
@@ -2337,5 +2337,5 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: https://api.stage.riskprofiler.ca/opendrr_shakemap_scenario_extents
+              data: ES_ENDPOINT/opendrr_shakemap_scenario_extents
               id_field: scenario

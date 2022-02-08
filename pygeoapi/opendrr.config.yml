@@ -504,7 +504,7 @@ resources:
       type: text/html
     providers:
     - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_5km
-      id_field: gridid_2
+      id_field: gridid_5
       name: Elasticsearch
       type: feature
     title:
@@ -2653,76 +2653,6 @@ resources:
       en: Social Vulnerability
       fr: "Vuln\xE9rabilit\xE9 sociale"
     type: collection
-  opendrr_psra_agg_loss_fsa:
-    description:
-      en: opendrr_psra_agg_loss_fsa
-      fr: opendrr_psra_agg_loss_fsa
-    extents:
-      spatial:
-        bbox:
-        - -141.003
-        - 41.6755
-        - -52.6174
-        - 83.1139
-        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-      temporal:
-        begin: 2020-08-06
-        end: null
-    keywords:
-      en:
-      - earthquake
-      fr:
-      - tremblement de terre
-    links:
-    - href: https://github.com/OpenDRR/canada-srm2
-      hreflang: en-US
-      rel: canonical
-      title: Information
-      type: text/html
-    providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_psra_agg_loss_fsa
-      id_field: fid
-      name: Elasticsearch
-      type: feature
-    title:
-      en: opendrr_psra_agg_loss_fsa
-      fr: opendrr_psra_agg_loss_fsa
-    type: collection
-  opendrr_psra_expected_loss_fsa:
-    description:
-      en: opendrr_psra_expected_loss_fsa
-      fr: opendrr_psra_expected_loss_fsa
-    extents:
-      spatial:
-        bbox:
-        - -141.003
-        - 41.6755
-        - -52.6174
-        - 83.1139
-        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-      temporal:
-        begin: 2020-08-06
-        end: null
-    keywords:
-      en:
-      - earthquake
-      fr:
-      - tremblement de terre
-    links:
-    - href: https://github.com/OpenDRR/canada-srm2
-      hreflang: en-US
-      rel: canonical
-      title: Information
-      type: text/html
-    providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_psra_expected_loss_fsa
-      id_field: fid
-      name: Elasticsearch
-      type: feature
-    title:
-      en: opendrr_psra_expected_loss_fsa
-      fr: opendrr_psra_expected_loss_fsa
-    type: collection
   opendrr_psra_indicators_b:
     description:
       en: The National Seismic Risk model for Canada introduces a structured framework
@@ -2835,41 +2765,6 @@ resources:
     title:
       en: The National Seismic Risk model for Canada (Settlement Area)
       fr: "Le mod\xE8le national de risque sismique pour le Canada (Zone de peuplement)"
-    type: collection
-  opendrr_psra_src_loss:
-    description:
-      en: opendrr_psra_src_loss
-      fr: opendrr_psra_src_loss
-    extents:
-      spatial:
-        bbox:
-        - -141.003
-        - 41.6755
-        - -52.6174
-        - 83.1139
-        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-      temporal:
-        begin: 2020-08-06
-        end: null
-    keywords:
-      en:
-      - base data
-      fr:
-      - "donn\xE9es de base"
-    links:
-    - href: https://github.com/OpenDRR/canada-srm2
-      hreflang: en-US
-      rel: canonical
-      title: Information
-      type: text/html
-    providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_psra_src_loss
-      id_field: fid
-      name: Elasticsearch
-      type: feature
-    title:
-      en: opendrr_psra_src_loss
-      fr: opendrr_psra_src_loss
     type: collection
   opendrr_sauid_hexgrid:
     description:
