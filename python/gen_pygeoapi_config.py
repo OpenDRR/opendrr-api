@@ -29,11 +29,14 @@ def main():
     for k in list(layers.keys()):
         if k not in indices:
             del layers[k]
+        else:
+            # write in the ES endpoint configured in the config.ini
+            layers[k]['providers'][0]['data'] = layers[k]['providers'][0]['data'].replace('ES_ENDPOINT', auth.get('es', 'es_endpoint'))
 
     # list indices missing from opendrr_config_template.yml
     for i in list(indices.keys()):
         if i not in layers:
-            print(i)
+            print('MISSING IN CONFIGURATION TEMPLATE: ' + i)
 
     config['resources'] = layers
 
