@@ -36,4 +36,5 @@ USER root
 COPY create_db.sh /docker-entrypoint-initdb.d/create_db.sh
 COPY schema.sql /schema.sql
 
-RUN chmod +x /docker-entrypoint-initdb.d/create_db.sh
+RUN chmod +x /docker-entrypoint-initdb.d/create_db.sh && \
+    sed -i 's/\r$//g' /docker-entrypoint-initdb.d/create_db.sh
