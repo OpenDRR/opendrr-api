@@ -5,6 +5,7 @@ import yaml
 
 from elasticsearch import Elasticsearch
 
+
 # Main Function
 def main():
 
@@ -22,23 +23,30 @@ def main():
     with open('../opendrr_config_template.yml', 'r') as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
 
-    layers = config['resources']
+    lyrs = config['resources']
 
     indices = es.indices.get('*')
 
-    for k in list(layers.keys()):
+    for k in list(lyrs.keys()):
         if k not in indices:
-            del layers[k]
+            del lyrs[k]
         else:
             # write in the ES endpoint configured in the config.ini
-            layers[k]['providers'][0]['data'] = layers[k]['providers'][0]['data'].replace('ES_ENDPOINT', auth.get('es', 'es_endpoint'))
+            new = lyrs[k]['providers'][0]['data'].replace(
+                'ES_ENDPOINT',
+                auth.get(
+                    'es',
+                    'es_endpoint'
+                    )
+                )
+            lyrs[k]['providers'][0]['data'] = new
 
     # list indices missing from opendrr_config_template.yml
     for i in list(indices.keys()):
-        if i not in layers:
+        if i not in lyrs:
             print('MISSING IN CONFIGURATION TEMPLATE: ' + i)
 
-    config['resources'] = layers
+    config['resources'] = lyrs
 
     text_file.write(yaml.dump(config))
     text_file.close()
