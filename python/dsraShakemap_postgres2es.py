@@ -44,6 +44,32 @@ def main():
     )
     dsraTable.postgis2es()
 
+    # Create load 1km shakemap hexbin
+    dsraTable = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_1km".format(**{
+            'eqScenario': args.eqScenario}).lower(),
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_1km \
+            ORDER BY dsra_{eqScenario}_shakemap_hexbin_1km."gridid_1" \
+            LIMIT {{limit}} \
+            OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
+    )
+    dsraTable.postgis2es()
+
     # Create load 5km shakemap hexbin
     dsraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
