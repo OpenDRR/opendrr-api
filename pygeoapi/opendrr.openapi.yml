@@ -268,6 +268,8 @@ paths:
             enum:
             - AssetID
             - E_BldgDesLev
+            - E_BldgOccS1
+            - E_BldgTypeG
             - Sauid
             - cdname
             - cduid
@@ -412,6 +414,20 @@ paths:
       - explode: false
         in: query
         name: E_BldgDesLev
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: E_BldgOccS1
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: E_BldgTypeG
         required: false
         schema:
           type: string
@@ -4167,6 +4183,160 @@ paths:
       summary: Get Georgia Strait Scenario Shake Map 10km Hexbin queryables
       tags:
       - opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_10km
+  /collections/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km:
+    get:
+      description: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait
+        earthquake hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser
+        (2000, BSSA). These scenarios use a mapped crustal marine fault near Vancouver,
+        but consider larger magnitude events than those that have been observed to
+        date for that location. Maximum magnitude (7.5) is obtained from CanSHM6 for
+        PUGET SOUND SHALLOW.
+      operationId: describeOpendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1kmCollection
+      parameters:
+      - $ref: '#/components/parameters/f'
+      - $ref: '#/components/parameters/lang'
+      responses:
+        '200':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Collection
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Georgia Strait Scenario Shake Map 1km Hexbin metadata
+      tags:
+      - opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km
+  /collections/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km/items:
+    get:
+      description: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait
+        earthquake hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser
+        (2000, BSSA). These scenarios use a mapped crustal marine fault near Vancouver,
+        but consider larger magnitude events than those that have been observed to
+        date for that location. Maximum magnitude (7.5) is obtained from CanSHM6 for
+        PUGET SOUND SHALLOW.
+      operationId: getOpendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1kmFeatures
+      parameters:
+      - *id001
+      - *id002
+      - $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/bbox
+      - $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/limit
+      - description: The properties that should be included for each feature. The
+          parameter value is a comma-separated list of property names.
+        explode: false
+        in: query
+        name: properties
+        required: false
+        schema:
+          items:
+            enum:
+            - geom
+            - gridid_1
+            - sH_PGA_avg
+            - sH_PGA_max
+            - sH_PGA_min
+            type: string
+          type: array
+        style: form
+      - $ref: '#/components/parameters/skipGeometry'
+      - $ref: https://raw.githubusercontent.com/opengeospatial/ogcapi-records/master/core/openapi/parameters/sortby.yaml
+      - $ref: '#/components/parameters/startindex'
+      - explode: false
+        in: query
+        name: geom
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: gridid_1
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: sH_PGA_avg
+        required: false
+        schema:
+          type: float
+        style: form
+      - explode: false
+        in: query
+        name: sH_PGA_max
+        required: false
+        schema:
+          type: float
+        style: form
+      - explode: false
+        in: query
+        name: sH_PGA_min
+        required: false
+        schema:
+          type: float
+        style: form
+      responses:
+        '200':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Features
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Georgia Strait Scenario Shake Map 1km Hexbin items
+      tags:
+      - opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km
+  /collections/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km/items/{featureId}:
+    get:
+      description: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait
+        earthquake hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser
+        (2000, BSSA). These scenarios use a mapped crustal marine fault near Vancouver,
+        but consider larger magnitude events than those that have been observed to
+        date for that location. Maximum magnitude (7.5) is obtained from CanSHM6 for
+        PUGET SOUND SHALLOW.
+      operationId: getOpendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1kmFeature
+      parameters:
+      - $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/featureId
+      - $ref: '#/components/parameters/f'
+      - $ref: '#/components/parameters/lang'
+      responses:
+        '200':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Feature
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Georgia Strait Scenario Shake Map 1km Hexbin item by id
+      tags:
+      - opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km
+  /collections/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km/queryables:
+    get:
+      description: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait
+        earthquake hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser
+        (2000, BSSA). These scenarios use a mapped crustal marine fault near Vancouver,
+        but consider larger magnitude events than those that have been observed to
+        date for that location. Maximum magnitude (7.5) is obtained from CanSHM6 for
+        PUGET SOUND SHALLOW.
+      operationId: getOpendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1kmQueryables
+      parameters:
+      - *id001
+      - *id002
+      responses:
+        '200':
+          $ref: '#/components/responses/Queryables'
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Georgia Strait Scenario Shake Map 1km Hexbin queryables
+      tags:
+      - opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km
   /collections/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_25km:
     get:
       description: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait
@@ -4672,6 +4842,8 @@ paths:
             enum:
             - AssetID
             - E_BldgDesLev
+            - E_BldgOccS1
+            - E_BldgTypeG
             - Sauid
             - cdname
             - cduid
@@ -4816,6 +4988,20 @@ paths:
       - explode: false
         in: query
         name: E_BldgDesLev
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: E_BldgOccS1
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: E_BldgTypeG
         required: false
         schema:
           type: string
@@ -8505,6 +8691,148 @@ paths:
       summary: Get Leech River Fault Scenario Shake Map 10km Hexbin queryables
       tags:
       - opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_10km
+  /collections/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km:
+    get:
+      description: Magnitude 7.3 scenario based on complete rupture of the CanSHM6
+        Hazard Model implementation of the Leech River Full Fault. Aggregated at the
+        building level.
+      operationId: describeOpendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1kmCollection
+      parameters:
+      - $ref: '#/components/parameters/f'
+      - $ref: '#/components/parameters/lang'
+      responses:
+        '200':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Collection
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Leech River Fault Scenario Shake Map 1km Hexbin metadata
+      tags:
+      - opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km
+  /collections/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km/items:
+    get:
+      description: Magnitude 7.3 scenario based on complete rupture of the CanSHM6
+        Hazard Model implementation of the Leech River Full Fault. Aggregated at the
+        building level.
+      operationId: getOpendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1kmFeatures
+      parameters:
+      - *id001
+      - *id002
+      - $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/bbox
+      - $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/limit
+      - description: The properties that should be included for each feature. The
+          parameter value is a comma-separated list of property names.
+        explode: false
+        in: query
+        name: properties
+        required: false
+        schema:
+          items:
+            enum:
+            - geom
+            - gridid_1
+            - sH_PGA_avg
+            - sH_PGA_max
+            - sH_PGA_min
+            type: string
+          type: array
+        style: form
+      - $ref: '#/components/parameters/skipGeometry'
+      - $ref: https://raw.githubusercontent.com/opengeospatial/ogcapi-records/master/core/openapi/parameters/sortby.yaml
+      - $ref: '#/components/parameters/startindex'
+      - explode: false
+        in: query
+        name: geom
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: gridid_1
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: sH_PGA_avg
+        required: false
+        schema:
+          type: float
+        style: form
+      - explode: false
+        in: query
+        name: sH_PGA_max
+        required: false
+        schema:
+          type: float
+        style: form
+      - explode: false
+        in: query
+        name: sH_PGA_min
+        required: false
+        schema:
+          type: float
+        style: form
+      responses:
+        '200':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Features
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Leech River Fault Scenario Shake Map 1km Hexbin items
+      tags:
+      - opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km
+  /collections/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km/items/{featureId}:
+    get:
+      description: Magnitude 7.3 scenario based on complete rupture of the CanSHM6
+        Hazard Model implementation of the Leech River Full Fault. Aggregated at the
+        building level.
+      operationId: getOpendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1kmFeature
+      parameters:
+      - $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/featureId
+      - $ref: '#/components/parameters/f'
+      - $ref: '#/components/parameters/lang'
+      responses:
+        '200':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Feature
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Leech River Fault Scenario Shake Map 1km Hexbin item by id
+      tags:
+      - opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km
+  /collections/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km/queryables:
+    get:
+      description: Magnitude 7.3 scenario based on complete rupture of the CanSHM6
+        Hazard Model implementation of the Leech River Full Fault. Aggregated at the
+        building level.
+      operationId: getOpendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1kmQueryables
+      parameters:
+      - *id001
+      - *id002
+      responses:
+        '200':
+          $ref: '#/components/responses/Queryables'
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Leech River Fault Scenario Shake Map 1km Hexbin queryables
+      tags:
+      - opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km
   /collections/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_25km:
     get:
       description: Magnitude 7.3 scenario based on complete rupture of the CanSHM6
@@ -8976,6 +9304,8 @@ paths:
             enum:
             - AssetID
             - E_BldgDesLev
+            - E_BldgOccS1
+            - E_BldgTypeG
             - Sauid
             - cdname
             - cduid
@@ -9120,6 +9450,20 @@ paths:
       - explode: false
         in: query
         name: E_BldgDesLev
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: E_BldgOccS1
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: E_BldgTypeG
         required: false
         schema:
           type: string
@@ -12831,6 +13175,152 @@ paths:
       summary: Get Sidney Scenario Shake Map 10km Hexbin queryables
       tags:
       - opendrr_dsra_idm7p1_sidney_shakemap_hexbin_10km
+  /collections/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km:
+    get:
+      description: Evaluating impact of increasing magnitude using the 2015 Mw 4.7
+        Sidney, BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
+        - Strike selected to approximately parallel the strike of the subducting slab
+        for this deep intraslab extensional event.
+      operationId: describeOpendrr_dsra_idm7p1_sidney_shakemap_hexbin_1kmCollection
+      parameters:
+      - $ref: '#/components/parameters/f'
+      - $ref: '#/components/parameters/lang'
+      responses:
+        '200':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Collection
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Sidney Scenario Shake Map 1km Hexbin metadata
+      tags:
+      - opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km
+  /collections/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km/items:
+    get:
+      description: Evaluating impact of increasing magnitude using the 2015 Mw 4.7
+        Sidney, BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
+        - Strike selected to approximately parallel the strike of the subducting slab
+        for this deep intraslab extensional event.
+      operationId: getOpendrr_dsra_idm7p1_sidney_shakemap_hexbin_1kmFeatures
+      parameters:
+      - *id001
+      - *id002
+      - $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/bbox
+      - $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/limit
+      - description: The properties that should be included for each feature. The
+          parameter value is a comma-separated list of property names.
+        explode: false
+        in: query
+        name: properties
+        required: false
+        schema:
+          items:
+            enum:
+            - geom
+            - gridid_1
+            - sH_PGA_avg
+            - sH_PGA_max
+            - sH_PGA_min
+            type: string
+          type: array
+        style: form
+      - $ref: '#/components/parameters/skipGeometry'
+      - $ref: https://raw.githubusercontent.com/opengeospatial/ogcapi-records/master/core/openapi/parameters/sortby.yaml
+      - $ref: '#/components/parameters/startindex'
+      - explode: false
+        in: query
+        name: geom
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: gridid_1
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: sH_PGA_avg
+        required: false
+        schema:
+          type: float
+        style: form
+      - explode: false
+        in: query
+        name: sH_PGA_max
+        required: false
+        schema:
+          type: float
+        style: form
+      - explode: false
+        in: query
+        name: sH_PGA_min
+        required: false
+        schema:
+          type: float
+        style: form
+      responses:
+        '200':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Features
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Sidney Scenario Shake Map 1km Hexbin items
+      tags:
+      - opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km
+  /collections/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km/items/{featureId}:
+    get:
+      description: Evaluating impact of increasing magnitude using the 2015 Mw 4.7
+        Sidney, BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
+        - Strike selected to approximately parallel the strike of the subducting slab
+        for this deep intraslab extensional event.
+      operationId: getOpendrr_dsra_idm7p1_sidney_shakemap_hexbin_1kmFeature
+      parameters:
+      - $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/featureId
+      - $ref: '#/components/parameters/f'
+      - $ref: '#/components/parameters/lang'
+      responses:
+        '200':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Feature
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Sidney Scenario Shake Map 1km Hexbin item by id
+      tags:
+      - opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km
+  /collections/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km/queryables:
+    get:
+      description: Evaluating impact of increasing magnitude using the 2015 Mw 4.7
+        Sidney, BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
+        - Strike selected to approximately parallel the strike of the subducting slab
+        for this deep intraslab extensional event.
+      operationId: getOpendrr_dsra_idm7p1_sidney_shakemap_hexbin_1kmQueryables
+      parameters:
+      - *id001
+      - *id002
+      responses:
+        '200':
+          $ref: '#/components/responses/Queryables'
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Sidney Scenario Shake Map 1km Hexbin queryables
+      tags:
+      - opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km
   /collections/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_25km:
     get:
       description: Evaluating impact of increasing magnitude using the 2015 Mw 4.7
@@ -13318,6 +13808,8 @@ paths:
             enum:
             - AssetID
             - E_BldgDesLev
+            - E_BldgOccS1
+            - E_BldgTypeG
             - Sauid
             - cdname
             - cduid
@@ -13462,6 +13954,20 @@ paths:
       - explode: false
         in: query
         name: E_BldgDesLev
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: E_BldgOccS1
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: E_BldgTypeG
         required: false
         schema:
           type: string
@@ -17217,6 +17723,160 @@ paths:
       summary: Get Val Des Bois Scenario Shake Map 10km Hexbin queryables
       tags:
       - opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_10km
+  /collections/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km:
+    get:
+      description: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake
+        hypocentre and fault plane geometry from Ma & Motazedian, 2012 and Atkinson
+        & Assatourians, 2010. This scenario uses a larger magnitude event than those
+        that have been observed to date for that location, within bounds of the national
+        seismic hazard model. Maximum magnitude of 7.95 is obtained from CanSHM6 for
+        GATINEAU region.
+      operationId: describeOpendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1kmCollection
+      parameters:
+      - $ref: '#/components/parameters/f'
+      - $ref: '#/components/parameters/lang'
+      responses:
+        '200':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Collection
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Val Des Bois Scenario Shake Map 1km Hexbin metadata
+      tags:
+      - opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km
+  /collections/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km/items:
+    get:
+      description: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake
+        hypocentre and fault plane geometry from Ma & Motazedian, 2012 and Atkinson
+        & Assatourians, 2010. This scenario uses a larger magnitude event than those
+        that have been observed to date for that location, within bounds of the national
+        seismic hazard model. Maximum magnitude of 7.95 is obtained from CanSHM6 for
+        GATINEAU region.
+      operationId: getOpendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1kmFeatures
+      parameters:
+      - *id001
+      - *id002
+      - $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/bbox
+      - $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/limit
+      - description: The properties that should be included for each feature. The
+          parameter value is a comma-separated list of property names.
+        explode: false
+        in: query
+        name: properties
+        required: false
+        schema:
+          items:
+            enum:
+            - geom
+            - gridid_1
+            - sH_PGA_avg
+            - sH_PGA_max
+            - sH_PGA_min
+            type: string
+          type: array
+        style: form
+      - $ref: '#/components/parameters/skipGeometry'
+      - $ref: https://raw.githubusercontent.com/opengeospatial/ogcapi-records/master/core/openapi/parameters/sortby.yaml
+      - $ref: '#/components/parameters/startindex'
+      - explode: false
+        in: query
+        name: geom
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: gridid_1
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: sH_PGA_avg
+        required: false
+        schema:
+          type: float
+        style: form
+      - explode: false
+        in: query
+        name: sH_PGA_max
+        required: false
+        schema:
+          type: float
+        style: form
+      - explode: false
+        in: query
+        name: sH_PGA_min
+        required: false
+        schema:
+          type: float
+        style: form
+      responses:
+        '200':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Features
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Val Des Bois Scenario Shake Map 1km Hexbin items
+      tags:
+      - opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km
+  /collections/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km/items/{featureId}:
+    get:
+      description: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake
+        hypocentre and fault plane geometry from Ma & Motazedian, 2012 and Atkinson
+        & Assatourians, 2010. This scenario uses a larger magnitude event than those
+        that have been observed to date for that location, within bounds of the national
+        seismic hazard model. Maximum magnitude of 7.95 is obtained from CanSHM6 for
+        GATINEAU region.
+      operationId: getOpendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1kmFeature
+      parameters:
+      - $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/featureId
+      - $ref: '#/components/parameters/f'
+      - $ref: '#/components/parameters/lang'
+      responses:
+        '200':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Feature
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Val Des Bois Scenario Shake Map 1km Hexbin item by id
+      tags:
+      - opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km
+  /collections/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km/queryables:
+    get:
+      description: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake
+        hypocentre and fault plane geometry from Ma & Motazedian, 2012 and Atkinson
+        & Assatourians, 2010. This scenario uses a larger magnitude event than those
+        that have been observed to date for that location, within bounds of the national
+        seismic hazard model. Maximum magnitude of 7.95 is obtained from CanSHM6 for
+        GATINEAU region.
+      operationId: getOpendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1kmQueryables
+      parameters:
+      - *id001
+      - *id002
+      responses:
+        '200':
+          $ref: '#/components/responses/Queryables'
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Val Des Bois Scenario Shake Map 1km Hexbin queryables
+      tags:
+      - opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km
   /collections/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_25km:
     get:
       description: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake
@@ -17720,6 +18380,8 @@ paths:
             enum:
             - AssetID
             - E_BldgDesLev
+            - E_BldgOccS1
+            - E_BldgTypeG
             - Sauid
             - cdname
             - cduid
@@ -17864,6 +18526,20 @@ paths:
       - explode: false
         in: query
         name: E_BldgDesLev
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: E_BldgOccS1
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: E_BldgTypeG
         required: false
         schema:
           type: string
@@ -21531,6 +22207,128 @@ paths:
       summary: Get Cascadia Fault Scenario Shake Map 10km Hexbin queryables
       tags:
       - opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_10km
+  /collections/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km:
+    get:
+      description: Magnitude 9.0 scenario based on complete rupture of the CanSHM6
+        Hazard Model implementation of the Cascadia Interface Best Fault.
+      operationId: describeOpendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1kmCollection
+      parameters:
+      - $ref: '#/components/parameters/f'
+      - $ref: '#/components/parameters/lang'
+      responses:
+        '200':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Collection
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Cascadia Fault Scenario Shake Map 1km Hexbin metadata
+      tags:
+      - opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km
+  /collections/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km/items:
+    get:
+      description: Magnitude 9.0 scenario based on complete rupture of the CanSHM6
+        Hazard Model implementation of the Cascadia Interface Best Fault.
+      operationId: getOpendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1kmFeatures
+      parameters:
+      - *id001
+      - *id002
+      - $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/bbox
+      - $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/limit
+      - description: The properties that should be included for each feature. The
+          parameter value is a comma-separated list of property names.
+        explode: false
+        in: query
+        name: properties
+        required: false
+        schema:
+          items:
+            enum:
+            - geom
+            - gridid_1
+            - sH_PGA_max
+            type: string
+          type: array
+        style: form
+      - $ref: '#/components/parameters/skipGeometry'
+      - $ref: https://raw.githubusercontent.com/opengeospatial/ogcapi-records/master/core/openapi/parameters/sortby.yaml
+      - $ref: '#/components/parameters/startindex'
+      - explode: false
+        in: query
+        name: geom
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: gridid_1
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: query
+        name: sH_PGA_max
+        required: false
+        schema:
+          type: float
+        style: form
+      responses:
+        '200':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Features
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Cascadia Fault Scenario Shake Map 1km Hexbin items
+      tags:
+      - opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km
+  /collections/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km/items/{featureId}:
+    get:
+      description: Magnitude 9.0 scenario based on complete rupture of the CanSHM6
+        Hazard Model implementation of the Cascadia Interface Best Fault.
+      operationId: getOpendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1kmFeature
+      parameters:
+      - $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/featureId
+      - $ref: '#/components/parameters/f'
+      - $ref: '#/components/parameters/lang'
+      responses:
+        '200':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Feature
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Cascadia Fault Scenario Shake Map 1km Hexbin item by id
+      tags:
+      - opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km
+  /collections/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km/queryables:
+    get:
+      description: Magnitude 9.0 scenario based on complete rupture of the CanSHM6
+        Hazard Model implementation of the Cascadia Interface Best Fault.
+      operationId: getOpendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1kmQueryables
+      parameters:
+      - *id001
+      - *id002
+      responses:
+        '200':
+          $ref: '#/components/responses/Queryables'
+        '400':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter
+        '404':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
+        '500':
+          $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
+      summary: Get Cascadia Fault Scenario Shake Map 1km Hexbin queryables
+      tags:
+      - opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km
   /collections/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_25km:
     get:
       description: Magnitude 9.0 scenario based on complete rupture of the CanSHM6
@@ -32628,6 +33426,12 @@ tags:
     BSSA). These scenarios use a mapped crustal marine fault near Vancouver, but consider
     larger magnitude events than those that have been observed to date for that location.
     Maximum magnitude (7.5) is obtained from CanSHM6 for PUGET SOUND SHALLOW.
+  name: opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km
+- description: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake
+    hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000,
+    BSSA). These scenarios use a mapped crustal marine fault near Vancouver, but consider
+    larger magnitude events than those that have been observed to date for that location.
+    Maximum magnitude (7.5) is obtained from CanSHM6 for PUGET SOUND SHALLOW.
   name: opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_25km
 - description: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake
     hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000,
@@ -32665,6 +33469,10 @@ tags:
     Model implementation of the Leech River Full Fault. Aggregated at the building
     level.
   name: opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_10km
+- description: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard
+    Model implementation of the Leech River Full Fault. Aggregated at the building
+    level.
+  name: opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km
 - description: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard
     Model implementation of the Leech River Full Fault. Aggregated at the building
     level.
@@ -32707,6 +33515,11 @@ tags:
     - Strike selected to approximately parallel the strike of the subducting slab
     for this deep intraslab extensional event.
   name: opendrr_dsra_idm7p1_sidney_shakemap_hexbin_10km
+- description: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney,
+    BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
+    - Strike selected to approximately parallel the strike of the subducting slab
+    for this deep intraslab extensional event.
+  name: opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km
 - description: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney,
     BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
     - Strike selected to approximately parallel the strike of the subducting slab
@@ -32770,6 +33583,13 @@ tags:
     have been observed to date for that location, within bounds of the national seismic
     hazard model. Maximum magnitude of 7.95 is obtained from CanSHM6 for GATINEAU
     region.
+  name: opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km
+- description: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake
+    hypocentre and fault plane geometry from Ma & Motazedian, 2012 and Atkinson &
+    Assatourians, 2010. This scenario uses a larger magnitude event than those that
+    have been observed to date for that location, within bounds of the national seismic
+    hazard model. Maximum magnitude of 7.95 is obtained from CanSHM6 for GATINEAU
+    region.
   name: opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_25km
 - description: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake
     hypocentre and fault plane geometry from Ma & Motazedian, 2012 and Atkinson &
@@ -32803,6 +33623,9 @@ tags:
 - description: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard
     Model implementation of the Cascadia Interface Best Fault.
   name: opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_10km
+- description: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard
+    Model implementation of the Cascadia Interface Best Fault.
+  name: opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km
 - description: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard
     Model implementation of the Cascadia Interface Best Fault.
   name: opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_25km
