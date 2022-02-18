@@ -435,12 +435,12 @@ read_github_token() {
 # from the OpenDRR/model-factory repository
 get_model_factory_scripts() {
   # TODO: Make this more robust
-  curl -L -o model-factory.tar.gz https://github.com/OpenDRR/model-factory/archive/refs/tags/v1.3.2.tar.gz
+  curl -L -o model-factory.tar.gz https://github.com/OpenDRR/model-factory/archive/refs/tags/v1.3.3.tar.gz
   tar -xf model-factory.tar.gz
 
   # Copy model-factory scripts to working directory
   # TODO: Find ways to keep these scripts in their place without copying them all to WORKDIR
-  RUN cp model-factory-1.3.2/scripts/*.* .
+  RUN cp model-factory-1.3.3/scripts/*.* .
   #rm -rf model-factory
 }
 
