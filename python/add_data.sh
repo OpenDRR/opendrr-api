@@ -3,7 +3,7 @@
 #
 # add_data.sh - Populate PostGIS database for Elasticsearch
 #
-# Copyright (C) 2020-2021 Government of Canada
+# Copyright (C) 2020-2022 Government of Canada
 #
 # Main Authors: Drew Rotheram-Clarke <drew.rotheram-clarke@canada.ca>
 #               Joost van Ulden <joost.vanulden@canada.ca>
@@ -26,6 +26,7 @@ ENV_VAR_LIST=(
 
 ADD_DATA_PRINT_FUNCNAME=${ADD_DATA_PRINT_FUNCNAME:-true}
 ADD_DATA_PRINT_LINENO=${ADD_DATA_PRINT_LINENO:-true}
+ADD_DATA_REDUCE_DISK_USAGE=${ADD_DATA_REDUCE_DISK_USAGE:-true}
 
 DSRA_REPOSITORY=https://github.com/OpenDRR/earthquake-scenarios/tree/master/FINISHED
 
@@ -122,6 +123,24 @@ RUN() {
       time "$@"
     fi
   fi
+}
+
+# CLEAN_UP deletes downloaded data files after they have been imported
+# if ADD_DATA_REDUCE_DISK_USAGE is true.
+CLEAN_UP() {
+  [[ "${ADD_DATA_REDUCE_DISK_USAGE,,}" =~ ^(true|1|y|yes|on)$ ]] || return
+
+  # TODO: 1. Reject "*"; 2. Use safe-rm
+  for i in "${@}"; do
+    target="/usr/src/app/$i"
+    if [ -e "$target" ]; then
+      size=$(du -sh "$target" | cut -f1 || true)
+      echo "Deleting $target (${size})"
+      rm -rf "$target"
+    else
+      echo "$target does not exist, skipping delete"
+    fi
+  done
 }
 
 # set_synchronous_commit sets database's synchronous_commit
@@ -366,7 +385,7 @@ merge_csv() {
   # NOTE: DO NOT prepend RUN to the following awk command, as otherwise
   #       the log would be the first line in the merged CSV file!
   #       See reviews at #105 for more information.
-  awk '(NR == 1) || (FNR > 1)' "${input_files[@]}" > "$output_file"
+  is_dry_run || awk '(NR == 1) || (FNR > 1)' "${input_files[@]}" > "$output_file"
 }
 
 ############################################################################################
@@ -482,37 +501,47 @@ import_census_boundaries() {
   LOG "## Importing Census Boundaries"
 
   INFO "Trying to download pre-generated PostGIS database dump (for speed)..."
-  if RUN curl -O -v --retry 999 --retry-max-time 0 https://opendrr.eccp.ca/file/OpenDRR/opendrr-boundaries.dump || \
+  RUN curl -O -v --retry 999 --retry-max-time 0 https://opendrr.eccp.ca/file/OpenDRR/opendrr-boundaries.dump || \
     RUN curl -O -v --retry 999 --retry-max-time 0 https://f000.backblazeb2.com/file/OpenDRR/opendrr-boundaries.dump
-  then
-    RUN pg_restore -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" \
-      --verbose --clean --if-exists --create opendrr-boundaries.dump \
-      | while IFS= read -r line; do printf '%s %s\n' "$(date "+%Y-%m-%d %H:%M:%S")" "$line"; done
-  else
-    WARN "Unable to fetch opendrr-boundaries.dump."
-    WARN "Fallback to fetching boundaries CSV files via Git LFS:"
-    RUN git clone https://github.com/OpenDRR/boundaries.git --depth 1 || (cd boundaries ; RUN git pull)
-
-    # Create boundaries schema geometry tables from default geopackages.
-    for i in ADAUID CANADA CDUID CSDUID DAUID ERUID FSAUID PRUID SAUID; do
-      RUN run_ogr2ogr "Geometry_$i"
-    done
-
-    for i in HexGrid_1km_AB HexGrid_1km_BC HexGrid_1km_MB HexGrid_1km_NB HexGrid_1km_NL HexGrid_1km_NS HexGrid_1km_NT HexGrid_1km_NU HexGrid_1km_ON HexGrid_1km_PE HexGrid_1km_QC HexGrid_1km_SK HexGrid_1km_YT HexGrid_5km \
-    HexGrid_10km HexGrid_25km HexGrid_50km HexGrid_GlobalFabric SAUID_HexGrid SAUID_HexGrid_1km_intersect SAUID_HexGrid_5km_intersect SAUID_HexGrid_10km_intersect SAUID_HexGrid_25km_intersect \
-    SAUID_HexGrid_50km_intersect SAUID_HexGrid_100km_intersect SAUID_HexGrid_GlobalFabric_intersect; do
-      RUN run_ogr2ogr "hexbin_4326/$i"
-    done
-
-    #rm -rf boundaries
-  fi
+  RUN pg_restore -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" \
+    --verbose --clean --if-exists --create opendrr-boundaries.dump \
+    | while IFS= read -r line; do printf '%s %s\n' "$(date "+%Y-%m-%d %H:%M:%S")" "$line"; done
 
   RUN run_psql Update_boundaries_SAUID_table.sql
+
+  CLEAN_UP opendrr-boundaries.dump opendrr-boundaries.sql
 }
 
-import_physical_exposure_model() {
+OBSOLETE_FALLBACK_build_census_boundaries_from_gpkg_files() {
+  WARN "Unable to fetch opendrr-boundaries.dump."
+  WARN "Fallback to fetching boundaries CSV files via Git LFS:"
+  RUN git clone https://github.com/OpenDRR/boundaries.git --depth 1 || (cd boundaries ; RUN git pull)
+
+  # Create boundaries schema geometry tables from default GeoPackage files
+  for i in ADAUID CANADA CDUID CSDUID DAUID ERUID FSAUID PRUID SAUID; do
+    RUN run_ogr2ogr "Geometry_$i"
+  done
+
+  for i in HexGrid_1km_AB HexGrid_1km_BC HexGrid_1km_MB HexGrid_1km_NB \
+      HexGrid_1km_NL HexGrid_1km_NS HexGrid_1km_NT HexGrid_1km_NU \
+      HexGrid_1km_ON HexGrid_1km_PE HexGrid_1km_QC HexGrid_1km_SK \
+      HexGrid_1km_YT \
+      HexGrid_5km HexGrid_10km HexGrid_25km HexGrid_50km \
+      HexGrid_GlobalFabric \
+      SAUID_HexGrid SAUID_HexGrid_1km_intersect SAUID_HexGrid_5km_intersect \
+      SAUID_HexGrid_10km_intersect SAUID_HexGrid_25km_intersect \
+      SAUID_HexGrid_50km_intersect SAUID_HexGrid_100km_intersect \
+      SAUID_HexGrid_GlobalFabric_intersect
+  do
+    RUN run_ogr2ogr "hexbin_4326/$i"
+  done
+
+  CLEAN_UP boundaries/
+}
+
+download_physical_exposure_model() {
   # Physical Exposure
-  LOG "## Importing Physical Exposure Model into PostGIS"
+  LOG "## Downloading Physical Exposure Model"
 
   RUN fetch_csv openquake-inputs \
     exposure/general-building-stock/BldgExpRef_CA_master_v3p2.csv
@@ -523,9 +552,9 @@ import_physical_exposure_model() {
   RUN run_psql Create_table_canada_site_exposure_ste.sql
 }
 
-import_vs30_model() {
+download_vs30_model() {
   # VS30
-  LOG "## Importing VS30 Model into PostGIS"
+  LOG "## Downloading VS30 Model"
 
   RUN fetch_csv openquake-inputs \
     earthquake/sites/regions/vs30_CAN_site_model_xref.csv
@@ -533,24 +562,24 @@ import_vs30_model() {
   RUN fetch_csv openquake-inputs \
     earthquake/sites/regions/site-vgrid_CA.csv
 
-  #Correct CRLF 
-  sed -i 's/\r//g' /usr/src/app/site-vgrid_CA.csv
+  # Correct CRLF
+  is_dry_run || sed -i 's/\r//g' /usr/src/app/site-vgrid_CA.csv
 
   RUN run_psql Create_table_vs_30_CAN_site_model.sql
   RUN run_psql Create_table_vs_30_CAN_site_model_xref.sql
 }
 
-import_census_data() {
+download_census_data() {
   # Census Data
-  LOG "## Importing Census Data"
+  LOG "## Downloading Census Data"
 
   RUN fetch_csv openquake-inputs \
     exposure/census-ref-sauid/census-attributes-2016.csv
   RUN run_psql Create_table_2016_census_v3.sql
 }
 
-import_sovi() {
-  LOG "## Importing Sovi"
+download_sovi() {
+  LOG "## Downloading Sovi"
   # Need to source tables
   # RUN fetch_csv openquake-inputs \
   #   social-vulnerability/social-vulnerability-census.csv
@@ -567,39 +596,40 @@ import_sovi() {
   RUN run_psql Create_table_sovi_sauid.sql
 }
 
-import_luts() {
-  LOG "## Importing LUTs"
+download_luts() {
+  LOG "## Downloading LUTs"
   RUN fetch_csv openquake-inputs \
     exposure/general-building-stock/1.%20documentation/collapse_probability.csv
   RUN run_psql Create_collapse_probability_table.sql
+
   # RUN fetch_csv canada-srm2 \
   #   blob/tieg_natmodel2021/sourceTypes.csv
   RUN fetch_csv canada-srm2 \
     sourceTypes.csv?ref=tieg_natmodel2021
 }
 
-import_retrofit_costs() {
-  LOG "## Retrofit Costs"
+download_retrofit_costs() {
+  LOG "## Downloading Retrofit Costs"
   RUN fetch_csv openquake-inputs \
     exposure/general-building-stock/1. documentation/retrofit_costs.csv
   RUN run_psql Create_retrofit_costs_table.sql
 }
 
-import_ghsl() {
-  LOG "## Importing GHSL"
+download_import_ghsl() {
+  LOG "## Downloading GHSL"
   RUN fetch_csv openquake-inputs \
     natural-hazards/mh-intensity-ghsl.csv
   RUN run_psql Create_table_GHSL.sql
 }
 
-import_mh_intensity() {
-  LOG "## Importing MH Intensity"
+download_mh_intensity() {
+  LOG "## Downloading MH Intensity"
   RUN fetch_csv openquake-inputs \
     natural-hazards/HTi_sauid.csv
 }
 
-import_hazard_threat_thresholds() {
-  LOG "## Importing Hazard Threat Thresholds"
+download_hazard_threat_thresholds() {
+  LOG "## Downloading Hazard Threat Thresholds"
   RUN fetch_csv openquake-inputs \
     natural-hazards/HTi_thresholds.csv
   RUN fetch_csv openquake-inputs \
@@ -616,8 +646,25 @@ post_process_mh_tables() {
 }
 
 copy_ancillary_tables() {
-  LOG '## Use python to run \copy from a system call'
+  LOG '## Import ancillary tables (Python script to run psql \copy)'
   RUN python3 copyAncillaryTables.py
+
+  # Clean up the following files (read from copyAncillaryTables.py):
+  # - /usr/src/app/BldgExpRef_CA_master_v3p2.csv
+  # - /usr/src/app/PhysExpRef_MetroVan_v4.csv
+  # - /usr/src/app/site-vgrid_CA.csv
+  # - /usr/src/app/vs30_CAN_site_model_xref.csv
+  # - /usr/src/app/census-attributes-2016.csv
+  # - /usr/src/app/sovi_sauid_nov2021.csv
+  # - /usr/src/app/collapse_probability.csv
+  # - /usr/src/app/mh-intensity-ghsl.csv
+  # - /usr/src/app/HTi_sauid.csv
+  # - /usr/src/app/HTi_thresholds.csv
+  # - /usr/src/app/hazard_threat_rating_thresholds.csv
+  mapfile -t used_csv_files \
+    < <(grep 'open.*csv' copyAncillaryTables.py | \
+        sed -n 's/^ *with open("\/usr\/src\/app\/\(.*\)").*/\1/p')
+  CLEAN_UP "${used_csv_files[@]}"
 }
 
 post_process_all_tables_update() {
@@ -749,7 +796,7 @@ post_process_psra_tables() {
   RUN python3 PSRA_copyTables_Canada.py
   RUN run_psql psra_2.Create_table_updates_Canada.sql
   RUN run_psql psra_4.Create_psra_sauid_all_indicators_Canada.sql
-  
+
   RUN run_psql psra_6.Create_psra_merge_into_national_indicators.sql
 }
 
@@ -1007,15 +1054,15 @@ main() {
 
   LOG "# Process Exposure and Ancillary Data"
   RUN import_census_boundaries
-  RUN import_physical_exposure_model
-  RUN import_vs30_model
-  RUN import_census_data
-  RUN import_sovi
-  RUN import_luts
-  # RUN import_retrofit_costs
-  RUN import_ghsl
-  RUN import_mh_intensity
-  RUN import_hazard_threat_thresholds
+  RUN download_physical_exposure_model
+  RUN download_vs30_model
+  RUN download_census_data
+  RUN download_sovi
+  RUN download_luts
+  # RUN download_retrofit_costs
+  RUN download_import_ghsl
+  RUN download_mh_intensity
+  RUN download_hazard_threat_thresholds
   RUN post_process_mh_tables
   RUN copy_ancillary_tables
   RUN post_process_all_tables_update
