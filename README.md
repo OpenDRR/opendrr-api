@@ -2,13 +2,15 @@
 
 REST API for OpenDRR data
 
+[![GitHub Super-Linter](https://github.com/OpenDRR/opendrr-api/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
+
 <img src="https://github.com/OpenDRR/documentation/blob/master/models/opendrr-stack.png" width="600">
 
 ## Setup in your local environment
 
 ### 1. Prerequisites
 
-- Docker engine installed and running: https://docs.docker.com/get-docker/
+- Docker engine installed and running: <https://docs.docker.com/get-docker/>
 - Download or clone this repository to your local development environment
 
 ### 2. Edit the Docker environment settings
@@ -26,7 +28,7 @@ loadSocialFabric=true
 
 ### 3. Edit the Python container configuration
 
-Make a copy of `python/sample_config.ini` and rename it `config.ini`. Open this file in an editor, add the required github_token (see https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) and set the remaining parameters as follows:
+Make a copy of `python/sample_config.ini` and rename it `config.ini`. Open this file in an editor, add the required github_token (see <https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>) and set the remaining parameters as follows:
 
     [auth]
     # Github Token for Private Repo Accesss
@@ -50,19 +52,19 @@ Make a copy of `python/sample_config.ini` and rename it `config.ini`. Open this 
 
 ### 4. Run docker-compose
 
-    $ docker-compose up --build
-    
+    docker-compose up --build
+
 > NOTE: you will see errors thrown by the opendrr-api_pygeoapi-opendrr_1 container as the stack builds. These can be ignored.
 
 Once the stack is built (~20min) you will need to verify that everything is working.
 
 > NOTE: you can stop the stack whenever you like with `Ctrl-C` or `docker-compose stop`. See below on how you can bring the stack back up without re-building.
-  
+
 ### 5. Verify that everything is working
 
-Check Elasticsearch to ensure that the indexes were created
+Check Elasticsearch to ensure that the indexes were created:
 
-http://localhost:9200/_cat/indices?v&pretty
+<http://localhost:9200/_cat/indices?v&pretty>
 
 You should see something similar to:
 
@@ -80,15 +82,15 @@ You should see something similar to:
 
 You can explore the indexes in Elasticsearch using Kibana
 
-http://localhost:5601
+<http://localhost:5601>
 
 Check pygeoapi to make sure the collections can be accessed
 
-http://localhost:5001/collections
+<http://localhost:5001/collections>
 
 Feature collections can be accessed as follows or by clicking on the links provided on the collections page
 
-http://localhost:5001/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=json&limit=1
+<http://localhost:5001/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=json&limit=1>
 
 You should see something similar to:
 
@@ -175,60 +177,62 @@ You should see something similar to:
 
 Refer to the pygeoapi documentation for general guidance:
 
-http://localhost:5001/openapi?f=html
+<!-- textlint-disable -->
+<http://localhost:5001/openapi?f=html>
+<!-- textlint-enable -->`
 
 > NOTE: querying is currently limited to spatial extent and exact value queries. For more complex querying use Elasticsearch (see below).
 
 #### To filter on a specfic attribute
 
-http://localhost:5001/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?sH_Mag=7.2
+<http://localhost:5001/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?sH_Mag=7.2>
 
 #### To filter using a bounding box
 
-http://localhost:5001/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?bbox=-119,48.8,-118.9,49.8&f=json
+<http://localhost:5001/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?bbox=-119,48.8,-118.9,49.8&f=json>
 
 ### Querying Elasticsearch
 
 #### Range query
 
-http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search?q=properties.sH_PGA:[0.047580+TO+0.047584]
+<http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search?q=properties.sH_PGA:[0.047580+TO+0.047584]>
 
 OR using curl:
 
-    curl -XGET "http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search" -H 'Content-Type: 
+    curl -XGET "http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search" -H 'Content-Type:
     application/json' -d'
-    {  
-        "query": {    
-            "range": {      
-                "properties.sH_PGA": {        
-                    "gte": 0.047580,        
-                    "lte": 0.047584      
-                }   
-            }  
+    {
+        "query": {
+            "range": {
+                "properties.sH_PGA": {
+                    "gte": 0.047580,
+                    "lte": 0.047584
+                }
+            }
         }
     }'
 
 #### Specific value
 
-http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search?q=properties.sH_PGA:0.047584
-    
+<http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search?q=properties.sH_PGA:0.047584>
+
 OR using curl:
 
-    curl -XGET "http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search" -H 'Content-Type: 
+    curl -XGET "http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search" -H 'Content-Type:
     application/json' -d'
-    {  
-        "query": {    
-            "match": {      
-                "properties.sH_PGA" : 0.047584    
-            }  
+    {
+        "query": {
+            "match": {
+                "properties.sH_PGA" : 0.047584
+            }
         }
     }'
 
 #### Bounding box query
 
-    curl -XGET "http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search" -H 'Content-Type: 
+    curl -XGET "http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search" -H 'Content-Type:
     application/json' -d'
-    {  
+    {
         "query": {
             "bool": {
                 "filter": [
@@ -247,10 +251,10 @@ OR using curl:
             }
         }
     }'
-    
+
 #### Nearest query
 
-    curl -XGET "http://localhost:9200/nhsl_hazard_threat_all_indicators_s/_search" -H 'Content-Type: 
+    curl -XGET "http://localhost:9200/nhsl_hazard_threat_all_indicators_s/_search" -H 'Content-Type:
     application/json' -d'
     {
       "query": {
@@ -265,12 +269,12 @@ OR using curl:
         }
       }
     }'
-    
+
 ## Interacting with the spatial database
 
-The spatial database is implemented using PostGIS. You can connect to PostGIS using pgAdmin (https://www.pgadmin.org) with the connection parameters in your `.env` file. For example:
+The spatial database is implemented using PostGIS. You can connect to PostGIS using [pgAdmin](https://www.pgadmin.org/) (<https://www.pgadmin.org/>) with the connection parameters in your `.env` file. For example:
 
-    POSTGRES_USER: postgres 
+    POSTGRES_USER: postgres
     POSTGRES_PASSWORD: password
     POSTGRES_PORT: 5432
     DB_NAME: opendrr
@@ -300,18 +304,18 @@ Once the stack is built you only need to re-build when there is new data. The `d
 
 To start the stack:
 
-    $ docker-compose -f docker-compose-run.yml start
+    docker-compose -f docker-compose-run.yml start
 
 To stop the stack:
 
-    $ docker-compose -f docker-compose-run.yml stop
-    
+    docker-compose -f docker-compose-run.yml stop
+
 ## Updating or rebuilding the stack
 
 Take the stack down and remove the volumes:
 
-    $ docker-compose down -v
-    
+    docker-compose down -v
+
 Rebuild the stack:
-    
-    $ docker-compose up --build
+
+    docker-compose up --build
