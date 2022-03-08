@@ -422,6 +422,7 @@ read_github_token() {
   LOG "## Read GitHub token from config.ini"
   # See https://github.blog/changelog/2021-03-31-authentication-token-format-updates-are-generally-available/
   GITHUB_TOKEN=$(sed -n -r 's/^\s*github_token\s*=\s*([A-Za-z0-9_]+).*/\1/p' config.ini | tail -1)
+  export GITHUB_TOKEN
   INFO "GITHUB_TOKEN is ${#GITHUB_TOKEN} characters in length"
 
   if [[ ${#GITHUB_TOKEN} -lt 40 ]]; then
@@ -502,11 +503,46 @@ wait_for_postgres() {
 import_census_boundaries() {
   LOG "## Importing Census Boundaries"
 
-  INFO "Trying to download pre-generated PostGIS database dump (for speed)..."
-  RUN curl -O -v --retry 999 --retry-max-time 0 https://opendrr.eccp.ca/file/OpenDRR/opendrr-boundaries.dump || \
-    RUN curl -O -v --retry 999 --retry-max-time 0 https://f000.backblazeb2.com/file/OpenDRR/opendrr-boundaries.dump
+  INFO "Download opendrr-boundaries.sql (PostGIS database archive)..."
+
+  # Git branch or tag from which we want to fetch.
+  # Examples: "test_hexbin_unclipped", "v1.3.0"
+  boundaries_branch_or_tag="test_hexbin_unclipped"
+
+  if true; then
+    INFO "Downloading opendrr-boundaries.sql from B2 for speed..."
+    RUN curl -O -v --retry 999 --retry-max-time 0 \
+        "https://opendrr.eccp.ca/file/OpenDRR/opendrr-boundaries-${boundaries_branch_or_tag}.sql" || \
+      RUN curl -O -v --retry 999 --retry-max-time 0 \
+          "https://f000.backblazeb2.com/file/OpenDRR/opendrr-boundaries-${boundaries_branch_or_tag}.sql"
+
+  else
+    # For released version, we download from release assets
+
+    # TODO
+
+    # For a feature/topic branch, we download the artifact from the run
+    run_id=$(gh run list --repo OpenDRR/boundaries --limit 100 \
+      --json conclusion,databaseId,headBranch,name,status,workflowDatabaseId \
+      --jq "first(.[] \
+                | select( .headBranch == \"${boundaries_branch_or_tag}\" and \
+                          .name == \"Upload opendrr-boundaries.sql\" and \
+                          .status == \"completed\" and \
+                          .conclusion == \"success\")) \
+            | .databaseId")
+
+    [[ -n $run_id ]] || ERROR "Action run for '${boundaries_branch_or_tag}' not found."
+    INFO "Downloading artifact opendrr-boundaries-sql.zip from Run #${run_id}..."
+    INFO "(Sorry, this is quite slow!  May take between 30 to 60 minutes!"
+    RUN gh run download --repo OpenDRR/boundaries "${run_id}" \
+                        --name opendrr-boundaries-sql
+    [[ -f opendrr-boundaries.sql ]] || ERROR "Unable to download opendrr-boundaries.sql"
+    RUN sha256sum -c opendrr-boundaries.sql.sha256sum
+  fi
+
+  INFO "Import opendrr-boundaries.sql using pg_restore..."
   RUN pg_restore -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" \
-    --verbose --clean --if-exists --create opendrr-boundaries.dump \
+    --verbose --clean --if-exists --create opendrr-boundaries.sql \
     | while IFS= read -r line; do printf '%s %s\n' "$(date "+%Y-%m-%d %H:%M:%S")" "$line"; done
 
   RUN run_psql Update_boundaries_table_clipped_hex.sql
@@ -517,7 +553,7 @@ import_census_boundaries() {
 }
 
 OBSOLETE_FALLBACK_build_census_boundaries_from_gpkg_files() {
-  WARN "Unable to fetch opendrr-boundaries.dump."
+  WARN "Unable to fetch opendrr-boundaries.sql"
   WARN "Fallback to fetching boundaries CSV files via Git LFS:"
   RUN git clone https://github.com/OpenDRR/boundaries.git --depth 1 || (cd boundaries ; RUN git pull)
 
