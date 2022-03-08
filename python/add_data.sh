@@ -535,7 +535,7 @@ OBSOLETE_FALLBACK_build_census_boundaries_from_gpkg_files() {
       SAUID_HexGrid SAUID_HexGrid_1km_intersect SAUID_HexGrid_5km_intersect \
       SAUID_HexGrid_10km_intersect SAUID_HexGrid_25km_intersect \
       SAUID_HexGrid_50km_intersect SAUID_HexGrid_100km_intersect \
-      SAUID_HexGrid_GlobalFabric_intersect
+      SAUID_HexGrid_GlobalFabric_intersect \
       HexGrid_1km_AB_unclipped HexGrid_1km_BC_unclipped HexGrid_1km_MB_unclipped HexGrid_1km_NB_unclipped \
       HexGrid_1km_NL_unclipped HexGrid_1km_NS_unclipped HexGrid_1km_NT_unclipped HexGrid_1km_NU_unclipped \
       HexGrid_1km_ON_unclipped HexGrid_1km_PE_unclipped HexGrid_1km_QC_unclipped HexGrid_1km_SK_unclipped \
@@ -543,8 +543,7 @@ OBSOLETE_FALLBACK_build_census_boundaries_from_gpkg_files() {
       HexGrid_5km_unclipped HexGrid_10km_unclipped HexGrid_25km_unclipped HexGrid_50km_unclipped HexGrid_100km_unclipped \
       SAUID_HexGrid_1km_intersect_unclipped SAUID_HexGrid_5km_intersect_unclipped \
       SAUID_HexGrid_10km_intersect_unclipped SAUID_HexGrid_25km_intersect_unclipped \
-      SAUID_HexGrid_50km_intersect_unclipped SAUID_HexGrid_100km_intersect_unclipped \
-
+      SAUID_HexGrid_50km_intersect_unclipped SAUID_HexGrid_100km_intersect_unclipped
   do
     RUN run_ogr2ogr "hexbin_4326/$i"
   done
