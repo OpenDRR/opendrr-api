@@ -454,12 +454,13 @@ read_github_token() {
 # from the OpenDRR/model-factory repository
 get_model_factory_scripts() {
   # TODO: Make this more robust
-  curl -L -o model-factory.tar.gz https://github.com/OpenDRR/model-factory/archive/refs/tags/v1.3.3.tar.gz
-  tar -xf model-factory.tar.gz
+  # tar -xf model-factory.tar.gz
+    RUN git clone https://github.com/OpenDRR/model-factory.git --branch test_hexbin_unclipped --depth 1 || (cd model-factory ; RUN git pull)
 
   # Copy model-factory scripts to working directory
   # TODO: Find ways to keep these scripts in their place without copying them all to WORKDIR
-  RUN cp model-factory-1.3.3/scripts/*.* .
+  # RUN cp model-factory-1.3.3/scripts/*.* .
+  RUN cp model-factory/scripts/*.* .
   #rm -rf model-factory
 }
 
@@ -507,7 +508,9 @@ import_census_boundaries() {
     --verbose --clean --if-exists --create opendrr-boundaries.dump \
     | while IFS= read -r line; do printf '%s %s\n' "$(date "+%Y-%m-%d %H:%M:%S")" "$line"; done
 
-  RUN run_psql Update_boundaries_SAUID_table.sql
+  RUN run_psql Update_boundaries_table_clipped_hex.sql
+  RUN run_psql Update_boundaries_table_unclipped_hex.sql
+  RUN run_psql Update_boundaries_table_hexgrid_1km_union.sql
 
   CLEAN_UP opendrr-boundaries.dump opendrr-boundaries.sql
 }
@@ -526,12 +529,21 @@ OBSOLETE_FALLBACK_build_census_boundaries_from_gpkg_files() {
       HexGrid_1km_NL HexGrid_1km_NS HexGrid_1km_NT HexGrid_1km_NU \
       HexGrid_1km_ON HexGrid_1km_PE HexGrid_1km_QC HexGrid_1km_SK \
       HexGrid_1km_YT \
-      HexGrid_5km HexGrid_10km HexGrid_25km HexGrid_50km \
+      HexGrid_5km HexGrid_10km HexGrid_25km \
       HexGrid_GlobalFabric \
       SAUID_HexGrid SAUID_HexGrid_1km_intersect SAUID_HexGrid_5km_intersect \
       SAUID_HexGrid_10km_intersect SAUID_HexGrid_25km_intersect \
       SAUID_HexGrid_50km_intersect SAUID_HexGrid_100km_intersect \
       SAUID_HexGrid_GlobalFabric_intersect
+      HexGrid_1km_AB_unclipped HexGrid_1km_BC_unclipped HexGrid_1km_MB_unclipped HexGrid_1km_NB_unclipped \
+      HexGrid_1km_NL_unclipped HexGrid_1km_NS_unclipped HexGrid_1km_NT_unclipped HexGrid_1km_NU_unclipped \
+      HexGrid_1km_ON_unclipped HexGrid_1km_PE_unclipped HexGrid_1km_QC_unclipped HexGrid_1km_SK_unclipped \
+      HexGrid_1km_YT_unclipped \
+      HexGrid_5km_unclipped HexGrid_10km_unclipped HexGrid_25km_unclipped HexGrid_50km_unclipped HexGrid_100km_unclipped \
+      SAUID_HexGrid_1km_intersect_unclipped SAUID_HexGrid_5km_intersect_unclipped \
+      SAUID_HexGrid_10km_intersect_unclipped SAUID_HexGrid_25km_intersect_unclipped \
+      SAUID_HexGrid_50km_intersect_unclipped SAUID_HexGrid_100km_intersect_unclipped \
+
   do
     RUN run_ogr2ogr "hexbin_4326/$i"
   done
