@@ -7,4 +7,4 @@ WORKDIR /usr/src/app
 COPY . .
 
 RUN chmod +x add_data.sh
-CMD ./add_data.sh
+CMD ["./add_data.sh"]
