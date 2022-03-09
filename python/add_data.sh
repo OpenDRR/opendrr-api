@@ -507,42 +507,66 @@ import_census_boundaries() {
 
   # Git branch or tag from which we want to fetch.
   # Examples: "test_hexbin_unclipped", "v1.3.0"
-  boundaries_branch_or_tag="test_hexbin_unclipped"
+  local boundaries_branch="test_hexbin_unclipped"
 
-  if true; then
+  if false; then
+    # For released version, we download from release assets
+    INFO "Downloading opendrr-boundaries.sql from release assets..."
+    # TODO
+    ERROR "Downloading boundaries from release assets has not been implemented yet."
+
+  elif [[ "${ADD_DATA_B2_OVER_ARTIFACT,,}" =~ ^(true|1|y|yes|on)$ ]]; then
     INFO "Downloading opendrr-boundaries.sql from B2 for speed..."
+
+    # TODO: Simplify the code below
     RUN curl -O -v --retry 999 --retry-max-time 0 \
-        "https://opendrr.eccp.ca/file/OpenDRR/opendrr-boundaries-${boundaries_branch_or_tag}.sql" || \
+        "https://opendrr.eccp.ca/file/OpenDRR/opendrr-boundaries-${boundaries_branch}.sql" || \
       RUN curl -O -v --retry 999 --retry-max-time 0 \
-          "https://f000.backblazeb2.com/file/OpenDRR/opendrr-boundaries-${boundaries_branch_or_tag}.sql"
+          "https://opendrr.eccp.ca/file/OpenDRR/opendrr-boundaries-${boundaries_branch}.sql" || \
+      RUN curl -O -v --retry 999 --retry-max-time 0 \
+          "https://f000.backblazeb2.com/file/OpenDRR/opendrr-boundaries-${boundaries_branch}.sql"
+
+    RUN curl -O -v --retry 999 --retry-max-time 0 \
+        "https://opendrr.eccp.ca/file/OpenDRR/opendrr-boundaries-${boundaries_branch}.sql.sha256sum" || \
+      RUN curl -O -v --retry 999 --retry-max-time 0 \
+          "https://opendrr.eccp.ca/file/OpenDRR/opendrr-boundaries-${boundaries_branch}.sql.sha256sum" || \
+      RUN curl -O -v --retry 999 --retry-max-time 0 \
+          "https://f000.backblazeb2.com/file/OpenDRR/opendrr-boundaries-${boundaries_branch}.sql.sha256sum"
+
+    RUN mv -fv "opendrr-boundaries-${boundaries_branch}.sql" opendrr-boundaries.sql
+    RUN mv -fv "opendrr-boundaries-${boundaries_branch}.sql.sha256sum" opendrr-boundaries.sql.sha256sum
 
   else
-    # For released version, we download from release assets
+    # For a feature/topic branch, we download the artifact from the latest
+    # action run that matches our criteria
 
-    # TODO
+    INFO "Downloading opendrr-boundaries.sql from artifact of GitHub Action run..."
 
-    # For a feature/topic branch, we download the artifact from the run
     run_id=$(gh run list --repo OpenDRR/boundaries --limit 100 \
       --json conclusion,databaseId,headBranch,name,status,workflowDatabaseId \
       --jq "first(.[] \
-                | select( .headBranch == \"${boundaries_branch_or_tag}\" and \
+                | select( .headBranch == \"${boundaries_branch}\" and \
                           .name == \"Upload opendrr-boundaries.sql\" and \
                           .status == \"completed\" and \
                           .conclusion == \"success\")) \
             | .databaseId")
 
-    [[ -n $run_id ]] || ERROR "Action run for '${boundaries_branch_or_tag}' not found."
+    [[ -n $run_id ]] || ERROR "Action run for '${boundaries_branch}' not found."
     INFO "Downloading artifact opendrr-boundaries-sql.zip from Run #${run_id}..."
     INFO "(Sorry, this is quite slow!  May take between 30 to 60 minutes!"
     RUN gh run download --repo OpenDRR/boundaries "${run_id}" \
-                        --name opendrr-boundaries-sql
+                        --name opendrr-boundaries-sql &
+    sleep 2
+    RUN pv -d $(pidof gh)
     [[ -f opendrr-boundaries.sql ]] || ERROR "Unable to download opendrr-boundaries.sql"
-    RUN sha256sum -c opendrr-boundaries.sql.sha256sum
   fi
 
+  RUN sha256sum -c opendrr-boundaries.sql.sha256sum
+
   INFO "Import opendrr-boundaries.sql using pg_restore..."
+  # was "--verbose --clean --if-exists --create opendrr-boundaries.sql"
   RUN pg_restore -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" \
-    --verbose --clean --if-exists --create opendrr-boundaries.sql \
+    --verbose opendrr-boundaries.sql \
     | while IFS= read -r line; do printf '%s %s\n' "$(date "+%Y-%m-%d %H:%M:%S")" "$line"; done
 
   RUN run_psql Update_boundaries_table_clipped_hex.sql
