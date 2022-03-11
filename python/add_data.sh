@@ -503,17 +503,29 @@ wait_for_postgres() {
 import_census_boundaries() {
   LOG "## Importing Census Boundaries"
 
-  INFO "Download opendrr-boundaries.sql (PostGIS database archive)..."
+  INFO "Download opendrr-boundaries.sql (PostGIS database archive)"
+
+  local repo="OpenDRR/boundaries"
 
   # Git branch or tag from which we want to fetch.
   # Examples: "test_hexbin_unclipped", "v1.3.0"
   local boundaries_branch="test_hexbin_unclipped"
 
-  if false; then
+  if release_view=$(gh release view "${boundaries_branch}" -R "${repo}"); then
     # For released version, we download from release assets
-    INFO "Downloading opendrr-boundaries.sql from release assets..."
-    # TODO
-    ERROR "Downloading boundaries from release assets has not been implemented yet."
+    INFO "... from release assets of ${repo} ${boundaries_branch}..."
+
+    for i in $(echo "${release_view}" | grep "^asset:	opendrr-boundaries\.sql" | cut -f2); do
+      INFO "Downloading ${i}..."
+      RUN gh release download "${boundaries_branch}" -R "${repo}" \
+	--pattern "${i}" >/dev/null &
+      sleep 2
+      pv -d "$(pidof gh)" || :
+    done
+
+    if [[ -f opendrr-boundaries.sql.00 ]]; then
+      cat opendrr-boundaries.sql.[0-9][0-9] > opendrr-boundaries.sql
+    fi
 
   elif [[ "${ADD_DATA_B2_OVER_ARTIFACT,,}" =~ ^(true|1|y|yes|on)$ ]]; then
     INFO "... from B2, branch ${boundaries_branch}..."
@@ -540,9 +552,9 @@ import_census_boundaries() {
     # For a feature/topic branch, we download the artifact from the latest
     # action run that matches our criteria
 
-    INFO "Downloading opendrr-boundaries.sql from artifact of GitHub Action run..."
+    INFO "... from artifact of ${repo} ${boundaries_branch} GitHub Action run..."
 
-    run_id=$(gh run list --repo OpenDRR/boundaries --limit 100 \
+    run_id=$(gh run list -R "${repo}" --limit 100 \
       --json conclusion,databaseId,headBranch,name,status,workflowDatabaseId \
       --jq "first(.[] \
                 | select( .headBranch == \"${boundaries_branch}\" and \
@@ -553,15 +565,17 @@ import_census_boundaries() {
 
     [[ -n $run_id ]] || ERROR "Action run for '${boundaries_branch}' not found."
     INFO "Downloading artifact opendrr-boundaries-sql.zip from Run #${run_id}..."
-    INFO "(Sorry, this is quite slow!  May take between 30 to 60 minutes!"
-    RUN gh run download --repo OpenDRR/boundaries "${run_id}" \
+    INFO "(This can be as fast as 5 minutes or as slow as 60 minutes!)"
+    RUN gh run download -R "${repo}" "${run_id}" \
                         --name opendrr-boundaries-sql &
     sleep 2
-    RUN pv -d $(pidof gh)
+    pv -d "$(pidof gh)"
     [[ -f opendrr-boundaries.sql ]] || ERROR "Unable to download opendrr-boundaries.sql"
   fi
 
+  RUN ls -l opendrr-boundaries.sql*
   RUN sha256sum -c opendrr-boundaries.sql.sha256sum
+  CLEAN_UP opendrr-boundaries.sql.[0-9][0-9]
 
   INFO "Import opendrr-boundaries.sql using pg_restore..."
   # was "--verbose --clean --if-exists --create opendrr-boundaries.sql"
