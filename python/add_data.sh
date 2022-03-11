@@ -578,16 +578,20 @@ import_census_boundaries() {
   CLEAN_UP opendrr-boundaries.sql.[0-9][0-9]
 
   INFO "Import opendrr-boundaries.sql using pg_restore..."
-  # was "--verbose --clean --if-exists --create opendrr-boundaries.sql"
+
+  # Note: Do not use "--create" which would activate the SQL command
+  #   CREATE DATABASE boundaries WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'English_United States.1252';
+  # inside opendrr-boundaries.sql (generated on Windows), leading to
+  #   error: invalid locale name: "English_United States.1252"
+  # in the Linux-based Docker image
   RUN pg_restore -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" \
-    --verbose opendrr-boundaries.sql \
-    | while IFS= read -r line; do printf '%s %s\n' "$(date "+%Y-%m-%d %H:%M:%S")" "$line"; done
+    -j 8 --clean --if-exists --verbose opendrr-boundaries.sql
+
+  CLEAN_UP opendrr-boundaries.sql opendrr-boundaries.sql.sha256sum
 
   RUN run_psql Update_boundaries_table_clipped_hex.sql
   RUN run_psql Update_boundaries_table_unclipped_hex.sql
   RUN run_psql Update_boundaries_table_hexgrid_1km_union.sql
-
-  CLEAN_UP opendrr-boundaries.dump opendrr-boundaries.sql
 }
 
 OBSOLETE_FALLBACK_build_census_boundaries_from_gpkg_files() {
