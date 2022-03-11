@@ -516,21 +516,21 @@ import_census_boundaries() {
     ERROR "Downloading boundaries from release assets has not been implemented yet."
 
   elif [[ "${ADD_DATA_B2_OVER_ARTIFACT,,}" =~ ^(true|1|y|yes|on)$ ]]; then
-    INFO "Downloading opendrr-boundaries.sql from B2 for speed..."
+    INFO "... from B2, branch ${boundaries_branch}..."
 
     # TODO: Simplify the code below
-    RUN curl -O -v --retry 999 --retry-max-time 0 \
+    RUN curl -O --retry 999 --retry-max-time 0 \
         "https://opendrr.eccp.ca/file/OpenDRR/opendrr-boundaries-${boundaries_branch}.sql" || \
-      RUN curl -O -v --retry 999 --retry-max-time 0 \
+      RUN curl -O --retry 999 --retry-max-time 0 \
           "https://opendrr.eccp.ca/file/OpenDRR/opendrr-boundaries-${boundaries_branch}.sql" || \
-      RUN curl -O -v --retry 999 --retry-max-time 0 \
+      RUN curl -O --retry 999 --retry-max-time 0 \
           "https://f000.backblazeb2.com/file/OpenDRR/opendrr-boundaries-${boundaries_branch}.sql"
 
-    RUN curl -O -v --retry 999 --retry-max-time 0 \
+    RUN curl -O --retry 999 --retry-max-time 0 \
         "https://opendrr.eccp.ca/file/OpenDRR/opendrr-boundaries-${boundaries_branch}.sql.sha256sum" || \
-      RUN curl -O -v --retry 999 --retry-max-time 0 \
+      RUN curl -O --retry 999 --retry-max-time 0 \
           "https://opendrr.eccp.ca/file/OpenDRR/opendrr-boundaries-${boundaries_branch}.sql.sha256sum" || \
-      RUN curl -O -v --retry 999 --retry-max-time 0 \
+      RUN curl -O --retry 999 --retry-max-time 0 \
           "https://f000.backblazeb2.com/file/OpenDRR/opendrr-boundaries-${boundaries_branch}.sql.sha256sum"
 
     RUN mv -fv "opendrr-boundaries-${boundaries_branch}.sql" opendrr-boundaries.sql
