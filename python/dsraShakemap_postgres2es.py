@@ -70,6 +70,32 @@ def main():
     )
     dsraTable.postgis2es()
 
+    # Create load 1km shakemap hexbin unclipped
+    dsraTable = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_1km_uc".format(**{
+            'eqScenario': args.eqScenario}).lower(),
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_1km_uc \
+            ORDER BY dsra_{eqScenario}_shakemap_hexbin_1km_uc."gridid_1" \
+            LIMIT {{limit}} \
+            OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
+    )
+    dsraTable.postgis2es()
+
     # Create load 5km shakemap hexbin
     dsraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
@@ -91,6 +117,32 @@ def main():
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_5km \
             ORDER BY dsra_{eqScenario}_shakemap_hexbin_5km."gridid_5" \
+            LIMIT {{limit}} \
+            OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
+    )
+    dsraTable.postgis2es()
+
+    # Create load 5km shakemap hexbin unlcipped
+    dsraTable = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_5km_uc".format(**{
+            'eqScenario': args.eqScenario}).lower(),
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_5km_uc \
+            ORDER BY dsra_{eqScenario}_shakemap_hexbin_5km_uc."gridid_5" \
             LIMIT {{limit}} \
             OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
     )
@@ -122,6 +174,32 @@ def main():
     )
     dsraTable.postgis2es()
 
+    # Create load 10km shakemap hexbin unclipped
+    dsraTable = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_10km_uc".format(**{
+            'eqScenario': args.eqScenario}).lower(),
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_10km_uc \
+            ORDER BY dsra_{eqScenario}_shakemap_hexbin_10km_uc."gridid_10" \
+            LIMIT {{limit}} \
+            OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
+    )
+    dsraTable.postgis2es()
+
     # Create load 25km shakemap hexbin
     dsraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
@@ -148,7 +226,7 @@ def main():
     )
     dsraTable.postgis2es()
 
-    # Create load 50km shakemap hexbin
+    # Create load 25km shakemap hexbin unclipped
     dsraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -164,17 +242,17 @@ def main():
                 }
             }
         }),
-        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_50km".format(**{
+        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_25km_uc".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
-            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_50km \
-            ORDER BY dsra_{eqScenario}_shakemap_hexbin_50km."gridid_50" \
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_25km_uc \
+            ORDER BY dsra_{eqScenario}_shakemap_hexbin_25km_uc."gridid_25" \
             LIMIT {{limit}} \
             OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
     )
     dsraTable.postgis2es()
 
-    # Create load 100km shakemap hexbin
+    # Create load 50km shakemap hexbin unclipped
     dsraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -190,11 +268,37 @@ def main():
                 }
             }
         }),
-        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_100km".format(**{
+        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_50km_uc".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
-            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_100km \
-            ORDER BY dsra_{eqScenario}_shakemap_hexbin_100km."gridid_100" \
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_50km_uc \
+            ORDER BY dsra_{eqScenario}_shakemap_hexbin_50km_uc."gridid_50" \
+            LIMIT {{limit}} \
+            OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
+    )
+    dsraTable.postgis2es()
+
+    # Create load 100km shakemap hexbin unclipped
+    dsraTable = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_100km_uc".format(**{
+            'eqScenario': args.eqScenario}).lower(),
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_100km_uc \
+            ORDER BY dsra_{eqScenario}_shakemap_hexbin_100km_uc."gridid_100" \
             LIMIT {{limit}} \
             OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
     )
