@@ -1084,11 +1084,16 @@ export_to_elasticsearch() {
   if [[ $loadSocialFabric = true ]]; then
     LOG "Creating Elasticsearch indexes for Social Fabric"
     RUN python3 socialFabric_postgres2es.py --aggregation="sauid" --geometry=geom_poly --sortfield="Sauid"
+    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_1km" --geometry=geom --sortfield="gridid_1"
+    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_1km_uc" --geometry=geom --sortfield="gridid_1"
     RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_5km" --geometry=geom --sortfield="gridid_5"
+    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_5km_uc" --geometry=geom --sortfield="gridid_5"
     RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_10km" --geometry=geom --sortfield="gridid_10"
+    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_10km_uc" --geometry=geom --sortfield="gridid_10"
     RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_25km" --geometry=geom --sortfield="gridid_25"
-    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_50km" --geometry=geom --sortfield="gridid_50"
-    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_100km" --geometry=geom --sortfield="gridid_100"
+    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_25km_uc" --geometry=geom --sortfield="gridid_25"
+    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_50km_uc" --geometry=geom --sortfield="gridid_50"
+    RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_100km_uc" --geometry=geom --sortfield="gridid_100"
 
     LOG "Creating Social Fabric Kibana Index Patterns"
     RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_nhsl_social_fabric_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_nhsl_social_fabric_indicators_s"}}'
