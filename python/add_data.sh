@@ -509,7 +509,7 @@ import_census_boundaries() {
 
   # Git branch or tag from which we want to fetch.
   # Examples: "test_hexbin_unclipped", "v1.3.0"
-  local boundaries_branch="test_hexbin_unclipped"
+  local boundaries_branch="v1.4.0"
 
   if release_view=$(gh release view "${boundaries_branch}" -R "${repo}"); then
     # For released version, we download from release assets
