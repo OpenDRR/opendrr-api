@@ -82,6 +82,58 @@ def main():
     )
     table.postgis2es()
 
+    # hexbin 1km aggregation
+    table = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_nhsl_physical_exposure_indicators_hexbin_1km",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM \
+            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_1km \
+            ORDER BY nhsl_physical_exposure_indicators_hexbin_1km."gridid_1" \
+            LIMIT {limit} \
+            OFFSET {offset}'
+    )
+    table.postgis2es()
+
+    # hexbin 1km unclipped aggregation
+    table = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_nhsl_physical_exposure_indicators_hexbin_1km_uc",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM \
+            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_1km_uc \
+            ORDER BY nhsl_physical_exposure_indicators_hexbin_1km_uc."gridid_1" \
+            LIMIT {limit} \
+            OFFSET {offset}'
+    )
+    table.postgis2es()
+
     # hexbin 5km aggregation
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
@@ -103,6 +155,32 @@ def main():
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_5km \
             ORDER BY nhsl_physical_exposure_indicators_hexbin_5km."gridid_5" \
+            LIMIT {limit} \
+            OFFSET {offset}'
+    )
+    table.postgis2es()
+
+    # hexbin 5km unclipped aggregation
+    table = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_nhsl_physical_exposure_indicators_hexbin_5km_uc",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM \
+            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_5km_uc \
+            ORDER BY nhsl_physical_exposure_indicators_hexbin_5km_uc."gridid_5" \
             LIMIT {limit} \
             OFFSET {offset}'
     )
@@ -134,6 +212,32 @@ def main():
     )
     table.postgis2es()
 
+    # hexbin 10km unclipped aggregation
+    table = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_nhsl_physical_exposure_indicators_hexbin_10km_uc",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM \
+            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_10km_uc \
+            ORDER BY nhsl_physical_exposure_indicators_hexbin_10km_uc."gridid_10" \
+            LIMIT {limit} \
+            OFFSET {offset}'
+    )
+    table.postgis2es()
+
     # hexbin 25km aggregation
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
@@ -160,7 +264,7 @@ def main():
     )
     table.postgis2es()
 
-    # hexbin 50km aggregation
+    # hexbin 25km  unclipped aggregation
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -176,17 +280,17 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexbin_50km",
+        view="opendrr_nhsl_physical_exposure_indicators_hexbin_25km_uc",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
-            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_50km \
-            ORDER BY nhsl_physical_exposure_indicators_hexbin_50km."gridid_50" \
+            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_25km_uc \
+            ORDER BY nhsl_physical_exposure_indicators_hexbin_25km_uc."gridid_25" \
             LIMIT {limit} \
             OFFSET {offset}'
     )
     table.postgis2es()
 
-    # hexbin 100km aggregation
+    # hexbin 50km unclipped aggregation
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -202,11 +306,37 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexbin_100km",
+        view="opendrr_nhsl_physical_exposure_indicators_hexbin_50km_uc",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
-            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_100km \
-            ORDER BY nhsl_physical_exposure_indicators_hexbin_100km."gridid_100" \
+            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_50km_uc \
+            ORDER BY nhsl_physical_exposure_indicators_hexbin_50km_uc."gridid_50" \
+            LIMIT {limit} \
+            OFFSET {offset}'
+    )
+    table.postgis2es()
+
+    # hexbin 100km unclipped aggregation
+    table = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_nhsl_physical_exposure_indicators_hexbin_100km_uc",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM \
+            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_100km_uc \
+            ORDER BY nhsl_physical_exposure_indicators_hexbin_100km_uc."gridid_100" \
             LIMIT {limit} \
             OFFSET {offset}'
     )
