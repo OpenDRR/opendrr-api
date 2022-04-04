@@ -287,7 +287,7 @@ fetch_psra_csv_from_model() {
     RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
       --retry 999 --retry-max-time 0 \
       -o "${PT}.json" \
-      -L "https://api.github.com/repos/OpenDRR/canada-srm2/contents/$model/output/${PT}?ref=tieg_natmodel2021"
+      -L "https://api.github.com/repos/OpenDRR/canada-srm2/contents/$model/output/${PT}?ref=master"
 
     RUN mapfile -t DOWNLOAD_LIST < <(jq -r '.[].url | select(. | contains(".csv"))' "${PT}.json")
 
@@ -325,7 +325,7 @@ fetch_psra_csv_from_national_model() {
   RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
     --retry 999 --retry-max-time 0 \
     -o "${PT}.json" \
-    -L "https://api.github.com/repos/OpenDRR/canada-srm2/contents/$model/output/Canada?ref=tieg_natmodel2021"
+    -L "https://api.github.com/repos/OpenDRR/canada-srm2/contents/$model/output/Canada?ref=master"
 
   RUN mapfile -t DOWNLOAD_LIST < <(jq -r '.[].url | select(. | contains(".csv"))' "${PT}.json")
 
@@ -674,7 +674,7 @@ download_luts() {
   # RUN fetch_csv canada-srm2 \
   #   blob/tieg_natmodel2021/sourceTypes.csv
   RUN fetch_csv canada-srm2 \
-    sourceTypes.csv?ref=tieg_natmodel2021
+    sourceTypes.csv?ref=master
 }
 
 download_retrofit_costs() {
@@ -774,7 +774,7 @@ import_raw_psra_tables() {
   RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
     --retry 999 --retry-max-time 0 \
     -o output.json \
-    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output?ref=tieg_natmodel2021
+    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output?ref=master
 
   # TODO: Compare PT_LIST with FETCHED_PT_LIST
   RUN mapfile -t FETCHED_PT_LIST < <(jq -r '.[].name' output.json)
