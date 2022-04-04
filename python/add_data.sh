@@ -432,7 +432,7 @@ read_github_token() {
   tmpfile=$(mktemp)
   status_code=$(curl --write-out "%{http_code}" --silent --output "$tmpfile" \
     -H "Authorization: token ${GITHUB_TOKEN}" \
-    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output)
+    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/eDamage/output)
   INFO "Access to OpenDRR/canada-srm2 returns HTTP status code $status_code"
 
   if [[ "$status_code" -ne 200 ]] ; then
@@ -774,20 +774,20 @@ import_raw_psra_tables() {
   RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
     --retry 999 --retry-max-time 0 \
     -o output.json \
-    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/cDamage/output?ref=master
+    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/eDamage/output?ref=master
 
   # TODO: Compare PT_LIST with FETCHED_PT_LIST
   RUN mapfile -t FETCHED_PT_LIST < <(jq -r '.[].name' output.json)
 
-  LOG "### cDamage"
-  RUN fetch_psra_csv_from_model cDamage
+  # LOG "### cDamage"
+  # RUN fetch_psra_csv_from_model cDamage
 
-  for PT in "${PT_LIST[@]}"; do
-    ( cd "cDamage/$PT"
-      RUN merge_csv cD_*dmg-mean_b0.csv "cD_${PT}_dmg-mean_b0.csv"
-      RUN merge_csv cD_*dmg-mean_r2.csv "cD_${PT}_dmg-mean_r2.csv"
-    )
-  done
+  # for PT in "${PT_LIST[@]}"; do
+  #   ( cd "cDamage/$PT"
+  #     RUN merge_csv cD_*dmg-mean_b0.csv "cD_${PT}_dmg-mean_b0.csv"
+  #     RUN merge_csv cD_*dmg-mean_r2.csv "cD_${PT}_dmg-mean_r2.csv"
+  #   )
+  # done
 
   LOG "### cHazard"
   RUN fetch_psra_csv_from_model cHazard
@@ -867,6 +867,8 @@ post_process_psra_tables() {
   RUN run_psql psra_4.Create_psra_sauid_all_indicators_Canada.sql
 
   RUN run_psql psra_6.Create_psra_merge_into_national_indicators.sql
+  RUN run_psql psra_7.Create_psra_national_hexbin_clipped_unclipped.sql
+  RUN run_psql psra_7.Create_psra_national_hexbin_clipped.sql
 }
 
 ############################################################################################
