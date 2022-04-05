@@ -455,14 +455,14 @@ read_github_token() {
 # from the OpenDRR/model-factory repository
 get_model_factory_scripts() {
   # TODO: Make this more robust
-  curl -L -o model-factory.tar.gz https://github.com/OpenDRR/model-factory/archive/refs/tags/v1.4.0.tar.gz
-  tar -xf model-factory.tar.gz
-  # RUN git clone https://github.com/OpenDRR/model-factory.git --branch test_hexbin_unclipped --depth 1 || (cd model-factory ; RUN git pull)
+  # curl -L -o model-factory.tar.gz https://github.com/OpenDRR/model-factory/archive/refs/tags/v1.4.0.tar.gz
+  # tar -xf model-factory.tar.gz
+  RUN git clone https://github.com/OpenDRR/model-factory.git --branch update_psra_apr2022 --depth 1 || (cd model-factory ; RUN git pull)
 
   # Copy model-factory scripts to working directory
   # TODO: Find ways to keep these scripts in their place without copying them all to WORKDIR
-  RUN cp model-factory-1.4.0/scripts/*.* .
-  # RUN cp model-factory/scripts/*.* .
+  # RUN cp model-factory-1.4.0/scripts/*.* .
+  RUN cp model-factory/scripts/*.* .
   #rm -rf model-factory
 }
 
