@@ -616,9 +616,9 @@ download_physical_exposure_model() {
     exposure/general-building-stock/BldgExpRef_CA_master_v3p2.csv
   RUN run_psql Create_table_canada_exposure.sql
 
-  RUN fetch_csv model-inputs \
-    exposure/building-inventory/metro-vancouver/PhysExpRef_MetroVan_v4.csv
-  RUN run_psql Create_table_canada_site_exposure_ste.sql
+  # RUN fetch_csv model-inputs \
+  #   exposure/building-inventory/metro-vancouver/PhysExpRef_MetroVan_v4.csv
+  # RUN run_psql Create_table_canada_site_exposure_ste.sql
 }
 
 download_vs30_model() {
@@ -747,9 +747,9 @@ generate_indicators() {
   LOG "## Generate Indicators"
   RUN run_psql Create_physical_exposure_building_indicators_PhysicalExposure.sql
   RUN run_psql Create_physical_exposure_sauid_indicators_view_PhysicalExposure.sql
-  RUN run_psql Create_physical_exposure_building_indicators_PhysicalExposure_ste.sql
-  RUN run_psql Create_physical_exposure_sauid_indicators_view_PhysicalExposure_ste.sql
-  RUN run_psql Create_physical_exposure_site_level_indicators_PhysicalExposure_ste.sql
+  # RUN run_psql Create_physical_exposure_building_indicators_PhysicalExposure_ste.sql
+  # RUN run_psql Create_physical_exposure_sauid_indicators_view_PhysicalExposure_ste.sql
+  # RUN run_psql Create_physical_exposure_site_level_indicators_PhysicalExposure_ste.sql
   RUN run_psql Create_risk_dynamics_indicators.sql
   RUN run_psql Create_social_vulnerability_sauid_indicators_SocialFabric.sql
   RUN run_psql Create_MH_risk_sauid_prioritization_prereq_tables.sql
