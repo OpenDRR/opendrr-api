@@ -739,8 +739,8 @@ copy_ancillary_tables() {
 post_process_all_tables_update() {
   LOG "## Perform update operations on all tables after data copied into tables"
   RUN run_psql Create_all_tables_update.sql
-  RUN run_psql Create_site_exposure_to_building_and_sauid.sql
-  RUN run_psql Create_table_vs_30_BC_CAN_model_update_site_exposure.sql
+  # RUN run_psql Create_site_exposure_to_building_and_sauid.sql
+  # RUN run_psql Create_table_vs_30_BC_CAN_model_update_site_exposure.sql
 }
 
 generate_indicators() {
