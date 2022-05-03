@@ -755,11 +755,11 @@ generate_indicators() {
   RUN run_psql Create_MH_risk_sauid_prioritization_prereq_tables.sql
   RUN run_psql Create_MH_risk_sauid_prioritization_Canada.sql
   # RUN run_psql Create_MH_risk_sauid_ALL.sql
-  RUN run_psql Create_hexbin_physical_exposure_aggregation_area_proxy.sql
+  RUN run_psql Create_hexgrid_physical_exposure_aggregation_area_proxy.sql
   # RUN run_psql Create_hexbin_physical_exposure_hexbin_aggregation_centroid.sql
-  RUN run_psql Create_hexbin_MH_risk_sauid_prioritization_aggregation_area.sql
+  RUN run_psql Create_hexgrid_MH_risk_sauid_prioritization_aggregation_area.sql
   # RUN run_psql Create_hexbin_MH_risk_sauid_prioritization_aggregation_centroid.sql
-  RUN run_psql Create_hexbin_social_vulnerability_aggregation_area_proxy.sql
+  RUN run_psql Create_hexgrid_social_vulnerability_aggregation_area_proxy.sql
   # RUN run_psql Create_hexbin_social_vulnerability_aggregation_centroid.sql
 }
 
@@ -867,8 +867,8 @@ post_process_psra_tables() {
   RUN run_psql psra_4.Create_psra_sauid_all_indicators_Canada.sql
 
   RUN run_psql psra_6.Create_psra_merge_into_national_indicators.sql
-  RUN run_psql psra_7.Create_psra_national_hexbin_clipped_unclipped.sql
-  RUN run_psql psra_7.Create_psra_national_hexbin_clipped.sql
+  RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_unclipped.sql
+  RUN run_psql psra_7.Create_psra_national_hexgrid_clipped.sql
 }
 
 ############################################################################################
