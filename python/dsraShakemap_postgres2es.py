@@ -44,7 +44,7 @@ def main():
     )
     dsraTable.postgis2es()
 
-    # Create load 1km shakemap hexbin
+    # Create load 1km shakemap hexgrid
     dsraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -70,7 +70,7 @@ def main():
     )
     dsraTable.postgis2es()
 
-    # Create load 1km shakemap hexbin unclipped
+    # Create load 1km shakemap hexgrid unclipped
     dsraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -96,7 +96,7 @@ def main():
     )
     dsraTable.postgis2es()
 
-    # Create load 5km shakemap hexbin
+    # Create load 5km shakemap hexgrid
     dsraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -122,7 +122,7 @@ def main():
     )
     dsraTable.postgis2es()
 
-    # Create load 5km shakemap hexbin unlcipped
+    # Create load 5km shakemap hexgrid unclipped
     dsraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -148,7 +148,7 @@ def main():
     )
     dsraTable.postgis2es()
 
-    # Create load 10km shakemap hexbin
+    # Create load 10km shakemap hexgrid
     dsraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -164,7 +164,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_10km".format(**{
+        view="opendrr_dsra_{eqScenario}_shakemap_hexgrid_10km".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM results_dsra_{eqScenario}.dsra_{eqScenario}_sm_hg_10 \
@@ -174,7 +174,7 @@ def main():
     )
     dsraTable.postgis2es()
 
-    # Create load 10km shakemap hexbin unclipped
+    # Create load 10km shakemap hexgrid unclipped
     dsraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -190,7 +190,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_10km_uc".format(**{
+        view="opendrr_dsra_{eqScenario}_shakemap_hexgrid_10km_uc".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM results_dsra_{eqScenario}.dsra_{eqScenario}_sm_hg_10_uc \
@@ -200,7 +200,7 @@ def main():
     )
     dsraTable.postgis2es()
 
-    # Create load 25km shakemap hexbin
+    # Create load 25km shakemap hexgrid
     dsraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -216,7 +216,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_25km".format(**{
+        view="opendrr_dsra_{eqScenario}_shakemap_hexgrid_25km".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM results_dsra_{eqScenario}.dsra_{eqScenario}_sm_hg_25 \
@@ -226,7 +226,7 @@ def main():
     )
     dsraTable.postgis2es()
 
-    # Create load 25km shakemap hexbin unclipped
+    # Create load 25km shakemap hexgrid unclipped
     dsraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -242,7 +242,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_25km_uc".format(**{
+        view="opendrr_dsra_{eqScenario}_shakemap_hexgrid_25km_uc".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM results_dsra_{eqScenario}.dsra_{eqScenario}_sm_hg_25_uc \
@@ -252,7 +252,7 @@ def main():
     )
     dsraTable.postgis2es()
 
-    # Create load 50km shakemap hexbin unclipped
+    # Create load 50km shakemap hexgrid unclipped
     dsraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -268,7 +268,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_50km_uc".format(**{
+        view="opendrr_dsra_{eqScenario}_shakemap_hexgrid_50km_uc".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM results_dsra_{eqScenario}.dsra_{eqScenario}_sm_hg_50_uc \
@@ -278,7 +278,7 @@ def main():
     )
     dsraTable.postgis2es()
 
-    # Create load 100km shakemap hexbin unclipped
+    # Create load 100km shakemap hexgrid unclipped
     dsraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -294,7 +294,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_100km_uc".format(**{
+        view="opendrr_dsra_{eqScenario}_shakemap_hexgrid_100km_uc".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM results_dsra_{eqScenario}.dsra_{eqScenario}_sm_hg_100_uc \
