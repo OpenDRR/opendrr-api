@@ -60,11 +60,11 @@ def main():
                 }
             }
         }),
-        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_1km".format(**{
+        view="opendrr_dsra_{eqScenario}_shakemap_hexgrid_1km".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
-            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_1km \
-            ORDER BY dsra_{eqScenario}_shakemap_hexbin_1km."gridid_1" \
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_sm_hg_1 \
+            ORDER BY dsra_{eqScenario}_sm_hg_1."gridid_1" \
             LIMIT {{limit}} \
             OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
     )
@@ -86,11 +86,11 @@ def main():
                 }
             }
         }),
-        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_1km_uc".format(**{
+        view="opendrr_dsra_{eqScenario}_shakemap_hexgrid_1km_uc".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
-            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_1km_uc \
-            ORDER BY dsra_{eqScenario}_shakemap_hexbin_1km_uc."gridid_1" \
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_sm_hg_1_uc \
+            ORDER BY dsra_{eqScenario}_sm_hg_1_uc."gridid_1" \
             LIMIT {{limit}} \
             OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
     )
@@ -112,11 +112,11 @@ def main():
                 }
             }
         }),
-        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_5km".format(**{
+        view="opendrr_dsra_{eqScenario}_shakemap_hexgrid_5km".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
-            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_5km \
-            ORDER BY dsra_{eqScenario}_shakemap_hexbin_5km."gridid_5" \
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_sm_hg_5 \
+            ORDER BY dsra_{eqScenario}_sm_hg_5."gridid_5" \
             LIMIT {{limit}} \
             OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
     )
@@ -138,11 +138,11 @@ def main():
                 }
             }
         }),
-        view="opendrr_dsra_{eqScenario}_shakemap_hexbin_5km_uc".format(**{
+        view="opendrr_dsra_{eqScenario}_shakemap_hexgrid_5km_uc".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
-            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_5km_uc \
-            ORDER BY dsra_{eqScenario}_shakemap_hexbin_5km_uc."gridid_5" \
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_sm_hg_5_uc \
+            ORDER BY dsra_{eqScenario}_sm_hg_5_uc."gridid_5" \
             LIMIT {{limit}} \
             OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
     )
@@ -167,8 +167,8 @@ def main():
         view="opendrr_dsra_{eqScenario}_shakemap_hexbin_10km".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
-            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_10km \
-            ORDER BY dsra_{eqScenario}_shakemap_hexbin_10km."gridid_10" \
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_sm_hg_10 \
+            ORDER BY dsra_{eqScenario}_sm_hg_10."gridid_10" \
             LIMIT {{limit}} \
             OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
     )
@@ -193,8 +193,8 @@ def main():
         view="opendrr_dsra_{eqScenario}_shakemap_hexbin_10km_uc".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
-            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_10km_uc \
-            ORDER BY dsra_{eqScenario}_shakemap_hexbin_10km_uc."gridid_10" \
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_sm_hg_10_uc \
+            ORDER BY dsra_{eqScenario}_sm_hg_10_uc."gridid_10" \
             LIMIT {{limit}} \
             OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
     )
@@ -219,8 +219,8 @@ def main():
         view="opendrr_dsra_{eqScenario}_shakemap_hexbin_25km".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
-            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_25km \
-            ORDER BY dsra_{eqScenario}_shakemap_hexbin_25km."gridid_25" \
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_sm_hg_25 \
+            ORDER BY dsra_{eqScenario}_sm_hg_25."gridid_25" \
             LIMIT {{limit}} \
             OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
     )
@@ -245,8 +245,8 @@ def main():
         view="opendrr_dsra_{eqScenario}_shakemap_hexbin_25km_uc".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
-            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_25km_uc \
-            ORDER BY dsra_{eqScenario}_shakemap_hexbin_25km_uc."gridid_25" \
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_sm_hg_25_uc \
+            ORDER BY dsra_{eqScenario}_sm_hg_25_uc."gridid_25" \
             LIMIT {{limit}} \
             OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
     )
@@ -271,8 +271,8 @@ def main():
         view="opendrr_dsra_{eqScenario}_shakemap_hexbin_50km_uc".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
-            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_50km_uc \
-            ORDER BY dsra_{eqScenario}_shakemap_hexbin_50km_uc."gridid_50" \
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_sm_hg_50_uc \
+            ORDER BY dsra_{eqScenario}_sm_hg_50_uc."gridid_50" \
             LIMIT {{limit}} \
             OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
     )
@@ -297,8 +297,8 @@ def main():
         view="opendrr_dsra_{eqScenario}_shakemap_hexbin_100km_uc".format(**{
             'eqScenario': args.eqScenario}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
-            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_shakemap_hexbin_100km_uc \
-            ORDER BY dsra_{eqScenario}_shakemap_hexbin_100km_uc."gridid_100" \
+            FROM results_dsra_{eqScenario}.dsra_{eqScenario}_sm_hg_100_uc \
+            ORDER BY dsra_{eqScenario}_sm_hg_100_uc."gridid_100" \
             LIMIT {{limit}} \
             OFFSET {{offset}}'.format(**{'eqScenario': args.eqScenario})
     )
