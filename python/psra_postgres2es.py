@@ -126,6 +126,266 @@ def main():
     )
     psraTable.postgis2es()
 
+    # hexgrid 1km aggregation
+    table = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_nhsl_psra_indicators_hexgrid_1km",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM \
+            results_psra_national.psra_indicators_hexgrid_1km \
+            ORDER BY psra_indicators_hexgrid_1km."gridid_1" \
+            LIMIT {limit} \
+            OFFSET {offset}'
+    )
+    table.postgis2es()
+
+    # hexgrid 1km unclipped aggregation
+    table = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_nhsl_psra_indicators_hexgrid_1km_uc",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM \
+            results_psra_national.psra_indicators_hexgrid_1km_uc \
+            ORDER BY psra_indicators_hexgrid_1km_uc."gridid_1" \
+            LIMIT {limit} \
+            OFFSET {offset}'
+    )
+    table.postgis2es()
+
+    # hexgrid 5km aggregation
+    table = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_nhsl_psra_indicators_hexgrid_5km",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM \
+            results_psra_national.psra_indicators_hexgrid_5km \
+            ORDER BY psra_indicators_hexgrid_5km."gridid_5" \
+            LIMIT {limit} \
+            OFFSET {offset}'
+    )
+    table.postgis2es()
+
+    # hexgrid 5km unclipped aggregation
+    table = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_nhsl_psra_indicators_hexgrid_5km_uc",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM \
+            results_psra_national.psra_indicators_hexgrid_5km_uc \
+            ORDER BY psra_indicators_hexgrid_5km_uc."gridid_5" \
+            LIMIT {limit} \
+            OFFSET {offset}'
+    )
+    table.postgis2es()
+
+    # hexgrid 10km aggregation
+    table = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_nhsl_psra_indicators_hexgrid_10km",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM \
+            results_psra_national.psra_indicators_hexgrid_10km \
+            ORDER BY psra_indicators_hexgrid_10km."gridid_10" \
+            LIMIT {limit} \
+            OFFSET {offset}'
+    )
+    table.postgis2es()
+
+    # hexgrid 10km unclipped aggregation
+    table = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_nhsl_psra_indicators_hexgrid_10km_uc",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM \
+            results_psra_national.psra_indicators_hexgrid_10km_uc \
+            ORDER BY psra_indicators_hexgrid_10km_uc."gridid_10" \
+            LIMIT {limit} \
+            OFFSET {offset}'
+    )
+    table.postgis2es()
+
+    # hexgrid 25km aggregation
+    table = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_nhsl_psra_indicators_hexgrid_25km",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM \
+            results_psra_national.psra_indicators_hexgrid_25km \
+            ORDER BY psra_indicators_hexgrid_25km."gridid_25" \
+            LIMIT {limit} \
+            OFFSET {offset}'
+    )
+    table.postgis2es()
+
+    # hexgrid 25km unclipped aggregation
+    table = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_nhsl_psra_indicators_hexgrid_25km_uc",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM \
+            results_psra_national.psra_indicators_hexgrid_25km_uc \
+            ORDER BY psra_indicators_hexgrid_25km_uc."gridid_25" \
+            LIMIT {limit} \
+            OFFSET {offset}'
+    )
+    table.postgis2es()
+
+    # hexgrid 50km unclipped aggregation
+    table = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_nhsl_psra_indicators_hexgrid_50km_uc",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM \
+            results_psra_national.psra_indicators_hexgrid_50km_uc \
+            ORDER BY psra_indicators_hexgrid_50km_uc."gridid_50" \
+            LIMIT {limit} \
+            OFFSET {offset}'
+    )
+    table.postgis2es()
+
+        # hexgrid 100km unclipped aggregation
+    table = utils.PostGISdataset(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            },
+            'mappings': {
+                'properties': {
+                    'geometry': {
+                        'type': 'geo_shape'
+                    }
+                }
+            }
+        }),
+        view="opendrr_nhsl_psra_indicators_hexgrid_100km_uc",
+        sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
+            FROM \
+            results_psra_national.psra_indicators_hexgrid_100km_uc \
+            ORDER BY psra_indicators_hexgrid_100km_uc."gridid_100" \
+            LIMIT {limit} \
+            OFFSET {offset}'
+    )
+    table.postgis2es()
+
     # psra Canada agg loss
     psraTable = utils.PostGISTable(
         utils.PostGISConnection(),
