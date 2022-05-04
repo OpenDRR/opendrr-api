@@ -82,7 +82,7 @@ def main():
     )
     table.postgis2es()
 
-    # hexbin 1km aggregation
+    # hexgrid 1km aggregation
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -98,17 +98,17 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexbin_1km",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_1km",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
-            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_1km \
-            ORDER BY nhsl_physical_exposure_indicators_hexbin_1km."gridid_1" \
+            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_1km \
+            ORDER BY nhsl_physical_exposure_indicators_hexgrid_1km."gridid_1" \
             LIMIT {limit} \
             OFFSET {offset}'
     )
     table.postgis2es()
 
-    # hexbin 1km unclipped aggregation
+    # hexgrid 1km unclipped aggregation
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -124,17 +124,17 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexbin_1km_uc",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_1km_uc",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
-            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_1km_uc \
-            ORDER BY nhsl_physical_exposure_indicators_hexbin_1km_uc."gridid_1" \
+            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_1km_uc \
+            ORDER BY nhsl_physical_exposure_indicators_hexgrid_1km_uc."gridid_1" \
             LIMIT {limit} \
             OFFSET {offset}'
     )
     table.postgis2es()
 
-    # hexbin 5km aggregation
+    # hexgrid 5km aggregation
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -150,17 +150,17 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexbin_5km",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_5km",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
-            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_5km \
-            ORDER BY nhsl_physical_exposure_indicators_hexbin_5km."gridid_5" \
+            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_5km \
+            ORDER BY nhsl_physical_exposure_indicators_hexgrid_5km."gridid_5" \
             LIMIT {limit} \
             OFFSET {offset}'
     )
     table.postgis2es()
 
-    # hexbin 5km unclipped aggregation
+    # hexgrid 5km unclipped aggregation
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -176,17 +176,17 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexbin_5km_uc",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_5km_uc",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
-            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_5km_uc \
-            ORDER BY nhsl_physical_exposure_indicators_hexbin_5km_uc."gridid_5" \
+            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_5km_uc \
+            ORDER BY nhsl_physical_exposure_indicators_hexgrid_5km_uc."gridid_5" \
             LIMIT {limit} \
             OFFSET {offset}'
     )
     table.postgis2es()
 
-    # hexbin 10km aggregation
+    # hexgrid 10km aggregation
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -202,17 +202,17 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexbin_10km",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_10km",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
-            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_10km \
-            ORDER BY nhsl_physical_exposure_indicators_hexbin_10km."gridid_10" \
+            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_10km \
+            ORDER BY nhsl_physical_exposure_indicators_hexgrid_10km."gridid_10" \
             LIMIT {limit} \
             OFFSET {offset}'
     )
     table.postgis2es()
 
-    # hexbin 10km unclipped aggregation
+    # hexgrid 10km unclipped aggregation
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -228,17 +228,17 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexbin_10km_uc",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_10km_uc",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
-            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_10km_uc \
-            ORDER BY nhsl_physical_exposure_indicators_hexbin_10km_uc."gridid_10" \
+            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_10km_uc \
+            ORDER BY nhsl_physical_exposure_indicators_hexgrid_10km_uc."gridid_10" \
             LIMIT {limit} \
             OFFSET {offset}'
     )
     table.postgis2es()
 
-    # hexbin 25km aggregation
+    # hexgrid 25km aggregation
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -254,17 +254,17 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexbin_25km",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_25km",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
-            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_25km \
-            ORDER BY nhsl_physical_exposure_indicators_hexbin_25km."gridid_25" \
+            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_25km \
+            ORDER BY nhsl_physical_exposure_indicators_hexgrid_25km."gridid_25" \
             LIMIT {limit} \
             OFFSET {offset}'
     )
     table.postgis2es()
 
-    # hexbin 25km  unclipped aggregation
+    # hexgrid 25km  unclipped aggregation
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -280,17 +280,17 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexbin_25km_uc",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_25km_uc",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
-            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_25km_uc \
-            ORDER BY nhsl_physical_exposure_indicators_hexbin_25km_uc."gridid_25" \
+            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_25km_uc \
+            ORDER BY nhsl_physical_exposure_indicators_hexgrid_25km_uc."gridid_25" \
             LIMIT {limit} \
             OFFSET {offset}'
     )
     table.postgis2es()
 
-    # hexbin 50km unclipped aggregation
+    # hexgrid 50km unclipped aggregation
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -306,17 +306,17 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexbin_50km_uc",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_50km_uc",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
-            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_50km_uc \
-            ORDER BY nhsl_physical_exposure_indicators_hexbin_50km_uc."gridid_50" \
+            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_50km_uc \
+            ORDER BY nhsl_physical_exposure_indicators_hexgrid_50km_uc."gridid_50" \
             LIMIT {limit} \
             OFFSET {offset}'
     )
     table.postgis2es()
 
-    # hexbin 100km unclipped aggregation
+    # hexgrid 100km unclipped aggregation
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -332,17 +332,17 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexbin_100km_uc",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_100km_uc",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
-            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_100km_uc \
-            ORDER BY nhsl_physical_exposure_indicators_hexbin_100km_uc."gridid_100" \
+            results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_100km_uc \
+            ORDER BY nhsl_physical_exposure_indicators_hexgrid_100km_uc."gridid_100" \
             LIMIT {limit} \
             OFFSET {offset}'
     )
     table.postgis2es()
 
-    # hexbin global fabric
+    # hexgrid global fabric
     # table = utils.PostGISdataset(
     #     utils.PostGISConnection(),
     #     utils.ESConnection(settings={
@@ -358,11 +358,11 @@ def main():
     #             }
     #         }
     #     }),
-    #     view="opendrr_nhsl_physical_exposure_indicators_hexbin_global_fabric",
+    #     view="opendrr_nhsl_physical_exposure_indicators_hexgrid_global_fabric",
     #     sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
     #         FROM \
-    #         results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexbin_global_fabric \
-    #         ORDER BY nhsl_physical_exposure_indicators_hexbin_global_fabric."gridid" \
+    #         results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_global_fabric \
+    #         ORDER BY nhsl_physical_exposure_indicators_hexgrid_global_fabric."gridid" \
     #         LIMIT {limit} \
     #         OFFSET {offset}'
     # )
