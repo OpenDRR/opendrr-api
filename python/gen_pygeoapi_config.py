@@ -29,6 +29,7 @@ def main():
 
     for k in list(lyrs.keys()):
         if k not in indices:
+            print('REMOVING TEMPLATE ENTRY FOR: ' + k)
             del lyrs[k]
         else:
             # write in the ES endpoint configured in the config.ini
