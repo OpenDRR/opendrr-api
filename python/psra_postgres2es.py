@@ -142,7 +142,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_psra_indicators_hexgrid_1km",
+        view="opendrr_psra_indicators_hexgrid_1km",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_1km \
@@ -168,7 +168,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_psra_indicators_hexgrid_1km_uc",
+        view="opendrr_psra_indicators_hexgrid_1km_uc",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_1km_uc \
@@ -194,7 +194,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_psra_indicators_hexgrid_5km",
+        view="opendrr_psra_indicators_hexgrid_5km",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_5km \
@@ -220,7 +220,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_psra_indicators_hexgrid_5km_uc",
+        view="opendrr_psra_indicators_hexgrid_5km_uc",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_5km_uc \
@@ -246,7 +246,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_psra_indicators_hexgrid_10km",
+        view="opendrr_psra_indicators_hexgrid_10km",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_10km \
@@ -272,7 +272,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_psra_indicators_hexgrid_10km_uc",
+        view="opendrr_psra_indicators_hexgrid_10km_uc",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_10km_uc \
@@ -298,7 +298,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_psra_indicators_hexgrid_25km",
+        view="opendrr_psra_indicators_hexgrid_25km",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_25km \
@@ -324,7 +324,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_psra_indicators_hexgrid_25km_uc",
+        view="opendrr_psra_indicators_hexgrid_25km_uc",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_25km_uc \
@@ -350,7 +350,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_psra_indicators_hexgrid_50km_uc",
+        view="opendrr_psra_indicators_hexgrid_50km_uc",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_50km_uc \
@@ -376,7 +376,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_psra_indicators_hexgrid_100km_uc",
+        view="opendrr_psra_indicators_hexgrid_100km_uc",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_100km_uc \
