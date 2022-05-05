@@ -3,7 +3,6 @@
 import configparser
 
 import yaml
-
 from elasticsearch import Elasticsearch
 
 
