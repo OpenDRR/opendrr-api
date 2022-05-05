@@ -33,7 +33,9 @@ def main():
             del lyrs[k]
         else:
             # write in the ES endpoint configured in the config.ini
-            new = lyrs[k]["providers"][0]["data"].replace("ES_ENDPOINT", auth.get("es", "es_endpoint"))
+            new = lyrs[k]["providers"][0]["data"].replace(
+                "ES_ENDPOINT", auth.get("es", "es_endpoint")
+            )
             lyrs[k]["providers"][0]["data"] = new
 
     # list indices missing from opendrr_config_template.yml
