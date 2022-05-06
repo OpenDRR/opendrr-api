@@ -97,7 +97,7 @@ metadata:
       en: https://www.nrcan.gc.ca/
       fr: https://www.rncan.gc.ca/
 resources:
-  opendrr_dsra_acm7p0_georgiastraitfault_indicators_b:
+  opendrr_dsra_acm7p0_georgiastraitfault_indicators_b_v1.4.0:
     description:
       en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake
         hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000,
@@ -135,7 +135,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_indicators_b
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_indicators_b_v1.4.0
       id_field: AssetID
       name: Elasticsearch
       type: feature
@@ -143,7 +143,7 @@ resources:
       en: Georgia Strait Scenario (Point)
       fr: "Sc\xE9nario Georgia Strait (Point)"
     type: collection
-  opendrr_dsra_acm7p0_georgiastraitfault_indicators_csd:
+  opendrr_dsra_acm7p0_georgiastraitfault_indicators_csd_v1.4.0:
     description:
       en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake
         hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000,
@@ -181,7 +181,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_indicators_csd
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_indicators_csd_v1.4.0
       id_field: csduid
       name: Elasticsearch
       type: feature
@@ -189,7 +189,7 @@ resources:
       en: Georgia Strait Scenario (Census Subdivision)
       fr: "Sc\xE9nario Georgia Strait (Subdivision du recensement)"
     type: collection
-  opendrr_dsra_acm7p0_georgiastraitfault_indicators_s:
+  opendrr_dsra_acm7p0_georgiastraitfault_indicators_s_v1.4.0:
     description:
       en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake
         hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000,
@@ -227,7 +227,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_indicators_s
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_indicators_s_v1.4.0
       id_field: Sauid
       name: Elasticsearch
       type: feature
@@ -235,7 +235,7 @@ resources:
       en: Georgia Strait Scenario (Settlement Area)
       fr: "Sc\xE9nario Georgia Strait (Zone de peuplement)"
     type: collection
-  opendrr_dsra_acm7p0_georgiastraitfault_shakemap:
+  opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_100km_uc_v1.4.0:
     description:
       en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake
         hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000,
@@ -273,61 +273,16 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap
-      id_field: SiteID
-      name: Elasticsearch
-      type: feature
-    title:
-      en: Georgia Strait Scenario Shake Map
-      fr: "Carte des secousses du sc\xE9nario Georgia Strait"
-    type: collection
-  opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_100km:
-    description:
-      en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake
-        hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000,
-        BSSA). These scenarios use a mapped crustal marine fault near Vancouver, but
-        consider larger magnitude events than those that have been observed to date
-        for that location. Maximum magnitude (7.5) is obtained from CanSHM6 for PUGET
-        SOUND SHALLOW.
-      fr: "Sc\xE9narios de rupture dans le d\xE9troit de Georgia utilisant l'hypocentre\
-        \ du s\xE9isme de 1997 dans le d\xE9troit de Georgia et la g\xE9om\xE9trie\
-        \ du plan de faille de Cassidy, Rogers et Waldhauser (2000, BSSA). Ces sc\xE9\
-        narios utilisent une faille marine crustale cartographi\xE9e pr\xE8s de Vancouver,\
-        \ mais consid\xE8rent des \xE9v\xE9nements de plus grande magnitude que ceux\
-        \ qui ont \xE9t\xE9 observ\xE9s \xE0 ce jour pour cet endroit. La magnitude\
-        \ maximale (7,5) est obtenue de CanSHM6 pour PUGET SOUND SHALLOW."
-    extents:
-      spatial:
-        bbox:
-        - -128.6887
-        - 48.3135
-        - -117.819
-        - 52.9344
-        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-      temporal:
-        begin: 2021-06-06
-        end: null
-    keywords:
-      en:
-      - earthquake
-      fr:
-      - tremblement de terre
-    links:
-    - href: http://www.riskprofiler.ca/
-      hreflang: en-US
-      rel: canonical
-      title: Information
-      type: text/html
-    providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_100km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_100km_uc_v1.4.0
       id_field: gridid_100
       name: Elasticsearch
       type: feature
     title:
-      en: Georgia Strait Scenario Shake Map 100km Hexbin
-      fr: "Carte des secousses du sc\xE9nario Georgia Strait \xE0 100km d'hexagone"
+      en: Georgia Strait Scenario Shake Map 100km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario Georgia Strait \xE0 100km d'hexagone\
+        \ (Non d\xE9collet\xE9s)"
     type: collection
-  opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_10km:
+  opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_10km_uc_v1.4.0:
     description:
       en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake
         hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000,
@@ -365,7 +320,54 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_10km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_10km_uc_v1.4.0
+      id_field: gridid_10
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Georgia Strait Scenario Shake Map 10km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario Georgia Strait \xE0 10km d'hexagone\
+        \ (Non d\xE9collet\xE9s)"
+    type: collection
+  opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_10km_v1.4.0:
+    description:
+      en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake
+        hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000,
+        BSSA). These scenarios use a mapped crustal marine fault near Vancouver, but
+        consider larger magnitude events than those that have been observed to date
+        for that location. Maximum magnitude (7.5) is obtained from CanSHM6 for PUGET
+        SOUND SHALLOW.
+      fr: "Sc\xE9narios de rupture dans le d\xE9troit de Georgia utilisant l'hypocentre\
+        \ du s\xE9isme de 1997 dans le d\xE9troit de Georgia et la g\xE9om\xE9trie\
+        \ du plan de faille de Cassidy, Rogers et Waldhauser (2000, BSSA). Ces sc\xE9\
+        narios utilisent une faille marine crustale cartographi\xE9e pr\xE8s de Vancouver,\
+        \ mais consid\xE8rent des \xE9v\xE9nements de plus grande magnitude que ceux\
+        \ qui ont \xE9t\xE9 observ\xE9s \xE0 ce jour pour cet endroit. La magnitude\
+        \ maximale (7,5) est obtenue de CanSHM6 pour PUGET SOUND SHALLOW."
+    extents:
+      spatial:
+        bbox:
+        - -128.6887
+        - 48.3135
+        - -117.819
+        - 52.9344
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_10km_v1.4.0
       id_field: gridid_10
       name: Elasticsearch
       type: feature
@@ -373,7 +375,7 @@ resources:
       en: Georgia Strait Scenario Shake Map 10km Hexbin
       fr: "Carte des secousses du sc\xE9nario Georgia Strait \xE0 10km d'hexagone"
     type: collection
-  opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km:
+  opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km_uc_v1.4.0:
     description:
       en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake
         hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000,
@@ -411,7 +413,54 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km_uc_v1.4.0
+      id_field: gridid_1
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Georgia Strait Scenario Shake Map 1km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario Georgia Strait \xE0 1km d'hexagone (Non\
+        \ d\xE9collet\xE9s)"
+    type: collection
+  opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km_v1.4.0:
+    description:
+      en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake
+        hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000,
+        BSSA). These scenarios use a mapped crustal marine fault near Vancouver, but
+        consider larger magnitude events than those that have been observed to date
+        for that location. Maximum magnitude (7.5) is obtained from CanSHM6 for PUGET
+        SOUND SHALLOW.
+      fr: "Sc\xE9narios de rupture dans le d\xE9troit de Georgia utilisant l'hypocentre\
+        \ du s\xE9isme de 1997 dans le d\xE9troit de Georgia et la g\xE9om\xE9trie\
+        \ du plan de faille de Cassidy, Rogers et Waldhauser (2000, BSSA). Ces sc\xE9\
+        narios utilisent une faille marine crustale cartographi\xE9e pr\xE8s de Vancouver,\
+        \ mais consid\xE8rent des \xE9v\xE9nements de plus grande magnitude que ceux\
+        \ qui ont \xE9t\xE9 observ\xE9s \xE0 ce jour pour cet endroit. La magnitude\
+        \ maximale (7,5) est obtenue de CanSHM6 pour PUGET SOUND SHALLOW."
+    extents:
+      spatial:
+        bbox:
+        - -128.6887
+        - 48.3135
+        - -117.819
+        - 52.9344
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km_v1.4.0
       id_field: gridid_1
       name: Elasticsearch
       type: feature
@@ -419,7 +468,7 @@ resources:
       en: Georgia Strait Scenario Shake Map 1km Hexbin
       fr: "Carte des secousses du sc\xE9nario Georgia Strait \xE0 1km d'hexagone"
     type: collection
-  opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_25km:
+  opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_25km_uc_v1.4.0:
     description:
       en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake
         hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000,
@@ -457,7 +506,54 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_25km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_25km_uc_v1.4.0
+      id_field: gridid_25
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Georgia Strait Scenario Shake Map 25km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario Georgia Strait \xE0 25km d'hexagone\
+        \ (Non d\xE9collet\xE9s)"
+    type: collection
+  opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_25km_v1.4.0:
+    description:
+      en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake
+        hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000,
+        BSSA). These scenarios use a mapped crustal marine fault near Vancouver, but
+        consider larger magnitude events than those that have been observed to date
+        for that location. Maximum magnitude (7.5) is obtained from CanSHM6 for PUGET
+        SOUND SHALLOW.
+      fr: "Sc\xE9narios de rupture dans le d\xE9troit de Georgia utilisant l'hypocentre\
+        \ du s\xE9isme de 1997 dans le d\xE9troit de Georgia et la g\xE9om\xE9trie\
+        \ du plan de faille de Cassidy, Rogers et Waldhauser (2000, BSSA). Ces sc\xE9\
+        narios utilisent une faille marine crustale cartographi\xE9e pr\xE8s de Vancouver,\
+        \ mais consid\xE8rent des \xE9v\xE9nements de plus grande magnitude que ceux\
+        \ qui ont \xE9t\xE9 observ\xE9s \xE0 ce jour pour cet endroit. La magnitude\
+        \ maximale (7,5) est obtenue de CanSHM6 pour PUGET SOUND SHALLOW."
+    extents:
+      spatial:
+        bbox:
+        - -128.6887
+        - 48.3135
+        - -117.819
+        - 52.9344
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_25km_v1.4.0
       id_field: gridid_25
       name: Elasticsearch
       type: feature
@@ -465,7 +561,7 @@ resources:
       en: Georgia Strait Scenario Shake Map 25km Hexbin
       fr: "Carte des secousses du sc\xE9nario Georgia Strait \xE0 25km d'hexagone"
     type: collection
-  opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_50km:
+  opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_50km_uc_v1.4.0:
     description:
       en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake
         hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000,
@@ -503,15 +599,16 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_50km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_50km_uc_v1.4.0
       id_field: gridid_50
       name: Elasticsearch
       type: feature
     title:
-      en: Georgia Strait Scenario Shake Map 50km Hexbin
-      fr: "Carte des secousses du sc\xE9nario Georgia Strait \xE0 50km d'hexagone"
+      en: Georgia Strait Scenario Shake Map 50km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario Georgia Strait \xE0 50km d'hexagone\
+        \ (Non d\xE9collet\xE9s)"
     type: collection
-  opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_5km:
+  opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_5km_uc_v1.4.0:
     description:
       en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake
         hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000,
@@ -549,7 +646,54 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_5km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_5km_uc_v1.4.0
+      id_field: gridid_5
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Georgia Strait Scenario Shake Map 5km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario Georgia Strait \xE0 5km d'hexagone (Non\
+        \ d\xE9collet\xE9s)"
+    type: collection
+  opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_5km_v1.4.0:
+    description:
+      en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake
+        hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000,
+        BSSA). These scenarios use a mapped crustal marine fault near Vancouver, but
+        consider larger magnitude events than those that have been observed to date
+        for that location. Maximum magnitude (7.5) is obtained from CanSHM6 for PUGET
+        SOUND SHALLOW.
+      fr: "Sc\xE9narios de rupture dans le d\xE9troit de Georgia utilisant l'hypocentre\
+        \ du s\xE9isme de 1997 dans le d\xE9troit de Georgia et la g\xE9om\xE9trie\
+        \ du plan de faille de Cassidy, Rogers et Waldhauser (2000, BSSA). Ces sc\xE9\
+        narios utilisent une faille marine crustale cartographi\xE9e pr\xE8s de Vancouver,\
+        \ mais consid\xE8rent des \xE9v\xE9nements de plus grande magnitude que ceux\
+        \ qui ont \xE9t\xE9 observ\xE9s \xE0 ce jour pour cet endroit. La magnitude\
+        \ maximale (7,5) est obtenue de CanSHM6 pour PUGET SOUND SHALLOW."
+    extents:
+      spatial:
+        bbox:
+        - -128.6887
+        - 48.3135
+        - -117.819
+        - 52.9344
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_5km_v1.4.0
       id_field: gridid_5
       name: Elasticsearch
       type: feature
@@ -557,7 +701,53 @@ resources:
       en: Georgia Strait Scenario Shake Map 5km Hexbin
       fr: "Carte des secousses du sc\xE9nario Georgia Strait \xE0 5km d'hexagone"
     type: collection
-  opendrr_dsra_acm7p3_leechriverfullfault_indicators_b:
+  opendrr_dsra_acm7p0_georgiastraitfault_shakemap_v1.4.0:
+    description:
+      en: Georgia Strait Rupture Scenarios using the 1997 Georgia Strait earthquake
+        hypocentre and fault plane geometry from Cassidy, Rogers, & Waldhauser (2000,
+        BSSA). These scenarios use a mapped crustal marine fault near Vancouver, but
+        consider larger magnitude events than those that have been observed to date
+        for that location. Maximum magnitude (7.5) is obtained from CanSHM6 for PUGET
+        SOUND SHALLOW.
+      fr: "Sc\xE9narios de rupture dans le d\xE9troit de Georgia utilisant l'hypocentre\
+        \ du s\xE9isme de 1997 dans le d\xE9troit de Georgia et la g\xE9om\xE9trie\
+        \ du plan de faille de Cassidy, Rogers et Waldhauser (2000, BSSA). Ces sc\xE9\
+        narios utilisent une faille marine crustale cartographi\xE9e pr\xE8s de Vancouver,\
+        \ mais consid\xE8rent des \xE9v\xE9nements de plus grande magnitude que ceux\
+        \ qui ont \xE9t\xE9 observ\xE9s \xE0 ce jour pour cet endroit. La magnitude\
+        \ maximale (7,5) est obtenue de CanSHM6 pour PUGET SOUND SHALLOW."
+    extents:
+      spatial:
+        bbox:
+        - -128.6887
+        - 48.3135
+        - -117.819
+        - 52.9344
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_v1.4.0
+      id_field: SiteID
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Georgia Strait Scenario Shake Map
+      fr: "Carte des secousses du sc\xE9nario Georgia Strait"
+    type: collection
+  opendrr_dsra_acm7p3_leechriverfullfault_indicators_b_v1.4.0:
     description:
       en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model
         implementation of the Leech River Full Fault. Aggregated at the building level.
@@ -587,7 +777,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_indicators_b
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_indicators_b_v1.4.0
       id_field: AssetID
       name: Elasticsearch
       type: feature
@@ -595,7 +785,7 @@ resources:
       en: Leech River Fault Scenario (Point)
       fr: "Sc\xE9nario de faille de la rivi\xE8re Leech (Point)"
     type: collection
-  opendrr_dsra_acm7p3_leechriverfullfault_indicators_csd:
+  opendrr_dsra_acm7p3_leechriverfullfault_indicators_csd_v1.4.0:
     description:
       en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model
         implementation of the Leech River Full Fault. Aggregated at the building level.
@@ -625,7 +815,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_indicators_csd
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_indicators_csd_v1.4.0
       id_field: csduid
       name: Elasticsearch
       type: feature
@@ -633,7 +823,7 @@ resources:
       en: Leech River Fault Scenario (Census Subdivision)
       fr: "Sc\xE9nario de faille de la rivi\xE8re Leech (Subdivision du recensement)"
     type: collection
-  opendrr_dsra_acm7p3_leechriverfullfault_indicators_s:
+  opendrr_dsra_acm7p3_leechriverfullfault_indicators_s_v1.4.0:
     description:
       en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model
         implementation of the Leech River Full Fault. Aggregated at the building level.
@@ -663,7 +853,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_indicators_s
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_indicators_s_v1.4.0
       id_field: Sauid
       name: Elasticsearch
       type: feature
@@ -671,7 +861,7 @@ resources:
       en: Leech River Fault Scenario (Settlement Area)
       fr: "Sc\xE9nario de faille de la rivi\xE8re Leech (Zone de peuplement)"
     type: collection
-  opendrr_dsra_acm7p3_leechriverfullfault_shakemap:
+  opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_100km_uc_v1.4.0:
     description:
       en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model
         implementation of the Leech River Full Fault. Aggregated at the building level.
@@ -701,54 +891,16 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap
-      id_field: SiteID
-      name: Elasticsearch
-      type: feature
-    title:
-      en: Leech River Fault Scenario Shake Map
-      fr: "Carte des secousses du sc\xE9nario de faille de la rivi\xE8re Leech"
-    type: collection
-  opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_100km:
-    description:
-      en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model
-        implementation of the Leech River Full Fault. Aggregated at the building level.
-      fr: "Sc\xE9nario de magnitude 7,3 bas\xE9 sur une rupture compl\xE8te de la\
-        \ mise en \u0153uvre du mod\xE8le de risque CanSHM6 de la faille compl\xE8\
-        te de Leech River. Agr\xE9g\xE9 au niveau de l'immeuble habit\xE9."
-    extents:
-      spatial:
-        bbox:
-        - -126.6567
-        - 48.3089
-        - -119.539
-        - 51.0802
-        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-      temporal:
-        begin: 2021-06-06
-        end: null
-    keywords:
-      en:
-      - earthquake
-      fr:
-      - tremblement de terre
-    links:
-    - href: http://www.riskprofiler.ca/
-      hreflang: en-US
-      rel: canonical
-      title: Information
-      type: text/html
-    providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_100km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_100km_uc_v1.4.0
       id_field: gridid_100
       name: Elasticsearch
       type: feature
     title:
-      en: Leech River Fault Scenario Shake Map 100km Hexbin
+      en: Leech River Fault Scenario Shake Map 100km Hexbin (Unclipped)
       fr: "Carte des secousses du sc\xE9nario de faille de la rivi\xE8re Leech \xE0\
-        \ 100km d'hexagone"
+        \ 100km d'hexagone (Non d\xE9collet\xE9s)"
     type: collection
-  opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_10km:
+  opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_10km_uc_v1.4.0:
     description:
       en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model
         implementation of the Leech River Full Fault. Aggregated at the building level.
@@ -778,7 +930,46 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_10km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_10km_uc_v1.4.0
+      id_field: gridid_10
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Leech River Fault Scenario Shake Map 10km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario de faille de la rivi\xE8re Leech \xE0\
+        \ 10km d'hexagone (Non d\xE9collet\xE9s)"
+    type: collection
+  opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_10km_v1.4.0:
+    description:
+      en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model
+        implementation of the Leech River Full Fault. Aggregated at the building level.
+      fr: "Sc\xE9nario de magnitude 7,3 bas\xE9 sur une rupture compl\xE8te de la\
+        \ mise en \u0153uvre du mod\xE8le de risque CanSHM6 de la faille compl\xE8\
+        te de Leech River. Agr\xE9g\xE9 au niveau de l'immeuble habit\xE9."
+    extents:
+      spatial:
+        bbox:
+        - -126.6567
+        - 48.3089
+        - -119.539
+        - 51.0802
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_10km_v1.4.0
       id_field: gridid_10
       name: Elasticsearch
       type: feature
@@ -787,7 +978,7 @@ resources:
       fr: "Carte des secousses du sc\xE9nario de faille de la rivi\xE8re Leech \xE0\
         \ 10km d'hexagone"
     type: collection
-  opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km:
+  opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km_uc_v1.4.0:
     description:
       en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model
         implementation of the Leech River Full Fault. Aggregated at the building level.
@@ -817,7 +1008,46 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km_uc_v1.4.0
+      id_field: gridid_1
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Leech River Fault Scenario Shake Map 1km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario de faille de la rivi\xE8re Leech \xE0\
+        \ 1km d'hexagone (Non d\xE9collet\xE9s)"
+    type: collection
+  opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km_v1.4.0:
+    description:
+      en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model
+        implementation of the Leech River Full Fault. Aggregated at the building level.
+      fr: "Sc\xE9nario de magnitude 7,3 bas\xE9 sur une rupture compl\xE8te de la\
+        \ mise en \u0153uvre du mod\xE8le de risque CanSHM6 de la faille compl\xE8\
+        te de Leech River. Agr\xE9g\xE9 au niveau de l'immeuble habit\xE9."
+    extents:
+      spatial:
+        bbox:
+        - -126.6567
+        - 48.3089
+        - -119.539
+        - 51.0802
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km_v1.4.0
       id_field: gridid_1
       name: Elasticsearch
       type: feature
@@ -826,7 +1056,7 @@ resources:
       fr: "Carte des secousses du sc\xE9nario de faille de la rivi\xE8re Leech \xE0\
         \ 1km d'hexagone"
     type: collection
-  opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_25km:
+  opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_25km_uc_v1.4.0:
     description:
       en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model
         implementation of the Leech River Full Fault. Aggregated at the building level.
@@ -856,7 +1086,46 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_25km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_25km_uc_v1.4.0
+      id_field: gridid_25
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Leech River Fault Scenario Shake Map 25km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario de faille de la rivi\xE8re Leech \xE0\
+        \ 25km d'hexagone (Non d\xE9collet\xE9s)"
+    type: collection
+  opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_25km_v1.4.0:
+    description:
+      en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model
+        implementation of the Leech River Full Fault. Aggregated at the building level.
+      fr: "Sc\xE9nario de magnitude 7,3 bas\xE9 sur une rupture compl\xE8te de la\
+        \ mise en \u0153uvre du mod\xE8le de risque CanSHM6 de la faille compl\xE8\
+        te de Leech River. Agr\xE9g\xE9 au niveau de l'immeuble habit\xE9."
+    extents:
+      spatial:
+        bbox:
+        - -126.6567
+        - 48.3089
+        - -119.539
+        - 51.0802
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_25km_v1.4.0
       id_field: gridid_25
       name: Elasticsearch
       type: feature
@@ -865,7 +1134,7 @@ resources:
       fr: "Carte des secousses du sc\xE9nario de faille de la rivi\xE8re Leech \xE0\
         \ 25km d'hexagone"
     type: collection
-  opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_50km:
+  opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_50km_uc_v1.4.0:
     description:
       en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model
         implementation of the Leech River Full Fault. Aggregated at the building level.
@@ -895,16 +1164,16 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_50km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_50km_uc_v1.4.0
       id_field: gridid_50
       name: Elasticsearch
       type: feature
     title:
-      en: Leech River Fault Scenario Shake Map 50km Hexbin
+      en: Leech River Fault Scenario Shake Map 50km Hexbin (Unclipped)
       fr: "Carte des secousses du sc\xE9nario de faille de la rivi\xE8re Leech \xE0\
-        \ 50km d'hexagone"
+        \ 50km d'hexagone (Non d\xE9collet\xE9s)"
     type: collection
-  opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_5km:
+  opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_5km_uc_v1.4.0:
     description:
       en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model
         implementation of the Leech River Full Fault. Aggregated at the building level.
@@ -934,7 +1203,46 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_5km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_5km_uc_v1.4.0
+      id_field: gridid_5
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Leech River Fault Scenario Shake Map 5km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario de faille de la rivi\xE8re Leech \xE0\
+        \ 5km d'hexagone (Non d\xE9collet\xE9s)"
+    type: collection
+  opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_5km_v1.4.0:
+    description:
+      en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model
+        implementation of the Leech River Full Fault. Aggregated at the building level.
+      fr: "Sc\xE9nario de magnitude 7,3 bas\xE9 sur une rupture compl\xE8te de la\
+        \ mise en \u0153uvre du mod\xE8le de risque CanSHM6 de la faille compl\xE8\
+        te de Leech River. Agr\xE9g\xE9 au niveau de l'immeuble habit\xE9."
+    extents:
+      spatial:
+        bbox:
+        - -126.6567
+        - 48.3089
+        - -119.539
+        - 51.0802
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_5km_v1.4.0
       id_field: gridid_5
       name: Elasticsearch
       type: feature
@@ -943,7 +1251,45 @@ resources:
       fr: "Carte des secousses du sc\xE9nario de faille de la rivi\xE8re Leech \xE0\
         \ 5km d'hexagone"
     type: collection
-  opendrr_dsra_idm7p1_sidney_indicators_b:
+  opendrr_dsra_acm7p3_leechriverfullfault_shakemap_v1.4.0:
+    description:
+      en: Magnitude 7.3 scenario based on complete rupture of the CanSHM6 Hazard Model
+        implementation of the Leech River Full Fault. Aggregated at the building level.
+      fr: "Sc\xE9nario de magnitude 7,3 bas\xE9 sur une rupture compl\xE8te de la\
+        \ mise en \u0153uvre du mod\xE8le de risque CanSHM6 de la faille compl\xE8\
+        te de Leech River. Agr\xE9g\xE9 au niveau de l'immeuble habit\xE9."
+    extents:
+      spatial:
+        bbox:
+        - -126.6567
+        - 48.3089
+        - -119.539
+        - 51.0802
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_v1.4.0
+      id_field: SiteID
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Leech River Fault Scenario Shake Map
+      fr: "Carte des secousses du sc\xE9nario de faille de la rivi\xE8re Leech"
+    type: collection
+  opendrr_dsra_idm7p1_sidney_indicators_b_v1.4.0:
     description:
       en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney,
         BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
@@ -977,7 +1323,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_indicators_b
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_indicators_b_v1.4.0
       id_field: AssetID
       name: Elasticsearch
       type: feature
@@ -985,7 +1331,7 @@ resources:
       en: Sidney Scenario (Point)
       fr: "Sc\xE9nario de Sidney (Point)"
     type: collection
-  opendrr_dsra_idm7p1_sidney_indicators_csd:
+  opendrr_dsra_idm7p1_sidney_indicators_csd_v1.4.0:
     description:
       en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney,
         BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
@@ -1019,7 +1365,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_indicators_csd
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_indicators_csd_v1.4.0
       id_field: csduid
       name: Elasticsearch
       type: feature
@@ -1027,7 +1373,7 @@ resources:
       en: Sidney Scenario (Census Subdivision)
       fr: "Sc\xE9nario de Sidney (Subdivision du recensement)"
     type: collection
-  opendrr_dsra_idm7p1_sidney_indicators_s:
+  opendrr_dsra_idm7p1_sidney_indicators_s_v1.4.0:
     description:
       en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney,
         BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
@@ -1061,7 +1407,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_indicators_s
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_indicators_s_v1.4.0
       id_field: Sauid
       name: Elasticsearch
       type: feature
@@ -1069,7 +1415,7 @@ resources:
       en: Sidney Scenario (Settlement Area)
       fr: "Sc\xE9nario de Sidney (Zone de peuplement)"
     type: collection
-  opendrr_dsra_idm7p1_sidney_shakemap:
+  opendrr_dsra_idm7p1_sidney_shakemap_hexbin_100km_uc_v1.4.0:
     description:
       en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney,
         BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
@@ -1103,57 +1449,16 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap
-      id_field: SiteID
-      name: Elasticsearch
-      type: feature
-    title:
-      en: Sidney Scenario Shake Map
-      fr: "Carte des secousses du sc\xE9nario de Sidney"
-    type: collection
-  opendrr_dsra_idm7p1_sidney_shakemap_hexbin_100km:
-    description:
-      en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney,
-        BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
-        - Strike selected to approximately parallel the strike of the subducting slab
-        for this deep intraslab extensional event.
-      fr: "\xC9valuation de l'impact de l'augmentation de la magnitude \xE0 l'aide\
-        \ de l'hypocentre du tremblement de terre de Sidney (Colombie-Britannique)\
-        \ de 2015 (Mw 4,7). Plus d'informations sur https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php\
-        \ - La direction choisie est approximativement parall\xE8le \xE0 celle de\
-        \ la dalle subductrice pour ce profond \xE9v\xE9nement d'extension intraslabique."
-    extents:
-      spatial:
-        bbox:
-        - -126.6567
-        - 48.3089
-        - -119.4321
-        - 51.3518
-        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-      temporal:
-        begin: 2021-06-06
-        end: null
-    keywords:
-      en:
-      - earthquake
-      fr:
-      - tremblement de terre
-    links:
-    - href: http://www.riskprofiler.ca/
-      hreflang: en-US
-      rel: canonical
-      title: Information
-      type: text/html
-    providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_100km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_100km_uc_v1.4.0
       id_field: gridid_100
       name: Elasticsearch
       type: feature
     title:
-      en: Sidney Scenario Shake Map 100km Hexbin
-      fr: "Carte des secousses du sc\xE9nario de Sidney \xE0 100km d'hexagone"
+      en: Sidney Scenario Shake Map 100km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario de Sidney \xE0 100km d'hexagone (Non\
+        \ d\xE9collet\xE9s)"
     type: collection
-  opendrr_dsra_idm7p1_sidney_shakemap_hexbin_10km:
+  opendrr_dsra_idm7p1_sidney_shakemap_hexbin_10km_uc_v1.4.0:
     description:
       en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney,
         BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
@@ -1187,7 +1492,50 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_10km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_10km_uc_v1.4.0
+      id_field: gridid_10
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Sidney Scenario Shake Map 10km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario de Sidney \xE0 10km d'hexagone (Non\
+        \ d\xE9collet\xE9s)"
+    type: collection
+  opendrr_dsra_idm7p1_sidney_shakemap_hexbin_10km_v1.4.0:
+    description:
+      en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney,
+        BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
+        - Strike selected to approximately parallel the strike of the subducting slab
+        for this deep intraslab extensional event.
+      fr: "\xC9valuation de l'impact de l'augmentation de la magnitude \xE0 l'aide\
+        \ de l'hypocentre du tremblement de terre de Sidney (Colombie-Britannique)\
+        \ de 2015 (Mw 4,7). Plus d'informations sur https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php\
+        \ - La direction choisie est approximativement parall\xE8le \xE0 celle de\
+        \ la dalle subductrice pour ce profond \xE9v\xE9nement d'extension intraslabique."
+    extents:
+      spatial:
+        bbox:
+        - -126.6567
+        - 48.3089
+        - -119.4321
+        - 51.3518
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_10km_v1.4.0
       id_field: gridid_10
       name: Elasticsearch
       type: feature
@@ -1195,7 +1543,7 @@ resources:
       en: Sidney Scenario Shake Map 10km Hexbin
       fr: "Carte des secousses du sc\xE9nario de Sidney \xE0 10km d'hexagone"
     type: collection
-  opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km:
+  opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km_uc_v1.4.0:
     description:
       en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney,
         BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
@@ -1229,7 +1577,50 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km_uc_v1.4.0
+      id_field: gridid_1
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Sidney Scenario Shake Map 1km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario de Sidney \xE0 1km d'hexagone (Non d\xE9\
+        collet\xE9s)"
+    type: collection
+  opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km_v1.4.0:
+    description:
+      en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney,
+        BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
+        - Strike selected to approximately parallel the strike of the subducting slab
+        for this deep intraslab extensional event.
+      fr: "\xC9valuation de l'impact de l'augmentation de la magnitude \xE0 l'aide\
+        \ de l'hypocentre du tremblement de terre de Sidney (Colombie-Britannique)\
+        \ de 2015 (Mw 4,7). Plus d'informations sur https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php\
+        \ - La direction choisie est approximativement parall\xE8le \xE0 celle de\
+        \ la dalle subductrice pour ce profond \xE9v\xE9nement d'extension intraslabique."
+    extents:
+      spatial:
+        bbox:
+        - -126.6567
+        - 48.3089
+        - -119.4321
+        - 51.3518
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km_v1.4.0
       id_field: gridid_1
       name: Elasticsearch
       type: feature
@@ -1237,7 +1628,7 @@ resources:
       en: Sidney Scenario Shake Map 1km Hexbin
       fr: "Carte des secousses du sc\xE9nario de Sidney \xE0 1km d'hexagone"
     type: collection
-  opendrr_dsra_idm7p1_sidney_shakemap_hexbin_25km:
+  opendrr_dsra_idm7p1_sidney_shakemap_hexbin_25km_uc_v1.4.0:
     description:
       en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney,
         BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
@@ -1271,7 +1662,50 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_25km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_25km_uc_v1.4.0
+      id_field: gridid_25
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Sidney Scenario Shake Map 25km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario de Sidney \xE0 25km d'hexagone (Non\
+        \ d\xE9collet\xE9s)"
+    type: collection
+  opendrr_dsra_idm7p1_sidney_shakemap_hexbin_25km_v1.4.0:
+    description:
+      en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney,
+        BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
+        - Strike selected to approximately parallel the strike of the subducting slab
+        for this deep intraslab extensional event.
+      fr: "\xC9valuation de l'impact de l'augmentation de la magnitude \xE0 l'aide\
+        \ de l'hypocentre du tremblement de terre de Sidney (Colombie-Britannique)\
+        \ de 2015 (Mw 4,7). Plus d'informations sur https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php\
+        \ - La direction choisie est approximativement parall\xE8le \xE0 celle de\
+        \ la dalle subductrice pour ce profond \xE9v\xE9nement d'extension intraslabique."
+    extents:
+      spatial:
+        bbox:
+        - -126.6567
+        - 48.3089
+        - -119.4321
+        - 51.3518
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_25km_v1.4.0
       id_field: gridid_25
       name: Elasticsearch
       type: feature
@@ -1279,7 +1713,7 @@ resources:
       en: Sidney Scenario Shake Map 25km Hexbin
       fr: "Carte des secousses du sc\xE9nario de Sidney \xE0 25km d'hexagone"
     type: collection
-  opendrr_dsra_idm7p1_sidney_shakemap_hexbin_50km:
+  opendrr_dsra_idm7p1_sidney_shakemap_hexbin_50km_uc_v1.4.0:
     description:
       en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney,
         BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
@@ -1313,15 +1747,16 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_50km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_50km_uc_v1.4.0
       id_field: gridid_50
       name: Elasticsearch
       type: feature
     title:
-      en: Sidney Scenario Shake Map 50km Hexbin
-      fr: "Carte des secousses du sc\xE9nario de Sidney \xE0 50km d'hexagone"
+      en: Sidney Scenario Shake Map 50km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario de Sidney \xE0 50km d'hexagone (Non\
+        \ d\xE9collet\xE9s)"
     type: collection
-  opendrr_dsra_idm7p1_sidney_shakemap_hexbin_5km:
+  opendrr_dsra_idm7p1_sidney_shakemap_hexbin_5km_uc_v1.4.0:
     description:
       en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney,
         BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
@@ -1355,7 +1790,50 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_5km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_5km_uc_v1.4.0
+      id_field: gridid_5
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Sidney Scenario Shake Map 5km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario de Sidney \xE0 5km d'hexagone (Non d\xE9\
+        collet\xE9s)"
+    type: collection
+  opendrr_dsra_idm7p1_sidney_shakemap_hexbin_5km_v1.4.0:
+    description:
+      en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney,
+        BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
+        - Strike selected to approximately parallel the strike of the subducting slab
+        for this deep intraslab extensional event.
+      fr: "\xC9valuation de l'impact de l'augmentation de la magnitude \xE0 l'aide\
+        \ de l'hypocentre du tremblement de terre de Sidney (Colombie-Britannique)\
+        \ de 2015 (Mw 4,7). Plus d'informations sur https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php\
+        \ - La direction choisie est approximativement parall\xE8le \xE0 celle de\
+        \ la dalle subductrice pour ce profond \xE9v\xE9nement d'extension intraslabique."
+    extents:
+      spatial:
+        bbox:
+        - -126.6567
+        - 48.3089
+        - -119.4321
+        - 51.3518
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_5km_v1.4.0
       id_field: gridid_5
       name: Elasticsearch
       type: feature
@@ -1363,7 +1841,49 @@ resources:
       en: Sidney Scenario Shake Map 5km Hexbin
       fr: "Carte des secousses du sc\xE9nario de Sidney \xE0 5km d'hexagone"
     type: collection
-  opendrr_dsra_scm7p5_valdesbois_indicators_b:
+  opendrr_dsra_idm7p1_sidney_shakemap_v1.4.0:
+    description:
+      en: Evaluating impact of increasing magnitude using the 2015 Mw 4.7 Sidney,
+        BC, Earthquake hypocentre. More info at https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php
+        - Strike selected to approximately parallel the strike of the subducting slab
+        for this deep intraslab extensional event.
+      fr: "\xC9valuation de l'impact de l'augmentation de la magnitude \xE0 l'aide\
+        \ de l'hypocentre du tremblement de terre de Sidney (Colombie-Britannique)\
+        \ de 2015 (Mw 4,7). Plus d'informations sur https://earthquakescanada.nrcan.gc.ca/recent/2015/20151230.0739/index-en.php\
+        \ - La direction choisie est approximativement parall\xE8le \xE0 celle de\
+        \ la dalle subductrice pour ce profond \xE9v\xE9nement d'extension intraslabique."
+    extents:
+      spatial:
+        bbox:
+        - -126.6567
+        - 48.3089
+        - -119.4321
+        - 51.3518
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_idm7p1_sidney_shakemap_v1.4.0
+      id_field: SiteID
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Sidney Scenario Shake Map
+      fr: "Carte des secousses du sc\xE9nario de Sidney"
+    type: collection
+  opendrr_dsra_scm7p5_valdesbois_indicators_b_v1.4.0:
     description:
       en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre
         and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians,
@@ -1401,7 +1921,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_indicators_b
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_indicators_b_v1.4.0
       id_field: AssetID
       name: Elasticsearch
       type: feature
@@ -1409,7 +1929,7 @@ resources:
       en: Val Des Bois Scenario (Point)
       fr: "Sc\xE9nario Val Des Boisy (Point)"
     type: collection
-  opendrr_dsra_scm7p5_valdesbois_indicators_csd:
+  opendrr_dsra_scm7p5_valdesbois_indicators_csd_v1.4.0:
     description:
       en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre
         and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians,
@@ -1447,7 +1967,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_indicators_csd
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_indicators_csd_v1.4.0
       id_field: csduid
       name: Elasticsearch
       type: feature
@@ -1455,7 +1975,7 @@ resources:
       en: Val Des Bois Scenario (Census Subdivision)
       fr: "Sc\xE9nario Val Des Bois (Subdivision du recensement)"
     type: collection
-  opendrr_dsra_scm7p5_valdesbois_indicators_s:
+  opendrr_dsra_scm7p5_valdesbois_indicators_s_v1.4.0:
     description:
       en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre
         and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians,
@@ -1493,7 +2013,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_indicators_s
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_indicators_s_v1.4.0
       id_field: Sauid
       name: Elasticsearch
       type: feature
@@ -1501,7 +2021,7 @@ resources:
       en: Val Des Bois Scenario (Settlement Area)
       fr: "Sc\xE9nario Val Des Bois (Zone de peuplement)"
     type: collection
-  opendrr_dsra_scm7p5_valdesbois_shakemap:
+  opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_100km_uc_v1.4.0:
     description:
       en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre
         and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians,
@@ -1539,61 +2059,16 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap
-      id_field: SiteID
-      name: Elasticsearch
-      type: feature
-    title:
-      en: Val Des Bois Scenario Shake Map
-      fr: "Carte des secousses du sc\xE9nario Val Des Bois"
-    type: collection
-  opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_100km:
-    description:
-      en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre
-        and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians,
-        2010. This scenario uses a larger magnitude event than those that have been
-        observed to date for that location, within bounds of the national seismic
-        hazard model. Maximum magnitude of 7.95 is obtained from CanSHM6 for GATINEAU
-        region.
-      fr: "Sc\xE9nario de planification pour Ottawa utilisant la g\xE9om\xE9trie de\
-        \ l'hypocentre et du plan de faille du tremblement de terre de 2010 \xE0 Val-de-bois,\
-        \ QC, d'apr\xE8s Ma & Motazedian, 2012 et Atkinson & Assatourians, 2010. Ce\
-        \ sc\xE9nario utilise un \xE9v\xE9nement de plus grande magnitude que ceux\
-        \ qui ont \xE9t\xE9 observ\xE9s \xE0 ce jour pour cet endroit, dans les limites\
-        \ du mod\xE8le national d'al\xE9a sismique. La magnitude maximale de 7,95\
-        \ est obtenue de CanSHM6 pour la r\xE9gion de la GATINEAU."
-    extents:
-      spatial:
-        bbox:
-        - -83.6831
-        - 42.51152
-        - -67.38558
-        - 51.67113
-        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-      temporal:
-        begin: 2021-06-06
-        end: null
-    keywords:
-      en:
-      - earthquake
-      fr:
-      - tremblement de terre
-    links:
-    - href: http://www.riskprofiler.ca/
-      hreflang: en-US
-      rel: canonical
-      title: Information
-      type: text/html
-    providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_100km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_100km_uc_v1.4.0
       id_field: gridid_100
       name: Elasticsearch
       type: feature
     title:
-      en: Val Des Bois Scenario Shake Map 100km Hexbin
-      fr: "Carte des secousses du sc\xE9nario Val Des Bois \xE0 100km d'hexagone"
+      en: Val Des Bois Scenario Shake Map 100km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario Val Des Bois \xE0 100km d'hexagone (Non\
+        \ d\xE9collet\xE9s)"
     type: collection
-  opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_10km:
+  opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_10km_uc_v1.4.0:
     description:
       en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre
         and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians,
@@ -1631,7 +2106,54 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_10km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_10km_uc_v1.4.0
+      id_field: gridid_10
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Val Des Bois Scenario Shake Map 10km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario Val Des Bois \xE0 10km d'hexagone (Non\
+        \ d\xE9collet\xE9s)"
+    type: collection
+  opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_10km_v1.4.0:
+    description:
+      en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre
+        and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians,
+        2010. This scenario uses a larger magnitude event than those that have been
+        observed to date for that location, within bounds of the national seismic
+        hazard model. Maximum magnitude of 7.95 is obtained from CanSHM6 for GATINEAU
+        region.
+      fr: "Sc\xE9nario de planification pour Ottawa utilisant la g\xE9om\xE9trie de\
+        \ l'hypocentre et du plan de faille du tremblement de terre de 2010 \xE0 Val-de-bois,\
+        \ QC, d'apr\xE8s Ma & Motazedian, 2012 et Atkinson & Assatourians, 2010. Ce\
+        \ sc\xE9nario utilise un \xE9v\xE9nement de plus grande magnitude que ceux\
+        \ qui ont \xE9t\xE9 observ\xE9s \xE0 ce jour pour cet endroit, dans les limites\
+        \ du mod\xE8le national d'al\xE9a sismique. La magnitude maximale de 7,95\
+        \ est obtenue de CanSHM6 pour la r\xE9gion de la GATINEAU."
+    extents:
+      spatial:
+        bbox:
+        - -83.6831
+        - 42.51152
+        - -67.38558
+        - 51.67113
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_10km_v1.4.0
       id_field: gridid_10
       name: Elasticsearch
       type: feature
@@ -1639,7 +2161,7 @@ resources:
       en: Val Des Bois Scenario Shake Map 10km Hexbin
       fr: "Carte des secousses du sc\xE9nario Val Des Bois \xE0 10km d'hexagone"
     type: collection
-  opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km:
+  opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km_uc_v1.4.0:
     description:
       en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre
         and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians,
@@ -1677,7 +2199,54 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km_uc_v1.4.0
+      id_field: gridid_1
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Val Des Bois Scenario Shake Map 1km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario Val Des Bois \xE0 1km d'hexagone (Non\
+        \ d\xE9collet\xE9s)"
+    type: collection
+  opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km_v1.4.0:
+    description:
+      en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre
+        and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians,
+        2010. This scenario uses a larger magnitude event than those that have been
+        observed to date for that location, within bounds of the national seismic
+        hazard model. Maximum magnitude of 7.95 is obtained from CanSHM6 for GATINEAU
+        region.
+      fr: "Sc\xE9nario de planification pour Ottawa utilisant la g\xE9om\xE9trie de\
+        \ l'hypocentre et du plan de faille du tremblement de terre de 2010 \xE0 Val-de-bois,\
+        \ QC, d'apr\xE8s Ma & Motazedian, 2012 et Atkinson & Assatourians, 2010. Ce\
+        \ sc\xE9nario utilise un \xE9v\xE9nement de plus grande magnitude que ceux\
+        \ qui ont \xE9t\xE9 observ\xE9s \xE0 ce jour pour cet endroit, dans les limites\
+        \ du mod\xE8le national d'al\xE9a sismique. La magnitude maximale de 7,95\
+        \ est obtenue de CanSHM6 pour la r\xE9gion de la GATINEAU."
+    extents:
+      spatial:
+        bbox:
+        - -83.6831
+        - 42.51152
+        - -67.38558
+        - 51.67113
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km_v1.4.0
       id_field: gridid_1
       name: Elasticsearch
       type: feature
@@ -1685,7 +2254,7 @@ resources:
       en: Val Des Bois Scenario Shake Map 1km Hexbin
       fr: "Carte des secousses du sc\xE9nario Val Des Bois \xE0 1km d'hexagone"
     type: collection
-  opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_25km:
+  opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_25km_uc_v1.4.0:
     description:
       en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre
         and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians,
@@ -1723,7 +2292,54 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_25km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_25km_uc_v1.4.0
+      id_field: gridid_25
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Val Des Bois Scenario Shake Map 25km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario Val Des Bois \xE0 25km d'hexagone (Non\
+        \ d\xE9collet\xE9s)"
+    type: collection
+  opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_25km_v1.4.0:
+    description:
+      en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre
+        and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians,
+        2010. This scenario uses a larger magnitude event than those that have been
+        observed to date for that location, within bounds of the national seismic
+        hazard model. Maximum magnitude of 7.95 is obtained from CanSHM6 for GATINEAU
+        region.
+      fr: "Sc\xE9nario de planification pour Ottawa utilisant la g\xE9om\xE9trie de\
+        \ l'hypocentre et du plan de faille du tremblement de terre de 2010 \xE0 Val-de-bois,\
+        \ QC, d'apr\xE8s Ma & Motazedian, 2012 et Atkinson & Assatourians, 2010. Ce\
+        \ sc\xE9nario utilise un \xE9v\xE9nement de plus grande magnitude que ceux\
+        \ qui ont \xE9t\xE9 observ\xE9s \xE0 ce jour pour cet endroit, dans les limites\
+        \ du mod\xE8le national d'al\xE9a sismique. La magnitude maximale de 7,95\
+        \ est obtenue de CanSHM6 pour la r\xE9gion de la GATINEAU."
+    extents:
+      spatial:
+        bbox:
+        - -83.6831
+        - 42.51152
+        - -67.38558
+        - 51.67113
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_25km_v1.4.0
       id_field: gridid_25
       name: Elasticsearch
       type: feature
@@ -1731,7 +2347,7 @@ resources:
       en: Val Des Bois Scenario Shake Map 25km Hexbin
       fr: "Carte des secousses du sc\xE9nario Val Des Bois \xE0 25km d'hexagone"
     type: collection
-  opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_50km:
+  opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_50km_uc_v1.4.0:
     description:
       en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre
         and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians,
@@ -1769,15 +2385,16 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_50km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_50km_uc_v1.4.0
       id_field: gridid_50
       name: Elasticsearch
       type: feature
     title:
-      en: Val Des Bois Scenario Shake Map 50km Hexbin
-      fr: "Carte des secousses du sc\xE9nario Val Des Bois \xE0 50km d'hexagone"
+      en: Val Des Bois Scenario Shake Map 50km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario Val Des Bois \xE0 50km d'hexagone (Non\
+        \ d\xE9collet\xE9s)"
     type: collection
-  opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_5km:
+  opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_5km_uc_v1.4.0:
     description:
       en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre
         and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians,
@@ -1815,7 +2432,54 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_5km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_5km_uc_v1.4.0
+      id_field: gridid_5
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Val Des Bois Scenario Shake Map 5km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario Val Des Bois \xE0 5km d'hexagone (Non\
+        \ d\xE9collet\xE9s)"
+    type: collection
+  opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_5km_v1.4.0:
+    description:
+      en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre
+        and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians,
+        2010. This scenario uses a larger magnitude event than those that have been
+        observed to date for that location, within bounds of the national seismic
+        hazard model. Maximum magnitude of 7.95 is obtained from CanSHM6 for GATINEAU
+        region.
+      fr: "Sc\xE9nario de planification pour Ottawa utilisant la g\xE9om\xE9trie de\
+        \ l'hypocentre et du plan de faille du tremblement de terre de 2010 \xE0 Val-de-bois,\
+        \ QC, d'apr\xE8s Ma & Motazedian, 2012 et Atkinson & Assatourians, 2010. Ce\
+        \ sc\xE9nario utilise un \xE9v\xE9nement de plus grande magnitude que ceux\
+        \ qui ont \xE9t\xE9 observ\xE9s \xE0 ce jour pour cet endroit, dans les limites\
+        \ du mod\xE8le national d'al\xE9a sismique. La magnitude maximale de 7,95\
+        \ est obtenue de CanSHM6 pour la r\xE9gion de la GATINEAU."
+    extents:
+      spatial:
+        bbox:
+        - -83.6831
+        - 42.51152
+        - -67.38558
+        - 51.67113
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_5km_v1.4.0
       id_field: gridid_5
       name: Elasticsearch
       type: feature
@@ -1823,7 +2487,53 @@ resources:
       en: Val Des Bois Scenario Shake Map 5km Hexbin
       fr: "Carte des secousses du sc\xE9nario Val Des Bois \xE0 5km d'hexagone"
     type: collection
-  opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_b:
+  opendrr_dsra_scm7p5_valdesbois_shakemap_v1.4.0:
+    description:
+      en: Ottawa planning scenario using the 2010 Val-de-bois, QC earthquake hypocentre
+        and fault plane geometry from Ma & Motazedian, 2012 and Atkinson & Assatourians,
+        2010. This scenario uses a larger magnitude event than those that have been
+        observed to date for that location, within bounds of the national seismic
+        hazard model. Maximum magnitude of 7.95 is obtained from CanSHM6 for GATINEAU
+        region.
+      fr: "Sc\xE9nario de planification pour Ottawa utilisant la g\xE9om\xE9trie de\
+        \ l'hypocentre et du plan de faille du tremblement de terre de 2010 \xE0 Val-de-bois,\
+        \ QC, d'apr\xE8s Ma & Motazedian, 2012 et Atkinson & Assatourians, 2010. Ce\
+        \ sc\xE9nario utilise un \xE9v\xE9nement de plus grande magnitude que ceux\
+        \ qui ont \xE9t\xE9 observ\xE9s \xE0 ce jour pour cet endroit, dans les limites\
+        \ du mod\xE8le national d'al\xE9a sismique. La magnitude maximale de 7,95\
+        \ est obtenue de CanSHM6 pour la r\xE9gion de la GATINEAU."
+    extents:
+      spatial:
+        bbox:
+        - -83.6831
+        - 42.51152
+        - -67.38558
+        - 51.67113
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_scm7p5_valdesbois_shakemap_v1.4.0
+      id_field: SiteID
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Val Des Bois Scenario Shake Map
+      fr: "Carte des secousses du sc\xE9nario Val Des Bois"
+    type: collection
+  opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_b_v1.4.0:
     description:
       en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model
         implementation of the Cascadia Interface Best Fault.
@@ -1853,7 +2563,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_b
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_b_v1.4.0
       id_field: Sauid
       name: Elasticsearch
       type: feature
@@ -1861,7 +2571,7 @@ resources:
       en: Cascadia Fault Scenario (Point)
       fr: "Sc\xE9nario de la faille Cascadia (Point)"
     type: collection
-  opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_csd:
+  opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_csd_v1.4.0:
     description:
       en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model
         implementation of the Cascadia Interface Best Fault.
@@ -1891,7 +2601,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_csd
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_csd_v1.4.0
       id_field: csduid
       name: Elasticsearch
       type: feature
@@ -1899,7 +2609,7 @@ resources:
       en: Cascadia Fault Scenario (Census Subdivision)
       fr: "Sc\xE9nario de la faille Cascadia (Subdivision du recensement)"
     type: collection
-  opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_s:
+  opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_s_v1.4.0:
     description:
       en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model
         implementation of the Cascadia Interface Best Fault.
@@ -1929,7 +2639,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_s
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_s_v1.4.0
       id_field: Sauid
       name: Elasticsearch
       type: feature
@@ -1937,7 +2647,7 @@ resources:
       en: Cascadia Fault Scenario (Settlement Area)
       fr: "Sc\xE9nario de la faille Cascadia (Zone de peuplement)"
     type: collection
-  opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap:
+  opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_100km_uc_v1.4.0:
     description:
       en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model
         implementation of the Cascadia Interface Best Fault.
@@ -1967,53 +2677,16 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap
-      id_field: SiteID
-      name: Elasticsearch
-      type: feature
-    title:
-      en: Cascadia Fault Scenario Shake Map
-      fr: "Carte des secousses du sc\xE9nario de la faille Cascadia"
-    type: collection
-  opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_100km:
-    description:
-      en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model
-        implementation of the Cascadia Interface Best Fault.
-      fr: "Sc\xE9nario de magnitude 9.0 bas\xE9 sur la rupture compl\xE8te de l'impl\xE9\
-        mentation du mod\xE8le de risque CanSHM6 de la meilleure faille d'interface\
-        \ de Cascadia."
-    extents:
-      spatial:
-        bbox:
-        - -123.7527
-        - 48.3089
-        - -118.1974
-        - 52.4875
-        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-      temporal:
-        begin: 2021-06-06
-        end: null
-    keywords:
-      en:
-      - earthquake
-      fr:
-      - tremblement de terre
-    links:
-    - href: http://www.riskprofiler.ca/
-      hreflang: en-US
-      rel: canonical
-      title: Information
-      type: text/html
-    providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_100km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_100km_uc_v1.4.0
       id_field: gridid_100
       name: Elasticsearch
       type: feature
     title:
-      en: Cascadia Fault Scenario Shake Map 100km Hexbin
-      fr: "Carte des secousses du sc\xE9nario de la faille Cascadia \xE0 100km d'hexagone"
+      en: Cascadia Fault Scenario Shake Map 100km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario de la faille Cascadia \xE0 100km d'hexagone\
+        \ (Non d\xE9collet\xE9s)"
     type: collection
-  opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_10km:
+  opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_10km_uc_v1.4.0:
     description:
       en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model
         implementation of the Cascadia Interface Best Fault.
@@ -2043,7 +2716,46 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_10km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_10km_uc_v1.4.0
+      id_field: gridid_10
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Cascadia Fault Scenario Shake Map 10km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario de la faille Cascadia \xE0 10km d'hexagone\
+        \ (Non d\xE9collet\xE9s)"
+    type: collection
+  opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_10km_v1.4.0:
+    description:
+      en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model
+        implementation of the Cascadia Interface Best Fault.
+      fr: "Sc\xE9nario de magnitude 9.0 bas\xE9 sur la rupture compl\xE8te de l'impl\xE9\
+        mentation du mod\xE8le de risque CanSHM6 de la meilleure faille d'interface\
+        \ de Cascadia."
+    extents:
+      spatial:
+        bbox:
+        - -123.7527
+        - 48.3089
+        - -118.1974
+        - 52.4875
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_10km_v1.4.0
       id_field: gridid_10
       name: Elasticsearch
       type: feature
@@ -2051,7 +2763,7 @@ resources:
       en: Cascadia Fault Scenario Shake Map 10km Hexbin
       fr: "Carte des secousses du sc\xE9nario de la faille Cascadia \xE0 10km d'hexagone"
     type: collection
-  opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km:
+  opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km_uc_v1.4.0:
     description:
       en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model
         implementation of the Cascadia Interface Best Fault.
@@ -2081,7 +2793,46 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km_uc_v1.4.0
+      id_field: gridid_1
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Cascadia Fault Scenario Shake Map 1km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario de la faille Cascadia \xE0 1km d'hexagone\
+        \ (Non d\xE9collet\xE9s)"
+    type: collection
+  opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km_v1.4.0:
+    description:
+      en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model
+        implementation of the Cascadia Interface Best Fault.
+      fr: "Sc\xE9nario de magnitude 9.0 bas\xE9 sur la rupture compl\xE8te de l'impl\xE9\
+        mentation du mod\xE8le de risque CanSHM6 de la meilleure faille d'interface\
+        \ de Cascadia."
+    extents:
+      spatial:
+        bbox:
+        - -123.7527
+        - 48.3089
+        - -118.1974
+        - 52.4875
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km_v1.4.0
       id_field: gridid_1
       name: Elasticsearch
       type: feature
@@ -2089,7 +2840,7 @@ resources:
       en: Cascadia Fault Scenario Shake Map 1km Hexbin
       fr: "Carte des secousses du sc\xE9nario de la faille Cascadia \xE0 1km d'hexagone"
     type: collection
-  opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_25km:
+  opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_25km_uc_v1.4.0:
     description:
       en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model
         implementation of the Cascadia Interface Best Fault.
@@ -2119,7 +2870,46 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_25km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_25km_uc_v1.4.0
+      id_field: gridid_25
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Cascadia Fault Scenario Shake Map 25km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario de la faille Cascadia \xE0 25km d'hexagone\
+        \ (Non d\xE9collet\xE9s)"
+    type: collection
+  opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_25km_v1.4.0:
+    description:
+      en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model
+        implementation of the Cascadia Interface Best Fault.
+      fr: "Sc\xE9nario de magnitude 9.0 bas\xE9 sur la rupture compl\xE8te de l'impl\xE9\
+        mentation du mod\xE8le de risque CanSHM6 de la meilleure faille d'interface\
+        \ de Cascadia."
+    extents:
+      spatial:
+        bbox:
+        - -123.7527
+        - 48.3089
+        - -118.1974
+        - 52.4875
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_25km_v1.4.0
       id_field: gridid_25
       name: Elasticsearch
       type: feature
@@ -2127,7 +2917,7 @@ resources:
       en: Cascadia Fault Scenario Shake Map 25km Hexbin
       fr: "Carte des secousses du sc\xE9nario de la faille Cascadia \xE0 25km d'hexagone"
     type: collection
-  opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_50km:
+  opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_50km_uc_v1.4.0:
     description:
       en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model
         implementation of the Cascadia Interface Best Fault.
@@ -2157,15 +2947,16 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_50km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_50km_uc_v1.4.0
       id_field: gridid_50
       name: Elasticsearch
       type: feature
     title:
-      en: Cascadia Fault Scenario Shake Map 50km Hexbin
-      fr: "Carte des secousses du sc\xE9nario de la faille Cascadia \xE0 50km d'hexagone"
+      en: Cascadia Fault Scenario Shake Map 50km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario de la faille Cascadia \xE0 50km d'hexagone\
+        \ (Non d\xE9collet\xE9s)"
     type: collection
-  opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_5km:
+  opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_5km_uc_v1.4.0:
     description:
       en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model
         implementation of the Cascadia Interface Best Fault.
@@ -2195,13 +2986,90 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_5km
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_5km_uc_v1.4.0
+      id_field: gridid_5
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Cascadia Fault Scenario Shake Map 5km Hexbin (Unclipped)
+      fr: "Carte des secousses du sc\xE9nario de la faille Cascadia \xE0 5km d'hexagone\
+        \ (Non d\xE9collet\xE9s)"
+    type: collection
+  opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_5km_v1.4.0:
+    description:
+      en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model
+        implementation of the Cascadia Interface Best Fault.
+      fr: "Sc\xE9nario de magnitude 9.0 bas\xE9 sur la rupture compl\xE8te de l'impl\xE9\
+        mentation du mod\xE8le de risque CanSHM6 de la meilleure faille d'interface\
+        \ de Cascadia."
+    extents:
+      spatial:
+        bbox:
+        - -123.7527
+        - 48.3089
+        - -118.1974
+        - 52.4875
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_5km_v1.4.0
       id_field: gridid_5
       name: Elasticsearch
       type: feature
     title:
       en: Cascadia Fault Scenario Shake Map 5km Hexbin
       fr: "Carte des secousses du sc\xE9nario de la faille Cascadia \xE0 5km d'hexagone"
+    type: collection
+  opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_v1.4.0:
+    description:
+      en: Magnitude 9.0 scenario based on complete rupture of the CanSHM6 Hazard Model
+        implementation of the Cascadia Interface Best Fault.
+      fr: "Sc\xE9nario de magnitude 9.0 bas\xE9 sur la rupture compl\xE8te de l'impl\xE9\
+        mentation du mod\xE8le de risque CanSHM6 de la meilleure faille d'interface\
+        \ de Cascadia."
+    extents:
+      spatial:
+        bbox:
+        - -123.7527
+        - 48.3089
+        - -118.1974
+        - 52.4875
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2021-06-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_v1.4.0
+      id_field: SiteID
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Cascadia Fault Scenario Shake Map
+      fr: "Carte des secousses du sc\xE9nario de la faille Cascadia"
     type: collection
   opendrr_hexgrid_100km:
     description:
@@ -2388,7 +3256,7 @@ resources:
       en: 5km Hexagonal Grid
       fr: Grille hexagonale de 5km
     type: collection
-  opendrr_nhsl_physical_exposure_indicators_b:
+  opendrr_nhsl_physical_exposure_indicators_b_v1.4.0:
     description:
       en: "This model represents an inventory of more than 9.1 million buildings in\
         \ Canada; population dynamics at different times of day for 35.1 million people,\
@@ -2456,7 +3324,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_physical_exposure_indicators_b
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_physical_exposure_indicators_b_v1.4.0
       id_field: Sauid
       name: Elasticsearch
       type: feature
@@ -2464,7 +3332,7 @@ resources:
       en: Physical Exposure (Point)
       fr: Exposition physique (Point)
     type: collection
-  opendrr_nhsl_physical_exposure_indicators_s:
+  opendrr_nhsl_physical_exposure_indicators_hexbin_100km_uc_v1.4.0:
     description:
       en: "This model represents an inventory of more than 9.1 million buildings in\
         \ Canada; population dynamics at different times of day for 35.1 million people,\
@@ -2532,7 +3400,767 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_physical_exposure_indicators_s
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_physical_exposure_indicators_hexbin_100km_uc_v1.4.0
+      id_field: gridid_100
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Physical Exposure (100km Hexagonal Grid - Unclipped)
+      fr: "Exposition physique (Grille hexagonale de 100km - Non d\xE9collet\xE9s)"
+    type: collection
+  opendrr_nhsl_physical_exposure_indicators_hexbin_10km_uc_v1.4.0:
+    description:
+      en: "This model represents an inventory of more than 9.1 million buildings in\
+        \ Canada; population dynamics at different times of day for 35.1 million people,\
+        \ and; the capital value of building assets totalling more than 8.3 trillion\
+        \ CAD$. Buildings are classified according to their construction type, occupancy,\
+        \ and age. These classes are derived from the standard North American HAZUS\
+        \ building taxonomy and include 38 construction classes representing different\
+        \ types of wood, concrete, masonry, steel and prefabricated structures; 33\
+        \ occupancy classes representing a mix of residential, civic, commercial and\
+        \ industrial land uses; and 4 age classes representing the assumed level of\
+        \ building design. The distribution of resulting \u2018building archetypes\u2019\
+        \ are assigned to settled areas based on associated land-use and census characteristics.\
+        \  Building populations at different times of day are estimated for standard\
+        \ daytime hours (9am-5pm); for morning and evening commute hours when people\
+        \ are in transit (7am-9am; 5pm-7pm), and; for nighttime hours when the majority\
+        \ of people are at home (7pm-7am). The capital value of buildings assets is\
+        \ provided for structural and non-structural components of the building, as\
+        \ well as the potential building contents. Asset values are estimated based\
+        \ on industry replacement costs for representative regions across Canada."
+      fr: "Ce mod\xE8le comprend un inventaire de plus de 9,1 millions de b\xE2timents\
+        \ au Canada, la dynamique de la population \xE0 divers moments de la journ\xE9\
+        e pour 35,1 millions de personnes et la valeur en capital de biens immobiliers\
+        \ totalisant plus de 8,3 billions de dollars canadiens. Les b\xE2timents sont\
+        \ class\xE9s en fonction du type de construction, de l\u2019occupation et\
+        \ de l\u2019\xE2ge. Ces classes sont bas\xE9es sur la taxonomie normalis\xE9\
+        e HAZUS des b\xE2timents de l\u2019Am\xE9rique du Nord. On compte 38 classes\
+        \ de construction repr\xE9sentant diff\xE9rents types de bois, de b\xE9ton,\
+        \ de ma\xE7onnerie, d\u2019acier et de structures pr\xE9fabriqu\xE9es; 33\
+        \ classes d\u2019occupation repr\xE9sentant une vari\xE9t\xE9 d\u2019utilisations\
+        \ r\xE9sidentielles, civiques, commerciales et industrielles; et 4 classes\
+        \ d\u2019\xE2ge repr\xE9sentant le niveau pr\xE9sum\xE9 de conception du b\xE2\
+        timent. La distribution des \xAB arch\xE9types de b\xE2timents \xBB obtenus\
+        \ est attribu\xE9e \xE0 des r\xE9gions habit\xE9es en fonction de l\u2019\
+        utilisation du sol et des caract\xE9ristiques du recensement. Le nombre d\u2019\
+        occupants des b\xE2timents \xE0 diff\xE9rents moments de la journ\xE9e est\
+        \ estim\xE9 pour les trois p\xE9riodes suivantes : le jour (de 9 h \xE0 17\
+        \ h), pendant les d\xE9placements domicile-travail du matin et du soir (de\
+        \ 7 h \xE0 9 h et de 17 h \xE0 19 h) et la nuit, lorsque la majorit\xE9 des\
+        \ gens sont \xE0 la maison (de 19 h \xE0 7 h). La valeur en capital des biens\
+        \ immobiliers est fournie pour les \xE9l\xE9ments structurels et non structurels\
+        \ des b\xE2timents, ainsi que pour le contenu potentiel du b\xE2timent. La\
+        \ valeur des biens est estim\xE9e en fonction des co\xFBts de remplacement\
+        \ de l\u2019industrie pour des r\xE9gions repr\xE9sentatives du Canada."
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href:
+        en: https://opendrr.github.io/data/en/nhsl#physical_exposure
+        fr: https://opendrr.github.io/data/fr/nhsl#physical_exposure
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_physical_exposure_indicators_hexbin_10km_uc_v1.4.0
+      id_field: gridid_10
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Physical Exposure (10km Hexagonal Grid - Unclipped)
+      fr: "Exposition physique (Grille hexagonale de 10km - Non d\xE9collet\xE9s)"
+    type: collection
+  opendrr_nhsl_physical_exposure_indicators_hexbin_10km_v1.4.0:
+    description:
+      en: "This model represents an inventory of more than 9.1 million buildings in\
+        \ Canada; population dynamics at different times of day for 35.1 million people,\
+        \ and; the capital value of building assets totalling more than 8.3 trillion\
+        \ CAD$. Buildings are classified according to their construction type, occupancy,\
+        \ and age. These classes are derived from the standard North American HAZUS\
+        \ building taxonomy and include 38 construction classes representing different\
+        \ types of wood, concrete, masonry, steel and prefabricated structures; 33\
+        \ occupancy classes representing a mix of residential, civic, commercial and\
+        \ industrial land uses; and 4 age classes representing the assumed level of\
+        \ building design. The distribution of resulting \u2018building archetypes\u2019\
+        \ are assigned to settled areas based on associated land-use and census characteristics.\
+        \  Building populations at different times of day are estimated for standard\
+        \ daytime hours (9am-5pm); for morning and evening commute hours when people\
+        \ are in transit (7am-9am; 5pm-7pm), and; for nighttime hours when the majority\
+        \ of people are at home (7pm-7am). The capital value of buildings assets is\
+        \ provided for structural and non-structural components of the building, as\
+        \ well as the potential building contents. Asset values are estimated based\
+        \ on industry replacement costs for representative regions across Canada."
+      fr: "Ce mod\xE8le comprend un inventaire de plus de 9,1 millions de b\xE2timents\
+        \ au Canada, la dynamique de la population \xE0 divers moments de la journ\xE9\
+        e pour 35,1 millions de personnes et la valeur en capital de biens immobiliers\
+        \ totalisant plus de 8,3 billions de dollars canadiens. Les b\xE2timents sont\
+        \ class\xE9s en fonction du type de construction, de l\u2019occupation et\
+        \ de l\u2019\xE2ge. Ces classes sont bas\xE9es sur la taxonomie normalis\xE9\
+        e HAZUS des b\xE2timents de l\u2019Am\xE9rique du Nord. On compte 38 classes\
+        \ de construction repr\xE9sentant diff\xE9rents types de bois, de b\xE9ton,\
+        \ de ma\xE7onnerie, d\u2019acier et de structures pr\xE9fabriqu\xE9es; 33\
+        \ classes d\u2019occupation repr\xE9sentant une vari\xE9t\xE9 d\u2019utilisations\
+        \ r\xE9sidentielles, civiques, commerciales et industrielles; et 4 classes\
+        \ d\u2019\xE2ge repr\xE9sentant le niveau pr\xE9sum\xE9 de conception du b\xE2\
+        timent. La distribution des \xAB arch\xE9types de b\xE2timents \xBB obtenus\
+        \ est attribu\xE9e \xE0 des r\xE9gions habit\xE9es en fonction de l\u2019\
+        utilisation du sol et des caract\xE9ristiques du recensement. Le nombre d\u2019\
+        occupants des b\xE2timents \xE0 diff\xE9rents moments de la journ\xE9e est\
+        \ estim\xE9 pour les trois p\xE9riodes suivantes : le jour (de 9 h \xE0 17\
+        \ h), pendant les d\xE9placements domicile-travail du matin et du soir (de\
+        \ 7 h \xE0 9 h et de 17 h \xE0 19 h) et la nuit, lorsque la majorit\xE9 des\
+        \ gens sont \xE0 la maison (de 19 h \xE0 7 h). La valeur en capital des biens\
+        \ immobiliers est fournie pour les \xE9l\xE9ments structurels et non structurels\
+        \ des b\xE2timents, ainsi que pour le contenu potentiel du b\xE2timent. La\
+        \ valeur des biens est estim\xE9e en fonction des co\xFBts de remplacement\
+        \ de l\u2019industrie pour des r\xE9gions repr\xE9sentatives du Canada."
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href:
+        en: https://opendrr.github.io/data/en/nhsl#physical_exposure
+        fr: https://opendrr.github.io/data/fr/nhsl#physical_exposure
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_physical_exposure_indicators_hexbin_10km_v1.4.0
+      id_field: gridid_10
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Physical Exposure (10km Hexagonal Grid)
+      fr: Exposition physique (Grille hexagonale de 10km)
+    type: collection
+  opendrr_nhsl_physical_exposure_indicators_hexbin_1km_uc_v1.4.0:
+    description:
+      en: "This model represents an inventory of more than 9.1 million buildings in\
+        \ Canada; population dynamics at different times of day for 35.1 million people,\
+        \ and; the capital value of building assets totalling more than 8.3 trillion\
+        \ CAD$. Buildings are classified according to their construction type, occupancy,\
+        \ and age. These classes are derived from the standard North American HAZUS\
+        \ building taxonomy and include 38 construction classes representing different\
+        \ types of wood, concrete, masonry, steel and prefabricated structures; 33\
+        \ occupancy classes representing a mix of residential, civic, commercial and\
+        \ industrial land uses; and 4 age classes representing the assumed level of\
+        \ building design. The distribution of resulting \u2018building archetypes\u2019\
+        \ are assigned to settled areas based on associated land-use and census characteristics.\
+        \  Building populations at different times of day are estimated for standard\
+        \ daytime hours (9am-5pm); for morning and evening commute hours when people\
+        \ are in transit (7am-9am; 5pm-7pm), and; for nighttime hours when the majority\
+        \ of people are at home (7pm-7am). The capital value of buildings assets is\
+        \ provided for structural and non-structural components of the building, as\
+        \ well as the potential building contents. Asset values are estimated based\
+        \ on industry replacement costs for representative regions across Canada."
+      fr: "Ce mod\xE8le comprend un inventaire de plus de 9,1 millions de b\xE2timents\
+        \ au Canada, la dynamique de la population \xE0 divers moments de la journ\xE9\
+        e pour 35,1 millions de personnes et la valeur en capital de biens immobiliers\
+        \ totalisant plus de 8,3 billions de dollars canadiens. Les b\xE2timents sont\
+        \ class\xE9s en fonction du type de construction, de l\u2019occupation et\
+        \ de l\u2019\xE2ge. Ces classes sont bas\xE9es sur la taxonomie normalis\xE9\
+        e HAZUS des b\xE2timents de l\u2019Am\xE9rique du Nord. On compte 38 classes\
+        \ de construction repr\xE9sentant diff\xE9rents types de bois, de b\xE9ton,\
+        \ de ma\xE7onnerie, d\u2019acier et de structures pr\xE9fabriqu\xE9es; 33\
+        \ classes d\u2019occupation repr\xE9sentant une vari\xE9t\xE9 d\u2019utilisations\
+        \ r\xE9sidentielles, civiques, commerciales et industrielles; et 4 classes\
+        \ d\u2019\xE2ge repr\xE9sentant le niveau pr\xE9sum\xE9 de conception du b\xE2\
+        timent. La distribution des \xAB arch\xE9types de b\xE2timents \xBB obtenus\
+        \ est attribu\xE9e \xE0 des r\xE9gions habit\xE9es en fonction de l\u2019\
+        utilisation du sol et des caract\xE9ristiques du recensement. Le nombre d\u2019\
+        occupants des b\xE2timents \xE0 diff\xE9rents moments de la journ\xE9e est\
+        \ estim\xE9 pour les trois p\xE9riodes suivantes : le jour (de 9 h \xE0 17\
+        \ h), pendant les d\xE9placements domicile-travail du matin et du soir (de\
+        \ 7 h \xE0 9 h et de 17 h \xE0 19 h) et la nuit, lorsque la majorit\xE9 des\
+        \ gens sont \xE0 la maison (de 19 h \xE0 7 h). La valeur en capital des biens\
+        \ immobiliers est fournie pour les \xE9l\xE9ments structurels et non structurels\
+        \ des b\xE2timents, ainsi que pour le contenu potentiel du b\xE2timent. La\
+        \ valeur des biens est estim\xE9e en fonction des co\xFBts de remplacement\
+        \ de l\u2019industrie pour des r\xE9gions repr\xE9sentatives du Canada."
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href:
+        en: https://opendrr.github.io/data/en/nhsl#physical_exposure
+        fr: https://opendrr.github.io/data/fr/nhsl#physical_exposure
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_physical_exposure_indicators_hexbin_1km_uc_v1.4.0
+      id_field: gridid_1
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Physical Exposure (1km Hexagonal Grid - Unclipped)
+      fr: "Exposition physique (Grille hexagonale de 1km - Non d\xE9collet\xE9s)"
+    type: collection
+  opendrr_nhsl_physical_exposure_indicators_hexbin_1km_v1.4.0:
+    description:
+      en: "This model represents an inventory of more than 9.1 million buildings in\
+        \ Canada; population dynamics at different times of day for 35.1 million people,\
+        \ and; the capital value of building assets totalling more than 8.3 trillion\
+        \ CAD$. Buildings are classified according to their construction type, occupancy,\
+        \ and age. These classes are derived from the standard North American HAZUS\
+        \ building taxonomy and include 38 construction classes representing different\
+        \ types of wood, concrete, masonry, steel and prefabricated structures; 33\
+        \ occupancy classes representing a mix of residential, civic, commercial and\
+        \ industrial land uses; and 4 age classes representing the assumed level of\
+        \ building design. The distribution of resulting \u2018building archetypes\u2019\
+        \ are assigned to settled areas based on associated land-use and census characteristics.\
+        \  Building populations at different times of day are estimated for standard\
+        \ daytime hours (9am-5pm); for morning and evening commute hours when people\
+        \ are in transit (7am-9am; 5pm-7pm), and; for nighttime hours when the majority\
+        \ of people are at home (7pm-7am). The capital value of buildings assets is\
+        \ provided for structural and non-structural components of the building, as\
+        \ well as the potential building contents. Asset values are estimated based\
+        \ on industry replacement costs for representative regions across Canada."
+      fr: "Ce mod\xE8le comprend un inventaire de plus de 9,1 millions de b\xE2timents\
+        \ au Canada, la dynamique de la population \xE0 divers moments de la journ\xE9\
+        e pour 35,1 millions de personnes et la valeur en capital de biens immobiliers\
+        \ totalisant plus de 8,3 billions de dollars canadiens. Les b\xE2timents sont\
+        \ class\xE9s en fonction du type de construction, de l\u2019occupation et\
+        \ de l\u2019\xE2ge. Ces classes sont bas\xE9es sur la taxonomie normalis\xE9\
+        e HAZUS des b\xE2timents de l\u2019Am\xE9rique du Nord. On compte 38 classes\
+        \ de construction repr\xE9sentant diff\xE9rents types de bois, de b\xE9ton,\
+        \ de ma\xE7onnerie, d\u2019acier et de structures pr\xE9fabriqu\xE9es; 33\
+        \ classes d\u2019occupation repr\xE9sentant une vari\xE9t\xE9 d\u2019utilisations\
+        \ r\xE9sidentielles, civiques, commerciales et industrielles; et 4 classes\
+        \ d\u2019\xE2ge repr\xE9sentant le niveau pr\xE9sum\xE9 de conception du b\xE2\
+        timent. La distribution des \xAB arch\xE9types de b\xE2timents \xBB obtenus\
+        \ est attribu\xE9e \xE0 des r\xE9gions habit\xE9es en fonction de l\u2019\
+        utilisation du sol et des caract\xE9ristiques du recensement. Le nombre d\u2019\
+        occupants des b\xE2timents \xE0 diff\xE9rents moments de la journ\xE9e est\
+        \ estim\xE9 pour les trois p\xE9riodes suivantes : le jour (de 9 h \xE0 17\
+        \ h), pendant les d\xE9placements domicile-travail du matin et du soir (de\
+        \ 7 h \xE0 9 h et de 17 h \xE0 19 h) et la nuit, lorsque la majorit\xE9 des\
+        \ gens sont \xE0 la maison (de 19 h \xE0 7 h). La valeur en capital des biens\
+        \ immobiliers est fournie pour les \xE9l\xE9ments structurels et non structurels\
+        \ des b\xE2timents, ainsi que pour le contenu potentiel du b\xE2timent. La\
+        \ valeur des biens est estim\xE9e en fonction des co\xFBts de remplacement\
+        \ de l\u2019industrie pour des r\xE9gions repr\xE9sentatives du Canada."
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href:
+        en: https://opendrr.github.io/data/en/nhsl#physical_exposure
+        fr: https://opendrr.github.io/data/fr/nhsl#physical_exposure
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_physical_exposure_indicators_hexbin_1km_v1.4.0
+      id_field: gridid_1
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Physical Exposure (1km Hexagonal Grid)
+      fr: Exposition physique (Grille hexagonale de 1km)
+    type: collection
+  opendrr_nhsl_physical_exposure_indicators_hexbin_25km_uc_v1.4.0:
+    description:
+      en: "This model represents an inventory of more than 9.1 million buildings in\
+        \ Canada; population dynamics at different times of day for 35.1 million people,\
+        \ and; the capital value of building assets totalling more than 8.3 trillion\
+        \ CAD$. Buildings are classified according to their construction type, occupancy,\
+        \ and age. These classes are derived from the standard North American HAZUS\
+        \ building taxonomy and include 38 construction classes representing different\
+        \ types of wood, concrete, masonry, steel and prefabricated structures; 33\
+        \ occupancy classes representing a mix of residential, civic, commercial and\
+        \ industrial land uses; and 4 age classes representing the assumed level of\
+        \ building design. The distribution of resulting \u2018building archetypes\u2019\
+        \ are assigned to settled areas based on associated land-use and census characteristics.\
+        \  Building populations at different times of day are estimated for standard\
+        \ daytime hours (9am-5pm); for morning and evening commute hours when people\
+        \ are in transit (7am-9am; 5pm-7pm), and; for nighttime hours when the majority\
+        \ of people are at home (7pm-7am). The capital value of buildings assets is\
+        \ provided for structural and non-structural components of the building, as\
+        \ well as the potential building contents. Asset values are estimated based\
+        \ on industry replacement costs for representative regions across Canada."
+      fr: "Ce mod\xE8le comprend un inventaire de plus de 9,1 millions de b\xE2timents\
+        \ au Canada, la dynamique de la population \xE0 divers moments de la journ\xE9\
+        e pour 35,1 millions de personnes et la valeur en capital de biens immobiliers\
+        \ totalisant plus de 8,3 billions de dollars canadiens. Les b\xE2timents sont\
+        \ class\xE9s en fonction du type de construction, de l\u2019occupation et\
+        \ de l\u2019\xE2ge. Ces classes sont bas\xE9es sur la taxonomie normalis\xE9\
+        e HAZUS des b\xE2timents de l\u2019Am\xE9rique du Nord. On compte 38 classes\
+        \ de construction repr\xE9sentant diff\xE9rents types de bois, de b\xE9ton,\
+        \ de ma\xE7onnerie, d\u2019acier et de structures pr\xE9fabriqu\xE9es; 33\
+        \ classes d\u2019occupation repr\xE9sentant une vari\xE9t\xE9 d\u2019utilisations\
+        \ r\xE9sidentielles, civiques, commerciales et industrielles; et 4 classes\
+        \ d\u2019\xE2ge repr\xE9sentant le niveau pr\xE9sum\xE9 de conception du b\xE2\
+        timent. La distribution des \xAB arch\xE9types de b\xE2timents \xBB obtenus\
+        \ est attribu\xE9e \xE0 des r\xE9gions habit\xE9es en fonction de l\u2019\
+        utilisation du sol et des caract\xE9ristiques du recensement. Le nombre d\u2019\
+        occupants des b\xE2timents \xE0 diff\xE9rents moments de la journ\xE9e est\
+        \ estim\xE9 pour les trois p\xE9riodes suivantes : le jour (de 9 h \xE0 17\
+        \ h), pendant les d\xE9placements domicile-travail du matin et du soir (de\
+        \ 7 h \xE0 9 h et de 17 h \xE0 19 h) et la nuit, lorsque la majorit\xE9 des\
+        \ gens sont \xE0 la maison (de 19 h \xE0 7 h). La valeur en capital des biens\
+        \ immobiliers est fournie pour les \xE9l\xE9ments structurels et non structurels\
+        \ des b\xE2timents, ainsi que pour le contenu potentiel du b\xE2timent. La\
+        \ valeur des biens est estim\xE9e en fonction des co\xFBts de remplacement\
+        \ de l\u2019industrie pour des r\xE9gions repr\xE9sentatives du Canada."
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href:
+        en: https://opendrr.github.io/data/en/nhsl#physical_exposure
+        fr: https://opendrr.github.io/data/fr/nhsl#physical_exposure
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_physical_exposure_indicators_hexbin_25km_uc_v1.4.0
+      id_field: gridid_25
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Physical Exposure (25km Hexagonal Grid - Unclipped)
+      fr: "Exposition physique (Grille hexagonale de 25km - Non d\xE9collet\xE9s)"
+    type: collection
+  opendrr_nhsl_physical_exposure_indicators_hexbin_25km_v1.4.0:
+    description:
+      en: "This model represents an inventory of more than 9.1 million buildings in\
+        \ Canada; population dynamics at different times of day for 35.1 million people,\
+        \ and; the capital value of building assets totalling more than 8.3 trillion\
+        \ CAD$. Buildings are classified according to their construction type, occupancy,\
+        \ and age. These classes are derived from the standard North American HAZUS\
+        \ building taxonomy and include 38 construction classes representing different\
+        \ types of wood, concrete, masonry, steel and prefabricated structures; 33\
+        \ occupancy classes representing a mix of residential, civic, commercial and\
+        \ industrial land uses; and 4 age classes representing the assumed level of\
+        \ building design. The distribution of resulting \u2018building archetypes\u2019\
+        \ are assigned to settled areas based on associated land-use and census characteristics.\
+        \  Building populations at different times of day are estimated for standard\
+        \ daytime hours (9am-5pm); for morning and evening commute hours when people\
+        \ are in transit (7am-9am; 5pm-7pm), and; for nighttime hours when the majority\
+        \ of people are at home (7pm-7am). The capital value of buildings assets is\
+        \ provided for structural and non-structural components of the building, as\
+        \ well as the potential building contents. Asset values are estimated based\
+        \ on industry replacement costs for representative regions across Canada."
+      fr: "Ce mod\xE8le comprend un inventaire de plus de 9,1 millions de b\xE2timents\
+        \ au Canada, la dynamique de la population \xE0 divers moments de la journ\xE9\
+        e pour 35,1 millions de personnes et la valeur en capital de biens immobiliers\
+        \ totalisant plus de 8,3 billions de dollars canadiens. Les b\xE2timents sont\
+        \ class\xE9s en fonction du type de construction, de l\u2019occupation et\
+        \ de l\u2019\xE2ge. Ces classes sont bas\xE9es sur la taxonomie normalis\xE9\
+        e HAZUS des b\xE2timents de l\u2019Am\xE9rique du Nord. On compte 38 classes\
+        \ de construction repr\xE9sentant diff\xE9rents types de bois, de b\xE9ton,\
+        \ de ma\xE7onnerie, d\u2019acier et de structures pr\xE9fabriqu\xE9es; 33\
+        \ classes d\u2019occupation repr\xE9sentant une vari\xE9t\xE9 d\u2019utilisations\
+        \ r\xE9sidentielles, civiques, commerciales et industrielles; et 4 classes\
+        \ d\u2019\xE2ge repr\xE9sentant le niveau pr\xE9sum\xE9 de conception du b\xE2\
+        timent. La distribution des \xAB arch\xE9types de b\xE2timents \xBB obtenus\
+        \ est attribu\xE9e \xE0 des r\xE9gions habit\xE9es en fonction de l\u2019\
+        utilisation du sol et des caract\xE9ristiques du recensement. Le nombre d\u2019\
+        occupants des b\xE2timents \xE0 diff\xE9rents moments de la journ\xE9e est\
+        \ estim\xE9 pour les trois p\xE9riodes suivantes : le jour (de 9 h \xE0 17\
+        \ h), pendant les d\xE9placements domicile-travail du matin et du soir (de\
+        \ 7 h \xE0 9 h et de 17 h \xE0 19 h) et la nuit, lorsque la majorit\xE9 des\
+        \ gens sont \xE0 la maison (de 19 h \xE0 7 h). La valeur en capital des biens\
+        \ immobiliers est fournie pour les \xE9l\xE9ments structurels et non structurels\
+        \ des b\xE2timents, ainsi que pour le contenu potentiel du b\xE2timent. La\
+        \ valeur des biens est estim\xE9e en fonction des co\xFBts de remplacement\
+        \ de l\u2019industrie pour des r\xE9gions repr\xE9sentatives du Canada."
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href:
+        en: https://opendrr.github.io/data/en/nhsl#physical_exposure
+        fr: https://opendrr.github.io/data/fr/nhsl#physical_exposure
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_physical_exposure_indicators_hexbin_25km_v1.4.0
+      id_field: gridid_25
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Physical Exposure (25km Hexagonal Grid)
+      fr: Exposition physique (Grille hexagonale de 25km)
+    type: collection
+  opendrr_nhsl_physical_exposure_indicators_hexbin_50km_uc_v1.4.0:
+    description:
+      en: "This model represents an inventory of more than 9.1 million buildings in\
+        \ Canada; population dynamics at different times of day for 35.1 million people,\
+        \ and; the capital value of building assets totalling more than 8.3 trillion\
+        \ CAD$. Buildings are classified according to their construction type, occupancy,\
+        \ and age. These classes are derived from the standard North American HAZUS\
+        \ building taxonomy and include 38 construction classes representing different\
+        \ types of wood, concrete, masonry, steel and prefabricated structures; 33\
+        \ occupancy classes representing a mix of residential, civic, commercial and\
+        \ industrial land uses; and 4 age classes representing the assumed level of\
+        \ building design. The distribution of resulting \u2018building archetypes\u2019\
+        \ are assigned to settled areas based on associated land-use and census characteristics.\
+        \  Building populations at different times of day are estimated for standard\
+        \ daytime hours (9am-5pm); for morning and evening commute hours when people\
+        \ are in transit (7am-9am; 5pm-7pm), and; for nighttime hours when the majority\
+        \ of people are at home (7pm-7am). The capital value of buildings assets is\
+        \ provided for structural and non-structural components of the building, as\
+        \ well as the potential building contents. Asset values are estimated based\
+        \ on industry replacement costs for representative regions across Canada."
+      fr: "Ce mod\xE8le comprend un inventaire de plus de 9,1 millions de b\xE2timents\
+        \ au Canada, la dynamique de la population \xE0 divers moments de la journ\xE9\
+        e pour 35,1 millions de personnes et la valeur en capital de biens immobiliers\
+        \ totalisant plus de 8,3 billions de dollars canadiens. Les b\xE2timents sont\
+        \ class\xE9s en fonction du type de construction, de l\u2019occupation et\
+        \ de l\u2019\xE2ge. Ces classes sont bas\xE9es sur la taxonomie normalis\xE9\
+        e HAZUS des b\xE2timents de l\u2019Am\xE9rique du Nord. On compte 38 classes\
+        \ de construction repr\xE9sentant diff\xE9rents types de bois, de b\xE9ton,\
+        \ de ma\xE7onnerie, d\u2019acier et de structures pr\xE9fabriqu\xE9es; 33\
+        \ classes d\u2019occupation repr\xE9sentant une vari\xE9t\xE9 d\u2019utilisations\
+        \ r\xE9sidentielles, civiques, commerciales et industrielles; et 4 classes\
+        \ d\u2019\xE2ge repr\xE9sentant le niveau pr\xE9sum\xE9 de conception du b\xE2\
+        timent. La distribution des \xAB arch\xE9types de b\xE2timents \xBB obtenus\
+        \ est attribu\xE9e \xE0 des r\xE9gions habit\xE9es en fonction de l\u2019\
+        utilisation du sol et des caract\xE9ristiques du recensement. Le nombre d\u2019\
+        occupants des b\xE2timents \xE0 diff\xE9rents moments de la journ\xE9e est\
+        \ estim\xE9 pour les trois p\xE9riodes suivantes : le jour (de 9 h \xE0 17\
+        \ h), pendant les d\xE9placements domicile-travail du matin et du soir (de\
+        \ 7 h \xE0 9 h et de 17 h \xE0 19 h) et la nuit, lorsque la majorit\xE9 des\
+        \ gens sont \xE0 la maison (de 19 h \xE0 7 h). La valeur en capital des biens\
+        \ immobiliers est fournie pour les \xE9l\xE9ments structurels et non structurels\
+        \ des b\xE2timents, ainsi que pour le contenu potentiel du b\xE2timent. La\
+        \ valeur des biens est estim\xE9e en fonction des co\xFBts de remplacement\
+        \ de l\u2019industrie pour des r\xE9gions repr\xE9sentatives du Canada."
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href:
+        en: https://opendrr.github.io/data/en/nhsl#physical_exposure
+        fr: https://opendrr.github.io/data/fr/nhsl#physical_exposure
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_physical_exposure_indicators_hexbin_50km_uc_v1.4.0
+      id_field: gridid_50
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Physical Exposure (50km Hexagonal Grid - Unclipped)
+      fr: "Exposition physique (Grille hexagonale de 50km - Non d\xE9collet\xE9s)"
+    type: collection
+  opendrr_nhsl_physical_exposure_indicators_hexbin_5km_uc_v1.4.0:
+    description:
+      en: "This model represents an inventory of more than 9.1 million buildings in\
+        \ Canada; population dynamics at different times of day for 35.1 million people,\
+        \ and; the capital value of building assets totalling more than 8.3 trillion\
+        \ CAD$. Buildings are classified according to their construction type, occupancy,\
+        \ and age. These classes are derived from the standard North American HAZUS\
+        \ building taxonomy and include 38 construction classes representing different\
+        \ types of wood, concrete, masonry, steel and prefabricated structures; 33\
+        \ occupancy classes representing a mix of residential, civic, commercial and\
+        \ industrial land uses; and 4 age classes representing the assumed level of\
+        \ building design. The distribution of resulting \u2018building archetypes\u2019\
+        \ are assigned to settled areas based on associated land-use and census characteristics.\
+        \  Building populations at different times of day are estimated for standard\
+        \ daytime hours (9am-5pm); for morning and evening commute hours when people\
+        \ are in transit (7am-9am; 5pm-7pm), and; for nighttime hours when the majority\
+        \ of people are at home (7pm-7am). The capital value of buildings assets is\
+        \ provided for structural and non-structural components of the building, as\
+        \ well as the potential building contents. Asset values are estimated based\
+        \ on industry replacement costs for representative regions across Canada."
+      fr: "Ce mod\xE8le comprend un inventaire de plus de 9,1 millions de b\xE2timents\
+        \ au Canada, la dynamique de la population \xE0 divers moments de la journ\xE9\
+        e pour 35,1 millions de personnes et la valeur en capital de biens immobiliers\
+        \ totalisant plus de 8,3 billions de dollars canadiens. Les b\xE2timents sont\
+        \ class\xE9s en fonction du type de construction, de l\u2019occupation et\
+        \ de l\u2019\xE2ge. Ces classes sont bas\xE9es sur la taxonomie normalis\xE9\
+        e HAZUS des b\xE2timents de l\u2019Am\xE9rique du Nord. On compte 38 classes\
+        \ de construction repr\xE9sentant diff\xE9rents types de bois, de b\xE9ton,\
+        \ de ma\xE7onnerie, d\u2019acier et de structures pr\xE9fabriqu\xE9es; 33\
+        \ classes d\u2019occupation repr\xE9sentant une vari\xE9t\xE9 d\u2019utilisations\
+        \ r\xE9sidentielles, civiques, commerciales et industrielles; et 4 classes\
+        \ d\u2019\xE2ge repr\xE9sentant le niveau pr\xE9sum\xE9 de conception du b\xE2\
+        timent. La distribution des \xAB arch\xE9types de b\xE2timents \xBB obtenus\
+        \ est attribu\xE9e \xE0 des r\xE9gions habit\xE9es en fonction de l\u2019\
+        utilisation du sol et des caract\xE9ristiques du recensement. Le nombre d\u2019\
+        occupants des b\xE2timents \xE0 diff\xE9rents moments de la journ\xE9e est\
+        \ estim\xE9 pour les trois p\xE9riodes suivantes : le jour (de 9 h \xE0 17\
+        \ h), pendant les d\xE9placements domicile-travail du matin et du soir (de\
+        \ 7 h \xE0 9 h et de 17 h \xE0 19 h) et la nuit, lorsque la majorit\xE9 des\
+        \ gens sont \xE0 la maison (de 19 h \xE0 7 h). La valeur en capital des biens\
+        \ immobiliers est fournie pour les \xE9l\xE9ments structurels et non structurels\
+        \ des b\xE2timents, ainsi que pour le contenu potentiel du b\xE2timent. La\
+        \ valeur des biens est estim\xE9e en fonction des co\xFBts de remplacement\
+        \ de l\u2019industrie pour des r\xE9gions repr\xE9sentatives du Canada."
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href:
+        en: https://opendrr.github.io/data/en/nhsl#physical_exposure
+        fr: https://opendrr.github.io/data/fr/nhsl#physical_exposure
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_physical_exposure_indicators_hexbin_5km_uc_v1.4.0
+      id_field: gridid_5
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Physical Exposure (5km Hexagonal Grid - Unclipped)
+      fr: "Exposition physique (Grille hexagonale de 5km - Non d\xE9collet\xE9s)"
+    type: collection
+  opendrr_nhsl_physical_exposure_indicators_hexbin_5km_v1.4.0:
+    description:
+      en: "This model represents an inventory of more than 9.1 million buildings in\
+        \ Canada; population dynamics at different times of day for 35.1 million people,\
+        \ and; the capital value of building assets totalling more than 8.3 trillion\
+        \ CAD$. Buildings are classified according to their construction type, occupancy,\
+        \ and age. These classes are derived from the standard North American HAZUS\
+        \ building taxonomy and include 38 construction classes representing different\
+        \ types of wood, concrete, masonry, steel and prefabricated structures; 33\
+        \ occupancy classes representing a mix of residential, civic, commercial and\
+        \ industrial land uses; and 4 age classes representing the assumed level of\
+        \ building design. The distribution of resulting \u2018building archetypes\u2019\
+        \ are assigned to settled areas based on associated land-use and census characteristics.\
+        \  Building populations at different times of day are estimated for standard\
+        \ daytime hours (9am-5pm); for morning and evening commute hours when people\
+        \ are in transit (7am-9am; 5pm-7pm), and; for nighttime hours when the majority\
+        \ of people are at home (7pm-7am). The capital value of buildings assets is\
+        \ provided for structural and non-structural components of the building, as\
+        \ well as the potential building contents. Asset values are estimated based\
+        \ on industry replacement costs for representative regions across Canada."
+      fr: "Ce mod\xE8le comprend un inventaire de plus de 9,1 millions de b\xE2timents\
+        \ au Canada, la dynamique de la population \xE0 divers moments de la journ\xE9\
+        e pour 35,1 millions de personnes et la valeur en capital de biens immobiliers\
+        \ totalisant plus de 8,3 billions de dollars canadiens. Les b\xE2timents sont\
+        \ class\xE9s en fonction du type de construction, de l\u2019occupation et\
+        \ de l\u2019\xE2ge. Ces classes sont bas\xE9es sur la taxonomie normalis\xE9\
+        e HAZUS des b\xE2timents de l\u2019Am\xE9rique du Nord. On compte 38 classes\
+        \ de construction repr\xE9sentant diff\xE9rents types de bois, de b\xE9ton,\
+        \ de ma\xE7onnerie, d\u2019acier et de structures pr\xE9fabriqu\xE9es; 33\
+        \ classes d\u2019occupation repr\xE9sentant une vari\xE9t\xE9 d\u2019utilisations\
+        \ r\xE9sidentielles, civiques, commerciales et industrielles; et 4 classes\
+        \ d\u2019\xE2ge repr\xE9sentant le niveau pr\xE9sum\xE9 de conception du b\xE2\
+        timent. La distribution des \xAB arch\xE9types de b\xE2timents \xBB obtenus\
+        \ est attribu\xE9e \xE0 des r\xE9gions habit\xE9es en fonction de l\u2019\
+        utilisation du sol et des caract\xE9ristiques du recensement. Le nombre d\u2019\
+        occupants des b\xE2timents \xE0 diff\xE9rents moments de la journ\xE9e est\
+        \ estim\xE9 pour les trois p\xE9riodes suivantes : le jour (de 9 h \xE0 17\
+        \ h), pendant les d\xE9placements domicile-travail du matin et du soir (de\
+        \ 7 h \xE0 9 h et de 17 h \xE0 19 h) et la nuit, lorsque la majorit\xE9 des\
+        \ gens sont \xE0 la maison (de 19 h \xE0 7 h). La valeur en capital des biens\
+        \ immobiliers est fournie pour les \xE9l\xE9ments structurels et non structurels\
+        \ des b\xE2timents, ainsi que pour le contenu potentiel du b\xE2timent. La\
+        \ valeur des biens est estim\xE9e en fonction des co\xFBts de remplacement\
+        \ de l\u2019industrie pour des r\xE9gions repr\xE9sentatives du Canada."
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href:
+        en: https://opendrr.github.io/data/en/nhsl#physical_exposure
+        fr: https://opendrr.github.io/data/fr/nhsl#physical_exposure
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_physical_exposure_indicators_hexbin_5km_v1.4.0
+      id_field: gridid_5
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Physical Exposure (5km Hexagonal Grid)
+      fr: Exposition physique (Grille hexagonale de 5km)
+    type: collection
+  opendrr_nhsl_physical_exposure_indicators_s_v1.4.0:
+    description:
+      en: "This model represents an inventory of more than 9.1 million buildings in\
+        \ Canada; population dynamics at different times of day for 35.1 million people,\
+        \ and; the capital value of building assets totalling more than 8.3 trillion\
+        \ CAD$. Buildings are classified according to their construction type, occupancy,\
+        \ and age. These classes are derived from the standard North American HAZUS\
+        \ building taxonomy and include 38 construction classes representing different\
+        \ types of wood, concrete, masonry, steel and prefabricated structures; 33\
+        \ occupancy classes representing a mix of residential, civic, commercial and\
+        \ industrial land uses; and 4 age classes representing the assumed level of\
+        \ building design. The distribution of resulting \u2018building archetypes\u2019\
+        \ are assigned to settled areas based on associated land-use and census characteristics.\
+        \  Building populations at different times of day are estimated for standard\
+        \ daytime hours (9am-5pm); for morning and evening commute hours when people\
+        \ are in transit (7am-9am; 5pm-7pm), and; for nighttime hours when the majority\
+        \ of people are at home (7pm-7am). The capital value of buildings assets is\
+        \ provided for structural and non-structural components of the building, as\
+        \ well as the potential building contents. Asset values are estimated based\
+        \ on industry replacement costs for representative regions across Canada."
+      fr: "Ce mod\xE8le comprend un inventaire de plus de 9,1 millions de b\xE2timents\
+        \ au Canada, la dynamique de la population \xE0 divers moments de la journ\xE9\
+        e pour 35,1 millions de personnes et la valeur en capital de biens immobiliers\
+        \ totalisant plus de 8,3 billions de dollars canadiens. Les b\xE2timents sont\
+        \ class\xE9s en fonction du type de construction, de l\u2019occupation et\
+        \ de l\u2019\xE2ge. Ces classes sont bas\xE9es sur la taxonomie normalis\xE9\
+        e HAZUS des b\xE2timents de l\u2019Am\xE9rique du Nord. On compte 38 classes\
+        \ de construction repr\xE9sentant diff\xE9rents types de bois, de b\xE9ton,\
+        \ de ma\xE7onnerie, d\u2019acier et de structures pr\xE9fabriqu\xE9es; 33\
+        \ classes d\u2019occupation repr\xE9sentant une vari\xE9t\xE9 d\u2019utilisations\
+        \ r\xE9sidentielles, civiques, commerciales et industrielles; et 4 classes\
+        \ d\u2019\xE2ge repr\xE9sentant le niveau pr\xE9sum\xE9 de conception du b\xE2\
+        timent. La distribution des \xAB arch\xE9types de b\xE2timents \xBB obtenus\
+        \ est attribu\xE9e \xE0 des r\xE9gions habit\xE9es en fonction de l\u2019\
+        utilisation du sol et des caract\xE9ristiques du recensement. Le nombre d\u2019\
+        occupants des b\xE2timents \xE0 diff\xE9rents moments de la journ\xE9e est\
+        \ estim\xE9 pour les trois p\xE9riodes suivantes : le jour (de 9 h \xE0 17\
+        \ h), pendant les d\xE9placements domicile-travail du matin et du soir (de\
+        \ 7 h \xE0 9 h et de 17 h \xE0 19 h) et la nuit, lorsque la majorit\xE9 des\
+        \ gens sont \xE0 la maison (de 19 h \xE0 7 h). La valeur en capital des biens\
+        \ immobiliers est fournie pour les \xE9l\xE9ments structurels et non structurels\
+        \ des b\xE2timents, ainsi que pour le contenu potentiel du b\xE2timent. La\
+        \ valeur des biens est estim\xE9e en fonction des co\xFBts de remplacement\
+        \ de l\u2019industrie pour des r\xE9gions repr\xE9sentatives du Canada."
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href:
+        en: https://opendrr.github.io/data/en/nhsl#physical_exposure
+        fr: https://opendrr.github.io/data/fr/nhsl#physical_exposure
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_physical_exposure_indicators_s_v1.4.0
       id_field: Sauid
       name: Elasticsearch
       type: feature
@@ -2540,7 +4168,7 @@ resources:
       en: Physical Exposure (Settlement Area)
       fr: Exposition physique (Zone de peuplement)
     type: collection
-  opendrr_nhsl_social_fabric_indicators_hexgrid_100km:
+  opendrr_nhsl_social_fabric_indicators_hexgrid_100km_uc_v1.4.0:
     description:
       en: The social vulnerability index and capacity threshold indicators help to
         identify underlying patterns of social vulnerability within a given community.
@@ -2586,7 +4214,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_100km
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_100km_uc_v1.4.0
       id_field: gridid_100
       name: Elasticsearch
       type: feature
@@ -2594,7 +4222,7 @@ resources:
       en: Social Vulnerability (100km Hexagonal Grid)
       fr: "Vuln\xE9rabilit\xE9 sociale (Grille hexagonale de 100km)"
     type: collection
-  opendrr_nhsl_social_fabric_indicators_hexgrid_10km:
+  opendrr_nhsl_social_fabric_indicators_hexgrid_10km_uc_v1.4.0:
     description:
       en: The social vulnerability index and capacity threshold indicators help to
         identify underlying patterns of social vulnerability within a given community.
@@ -2640,7 +4268,62 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_10km
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_10km_uc_v1.4.0
+      id_field: gridid_10
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Social Vulnerability (10km Hexagonal Grid - Unclipped)
+      fr: "Vuln\xE9rabilit\xE9 sociale (Grille hexagonale de 10km - Non d\xE9collet\xE9\
+        s)"
+    type: collection
+  opendrr_nhsl_social_fabric_indicators_hexgrid_10km_v1.4.0:
+    description:
+      en: The social vulnerability index and capacity threshold indicators help to
+        identify underlying patterns of social vulnerability within a given community.
+        The model includes six composite indicators that describe the estimated total
+        social vulnerability, and vulnerability level that might arise due to housing
+        conditions, family structure, individual autonomy and financial agency. The
+        model provide a means of comparing relative levels of vulnerability from one
+        region to another across Canada and help identify specific neighbourhoods
+        within which capacities to withstand and recover from disaster events may
+        be strained.
+      fr: "Les indicateurs de la vuln\xE9rabilit\xE9 sociale et du seuil de capacit\xE9\
+        \ permettent de cerner les tendances sous-jacentes en mati\xE8re de vuln\xE9\
+        rabilit\xE9 sociale au sein d\u2019une collectivit\xE9 donn\xE9e. Le mod\xE8\
+        le comprend six indicateurs composites qui d\xE9crivent la vuln\xE9rabilit\xE9\
+        \ sociale totale estim\xE9e, ainsi que le niveau de vuln\xE9rabilit\xE9 qui\
+        \ pourrait d\xE9couler des conditions de logement, de la structure familiale,\
+        \ de l\u2019autonomie individuelle et des syst\xE8mes financiers. Le mod\xE8\
+        le permet donc de comparer les niveaux relatifs de vuln\xE9rabilit\xE9 d\u2019\
+        une r\xE9gion \xE0 l\u2019autre dans l\u2019ensemble du Canada et de d\xE9\
+        terminer les quartiers dans lesquels la capacit\xE9 de r\xE9sister aux catastrophes,\
+        \ et de s\u2019en r\xE9tablir, peut \xEAtre restreinte."
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href:
+        en: https://opendrr.github.io/data/en/nhsl#social_fabric
+        fr: https://opendrr.github.io/data/fr/nhsl#social_fabric
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_10km_v1.4.0
       id_field: gridid_10
       name: Elasticsearch
       type: feature
@@ -2648,7 +4331,7 @@ resources:
       en: Social Vulnerability (10km Hexagonal Grid)
       fr: "Vuln\xE9rabilit\xE9 sociale (Grille hexagonale de 10km)"
     type: collection
-  opendrr_nhsl_social_fabric_indicators_hexgrid_25km:
+  opendrr_nhsl_social_fabric_indicators_hexgrid_1km_uc_v1.4.0:
     description:
       en: The social vulnerability index and capacity threshold indicators help to
         identify underlying patterns of social vulnerability within a given community.
@@ -2694,7 +4377,171 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_25km
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_1km_uc_v1.4.0
+      id_field: gridid_1
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Social Vulnerability (1km Hexagonal Grid - Unclipped)
+      fr: "Vuln\xE9rabilit\xE9 sociale (Grille hexagonale de 1km - Non d\xE9collet\xE9\
+        s)"
+    type: collection
+  opendrr_nhsl_social_fabric_indicators_hexgrid_1km_v1.4.0:
+    description:
+      en: The social vulnerability index and capacity threshold indicators help to
+        identify underlying patterns of social vulnerability within a given community.
+        The model includes six composite indicators that describe the estimated total
+        social vulnerability, and vulnerability level that might arise due to housing
+        conditions, family structure, individual autonomy and financial agency. The
+        model provide a means of comparing relative levels of vulnerability from one
+        region to another across Canada and help identify specific neighbourhoods
+        within which capacities to withstand and recover from disaster events may
+        be strained.
+      fr: "Les indicateurs de la vuln\xE9rabilit\xE9 sociale et du seuil de capacit\xE9\
+        \ permettent de cerner les tendances sous-jacentes en mati\xE8re de vuln\xE9\
+        rabilit\xE9 sociale au sein d\u2019une collectivit\xE9 donn\xE9e. Le mod\xE8\
+        le comprend six indicateurs composites qui d\xE9crivent la vuln\xE9rabilit\xE9\
+        \ sociale totale estim\xE9e, ainsi que le niveau de vuln\xE9rabilit\xE9 qui\
+        \ pourrait d\xE9couler des conditions de logement, de la structure familiale,\
+        \ de l\u2019autonomie individuelle et des syst\xE8mes financiers. Le mod\xE8\
+        le permet donc de comparer les niveaux relatifs de vuln\xE9rabilit\xE9 d\u2019\
+        une r\xE9gion \xE0 l\u2019autre dans l\u2019ensemble du Canada et de d\xE9\
+        terminer les quartiers dans lesquels la capacit\xE9 de r\xE9sister aux catastrophes,\
+        \ et de s\u2019en r\xE9tablir, peut \xEAtre restreinte."
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href:
+        en: https://opendrr.github.io/data/en/nhsl#social_fabric
+        fr: https://opendrr.github.io/data/fr/nhsl#social_fabric
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_1km_v1.4.0
+      id_field: gridid_1
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Social Vulnerability (1km Hexagonal Grid)
+      fr: "Vuln\xE9rabilit\xE9 sociale (Grille hexagonale de 1km)"
+    type: collection
+  opendrr_nhsl_social_fabric_indicators_hexgrid_25km_uc_v1.4.0:
+    description:
+      en: The social vulnerability index and capacity threshold indicators help to
+        identify underlying patterns of social vulnerability within a given community.
+        The model includes six composite indicators that describe the estimated total
+        social vulnerability, and vulnerability level that might arise due to housing
+        conditions, family structure, individual autonomy and financial agency. The
+        model provide a means of comparing relative levels of vulnerability from one
+        region to another across Canada and help identify specific neighbourhoods
+        within which capacities to withstand and recover from disaster events may
+        be strained.
+      fr: "Les indicateurs de la vuln\xE9rabilit\xE9 sociale et du seuil de capacit\xE9\
+        \ permettent de cerner les tendances sous-jacentes en mati\xE8re de vuln\xE9\
+        rabilit\xE9 sociale au sein d\u2019une collectivit\xE9 donn\xE9e. Le mod\xE8\
+        le comprend six indicateurs composites qui d\xE9crivent la vuln\xE9rabilit\xE9\
+        \ sociale totale estim\xE9e, ainsi que le niveau de vuln\xE9rabilit\xE9 qui\
+        \ pourrait d\xE9couler des conditions de logement, de la structure familiale,\
+        \ de l\u2019autonomie individuelle et des syst\xE8mes financiers. Le mod\xE8\
+        le permet donc de comparer les niveaux relatifs de vuln\xE9rabilit\xE9 d\u2019\
+        une r\xE9gion \xE0 l\u2019autre dans l\u2019ensemble du Canada et de d\xE9\
+        terminer les quartiers dans lesquels la capacit\xE9 de r\xE9sister aux catastrophes,\
+        \ et de s\u2019en r\xE9tablir, peut \xEAtre restreinte."
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href:
+        en: https://opendrr.github.io/data/en/nhsl#social_fabric
+        fr: https://opendrr.github.io/data/fr/nhsl#social_fabric
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_25km_uc_v1.4.0
+      id_field: gridid_25
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Social Vulnerability (25km Hexagonal Grid - Unclipped)
+      fr: "Vuln\xE9rabilit\xE9 sociale (Grille hexagonale de 25km - Non d\xE9collet\xE9\
+        s)"
+    type: collection
+  opendrr_nhsl_social_fabric_indicators_hexgrid_25km_v1.4.0:
+    description:
+      en: The social vulnerability index and capacity threshold indicators help to
+        identify underlying patterns of social vulnerability within a given community.
+        The model includes six composite indicators that describe the estimated total
+        social vulnerability, and vulnerability level that might arise due to housing
+        conditions, family structure, individual autonomy and financial agency. The
+        model provide a means of comparing relative levels of vulnerability from one
+        region to another across Canada and help identify specific neighbourhoods
+        within which capacities to withstand and recover from disaster events may
+        be strained.
+      fr: "Les indicateurs de la vuln\xE9rabilit\xE9 sociale et du seuil de capacit\xE9\
+        \ permettent de cerner les tendances sous-jacentes en mati\xE8re de vuln\xE9\
+        rabilit\xE9 sociale au sein d\u2019une collectivit\xE9 donn\xE9e. Le mod\xE8\
+        le comprend six indicateurs composites qui d\xE9crivent la vuln\xE9rabilit\xE9\
+        \ sociale totale estim\xE9e, ainsi que le niveau de vuln\xE9rabilit\xE9 qui\
+        \ pourrait d\xE9couler des conditions de logement, de la structure familiale,\
+        \ de l\u2019autonomie individuelle et des syst\xE8mes financiers. Le mod\xE8\
+        le permet donc de comparer les niveaux relatifs de vuln\xE9rabilit\xE9 d\u2019\
+        une r\xE9gion \xE0 l\u2019autre dans l\u2019ensemble du Canada et de d\xE9\
+        terminer les quartiers dans lesquels la capacit\xE9 de r\xE9sister aux catastrophes,\
+        \ et de s\u2019en r\xE9tablir, peut \xEAtre restreinte."
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href:
+        en: https://opendrr.github.io/data/en/nhsl#social_fabric
+        fr: https://opendrr.github.io/data/fr/nhsl#social_fabric
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_25km_v1.4.0
       id_field: gridid_25
       name: Elasticsearch
       type: feature
@@ -2702,7 +4549,7 @@ resources:
       en: Social Vulnerability (25km Hexagonal Grid)
       fr: "Vuln\xE9rabilit\xE9 sociale (Grille hexagonale de 25km)"
     type: collection
-  opendrr_nhsl_social_fabric_indicators_hexgrid_50km:
+  opendrr_nhsl_social_fabric_indicators_hexgrid_50km_uc_v1.4.0:
     description:
       en: The social vulnerability index and capacity threshold indicators help to
         identify underlying patterns of social vulnerability within a given community.
@@ -2748,7 +4595,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_50km
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_50km_uc_v1.4.0
       id_field: gridid_50
       name: Elasticsearch
       type: feature
@@ -2756,7 +4603,7 @@ resources:
       en: Social Vulnerability (50km Hexagonal Grid)
       fr: "Vuln\xE9rabilit\xE9 sociale (Grille hexagonale de 50km)"
     type: collection
-  opendrr_nhsl_social_fabric_indicators_hexgrid_5km:
+  opendrr_nhsl_social_fabric_indicators_hexgrid_5km_uc_v1.4.0:
     description:
       en: The social vulnerability index and capacity threshold indicators help to
         identify underlying patterns of social vulnerability within a given community.
@@ -2802,7 +4649,62 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_5km
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_5km_uc_v1.4.0
+      id_field: gridid_5
+      name: Elasticsearch
+      type: feature
+    title:
+      en: Social Vulnerability (5km Hexagonal Grid - Unclipped)
+      fr: "Vuln\xE9rabilit\xE9 sociale (Grille hexagonale de 5km - Non d\xE9collet\xE9\
+        s)"
+    type: collection
+  opendrr_nhsl_social_fabric_indicators_hexgrid_5km_v1.4.0:
+    description:
+      en: The social vulnerability index and capacity threshold indicators help to
+        identify underlying patterns of social vulnerability within a given community.
+        The model includes six composite indicators that describe the estimated total
+        social vulnerability, and vulnerability level that might arise due to housing
+        conditions, family structure, individual autonomy and financial agency. The
+        model provide a means of comparing relative levels of vulnerability from one
+        region to another across Canada and help identify specific neighbourhoods
+        within which capacities to withstand and recover from disaster events may
+        be strained.
+      fr: "Les indicateurs de la vuln\xE9rabilit\xE9 sociale et du seuil de capacit\xE9\
+        \ permettent de cerner les tendances sous-jacentes en mati\xE8re de vuln\xE9\
+        rabilit\xE9 sociale au sein d\u2019une collectivit\xE9 donn\xE9e. Le mod\xE8\
+        le comprend six indicateurs composites qui d\xE9crivent la vuln\xE9rabilit\xE9\
+        \ sociale totale estim\xE9e, ainsi que le niveau de vuln\xE9rabilit\xE9 qui\
+        \ pourrait d\xE9couler des conditions de logement, de la structure familiale,\
+        \ de l\u2019autonomie individuelle et des syst\xE8mes financiers. Le mod\xE8\
+        le permet donc de comparer les niveaux relatifs de vuln\xE9rabilit\xE9 d\u2019\
+        une r\xE9gion \xE0 l\u2019autre dans l\u2019ensemble du Canada et de d\xE9\
+        terminer les quartiers dans lesquels la capacit\xE9 de r\xE9sister aux catastrophes,\
+        \ et de s\u2019en r\xE9tablir, peut \xEAtre restreinte."
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href:
+        en: https://opendrr.github.io/data/en/nhsl#social_fabric
+        fr: https://opendrr.github.io/data/fr/nhsl#social_fabric
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_hexgrid_5km_v1.4.0
       id_field: gridid_5
       name: Elasticsearch
       type: feature
@@ -2810,7 +4712,7 @@ resources:
       en: Social Vulnerability (5km Hexagonal Grid)
       fr: "Vuln\xE9rabilit\xE9 sociale (Grille hexagonale de 5km)"
     type: collection
-  opendrr_nhsl_social_fabric_indicators_s:
+  opendrr_nhsl_social_fabric_indicators_s_v1.4.0:
     description:
       en: The social vulnerability index and capacity threshold indicators help to
         identify underlying patterns of social vulnerability within a given community.
@@ -2856,7 +4758,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_s
+    - data: https://api.stage.riskprofiler.ca/opendrr_nhsl_social_fabric_indicators_s_v1.4.0
       id_field: Sauid
       name: Elasticsearch
       type: feature
@@ -2864,49 +4766,10 @@ resources:
       en: Social Vulnerability
       fr: "Vuln\xE9rabilit\xE9 sociale"
     type: collection
-  opendrr_psra_indicators_b:
+  opendrr_psra_agg_loss_fsa_v1.4.0:
     description:
-      en: The National Seismic Risk model for Canada introduces a structured framework
-        of indicators that profile the physical, social and economic dimensions of
-        earthquake risk at the neighborhood scale.
-      fr: "Le mod\xE8le national de risque sismique pour le Canada pr\xE9sente un\
-        \ cadre structur\xE9 d'indicateurs qui profilent les dimensions physiques,\
-        \ sociales et \xE9conomiques du risque sismique \xE0 l'\xE9chelle du quartier."
-    extents:
-      spatial:
-        bbox:
-        - -141.003
-        - 41.6755
-        - -52.6174
-        - 83.1139
-        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-      temporal:
-        begin: 2020-08-06
-        end: null
-    keywords:
-      en:
-      - earthquake
-      fr:
-      - tremblement de terre
-    links:
-    - href: http://www.riskprofiler.ca/
-      hreflang: en-US
-      rel: canonical
-      title: Information
-      type: text/html
-    providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_psra_indicators_b
-      id_field: Sauid
-      name: Elasticsearch
-      type: feature
-    title:
-      en: The National Seismic Risk model for Canada (Point)
-      fr: "Le mod\xE8le national de risque sismique pour le Canada (Point)"
-    type: collection
-  opendrr_psra_indicators_csd:
-    description:
-      en: opendrr_psra_indicators_csd
-      fr: opendrr_psra_indicators_csd
+      en: opendrr_psra_agg_loss_fsa
+      fr: opendrr_psra_agg_loss_fsa
     extents:
       spatial:
         bbox:
@@ -2930,15 +4793,155 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_psra_indicators_csd
-      id_field: csduid
+    - data: https://api.stage.riskprofiler.ca/opendrr_psra_agg_loss_fsa_v1.4.0
+      id_field: fid
       name: Elasticsearch
       type: feature
     title:
-      en: opendrr_psra_indicators_csd
-      fr: opendrr_psra_indicators_csd
+      en: opendrr_psra_agg_loss_fsa
+      fr: opendrr_psra_agg_loss_fsa
     type: collection
-  opendrr_psra_indicators_s:
+  opendrr_psra_canada_agg_loss_v1.4.0:
+    description:
+      en: opendrr_psra_agg_loss
+      fr: opendrr_psra_agg_loss
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: https://github.com/OpenDRR/canada-srm2
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_psra_canada_agg_loss_v1.4.0
+      id_field: fid
+      name: Elasticsearch
+      type: feature
+    title:
+      en: opendrr_psra_agg_loss
+      fr: opendrr_psra_agg_loss
+    type: collection
+  opendrr_psra_canada_expected_loss_v1.4.0:
+    description:
+      en: opendrr_psra_expected_loss
+      fr: opendrr_psra_expected_loss
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: https://github.com/OpenDRR/canada-srm2
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_psra_canada_expected_loss_v1.4.0
+      id_field: fid
+      name: Elasticsearch
+      type: feature
+    title:
+      en: opendrr_psra_expected_loss
+      fr: opendrr_psra_expected_loss
+    type: collection
+  opendrr_psra_canada_src_loss_v1.4.0:
+    description:
+      en: opendrr_psra_canada_src_loss
+      fr: opendrr_psra_canada_src_loss
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - base data
+      fr:
+      - "donn\xE9es de base"
+    links:
+    - href: https://github.com/OpenDRR/canada-srm2
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_psra_canada_src_loss_v1.4.0
+      id_field: fid
+      name: Elasticsearch
+      type: feature
+    title:
+      en: opendrr_psra_canada_src_loss
+      fr: opendrr_psra_canada_src_loss
+    type: collection
+  opendrr_psra_expected_loss_fsa_v1.4.0:
+    description:
+      en: opendrr_psra_expected_loss_fsa
+      fr: opendrr_psra_expected_loss_fsa
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: https://github.com/OpenDRR/canada-srm2
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_psra_expected_loss_fsa_v1.4.0
+      id_field: fid
+      name: Elasticsearch
+      type: feature
+    title:
+      en: opendrr_psra_expected_loss_fsa
+      fr: opendrr_psra_expected_loss_fsa
+    type: collection
+  opendrr_psra_indicators_b_v1.4.0:
     description:
       en: The National Seismic Risk model for Canada introduces a structured framework
         of indicators that profile the physical, social and economic dimensions of
@@ -2969,13 +4972,122 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_psra_indicators_s
+    - data: https://api.stage.riskprofiler.ca/opendrr_psra_indicators_b_v1.4.0
+      id_field: Sauid
+      name: Elasticsearch
+      type: feature
+    title:
+      en: The National Seismic Risk model for Canada (Point)
+      fr: "Le mod\xE8le national de risque sismique pour le Canada (Point)"
+    type: collection
+  opendrr_psra_indicators_csd_v1.4.0:
+    description:
+      en: opendrr_psra_indicators_csd_v1.4.0
+      fr: opendrr_psra_indicators_csd_v1.4.0
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: https://github.com/OpenDRR/canada-srm2
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_psra_indicators_csd_v1.4.0
+      id_field: csduid
+      name: Elasticsearch
+      type: feature
+    title:
+      en: opendrr_psra_indicators_csd_v1.4.0
+      fr: opendrr_psra_indicators_csd_v1.4.0
+    type: collection
+  opendrr_psra_indicators_s_v1.4.0:
+    description:
+      en: The National Seismic Risk model for Canada introduces a structured framework
+        of indicators that profile the physical, social and economic dimensions of
+        earthquake risk at the neighborhood scale.
+      fr: "Le mod\xE8le national de risque sismique pour le Canada pr\xE9sente un\
+        \ cadre structur\xE9 d'indicateurs qui profilent les dimensions physiques,\
+        \ sociales et \xE9conomiques du risque sismique \xE0 l'\xE9chelle du quartier."
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - earthquake
+      fr:
+      - tremblement de terre
+    links:
+    - href: http://www.riskprofiler.ca/
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_psra_indicators_s_v1.4.0
       id_field: Sauid
       name: Elasticsearch
       type: feature
     title:
       en: The National Seismic Risk model for Canada (Settlement Area)
       fr: "Le mod\xE8le national de risque sismique pour le Canada (Zone de peuplement)"
+    type: collection
+  opendrr_psra_src_loss_v1.4.0:
+    description:
+      en: opendrr_psra_canada_src_loss
+      fr: opendrr_psra_canada_src_loss
+    extents:
+      spatial:
+        bbox:
+        - -141.003
+        - 41.6755
+        - -52.6174
+        - 83.1139
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2020-08-06
+        end: null
+    keywords:
+      en:
+      - base data
+      fr:
+      - "donn\xE9es de base"
+    links:
+    - href: https://github.com/OpenDRR/canada-srm2
+      hreflang: en-US
+      rel: canonical
+      title: Information
+      type: text/html
+    providers:
+    - data: https://api.stage.riskprofiler.ca/opendrr_psra_src_loss_v1.4.0
+      id_field: fid
+      name: Elasticsearch
+      type: feature
+    title:
+      en: opendrr_psra_canada_src_loss
+      fr: opendrr_psra_canada_src_loss
     type: collection
   opendrr_sauid_hexgrid:
     description:
@@ -3016,7 +5128,7 @@ resources:
       en: Settled Area Grid Reference
       fr: "R\xE9f\xE9rence de grille de la zone habit\xE9e"
     type: collection
-  opendrr_shakemap_scenario_extents:
+  opendrr_shakemap_scenario_extents_v1.4.0:
     description:
       en: Geospatial extents of scenarios in the national earthquake catalgue.
       fr: "\xC9tendue g\xE9ospatiale des sc\xE9narios dans le catalgue national des\
@@ -3044,7 +5156,7 @@ resources:
       title: Information
       type: text/html
     providers:
-    - data: https://api.stage.riskprofiler.ca/opendrr_shakemap_scenario_extents
+    - data: https://api.stage.riskprofiler.ca/opendrr_shakemap_scenario_extents_v1.4.0
       id_field: scenario
       name: Elasticsearch
       type: feature
