@@ -18,7 +18,7 @@ pycodestyle==2.8.0
 pydantic==1.8.2
 pyflakes==2.4.0
 pygeoapi==0.11.dev0
-pyparsing==3.0.6
+pyparsing==3.0.8
 pyrsistent==0.18.1
 pytz-deprecation-shim==0.1.0.post0
 PyYAML==6.0
