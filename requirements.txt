@@ -22,7 +22,7 @@ pyparsing==3.0.6
 pyrsistent==0.18.1
 pytz-deprecation-shim==0.1.0.post0
 PyYAML==6.0
-rdflib==6.0.2
+rdflib==6.1.1
 requests==2.26.0
 Shapely==1.8.0
 six==1.16.0
