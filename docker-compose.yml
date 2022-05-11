@@ -45,6 +45,9 @@ services:
         
         ports: 
             - 9200:9200
+
+        # Temporary workaround for https://github.com/OpenDRR/opendrr-api/issues/202
+        restart: unless-stopped
     
     pygeoapi-opendrr:
         image: opendrr-pygeoapi
