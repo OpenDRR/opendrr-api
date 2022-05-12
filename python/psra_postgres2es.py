@@ -360,7 +360,7 @@ def main():
     )
     table.postgis2es()
 
-        # hexgrid 100km unclipped aggregation
+    # hexgrid 100km unclipped aggregation
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -438,6 +438,7 @@ def main():
     psraTable.postgis2es()
 
     return
+
 
 if __name__ == '__main__':
     main()
