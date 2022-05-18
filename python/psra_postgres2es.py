@@ -422,6 +422,23 @@ def main():
     )
     psraTable.postgis2es()
 
+    # psra Canada expected loss - 500 year aggregation
+    psraTable = utils.PostGISTable(
+        utils.PostGISConnection(),
+        utils.ESConnection(settings={
+            'settings': {
+                'number_of_shards': 1,
+                'number_of_replicas': 0
+            }
+        }),
+        view="opendrr_psra_canada_expected_loss_500yr",
+        sqlquerystring='SELECT * \
+                    FROM results_psra_canada.psra_canada_expected_loss_500yr \
+                    LIMIT {limit} \
+                    OFFSET {offset}'
+    )
+    psraTable.postgis2es()
+
     # psra Canada src loss
     psraTable = utils.PostGISTable(
         utils.PostGISConnection(),
