@@ -27,6 +27,9 @@ python3 exposure_postgres2es.py
 # Main Function
 def main():
 
+    config = utils.get_config_params('config.ini')
+    version = config.get('es','version')
+
     # sauid level aggregation
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
@@ -43,7 +46,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_s",
+        view="opendrr_nhsl_physical_exposure_indicators_s_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom_poly) \
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_s \
@@ -72,7 +75,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_b",
+        view="opendrr_nhsl_physical_exposure_indicators_b_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom_point) \
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_b \
@@ -98,7 +101,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_1km",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_1km_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_1km \
@@ -124,7 +127,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_1km_uc",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_1km_uc_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_1km_uc \
@@ -150,7 +153,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_5km",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_5km_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_5km \
@@ -176,7 +179,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_5km_uc",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_5km_uc_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_5km_uc \
@@ -202,7 +205,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_10km",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_10km_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_10km \
@@ -228,7 +231,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_10km_uc",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_10km_uc_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_10km_uc \
@@ -254,7 +257,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_25km",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_25km_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_25km \
@@ -280,7 +283,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_25km_uc",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_25km_uc_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_25km_uc \
@@ -306,7 +309,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_50km_uc",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_50km_uc_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_50km_uc \
@@ -332,7 +335,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_100km_uc",
+        view="opendrr_nhsl_physical_exposure_indicators_hexgrid_100km_uc_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_nhsl_physical_exposure.nhsl_physical_exposure_indicators_hexgrid_100km_uc \

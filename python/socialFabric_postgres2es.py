@@ -50,8 +50,9 @@ def main():
                     }
                 }
             }),
-            view="opendrr_nhsl_social_fabric_indicators_{agg}".format(**{
-                'agg': aggregation}),
+            view="opendrr_nhsl_social_fabric_indicators_{agg}_{version}".format(**{
+                'agg': aggregation,
+                'version': args.version}),
             sqlquerystring='SELECT *, ST_AsGeoJSON({geom}) \
                 FROM \
                 results_nhsl_social_fabric.nhsl_social_fabric_indicators_{agg} \
@@ -82,8 +83,9 @@ def main():
                     }
                 }
             }),
-            view="opendrr_nhsl_social_fabric_indicators_{agg}".format(**{
-                'agg': args.aggregation[0].lower()}),
+            view="opendrr_nhsl_social_fabric_indicators_{agg}_{version}".format(**{
+                'agg': args.aggregation[0].lower(),
+                'version': args.version}),
             sqlquerystring='SELECT *, ST_AsGeoJSON(geom_point) \
                 FROM \
                 results_nhsl_social_fabric.nhsl_social_fabric_indicators_{agg} \

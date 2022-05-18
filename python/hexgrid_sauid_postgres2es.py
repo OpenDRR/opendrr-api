@@ -13,6 +13,9 @@ import utils
 
 
 def main():
+    config = utils.get_config_params('config.ini')
+    version = config.get('es','version')
+
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -28,7 +31,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_sauid_hexgrid",
+        view="opendrr_sauid_hexgrid_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                     FROM boundaries."SAUID_HexGrid" \
                     ORDER BY "SAUID_HexGrid"."sauid" \

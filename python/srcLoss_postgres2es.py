@@ -11,6 +11,8 @@
 import utils
 import argparse
 
+config = utils.get_config_params('config.ini')
+version = config.get('es','version')
 
 def main():
     # args = parse_args()
@@ -32,7 +34,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_psra_src_loss",
+        view="opendrr_psra_src_loss_{}".format(version),
         sqlquerystring='SELECT * \
                 FROM results_psra_national.psra_src_loss \
                 ORDER BY psra_src_loss."fid" \
