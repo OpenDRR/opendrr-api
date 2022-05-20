@@ -28,10 +28,10 @@ def main():
                 }
             }
         }),
-        view="opendrr_hexgrid_50km",
+        view="opendrr_hexgrid_100km_unclipped",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
-                    FROM boundaries."HexGrid_50km" \
-                    ORDER BY "HexGrid_50km"."gridid_50" \
+                    FROM boundaries."HexGrid_100km_unclipped" \
+                    ORDER BY "HexGrid_100km_unclipped"."gridid_100" \
                     LIMIT {limit} \
                     OFFSET {offset}'
     )
