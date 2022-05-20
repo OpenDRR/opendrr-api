@@ -1089,19 +1089,29 @@ export_to_elasticsearch() {
   # shellcheck disable=SC2154
   if [[ $loadHexGrid = true ]]; then
     LOG "Creating Elasticsearch indexes for Hexgrids"
+    RUN python3 hexgrid_1km_postgres2es.py
+    RUN python3 hexgrid_1km_unclipped_postgres2es.py
     RUN python3 hexgrid_5km_postgres2es.py
+    RUN python3 hexgrid_5km_unclipped_postgres2es.py
     RUN python3 hexgrid_10km_postgres2es.py
+    RUN python3 hexgrid_10km_unclipped_postgres2es.py
     RUN python3 hexgrid_25km_postgres2es.py
-    RUN python3 hexgrid_50km_postgres2es.py
-    RUN python3 hexgrid_100km_postgres2es.py
+    RUN python3 hexgrid_25km_unclipped_postgres2es.py
+    RUN python3 hexgrid_50km_unclipped_postgres2es.py
+    RUN python3 hexgrid_100km_unclipped_postgres2es.py
     RUN python3 hexgrid_sauid_postgres2es.py
 
     LOG "Creating HexGrid Kibana Index Patterns"
+    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_1km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_1km"}}'
+    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_1km_unclipped" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_1km_unclipped"}}'
     RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_5km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_5km"}}'
+    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_5km_unclipped" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_5km_unclipped"}}'
     RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_10km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_10km"}}'
+    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_10km_unclipped" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_10km_unclipped"}}'
     RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_25km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_25km"}}'
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_50km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_50km"}}'
-    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_100km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_100km"}}'
+    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_25km_unclipped" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_25km_unclipped"}}'
+    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_50km_unclipped" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_50km_unclipped"}}'
+    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_100km_unclipped" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_100km_unclipped"}}'
     RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_sauid_hexgrid" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_sauid_hexgrid"}}'
   fi
 }
