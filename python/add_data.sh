@@ -1100,6 +1100,7 @@ export_to_elasticsearch() {
     RUN python3 hexgrid_50km_unclipped_postgres2es.py
     RUN python3 hexgrid_100km_unclipped_postgres2es.py
     RUN python3 hexgrid_sauid_postgres2es.py
+    RUN python3 hexgrid_sauid_unclipped_postgres2es.py
 
     LOG "Creating HexGrid Kibana Index Patterns"
     RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_1km" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_1km"}}'
@@ -1113,6 +1114,7 @@ export_to_elasticsearch() {
     RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_50km_unclipped" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_50km_unclipped"}}'
     RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_hexgrid_100km_unclipped" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_hexgrid_100km_unclipped"}}'
     RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_sauid_hexgrid" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_sauid_hexgrid"}}'
+    RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_sauid_hexgrid_unclipped" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_sauid_hexgrid_unclipped"}}'
   fi
 }
 
