@@ -13,9 +13,6 @@ import utils
 
 
 def main():
-    config = utils.get_config_params('config.ini')
-    version = config.get('es','version')
-
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -31,10 +28,10 @@ def main():
                 }
             }
         }),
-        view="opendrr_hexgrid_100km_{}".format(version),
+        view="opendrr_hexgrid_100km_unclipped",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
-                    FROM boundaries."HexGrid_100km" \
-                    ORDER BY "HexGrid_100km"."gridid_100" \
+                    FROM boundaries."HexGrid_100km_unclipped" \
+                    ORDER BY "HexGrid_100km_unclipped"."gridid_100" \
                     LIMIT {limit} \
                     OFFSET {offset}'
     )
