@@ -215,7 +215,7 @@ fetch_csv_lfs() {
 
   INFO "$repo/$path"
   RUN curl -s -o "$response" \
-    --retry 999 --retry-max-time 0 \
+    --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
     -H "Authorization: token ${GITHUB_TOKEN}" \
     -L "https://api.github.com/repos/$owner/$repo/contents/$path"
 
@@ -227,7 +227,7 @@ fetch_csv_lfs() {
   echo size="$size"
 
   LOG "Download from $download_url"
-  RUN curl -o "$output_file" -L "$download_url" --retry 999 --retry-max-time 0
+  RUN curl -o "$output_file" -L "$download_url" --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360
 }
 
 # fetch_csv_xz downloads CSV data files from OpenDRR xz-compressed repos
@@ -252,14 +252,14 @@ fetch_csv_xz() {
   RUN mkdir -p "github-api/$path_dir"
   response="github-api/$path_dir.dir.json"
   RUN curl -s -o "$response" \
-    --retry 999 --retry-max-time 0 \
+    --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
     -H "Authorization: token ${GITHUB_TOKEN}" \
     -H "Accept: application/vnd.github.v3+json" \
     -L "https://api.github.com/repos/$owner/$repo-xz/contents/$path_dir"
 
   is_dry_run || download_url=$(jq -r '.[] | select(.name == "'"$output_file"'.xz") | .download_url' "$response")
   LOG "${FUNCNAME[0]}: Download from $download_url"
-  RUN curl -o "$output_file.xz" -L "$download_url" --retry 999 --retry-max-time 0
+  RUN curl -o "$output_file.xz" -L "$download_url" --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360
 
   # TODO: Keep the compressed file somewhere, uncompress when needed
   RUN unxz "$output_file.xz"
@@ -285,7 +285,7 @@ fetch_psra_csv_from_model() {
 
   for PT in "${PT_LIST[@]}"; do
     RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
-      --retry 999 --retry-max-time 0 \
+      --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
       -o "${PT}.json" \
       -L "https://api.github.com/repos/OpenDRR/canada-srm2/contents/$model/output/${PT}?ref=master"
 
@@ -296,12 +296,12 @@ fetch_psra_csv_from_model() {
       for file in "${DOWNLOAD_LIST[@]}"; do
         FILENAME=$(echo "$file" | cut -f-1 -d? | cut -f11- -d/)
         RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
-          --retry 999 --retry-max-time 0 \
+          --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
           -o "$FILENAME" \
           -L "$file"
         is_dry_run || DOWNLOAD_URL=$(jq -r '.download_url' "$FILENAME")
         RUN curl -o "$FILENAME" \
-          --retry 999 --retry-max-time 0 \
+          --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
           -L "$DOWNLOAD_URL"
 
         # Strip OpenQuake comment header if exists
@@ -323,7 +323,7 @@ fetch_psra_csv_from_national_model() {
   PT=Canada
 
   RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
-    --retry 999 --retry-max-time 0 \
+    --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
     -o "${PT}.json" \
     -L "https://api.github.com/repos/OpenDRR/canada-srm2/contents/$model/output/Canada?ref=master"
 
@@ -334,12 +334,12 @@ fetch_psra_csv_from_national_model() {
     for file in "${DOWNLOAD_LIST[@]}"; do
       FILENAME=$(echo "$file" | cut -f-1 -d? | cut -f11- -d/)
       RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
-        --retry 999 --retry-max-time 0 \
+        --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
         -o "$FILENAME" \
         -L "$file"
       is_dry_run || DOWNLOAD_URL=$(jq -r '.download_url' "$FILENAME")
       RUN curl -o "$FILENAME" \
-        --retry 999 --retry-max-time 0 \
+        --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
         -L "$DOWNLOAD_URL"
 
       # Strip OpenQuake comment header if exists
@@ -772,7 +772,7 @@ import_raw_psra_tables() {
 
   LOG "### Get list of provinces & territories"
   RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
-    --retry 999 --retry-max-time 0 \
+    --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
     -o output.json \
     -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/eDamage/output?ref=master
 
@@ -878,7 +878,7 @@ post_process_psra_tables() {
 import_earthquake_scenarios() {
   LOG "## Get list of earthquake scenarios"
   RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
-    --retry 999 --retry-max-time 0 \
+    --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
     -o FINISHED.json \
     -L https://api.github.com/repos/OpenDRR/earthquake-scenarios/contents/FINISHED
 
@@ -902,13 +902,13 @@ import_shakemap() {
     # Get the shakemap
     shakemap_filename=$( echo "$shakemap" | cut -f9- -d/ | cut -f1 -d?)
     RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
-      --retry 999 --retry-max-time 0 \
+      --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
       -o "$shakemap_filename" \
       -L "$shakemap"
     is_dry_run || DOWNLOAD_URL=$(jq -r '.download_url' "$shakemap_filename")
     LOG "$DOWNLOAD_URL"
     RUN curl -o "$shakemap_filename" \
-      --retry 999 --retry-max-time 0 \
+      --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
       -L "$DOWNLOAD_URL"
 
     # Run Create_table_shakemap.sql
