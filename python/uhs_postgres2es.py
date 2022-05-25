@@ -13,6 +13,9 @@ import argparse
 
 
 def main():
+    config = utils.get_config_params('config.ini')
+    version = config.get('es','version')
+
     # args = parse_args()
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
@@ -32,7 +35,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_psra_uhs",
+        view="opendrr_psra_uhs_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                 FROM results_psra_national.psra_uhs \
                 ORDER BY psra_uhs."geom" \

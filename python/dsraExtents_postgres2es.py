@@ -13,6 +13,10 @@ import argparse
 
 
 def main():
+
+    config = utils.get_config_params('config.ini')
+    version = config.get('es','version')
+
     dsraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -28,7 +32,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_shakemap_scenario_extents",
+        view="opendrr_shakemap_scenario_extents_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                     FROM gmf.shakemap_scenario_extents \
                     LIMIT {limit} \

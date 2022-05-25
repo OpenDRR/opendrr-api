@@ -10,6 +10,8 @@
 
 import utils
 
+config = utils.get_config_params('config.ini')
+version = config.get('es','version')
 
 def main():
     # building level aggregation
@@ -31,7 +33,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_psra_indicators_b",
+        view="opendrr_psra_indicators_b_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom_point) \
                 FROM results_psra_national.psra_indicators_b \
                 ORDER BY psra_indicators_b."AssetID" \
@@ -56,7 +58,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_psra_indicators_s",
+        view="opendrr_psra_indicators_s_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom_poly) \
                     FROM results_psra_national.psra_indicators_s \
                     ORDER BY psra_indicators_s."Sauid" \
@@ -81,7 +83,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_psra_indicators_csd",
+        view="opendrr_psra_indicators_csd_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                     FROM results_psra_national.psra_indicators_csd \
                     ORDER BY psra_indicators_csd."csduid" \
@@ -99,7 +101,7 @@ def main():
                 'number_of_replicas': 0
             }
         }),
-        view="opendrr_psra_agg_loss_fsa",
+        view="opendrr_psra_agg_loss_fsa_{}".format(version),
         sqlquerystring='SELECT * \
                     FROM results_psra_national.psra_agg_loss_fsa \
                     ORDER BY psra_agg_loss_fsa."fid" \
@@ -117,7 +119,7 @@ def main():
                 'number_of_replicas': 0
             }
         }),
-        view="opendrr_psra_expected_loss_fsa",
+        view="opendrr_psra_expected_loss_fsa_{}".format(version),
         sqlquerystring='SELECT * \
                     FROM results_psra_national.psra_expected_loss_fsa \
                     ORDER BY psra_expected_loss_fsa."fid" \
@@ -142,7 +144,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_psra_indicators_hexgrid_1km",
+        view="opendrr_psra_indicators_hexgrid_1km_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_1km \
@@ -168,7 +170,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_psra_indicators_hexgrid_1km_uc",
+        view="opendrr_psra_indicators_hexgrid_1km_uc_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_1km_uc \
@@ -194,7 +196,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_psra_indicators_hexgrid_5km",
+        view="opendrr_psra_indicators_hexgrid_5km_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_5km \
@@ -220,7 +222,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_psra_indicators_hexgrid_5km_uc",
+        view="opendrr_psra_indicators_hexgrid_5km_uc_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_5km_uc \
@@ -246,7 +248,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_psra_indicators_hexgrid_10km",
+        view="opendrr_psra_indicators_hexgrid_10km_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_10km \
@@ -272,7 +274,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_psra_indicators_hexgrid_10km_uc",
+        view="opendrr_psra_indicators_hexgrid_10km_uc_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_10km_uc \
@@ -298,7 +300,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_psra_indicators_hexgrid_25km",
+        view="opendrr_psra_indicators_hexgrid_25km_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_25km \
@@ -324,7 +326,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_psra_indicators_hexgrid_25km_uc",
+        view="opendrr_psra_indicators_hexgrid_25km_uc_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_25km_uc \
@@ -350,7 +352,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_psra_indicators_hexgrid_50km_uc",
+        view="opendrr_psra_indicators_hexgrid_50km_uc_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_50km_uc \
@@ -376,7 +378,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_psra_indicators_hexgrid_100km_uc",
+        view="opendrr_psra_indicators_hexgrid_100km_uc_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM \
             results_psra_national.psra_indicators_hexgrid_100km_uc \
@@ -395,7 +397,7 @@ def main():
                 'number_of_replicas': 0
             }
         }),
-        view="opendrr_psra_canada_agg_loss",
+        view="opendrr_psra_canada_agg_loss_{}".format(version),
         sqlquerystring='SELECT * \
                     FROM results_psra_canada.psra_canada_agg_loss \
                     LIMIT {limit} \
@@ -412,7 +414,7 @@ def main():
                 'number_of_replicas': 0
             }
         }),
-        view="opendrr_psra_canada_expected_loss",
+        view="opendrr_psra_canada_expected_loss_{}".format(version),
         sqlquerystring='SELECT * \
                     FROM results_psra_canada.psra_canada_expected_loss \
                     LIMIT {limit} \
@@ -429,7 +431,7 @@ def main():
                 'number_of_replicas': 0
             }
         }),
-        view="opendrr_psra_canada_src_loss",
+        view="opendrr_psra_canada_src_loss_{}".format(version),
         sqlquerystring='SELECT * \
                     FROM results_psra_canada.psra_canada_src_loss \
                     LIMIT {limit} \

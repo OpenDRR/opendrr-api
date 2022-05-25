@@ -13,6 +13,9 @@ import utils
 
 
 def main():
+    config = utils.get_config_params('config.ini')
+    version = config.get('es','version')
+
     table = utils.PostGISdataset(
         utils.PostGISConnection(),
         utils.ESConnection(settings={
@@ -28,7 +31,7 @@ def main():
                 }
             }
         }),
-        view="opendrr_psra_hmaps",
+        view="opendrr_psra_hmaps_{}".format(version),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                     FROM results_psra_national."psra_hmaps" \
                     ORDER BY "psra_hmaps"."geom" \
