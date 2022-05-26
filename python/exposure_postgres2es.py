@@ -8,9 +8,9 @@
 #               Joost van Ulden <joost.vanulden@canada.ca>
 # =================================================================
 
-import utils
 import argparse
 
+import utils
 
 '''
 Script to convert Physical Exposure Views to ElasticSearch Index
@@ -28,7 +28,7 @@ python3 exposure_postgres2es.py
 def main():
 
     config = utils.get_config_params('config.ini')
-    version = config.get('es','version')
+    version = config.get('es', 'version')
 
     # sauid level aggregation
     table = utils.PostGISdataset(

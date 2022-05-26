@@ -8,14 +8,15 @@
 #               Joost van Ulden <joost.vanulden@canada.ca>
 # =================================================================
 
-import utils
 import argparse
+
+import utils
 
 
 def main():
 
     config = utils.get_config_params('config.ini')
-    version = config.get('es','version')
+    version = config.get('es', 'version')
 
     dsraTable = utils.PostGISdataset(
         utils.PostGISConnection(),
