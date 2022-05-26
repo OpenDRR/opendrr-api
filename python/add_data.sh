@@ -230,6 +230,7 @@ fetch_csv_lfs() {
   RUN curl -o "$output_file" -L "$download_url" --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360
 }
 
+# [OBSOLETE, to be refactored or be replaced with downloading release assets]
 # fetch_csv_xz downloads CSV data files from OpenDRR xz-compressed repos
 fetch_csv_xz() {
   if [ "$#" -ne 2 ]; then
@@ -265,10 +266,10 @@ fetch_csv_xz() {
   RUN unxz "$output_file.xz"
 }
 
-# fetch_csv calls either fetch_csv_xz or fetch_csv_lfs to fetch CSV files
+# fetch_csv calls fetch_csv_lfs to fetch CSV files
 fetch_csv() {
   # TODO: Make it more intelligent.
-  RUN fetch_csv_xz "$@" || RUN fetch_csv_lfs "$@"
+  RUN fetch_csv_lfs "$@"
 }
 
 # fetch_psra_csv_from_model fetches CSV files from the specified model
