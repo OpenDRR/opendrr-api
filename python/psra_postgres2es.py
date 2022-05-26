@@ -11,7 +11,8 @@
 import utils
 
 config = utils.get_config_params('config.ini')
-version = config.get('es','version')
+version = config.get('es', 'version')
+
 
 def main():
     # building level aggregation

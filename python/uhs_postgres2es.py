@@ -8,13 +8,14 @@
 #               Joost van Ulden <joost.vanulden@canada.ca>
 # =================================================================
 
-import utils
 import argparse
+
+import utils
 
 
 def main():
     config = utils.get_config_params('config.ini')
-    version = config.get('es','version')
+    version = config.get('es', 'version')
 
     # args = parse_args()
     table = utils.PostGISdataset(

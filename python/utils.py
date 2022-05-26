@@ -9,12 +9,11 @@
 # =================================================================
 
 import configparser
-import psycopg2
-import json
 import decimal
+import json
 
-from elasticsearch import Elasticsearch
-from elasticsearch import helpers
+import psycopg2
+from elasticsearch import Elasticsearch, helpers
 
 
 class ESConnection:

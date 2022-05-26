@@ -8,9 +8,9 @@
 #               Joost van Ulden <joost.vanulden@canada.ca>
 # =================================================================
 
-import utils
 import argparse
 
+import utils
 
 '''
 Script to convert Social Fabric Views to ElasticSearch Index

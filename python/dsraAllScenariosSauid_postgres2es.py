@@ -9,9 +9,7 @@
 # =================================================================
 
 
-from utils import ESConnection
-from utils import PostGISdataset
-from utils import PostGISConnection
+from utils import ESConnection, PostGISConnection, PostGISdataset
 
 
 def main():

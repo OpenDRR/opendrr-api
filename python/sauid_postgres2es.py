@@ -14,7 +14,7 @@ import utils
 
 def main():
     config = utils.get_config_params('config.ini')
-    version = config.get('es','version')
+    version = config.get('es', 'version')
 
     table = utils.PostGISdataset(
         utils.PostGISConnection(),

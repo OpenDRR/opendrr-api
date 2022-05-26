@@ -1,16 +1,15 @@
 
 
+import argparse
+import configparser
+import decimal
 import json
+import logging
 import os
 import sys
-import psycopg2
-import configparser
-import logging
-import argparse
-import decimal
 
-from elasticsearch import Elasticsearch
-from elasticsearch import helpers
+import psycopg2
+from elasticsearch import Elasticsearch, helpers
 
 '''
 Script to convert risk Dynamics Views to ElasticSearch Index
