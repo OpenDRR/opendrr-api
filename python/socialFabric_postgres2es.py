@@ -28,6 +28,9 @@ python3 socialFabric_postgres2es.py
 def main():
     args = parse_args()
 
+    config = utils.get_config_params('config.ini')
+    version = config.get('es', 'version')
+
     if args.aggregation.lower() == "sauid":
         aggregation = args.aggregation[0].lower()
     else:
@@ -52,7 +55,7 @@ def main():
             }),
             view="opendrr_nhsl_social_fabric_indicators_{agg}_{version}".format(**{
                 'agg': aggregation,
-                'version': args.version}),
+                'version': version}),
             sqlquerystring='SELECT *, ST_AsGeoJSON({geom}) \
                 FROM \
                 results_nhsl_social_fabric.nhsl_social_fabric_indicators_{agg} \
@@ -85,7 +88,7 @@ def main():
             }),
             view="opendrr_nhsl_social_fabric_indicators_{agg}_{version}".format(**{
                 'agg': args.aggregation[0].lower(),
-                'version': args.version}),
+                'version': version}),
             sqlquerystring='SELECT *, ST_AsGeoJSON(geom_point) \
                 FROM \
                 results_nhsl_social_fabric.nhsl_social_fabric_indicators_{agg} \
