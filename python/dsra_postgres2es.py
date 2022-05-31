@@ -16,6 +16,9 @@ import utils
 def main():
     args = parse_args()
 
+    config = utils.get_config_params('config.ini')
+    version = config.get('es', 'version')
+
     # Create building level aggregation object and load to ES
     dsraTable = utils.PostGISPointDataset(
         utils.PostGISConnection(),
@@ -37,7 +40,7 @@ def main():
         }),
         view="opendrr_dsra_{eqScenario}_indicators_b_{version}".format(**{
             'eqScenario': args.eqScenario,
-            'version': args.version}).lower(),
+            'version': version}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom_point) \
             FROM results_dsra_{eqScenario}.dsra_{eqScenario}_indicators_b \
             ORDER BY dsra_{eqScenario}_indicators_b."AssetID" \
@@ -64,7 +67,7 @@ def main():
         }),
         view="opendrr_dsra_{eqScenario}_indicators_s_{version}".format(**{
             'eqScenario': args.eqScenario,
-            'version': args.version}).lower(),
+            'version': version}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom_poly) \
             FROM results_dsra_{eqScenario}.dsra_{eqScenario}_indicators_s \
             ORDER BY dsra_{eqScenario}_indicators_s."Sauid" \
@@ -91,7 +94,7 @@ def main():
         }),
         view="opendrr_dsra_{eqScenario}_indicators_csd_{version}".format(**{
             'eqScenario': args.eqScenario,
-            'version': args.version}).lower(),
+            'version': version}).lower(),
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
             FROM results_dsra_{eqScenario}.dsra_{eqScenario}_indicators_csd \
             ORDER BY dsra_{eqScenario}_indicators_csd."csduid" \
