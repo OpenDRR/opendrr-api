@@ -15,25 +15,18 @@ import utils
 def main():
     eruidTable = utils.PostGISdataset(
         utils.PostGISConnection(),
-        utils.ESConnection(settings={
-            'settings': {
-                'number_of_shards': 1,
-                'number_of_replicas': 0
-            },
-            'mappings': {
-                'properties': {
-                    'geometry': {
-                        'type': 'geo_shape'
-                    }
-                }
+        utils.ESConnection(
+            settings={
+                "settings": {"number_of_shards": 1, "number_of_replicas": 0},
+                "mappings": {"properties": {"geometry": {"type": "geo_shape"}}},
             }
-        }),
+        ),
         view="opendrr_dsra_all_scenarios_eruid",
         sqlquerystring='SELECT *, ST_AsGeoJSON(geom) \
                     FROM dsra.dsra_all_scenarios_eruid \
                     ORDER BY dsra_all_scenarios_eruid."eruid" \
                     LIMIT {limit} \
-                    OFFSET {offset}'
+                    OFFSET {offset}',
     )
 
     eruidTable.postgis2es()
@@ -41,5 +34,5 @@ def main():
     return
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
