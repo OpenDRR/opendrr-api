@@ -36,7 +36,7 @@ from elasticsearch import Elasticsearch, helpers
 es = Elasticsearch()
 
 if len(sys.argv) < 3:
-    print('Usage: {} <path/to/data.geojson> <id-field>'.format(sys.argv[0]))
+    print("Usage: {} <path/to/data.geojson> <id-field>".format(sys.argv[0]))
     sys.exit(1)
 
 index_name = os.path.splitext(os.path.basename(sys.argv[1]))[0].lower()
@@ -47,17 +47,8 @@ if es.indices.exists(index_name):
 
 # index settings
 settings = {
-    'settings': {
-        'number_of_shards': 1,
-        'number_of_replicas': 0
-    },
-    'mappings': {
-        'properties': {
-            'geometry': {
-                'type': 'geo_shape'
-            }
-        }
-    }
+    "settings": {"number_of_shards": 1, "number_of_replicas": 0},
+    "mappings": {"properties": {"geometry": {"type": "geo_shape"}}},
 }
 
 # create index
@@ -68,11 +59,11 @@ with open(sys.argv[1]) as fh:
 
 
 def gendata(data):
-    for item in data['features']:
+    for item in data["features"]:
         yield {
             "_index": index_name,
-            "_id": item['properties'][id_field],
-            "_source": item
+            "_id": item["properties"][id_field],
+            "_source": item,
         }
 
 
