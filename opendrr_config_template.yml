@@ -3541,11 +3541,11 @@ resources:
     opendrr_psra_canada_agg_loss_v1.4.0:
         type: collection
         title: 
-            en: opendrr_psra_agg_loss
-            fr: opendrr_psra_agg_loss
+            en: opendrr_psra_canada_agg_loss
+            fr: opendrr_psra_canada_agg_loss
         description: 
-            en: opendrr_psra_agg_loss
-            fr: opendrr_psra_agg_loss
+            en: opendrr_psra_canada_agg_loss
+            fr: opendrr_psra_canada_agg_loss
         keywords:
             en:
             - earthquake
@@ -3605,11 +3605,11 @@ resources:
     opendrr_psra_canada_expected_loss_v1.4.0:
         type: collection
         title: 
-            en: opendrr_psra_expected_loss
-            fr: opendrr_psra_expected_loss
+            en: opendrr_psra_canada_expected_loss
+            fr: opendrr_psra_canada_expected_loss
         description: 
-            en: opendrr_psra_expected_loss
-            fr: opendrr_psra_expected_loss
+            en: opendrr_psra_canada_expected_loss
+            fr: opendrr_psra_canada_expected_loss
         keywords:
             en:
             - earthquake
