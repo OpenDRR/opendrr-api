@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """
-Generate configuration files for OpenDRR pygeoapi
+Generate configuration files for OpenDRR pygeoapi (OGC API - Features)
 """
 
 import configparser
@@ -37,18 +37,16 @@ def main():
 
     print("\nProcessing opendrr_config_template.yml...")
     for k in list(lyrs.keys()):
-        k_version = k + '_' + version
+        k_version = k + "_" + version
         if k_version not in indices:
             print("REMOVING TEMPLATE ENTRY FOR: " + k_version)
             del lyrs[k_version]
         else:
             # write in the ES endpoint configured in the config.ini
             new = lyrs[k]["providers"][0]["data"].replace(
-                    "ES_ENDPOINT", auth.get("es", "es_endpoint")
-                )
-            new = new.replace(
-                    "INDEX_VERSION", version
-                )
+                "ES_ENDPOINT", auth.get("es", "es_endpoint")
+            )
+            new = new.replace("INDEX_VERSION", version)
 
             lyrs[k]["providers"][0]["data"] = new
 
@@ -59,7 +57,7 @@ def main():
     for i in list(indices.keys()):
         if version not in i:
             continue
-        if i.replace('_' + version, '') not in lyrs:
+        if i.replace("_" + version, "") not in lyrs:
             print("MISSING IN CONFIGURATION TEMPLATE: " + i)
     print("\nDone!")
 
@@ -77,6 +75,7 @@ def get_config_params(args):
     """
     Parse Input/Output columns from supplied *.ini file
     """
+
     config_parse_obj = configparser.ConfigParser()
     config_parse_obj.read(args)
     return config_parse_obj
