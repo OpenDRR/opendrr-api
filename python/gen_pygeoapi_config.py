@@ -1,5 +1,9 @@
 #!/usr/bin/python3
 
+"""
+Generate configuration files for OpenDRR pygeoapi
+"""
+
 import configparser
 
 import yaml
@@ -18,7 +22,7 @@ def main():
     #                    http_auth=(auth.get("es", "es_un"),
     #                               auth.get("es", "es_pw")))
 
-    es = Elasticsearch([auth.get("es", "es_endpoint")])
+    elasticsearch = Elasticsearch([auth.get("es", "es_endpoint")])
 
     text_file = open("../pygeoapi/opendrr.config.yml", "w", encoding="utf-8")
 
@@ -29,14 +33,14 @@ def main():
 
     lyrs = config["resources"]
 
-    indices = es.indices.get(index="opendrr_*")
+    indices = elasticsearch.indices.get(index="opendrr_*")
 
     print("\nProcessing opendrr_config_template.yml...")
     for k in list(lyrs.keys()):
-        kv = k + '_' + version
-        if kv not in indices:
-            print("REMOVING TEMPLATE ENTRY FOR: " + kv)
-            del lyrs[kv]
+        k_version = k + '_' + version
+        if k_version not in indices:
+            print("REMOVING TEMPLATE ENTRY FOR: " + k_version)
+            del lyrs[k_version]
         else:
             # write in the ES endpoint configured in the config.ini
             new = lyrs[k]["providers"][0]["data"].replace(
