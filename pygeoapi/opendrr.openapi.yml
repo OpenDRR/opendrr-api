@@ -45469,7 +45469,7 @@ paths:
       - opendrr_psra_agg_loss_fsa_v1.4.0
   /collections/opendrr_psra_canada_agg_loss_v1.4.0:
     get:
-      description: opendrr_psra_agg_loss
+      description: opendrr_psra_canada_agg_loss
       operationId: describeOpendrr_psra_canada_agg_loss_v1.4.0Collection
       parameters:
       - $ref: '#/components/parameters/f'
@@ -45483,12 +45483,12 @@ paths:
           $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
         '500':
           $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
-      summary: Get opendrr_psra_agg_loss metadata
+      summary: Get opendrr_psra_canada_agg_loss metadata
       tags:
       - opendrr_psra_canada_agg_loss_v1.4.0
   /collections/opendrr_psra_canada_agg_loss_v1.4.0/items:
     get:
-      description: opendrr_psra_agg_loss
+      description: opendrr_psra_canada_agg_loss
       operationId: getOpendrr_psra_canada_agg_loss_v1.4.0Features
       parameters:
       - *id001
@@ -45680,12 +45680,12 @@ paths:
           $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
         '500':
           $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
-      summary: Get opendrr_psra_agg_loss items
+      summary: Get opendrr_psra_canada_agg_loss items
       tags:
       - opendrr_psra_canada_agg_loss_v1.4.0
   /collections/opendrr_psra_canada_agg_loss_v1.4.0/items/{featureId}:
     get:
-      description: opendrr_psra_agg_loss
+      description: opendrr_psra_canada_agg_loss
       operationId: getOpendrr_psra_canada_agg_loss_v1.4.0Feature
       parameters:
       - $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/featureId
@@ -45700,12 +45700,12 @@ paths:
           $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
         '500':
           $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
-      summary: Get opendrr_psra_agg_loss item by id
+      summary: Get opendrr_psra_canada_agg_loss item by id
       tags:
       - opendrr_psra_canada_agg_loss_v1.4.0
   /collections/opendrr_psra_canada_agg_loss_v1.4.0/queryables:
     get:
-      description: opendrr_psra_agg_loss
+      description: opendrr_psra_canada_agg_loss
       operationId: getOpendrr_psra_canada_agg_loss_v1.4.0Queryables
       parameters:
       - *id001
@@ -45719,12 +45719,12 @@ paths:
           $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
         '500':
           $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
-      summary: Get opendrr_psra_agg_loss queryables
+      summary: Get opendrr_psra_canada_agg_loss queryables
       tags:
       - opendrr_psra_canada_agg_loss_v1.4.0
   /collections/opendrr_psra_canada_expected_loss_v1.4.0:
     get:
-      description: opendrr_psra_expected_loss
+      description: opendrr_psra_canada_expected_loss
       operationId: describeOpendrr_psra_canada_expected_loss_v1.4.0Collection
       parameters:
       - $ref: '#/components/parameters/f'
@@ -45738,12 +45738,12 @@ paths:
           $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
         '500':
           $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
-      summary: Get opendrr_psra_expected_loss metadata
+      summary: Get opendrr_psra_canada_expected_loss metadata
       tags:
       - opendrr_psra_canada_expected_loss_v1.4.0
   /collections/opendrr_psra_canada_expected_loss_v1.4.0/items:
     get:
-      description: opendrr_psra_expected_loss
+      description: opendrr_psra_canada_expected_loss
       operationId: getOpendrr_psra_canada_expected_loss_v1.4.0Features
       parameters:
       - *id001
@@ -45906,12 +45906,12 @@ paths:
           $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
         '500':
           $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
-      summary: Get opendrr_psra_expected_loss items
+      summary: Get opendrr_psra_canada_expected_loss items
       tags:
       - opendrr_psra_canada_expected_loss_v1.4.0
   /collections/opendrr_psra_canada_expected_loss_v1.4.0/items/{featureId}:
     get:
-      description: opendrr_psra_expected_loss
+      description: opendrr_psra_canada_expected_loss
       operationId: getOpendrr_psra_canada_expected_loss_v1.4.0Feature
       parameters:
       - $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/featureId
@@ -45926,12 +45926,12 @@ paths:
           $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
         '500':
           $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
-      summary: Get opendrr_psra_expected_loss item by id
+      summary: Get opendrr_psra_canada_expected_loss item by id
       tags:
       - opendrr_psra_canada_expected_loss_v1.4.0
   /collections/opendrr_psra_canada_expected_loss_v1.4.0/queryables:
     get:
-      description: opendrr_psra_expected_loss
+      description: opendrr_psra_canada_expected_loss
       operationId: getOpendrr_psra_canada_expected_loss_v1.4.0Queryables
       parameters:
       - *id001
@@ -45945,7 +45945,7 @@ paths:
           $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound
         '500':
           $ref: http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError
-      summary: Get opendrr_psra_expected_loss queryables
+      summary: Get opendrr_psra_canada_expected_loss queryables
       tags:
       - opendrr_psra_canada_expected_loss_v1.4.0
   /collections/opendrr_psra_canada_src_loss_v1.4.0:
@@ -50472,9 +50472,9 @@ tags:
   name: opendrr_nhsl_social_fabric_indicators_s_v1.4.0
 - description: opendrr_psra_agg_loss_fsa
   name: opendrr_psra_agg_loss_fsa_v1.4.0
-- description: opendrr_psra_agg_loss
+- description: opendrr_psra_canada_agg_loss
   name: opendrr_psra_canada_agg_loss_v1.4.0
-- description: opendrr_psra_expected_loss
+- description: opendrr_psra_canada_expected_loss
   name: opendrr_psra_canada_expected_loss_v1.4.0
 - description: opendrr_psra_canada_src_loss
   name: opendrr_psra_canada_src_loss_v1.4.0
