@@ -6,8 +6,10 @@ import yaml
 from elasticsearch import Elasticsearch
 
 
-# Main Function
 def main():
+    """
+    Main function
+    """
 
     auth = get_config_params("config.ini")
 
@@ -18,10 +20,10 @@ def main():
 
     es = Elasticsearch([auth.get("es", "es_endpoint")])
 
-    text_file = open("../pygeoapi/opendrr.config.yml", "w")
+    text_file = open("../pygeoapi/opendrr.config.yml", "w", encoding="utf-8")
 
-    with open("../opendrr_config_template.yml", "r") as f:
-        config = yaml.load(f, Loader=yaml.FullLoader)
+    with open("../opendrr_config_template.yml", "r", encoding="utf-8") as file:
+        config = yaml.load(file, Loader=yaml.FullLoader)
 
     version = auth.get("es", "index_version")
 
@@ -31,10 +33,10 @@ def main():
 
     print("\nProcessing opendrr_config_template.yml...")
     for k in list(lyrs.keys()):
-        l = k + '_' + version
-        if l not in indices:
-            print("REMOVING TEMPLATE ENTRY FOR: " + k)
-            del lyrs[k]
+        kv = k + '_' + version
+        if kv not in indices:
+            print("REMOVING TEMPLATE ENTRY FOR: " + kv)
+            del lyrs[kv]
         else:
             # write in the ES endpoint configured in the config.ini
             new = lyrs[k]["providers"][0]["data"].replace(
@@ -43,7 +45,7 @@ def main():
             new = new.replace(
                     "INDEX_VERSION", version
                 )
-            
+
             lyrs[k]["providers"][0]["data"] = new
 
     print("\nDone!")
@@ -55,9 +57,8 @@ def main():
             continue
         if i.replace('_' + version, '') not in lyrs:
             print("MISSING IN CONFIGURATION TEMPLATE: " + i)
-    
     print("\nDone!")
-    
+
     # write the layers to the configuration resources element
     config["resources"] = lyrs
 
@@ -72,9 +73,9 @@ def get_config_params(args):
     """
     Parse Input/Output columns from supplied *.ini file
     """
-    configParseObj = configparser.ConfigParser()
-    configParseObj.read(args)
-    return configParseObj
+    config_parse_obj = configparser.ConfigParser()
+    config_parse_obj.read(args)
+    return config_parse_obj
 
 
 if __name__ == "__main__":
