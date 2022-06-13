@@ -60,6 +60,9 @@ links:
     JSON:
         en: This document as JSON
         fr: Ce document en JSON
+    GEOJSON:
+        en: Items as GeoJSON
+        fr: Items en GeoJSON
     RDF:
         en: This document as RDF (JSON-LD)
         fr: Ce document en RDF (JSON-LD) 
@@ -153,7 +156,7 @@ metadata:
         role: pointOfContact
 
 resources:
-    opendrr_dsra_idm7p1_sidney_indicators_s_v1.4.0:
+    opendrr_dsra_idm7p1_sidney_indicators_s:
         type: collection
         title: 
             en: Sidney Scenario (Settlement Area)
@@ -182,10 +185,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_indicators_s_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_indicators_s_INDEX_VERSION
               id_field: Sauid
  
-    opendrr_dsra_idm7p1_sidney_indicators_b_v1.4.0:
+    opendrr_dsra_idm7p1_sidney_indicators_b:
         type: collection
         title: 
             en: Sidney Scenario (Point)
@@ -214,10 +217,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_indicators_b_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_indicators_b_INDEX_VERSION
               id_field: AssetID
 
-    opendrr_dsra_idm7p1_sidney_indicators_csd_v1.4.0:
+    opendrr_dsra_idm7p1_sidney_indicators_csd:
         type: collection
         title: 
             en: Sidney Scenario (Census Subdivision)
@@ -246,10 +249,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_indicators_csd_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_indicators_csd_INDEX_VERSION
               id_field: csduid
     
-    opendrr_dsra_idm7p1_sidney_shakemap_v1.4.0:
+    opendrr_dsra_idm7p1_sidney_shakemap:
         type: collection
         title: 
             en: Sidney Scenario Shake Map
@@ -278,10 +281,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_INDEX_VERSION
               id_field: SiteID
 
-    opendrr_dsra_idm7p1_sidney_shakemap_hexbin_100km_uc_v1.4.0:
+    opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_100km_uc:
         type: collection
         title: 
             en: Sidney Scenario Shake Map 100km Hexbin (Unclipped)
@@ -310,10 +313,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_100km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_100km_uc_INDEX_VERSION
               id_field: gridid_100
 
-    opendrr_dsra_idm7p1_sidney_shakemap_hexbin_10km_v1.4.0:
+    opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_10km:
         type: collection
         title: 
             en: Sidney Scenario Shake Map 10km Hexbin
@@ -342,10 +345,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_10km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_10km_INDEX_VERSION
               id_field: gridid_10
 
-    opendrr_dsra_idm7p1_sidney_shakemap_hexbin_10km_uc_v1.4.0:
+    opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_10km_uc:
         type: collection
         title: 
             en: Sidney Scenario Shake Map 10km Hexbin (Unclipped)
@@ -374,10 +377,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_10km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_10km_uc_INDEX_VERSION
               id_field: gridid_10
 
-    opendrr_dsra_idm7p1_sidney_shakemap_hexbin_25km_v1.4.0:
+    opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_25km:
         type: collection
         title: 
             en: Sidney Scenario Shake Map 25km Hexbin
@@ -406,10 +409,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_25km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_25km_INDEX_VERSION
               id_field: gridid_25
 
-    opendrr_dsra_idm7p1_sidney_shakemap_hexbin_25km_uc_v1.4.0:
+    opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_25km_uc:
         type: collection
         title: 
             en: Sidney Scenario Shake Map 25km Hexbin (Unclipped)
@@ -438,10 +441,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_25km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_25km_uc_INDEX_VERSION
               id_field: gridid_25
 
-    opendrr_dsra_idm7p1_sidney_shakemap_hexbin_50km_uc_v1.4.0:
+    opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_50km_uc:
         type: collection
         title: 
             en: Sidney Scenario Shake Map 50km Hexbin (Unclipped)
@@ -470,10 +473,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_50km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_50km_uc_INDEX_VERSION
               id_field: gridid_50
 
-    opendrr_dsra_idm7p1_sidney_shakemap_hexbin_5km_v1.4.0:
+    opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_5km:
         type: collection
         title: 
             en: Sidney Scenario Shake Map 5km Hexbin
@@ -502,10 +505,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_5km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_5km_INDEX_VERSION
               id_field: gridid_5
 
-    opendrr_dsra_idm7p1_sidney_shakemap_hexbin_5km_uc_v1.4.0:
+    opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_5km_uc:
         type: collection
         title: 
             en: Sidney Scenario Shake Map 5km Hexbin (Unclipped)
@@ -534,10 +537,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_5km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_5km_uc_INDEX_VERSION
               id_field: gridid_5
 
-    opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km_v1.4.0:
+    opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_1km:
         type: collection
         title: 
             en: Sidney Scenario Shake Map 1km Hexbin
@@ -566,10 +569,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_1km_INDEX_VERSION
               id_field: gridid_1
 
-    opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km_uc_v1.4.0:
+    opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_1km_uc:
         type: collection
         title: 
             en: Sidney Scenario Shake Map 1km Hexbin (Unclipped)
@@ -598,10 +601,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexbin_1km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_idm7p1_sidney_shakemap_hexgrid_1km_uc_INDEX_VERSION
               id_field: gridid_1
 
-    opendrr_dsra_scm7p5_valdesbois_indicators_s_v1.4.0:
+    opendrr_dsra_scm7p5_valdesbois_indicators_s:
         type: collection
         title: 
             en: Val Des Bois Scenario (Settlement Area)
@@ -630,10 +633,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_indicators_s_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_indicators_s_INDEX_VERSION
               id_field: Sauid
  
-    opendrr_dsra_scm7p5_valdesbois_indicators_b_v1.4.0:
+    opendrr_dsra_scm7p5_valdesbois_indicators_b:
         type: collection
         title: 
             en: Val Des Bois Scenario (Point)
@@ -662,10 +665,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_indicators_b_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_indicators_b_INDEX_VERSION
               id_field: AssetID
 
-    opendrr_dsra_scm7p5_valdesbois_indicators_csd_v1.4.0:
+    opendrr_dsra_scm7p5_valdesbois_indicators_csd:
         type: collection
         title: 
             en: Val Des Bois Scenario (Census Subdivision)
@@ -694,10 +697,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_indicators_csd_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_indicators_csd_INDEX_VERSION
               id_field: csduid
     
-    opendrr_dsra_scm7p5_valdesbois_shakemap_v1.4.0:
+    opendrr_dsra_scm7p5_valdesbois_shakemap:
         type: collection
         title: 
             en: Val Des Bois Scenario Shake Map
@@ -726,10 +729,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_INDEX_VERSION
               id_field: SiteID
 
-    opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_100km_uc_v1.4.0:
+    opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_100km_uc:
         type: collection
         title: 
             en: Val Des Bois Scenario Shake Map 100km Hexbin (Unclipped)
@@ -758,10 +761,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_100km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_100km_uc_INDEX_VERSION
               id_field: gridid_100
 
-    opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_10km_v1.4.0:
+    opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_10km:
         type: collection
         title: 
             en: Val Des Bois Scenario Shake Map 10km Hexbin
@@ -790,10 +793,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_10km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_10km_INDEX_VERSION
               id_field: gridid_10
 
-    opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_10km_uc_v1.4.0:
+    opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_10km_uc:
         type: collection
         title: 
             en: Val Des Bois Scenario Shake Map 10km Hexbin (Unclipped)
@@ -822,10 +825,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_10km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_10km_uc_INDEX_VERSION
               id_field: gridid_10
 
-    opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_25km_v1.4.0:
+    opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_25km:
         type: collection
         title: 
             en: Val Des Bois Scenario Shake Map 25km Hexbin
@@ -854,10 +857,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_25km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_25km_INDEX_VERSION
               id_field: gridid_25
 
-    opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_25km_uc_v1.4.0:
+    opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_25km_uc:
         type: collection
         title: 
             en: Val Des Bois Scenario Shake Map 25km Hexbin (Unclipped)
@@ -886,10 +889,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_25km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_25km_uc_INDEX_VERSION
               id_field: gridid_25
 
-    opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_50km_uc_v1.4.0:
+    opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_50km_uc:
         type: collection
         title: 
             en: Val Des Bois Scenario Shake Map 50km Hexbin (Unclipped)
@@ -918,10 +921,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_50km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_50km_uc_INDEX_VERSION
               id_field: gridid_50
 
-    opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_5km_v1.4.0:
+    opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_5km:
         type: collection
         title: 
             en: Val Des Bois Scenario Shake Map 5km Hexbin
@@ -950,10 +953,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_5km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_5km_INDEX_VERSION
               id_field: gridid_5
 
-    opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_5km_uc_v1.4.0:
+    opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_5km_uc:
         type: collection
         title: 
             en: Val Des Bois Scenario Shake Map 5km Hexbin (Unclipped)
@@ -982,10 +985,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_5km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_5km_uc_INDEX_VERSION
               id_field: gridid_5
 
-    opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km_v1.4.0:
+    opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_1km:
         type: collection
         title: 
             en: Val Des Bois Scenario Shake Map 1km Hexbin
@@ -1014,10 +1017,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_1km_INDEX_VERSION
               id_field: gridid_1
 
-    opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km_uc_v1.4.0:
+    opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_1km_uc:
         type: collection
         title: 
             en: Val Des Bois Scenario Shake Map 1km Hexbin (Unclipped)
@@ -1046,10 +1049,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexbin_1km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_scm7p5_valdesbois_shakemap_hexgrid_1km_uc_INDEX_VERSION
               id_field: gridid_1
 
-    opendrr_dsra_acm7p0_georgiastraitfault_indicators_s_v1.4.0:
+    opendrr_dsra_acm7p0_georgiastraitfault_indicators_s:
         type: collection
         title: 
             en: Georgia Strait Scenario (Settlement Area)
@@ -1078,10 +1081,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_indicators_s_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_indicators_s_INDEX_VERSION
               id_field: Sauid
  
-    opendrr_dsra_acm7p0_georgiastraitfault_indicators_b_v1.4.0:
+    opendrr_dsra_acm7p0_georgiastraitfault_indicators_b:
         type: collection
         title: 
             en: Georgia Strait Scenario (Point)
@@ -1110,10 +1113,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_indicators_b_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_indicators_b_INDEX_VERSION
               id_field: AssetID
 
-    opendrr_dsra_acm7p0_georgiastraitfault_indicators_csd_v1.4.0:
+    opendrr_dsra_acm7p0_georgiastraitfault_indicators_csd:
         type: collection
         title: 
             en: Georgia Strait Scenario (Census Subdivision)
@@ -1142,10 +1145,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_indicators_csd_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_indicators_csd_INDEX_VERSION
               id_field: csduid
     
-    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_v1.4.0:
+    opendrr_dsra_acm7p0_georgiastraitfault_shakemap:
         type: collection
         title: 
             en: Georgia Strait Scenario Shake Map
@@ -1174,10 +1177,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_INDEX_VERSION
               id_field: SiteID
 
-    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_100km_uc_v1.4.0:
+    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_100km_uc:
         type: collection
         title: 
             en: Georgia Strait Scenario Shake Map 100km Hexbin (Unclipped)
@@ -1206,10 +1209,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_100km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_100km_uc_INDEX_VERSION
               id_field: gridid_100
 
-    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_10km_v1.4.0:
+    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_10km:
         type: collection
         title: 
             en: Georgia Strait Scenario Shake Map 10km Hexbin
@@ -1238,10 +1241,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_10km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_10km_INDEX_VERSION
               id_field: gridid_10
     
-    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_10km_uc_v1.4.0:
+    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_10km_uc:
         type: collection
         title: 
             en: Georgia Strait Scenario Shake Map 10km Hexbin (Unclipped)
@@ -1270,10 +1273,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_10km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_10km_uc_INDEX_VERSION
               id_field: gridid_10
 
-    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_25km_v1.4.0:
+    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_25km:
         type: collection
         title: 
             en: Georgia Strait Scenario Shake Map 25km Hexbin
@@ -1302,10 +1305,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_25km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_25km_INDEX_VERSION
               id_field: gridid_25
 
-    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_25km_uc_v1.4.0:
+    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_25km_uc:
         type: collection
         title: 
             en: Georgia Strait Scenario Shake Map 25km Hexbin (Unclipped)
@@ -1334,10 +1337,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_25km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_25km_uc_INDEX_VERSION
               id_field: gridid_25
 
-    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_50km_uc_v1.4.0:
+    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_50km_uc:
         type: collection
         title: 
             en: Georgia Strait Scenario Shake Map 50km Hexbin (Unclipped)
@@ -1366,10 +1369,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_50km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_50km_uc_INDEX_VERSION
               id_field: gridid_50
     
-    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_5km_v1.4.0:
+    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_5km:
         type: collection
         title: 
             en: Georgia Strait Scenario Shake Map 5km Hexbin
@@ -1398,10 +1401,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_5km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_5km_INDEX_VERSION
               id_field: gridid_5
 
-    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_5km_uc_v1.4.0:
+    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_5km_uc:
         type: collection
         title: 
             en: Georgia Strait Scenario Shake Map 5km Hexbin (Unclipped)
@@ -1430,10 +1433,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_5km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_5km_uc_INDEX_VERSION
               id_field: gridid_5
 
-    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km_v1.4.0:
+    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_1km:
         type: collection
         title: 
             en: Georgia Strait Scenario Shake Map 1km Hexbin
@@ -1462,10 +1465,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_1km_INDEX_VERSION
               id_field: gridid_1
     
-    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km_uc_v1.4.0:
+    opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_1km_uc:
         type: collection
         title: 
             en: Georgia Strait Scenario Shake Map 1km Hexbin (Unclipped)
@@ -1494,10 +1497,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexbin_1km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p0_georgiastraitfault_shakemap_hexgrid_1km_uc_INDEX_VERSION
               id_field: gridid_1
 
-    opendrr_dsra_acm7p3_leechriverfullfault_indicators_s_v1.4.0:
+    opendrr_dsra_acm7p3_leechriverfullfault_indicators_s:
         type: collection
         title: 
             en: Leech River Fault Scenario (Settlement Area)
@@ -1526,10 +1529,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_indicators_s_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_indicators_s_INDEX_VERSION
               id_field: Sauid
 
-    opendrr_dsra_acm7p3_leechriverfullfault_indicators_b_v1.4.0:
+    opendrr_dsra_acm7p3_leechriverfullfault_indicators_b:
         type: collection
         title: 
             en: Leech River Fault Scenario (Point)
@@ -1558,10 +1561,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_indicators_b_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_indicators_b_INDEX_VERSION
               id_field: AssetID
 
-    opendrr_dsra_acm7p3_leechriverfullfault_indicators_csd_v1.4.0:
+    opendrr_dsra_acm7p3_leechriverfullfault_indicators_csd:
         type: collection
         title: 
             en: Leech River Fault Scenario (Census Subdivision)
@@ -1590,10 +1593,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_indicators_csd_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_indicators_csd_INDEX_VERSION
               id_field: csduid
 
-    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_v1.4.0:
+    opendrr_dsra_acm7p3_leechriverfullfault_shakemap:
         type: collection
         title: 
             en: Leech River Fault Scenario Shake Map
@@ -1622,10 +1625,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_INDEX_VERSION
               id_field: SiteID
 
-    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_100km_uc_v1.4.0:
+    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_100km_uc:
         type: collection
         title: 
             en: Leech River Fault Scenario Shake Map 100km Hexbin (Unclipped)
@@ -1654,10 +1657,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_100km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_100km_uc_INDEX_VERSION
               id_field: gridid_100
 
-    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_10km_v1.4.0:
+    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_10km:
         type: collection
         title: 
             en: Leech River Fault Scenario Shake Map 10km Hexbin
@@ -1686,10 +1689,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_10km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_10km_INDEX_VERSION
               id_field: gridid_10
 
-    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_10km_uc_v1.4.0:
+    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_10km_uc:
         type: collection
         title: 
             en: Leech River Fault Scenario Shake Map 10km Hexbin (Unclipped)
@@ -1718,10 +1721,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_10km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_10km_uc_INDEX_VERSION
               id_field: gridid_10
 
-    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_25km_v1.4.0:
+    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_25km:
         type: collection
         title: 
             en: Leech River Fault Scenario Shake Map 25km Hexbin
@@ -1750,10 +1753,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_25km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_25km_INDEX_VERSION
               id_field: gridid_25
 
-    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_25km_uc_v1.4.0:
+    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_25km_uc:
         type: collection
         title: 
             en: Leech River Fault Scenario Shake Map 25km Hexbin (Unclipped)
@@ -1782,11 +1785,11 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_25km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_25km_uc_INDEX_VERSION
               id_field: gridid_25
 
 
-    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_50km_uc_v1.4.0:
+    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_50km_uc:
         type: collection
         title: 
             en: Leech River Fault Scenario Shake Map 50km Hexbin (Unclipped)
@@ -1815,11 +1818,11 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_50km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_50km_uc_INDEX_VERSION
               id_field: gridid_50
 
 
-    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_5km_v1.4.0:
+    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_5km:
         type: collection
         title: 
             en: Leech River Fault Scenario Shake Map 5km Hexbin
@@ -1848,10 +1851,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_5km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_5km_INDEX_VERSION
               id_field: gridid_5
     
-    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_5km_uc_v1.4.0:
+    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_5km_uc:
         type: collection
         title: 
             en: Leech River Fault Scenario Shake Map 5km Hexbin (Unclipped)
@@ -1880,10 +1883,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_5km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_5km_uc_INDEX_VERSION
               id_field: gridid_5
     
-    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km_v1.4.0:
+    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_1km:
         type: collection
         title: 
             en: Leech River Fault Scenario Shake Map 1km Hexbin
@@ -1912,10 +1915,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_1km_INDEX_VERSION
               id_field: gridid_1
 
-    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km_uc_v1.4.0:
+    opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_1km_uc:
         type: collection
         title: 
             en: Leech River Fault Scenario Shake Map 1km Hexbin (Unclipped)
@@ -1944,10 +1947,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexbin_1km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_acm7p3_leechriverfullfault_shakemap_hexgrid_1km_uc_INDEX_VERSION
               id_field: gridid_1
 
-    opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_b_v1.4.0:
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_b:
         type: collection
         title: 
             en: Cascadia Fault Scenario (Point)
@@ -1976,10 +1979,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_b_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_b_INDEX_VERSION
               id_field: Sauid
     
-    opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_s_v1.4.0:
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_s:
         type: collection
         title: 
             en: Cascadia Fault Scenario (Settlement Area)
@@ -2008,10 +2011,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_s_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_s_INDEX_VERSION
               id_field: Sauid
 
-    opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_csd_v1.4.0:
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_csd:
         type: collection
         title: 
             en: Cascadia Fault Scenario (Census Subdivision)
@@ -2040,10 +2043,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_csd_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_indicators_csd_INDEX_VERSION
               id_field: csduid
 
-    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_v1.4.0:
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap:
         type: collection
         title: 
             en: Cascadia Fault Scenario Shake Map
@@ -2072,10 +2075,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_INDEX_VERSION
               id_field: SiteID
 
-    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_100km_uc_v1.4.0:
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_100km_uc:
         type: collection
         title: 
             en: Cascadia Fault Scenario Shake Map 100km Hexbin (Unclipped)
@@ -2104,10 +2107,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_100km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_100km_uc_INDEX_VERSION
               id_field: gridid_100
 
-    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_10km_v1.4.0:
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_10km:
         type: collection
         title: 
             en: Cascadia Fault Scenario Shake Map 10km Hexbin
@@ -2136,10 +2139,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_10km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_10km_INDEX_VERSION
               id_field: gridid_10
 
-    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_10km_uc_v1.4.0:
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_10km_uc:
         type: collection
         title: 
             en: Cascadia Fault Scenario Shake Map 10km Hexbin (Unclipped)
@@ -2168,10 +2171,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_10km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_10km_uc_INDEX_VERSION
               id_field: gridid_10
     
-    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_25km_v1.4.0:
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_25km:
         type: collection
         title: 
             en: Cascadia Fault Scenario Shake Map 25km Hexbin
@@ -2200,10 +2203,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_25km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_25km_INDEX_VERSION
               id_field: gridid_25
 
-    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_25km_uc_v1.4.0:
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_25km_uc:
         type: collection
         title: 
             en: Cascadia Fault Scenario Shake Map 25km Hexbin (Unclipped)
@@ -2232,10 +2235,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_25km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_25km_uc_INDEX_VERSION
               id_field: gridid_25
 
-    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_50km_uc_v1.4.0:
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_50km_uc:
         type: collection
         title: 
             en: Cascadia Fault Scenario Shake Map 50km Hexbin (Unclipped)
@@ -2264,10 +2267,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_50km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_50km_uc_INDEX_VERSION
               id_field: gridid_50
     
-    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_5km_v1.4.0:
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_5km:
         type: collection
         title: 
             en: Cascadia Fault Scenario Shake Map 5km Hexbin
@@ -2296,10 +2299,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_5km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_5km_INDEX_VERSION
               id_field: gridid_5
 
-    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_5km_uc_v1.4.0:
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_5km_uc:
         type: collection
         title: 
             en: Cascadia Fault Scenario Shake Map 5km Hexbin (Unclipped)
@@ -2328,10 +2331,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_5km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_5km_uc_INDEX_VERSION
               id_field: gridid_5
 
-    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km_v1.4.0:
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_1km:
         type: collection
         title: 
             en: Cascadia Fault Scenario Shake Map 1km Hexbin
@@ -2360,10 +2363,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_1km_INDEX_VERSION
               id_field: gridid_1
 
-    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km_uc_v1.4.0:
+    opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_1km_uc:
         type: collection
         title: 
             en: Cascadia Fault Scenario Shake Map 1km Hexbin (Unclipped)
@@ -2392,40 +2395,8 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexbin_1km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_1km_uc_INDEX_VERSION
               id_field: gridid_1
-
-    opendrr_hexgrid_100km:
-        type: collection
-        title: 
-            en: 100km Hexagonal Grid
-            fr: Grille hexagonale de 100km
-        description: 
-            en: Clipped hexagonal geometry of Canada based on a x grid spacing of approximately 1 degree.
-            fr: Géométrie hexagonale découpée du Canada basée sur un espacement de grille x d'environ 1 degré.
-        keywords:
-            en: 
-            - base data
-            fr: 
-            - données de base
-        links:
-            - type: text/html
-              rel: canonical
-              title: Information
-              href: https://github.com/OpenDRR/boundaries
-              hreflang: en-US
-        extents:
-            spatial:
-                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2020-08-06
-                end: null # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_hexgrid_100km
-              id_field: fid
 
     opendrr_hexgrid_10km:
         type: collection
@@ -2491,38 +2462,6 @@ resources:
               data: ES_ENDPOINT/opendrr_hexgrid_25km
               id_field: fid
 
-    opendrr_hexgrid_50km:
-        type: collection
-        title: 
-            en: 50km Hexagonal Grid
-            fr: Grille hexagonale de 50km
-        description: 
-            en: Clipped hexagonal geometry of Canada based on a x grid spacing of approximately 0.5 degrees.
-            fr: Géométrie hexagonale tronquée du Canada basée sur un espacement de grille x d'environ 0,5 degré.
-        keywords:
-            en: 
-            - base data
-            fr: 
-            - données de base
-        links:
-            - type: text/html
-              rel: canonical
-              title: Information
-              href: https://github.com/OpenDRR/boundaries
-              hreflang: en-US
-        extents:
-            spatial:
-                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2020-08-06
-                end: null # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_hexgrid_50km
-              id_field: fid
-
     opendrr_hexgrid_5km:
         type: collection
         title: 
@@ -2555,7 +2494,7 @@ resources:
               data: ES_ENDPOINT/opendrr_hexgrid_5km
               id_field: fid
 
-    opendrr_nhsl_physical_exposure_indicators_b_v1.4.0:
+    opendrr_nhsl_physical_exposure_indicators_b:
         type: collection
         title: 
             en: Physical Exposure (Point)
@@ -2585,10 +2524,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_b_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_b_INDEX_VERSION
               id_field: Sauid
 
-    opendrr_nhsl_physical_exposure_indicators_s_v1.4.0:
+    opendrr_nhsl_physical_exposure_indicators_s:
         type: collection
         title: 
             en: Physical Exposure (Settlement Area)
@@ -2618,10 +2557,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_s_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_s_INDEX_VERSION
               id_field: Sauid
 
-    opendrr_nhsl_physical_exposure_indicators_hexbin_1km_v1.4.0:
+    opendrr_nhsl_physical_exposure_indicators_hexgrid_1km:
         type: collection
         title: 
             en: Physical Exposure (1km Hexagonal Grid)
@@ -2651,10 +2590,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexbin_1km_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexgrid_1km_INDEX_VERSION
               id_field: gridid_1
 
-    opendrr_nhsl_physical_exposure_indicators_hexbin_1km_uc_v1.4.0:
+    opendrr_nhsl_physical_exposure_indicators_hexgrid_1km_uc:
         type: collection
         title: 
             en: Physical Exposure (1km Hexagonal Grid - Unclipped)
@@ -2684,10 +2623,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexbin_1km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexgrid_1km_uc_INDEX_VERSION
               id_field: gridid_1
 
-    opendrr_nhsl_physical_exposure_indicators_hexbin_5km_v1.4.0:
+    opendrr_nhsl_physical_exposure_indicators_hexgrid_5km:
         type: collection
         title: 
             en: Physical Exposure (5km Hexagonal Grid)
@@ -2717,10 +2656,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexbin_5km_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexgrid_5km_INDEX_VERSION
               id_field: gridid_5
 
-    opendrr_nhsl_physical_exposure_indicators_hexbin_5km_uc_v1.4.0:
+    opendrr_nhsl_physical_exposure_indicators_hexgrid_5km_uc:
         type: collection
         title: 
             en: Physical Exposure (5km Hexagonal Grid - Unclipped)
@@ -2750,10 +2689,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexbin_5km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexgrid_5km_uc_INDEX_VERSION
               id_field: gridid_5
     
-    opendrr_nhsl_physical_exposure_indicators_hexbin_10km_v1.4.0:
+    opendrr_nhsl_physical_exposure_indicators_hexgrid_10km:
         type: collection
         title: 
             en: Physical Exposure (10km Hexagonal Grid)
@@ -2783,10 +2722,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexbin_10km_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexgrid_10km_INDEX_VERSION
               id_field: gridid_10
 
-    opendrr_nhsl_physical_exposure_indicators_hexbin_10km_uc_v1.4.0:
+    opendrr_nhsl_physical_exposure_indicators_hexgrid_10km_uc:
         type: collection
         title: 
             en: Physical Exposure (10km Hexagonal Grid - Unclipped)
@@ -2816,10 +2755,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexbin_10km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexgrid_10km_uc_INDEX_VERSION
               id_field: gridid_10
     
-    opendrr_nhsl_physical_exposure_indicators_hexbin_25km_v1.4.0:
+    opendrr_nhsl_physical_exposure_indicators_hexgrid_25km:
         type: collection
         title: 
             en: Physical Exposure (25km Hexagonal Grid)
@@ -2849,10 +2788,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexbin_25km_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexgrid_25km_INDEX_VERSION
               id_field: gridid_25
 
-    opendrr_nhsl_physical_exposure_indicators_hexbin_25km_uc_v1.4.0:
+    opendrr_nhsl_physical_exposure_indicators_hexgrid_25km_uc:
         type: collection
         title: 
             en: Physical Exposure (25km Hexagonal Grid - Unclipped)
@@ -2882,10 +2821,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexbin_25km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexgrid_25km_uc_INDEX_VERSION
               id_field: gridid_25
     
-    opendrr_nhsl_physical_exposure_indicators_hexbin_50km_uc_v1.4.0:
+    opendrr_nhsl_physical_exposure_indicators_hexgrid_50km_uc:
         type: collection
         title: 
             en: Physical Exposure (50km Hexagonal Grid - Unclipped)
@@ -2915,10 +2854,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexbin_50km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexgrid_50km_uc_INDEX_VERSION
               id_field: gridid_50
     
-    opendrr_nhsl_physical_exposure_indicators_hexbin_100km_uc_v1.4.0:
+    opendrr_nhsl_physical_exposure_indicators_hexgrid_100km_uc:
         type: collection
         title: 
             en: Physical Exposure (100km Hexagonal Grid - Unclipped)
@@ -2948,10 +2887,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexbin_100km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_physical_exposure_indicators_hexgrid_100km_uc_INDEX_VERSION
               id_field: gridid_100
     
-    opendrr_nhsl_social_fabric_indicators_s_v1.4.0:
+    opendrr_nhsl_social_fabric_indicators_s:
         type: collection
         title: 
             en: Social Vulnerability
@@ -2981,10 +2920,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_s_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_s_INDEX_VERSION
               id_field: Sauid
 
-    opendrr_nhsl_social_fabric_indicators_hexgrid_1km_v1.4.0:
+    opendrr_nhsl_social_fabric_indicators_hexgrid_1km:
         type: collection
         title: 
             en: Social Vulnerability (1km Hexagonal Grid)
@@ -3014,10 +2953,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_1km_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_1km_INDEX_VERSION
               id_field: gridid_1
     
-    opendrr_nhsl_social_fabric_indicators_hexgrid_1km_uc_v1.4.0:
+    opendrr_nhsl_social_fabric_indicators_hexgrid_1km_uc:
         type: collection
         title: 
             en: Social Vulnerability (1km Hexagonal Grid - Unclipped)
@@ -3047,10 +2986,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_1km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_1km_uc_INDEX_VERSION
               id_field: gridid_1
 
-    opendrr_nhsl_social_fabric_indicators_hexgrid_5km_v1.4.0:
+    opendrr_nhsl_social_fabric_indicators_hexgrid_5km:
         type: collection
         title: 
             en: Social Vulnerability (5km Hexagonal Grid)
@@ -3080,10 +3019,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_5km_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_5km_INDEX_VERSION
               id_field: gridid_5
 
-    opendrr_nhsl_social_fabric_indicators_hexgrid_5km_uc_v1.4.0:
+    opendrr_nhsl_social_fabric_indicators_hexgrid_5km_uc:
         type: collection
         title: 
             en: Social Vulnerability (5km Hexagonal Grid - Unclipped)
@@ -3113,10 +3052,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_5km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_5km_uc_INDEX_VERSION
               id_field: gridid_5
     
-    opendrr_nhsl_social_fabric_indicators_hexgrid_10km_v1.4.0:
+    opendrr_nhsl_social_fabric_indicators_hexgrid_10km:
         type: collection
         title: 
             en: Social Vulnerability (10km Hexagonal Grid)
@@ -3146,10 +3085,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_10km_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_10km_INDEX_VERSION
               id_field: gridid_10
 
-    opendrr_nhsl_social_fabric_indicators_hexgrid_10km_uc_v1.4.0:
+    opendrr_nhsl_social_fabric_indicators_hexgrid_10km_uc:
         type: collection
         title: 
             en: Social Vulnerability (10km Hexagonal Grid - Unclipped)
@@ -3179,10 +3118,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_10km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_10km_uc_INDEX_VERSION
               id_field: gridid_10
 
-    opendrr_nhsl_social_fabric_indicators_hexgrid_25km_v1.4.0:
+    opendrr_nhsl_social_fabric_indicators_hexgrid_25km:
         type: collection
         title: 
             en: Social Vulnerability (25km Hexagonal Grid)
@@ -3212,10 +3151,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_25km_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_25km_INDEX_VERSION
               id_field: gridid_25
 
-    opendrr_nhsl_social_fabric_indicators_hexgrid_25km_uc_v1.4.0:
+    opendrr_nhsl_social_fabric_indicators_hexgrid_25km_uc:
         type: collection
         title: 
             en: Social Vulnerability (25km Hexagonal Grid - Unclipped)
@@ -3245,10 +3184,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_25km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_25km_uc_INDEX_VERSION
               id_field: gridid_25
 
-    opendrr_nhsl_social_fabric_indicators_hexgrid_50km_uc_v1.4.0:
+    opendrr_nhsl_social_fabric_indicators_hexgrid_50km_uc:
         type: collection
         title: 
             en: Social Vulnerability (50km Hexagonal Grid)
@@ -3278,10 +3217,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_50km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_50km_uc_INDEX_VERSION
               id_field: gridid_50
 
-    opendrr_nhsl_social_fabric_indicators_hexgrid_100km_uc_v1.4.0:
+    opendrr_nhsl_social_fabric_indicators_hexgrid_100km_uc:
         type: collection
         title: 
             en: Social Vulnerability (100km Hexagonal Grid)
@@ -3311,10 +3250,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_100km_uc_v1.4.0
+              data: ES_ENDPOINT/opendrr_nhsl_social_fabric_indicators_hexgrid_100km_uc_INDEX_VERSION
               id_field: gridid_100
     
-    opendrr_psra_indicators_b_v1.4.0:
+    opendrr_psra_indicators_b:
         type: collection
         title: 
             en: The National Seismic Risk model for Canada (Point)
@@ -3343,10 +3282,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_psra_indicators_b_v1.4.0
+              data: ES_ENDPOINT/opendrr_psra_indicators_b_INDEX_VERSION
               id_field: Sauid
 
-    opendrr_psra_indicators_s_v1.4.0:
+    opendrr_psra_indicators_s:
         type: collection
         title: 
             en: The National Seismic Risk model for Canada (Settlement Area)
@@ -3375,10 +3314,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_psra_indicators_s_v1.4.0
+              data: ES_ENDPOINT/opendrr_psra_indicators_s_INDEX_VERSION
               id_field: Sauid
     
-    opendrr_psra_canada_src_loss_v1.4.0:
+    opendrr_psra_canada_src_loss:
         type: collection
         title: 
             en: opendrr_psra_canada_src_loss
@@ -3407,10 +3346,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_psra_canada_src_loss_v1.4.0
+              data: ES_ENDPOINT/opendrr_psra_canada_src_loss_INDEX_VERSION
               id_field: fid
     
-    opendrr_psra_src_loss_v1.4.0:
+    opendrr_psra_src_loss:
         type: collection
         title: 
             en: opendrr_psra_canada_src_loss
@@ -3439,7 +3378,7 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_psra_src_loss_v1.4.0
+              data: ES_ENDPOINT/opendrr_psra_src_loss_INDEX_VERSION
               id_field: fid
     
     # opendrr_psra_hmaps:
@@ -3506,7 +3445,7 @@ resources:
     #           data: ES_ENDPOINT/opendrr_psra_uhs
     #           id_field: geom
 
-    opendrr_psra_agg_loss_fsa_v1.4.0:
+    opendrr_psra_agg_loss_fsa:
         type: collection
         title: 
             en: opendrr_psra_agg_loss_fsa
@@ -3535,10 +3474,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_psra_agg_loss_fsa_v1.4.0
+              data: ES_ENDPOINT/opendrr_psra_agg_loss_fsa_INDEX_VERSION
               id_field: fid
     
-    opendrr_psra_canada_agg_loss_v1.4.0:
+    opendrr_psra_canada_agg_loss:
         type: collection
         title: 
             en: opendrr_psra_canada_agg_loss
@@ -3567,10 +3506,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_psra_canada_agg_loss_v1.4.0
+              data: ES_ENDPOINT/opendrr_psra_canada_agg_loss_INDEX_VERSION
               id_field: fid
 
-    opendrr_psra_expected_loss_fsa_v1.4.0:
+    opendrr_psra_expected_loss_fsa:
         type: collection
         title: 
             en: opendrr_psra_expected_loss_fsa
@@ -3599,10 +3538,10 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_psra_expected_loss_fsa_v1.4.0
+              data: ES_ENDPOINT/opendrr_psra_expected_loss_fsa_INDEX_VERSION
               id_field: fid
     
-    opendrr_psra_canada_expected_loss_v1.4.0:
+    opendrr_psra_canada_expected_loss:
         type: collection
         title: 
             en: opendrr_psra_canada_expected_loss
@@ -3631,17 +3570,17 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_psra_canada_expected_loss_v1.4.0
+              data: ES_ENDPOINT/opendrr_psra_canada_expected_loss_INDEX_VERSION
               id_field: fid
     
-    opendrr_psra_indicators_csd_v1.4.0:
+    opendrr_psra_indicators_csd:
         type: collection
         title: 
-            en: opendrr_psra_indicators_csd_v1.4.0
-            fr: opendrr_psra_indicators_csd_v1.4.0
+            en: The National Seismic Risk model for Canada (Census Subdivision)
+            fr: Le modèle national de risque sismique pour le Canada (Subdivision du recensement)
         description: 
-            en: opendrr_psra_indicators_csd_v1.4.0
-            fr: opendrr_psra_indicators_csd_v1.4.0
+            en: The National Seismic Risk model for Canada introduces a structured framework of indicators that profile the physical, social and economic dimensions of earthquake risk at the neighborhood scale.
+            fr: Le modèle national de risque sismique pour le Canada présente un cadre structuré d'indicateurs qui profilent les dimensions physiques, sociales et économiques du risque sismique à l'échelle du quartier.
         keywords:
             en:
             - earthquake
@@ -3663,9 +3602,329 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_psra_indicators_csd_v1.4.0
+              data: ES_ENDPOINT/opendrr_psra_indicators_csd_INDEX_VERSION
               id_field: csduid
     
+    opendrr_psra_indicators_hexgrid_100km_uc:
+        type: collection
+        title: 
+            en: The National Seismic Risk model for Canada (100km Hexagonal Grid)
+            fr: Le modèle national de risque sismique pour le Canada (Grille hexagonale de 100km non écrêtée)
+        description: 
+            en: The National Seismic Risk model for Canada introduces a structured framework of indicators that profile the physical, social and economic dimensions of earthquake risk at the neighborhood scale.
+            fr: Le modèle national de risque sismique pour le Canada présente un cadre structuré d'indicateurs qui profilent les dimensions physiques, sociales et économiques du risque sismique à l'échelle du quartier.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/canada-srm2
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_psra_indicators_hexgrid_100km_uc_INDEX_VERSION
+              id_field: gridid_100
+
+    opendrr_psra_indicators_hexgrid_10km_uc:
+        type: collection
+        title: 
+            en: The National Seismic Risk model for Canada (Unclipped 10km Hexagonal Grid)
+            fr: Le modèle national de risque sismique pour le Canada (Grille hexagonale de 10km non écrêtée)
+        description: 
+            en: The National Seismic Risk model for Canada introduces a structured framework of indicators that profile the physical, social and economic dimensions of earthquake risk at the neighborhood scale.
+            fr: Le modèle national de risque sismique pour le Canada présente un cadre structuré d'indicateurs qui profilent les dimensions physiques, sociales et économiques du risque sismique à l'échelle du quartier.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/canada-srm2
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_psra_indicators_hexgrid_10km_uc_INDEX_VERSION
+              id_field: gridid_10
+
+    opendrr_psra_indicators_hexgrid_10km:
+        type: collection
+        title: 
+            en: The National Seismic Risk model for Canada (10km Hexagonal Grid)
+            fr: Le modèle national de risque sismique pour le Canada (Grille hexagonale de 10km)
+        description: 
+            en: The National Seismic Risk model for Canada introduces a structured framework of indicators that profile the physical, social and economic dimensions of earthquake risk at the neighborhood scale.
+            fr: Le modèle national de risque sismique pour le Canada présente un cadre structuré d'indicateurs qui profilent les dimensions physiques, sociales et économiques du risque sismique à l'échelle du quartier.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/canada-srm2
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_psra_indicators_hexgrid_10km_INDEX_VERSION
+              id_field: gridid_10
+
+    opendrr_psra_indicators_hexgrid_1km_uc:
+        type: collection
+        title: 
+            en: The National Seismic Risk model for Canada (Unclipped 1km Hexagonal Grid)
+            fr: Le modèle national de risque sismique pour le Canada (Grille hexagonale de 1km non écrêtée)
+        description: 
+            en: The National Seismic Risk model for Canada introduces a structured framework of indicators that profile the physical, social and economic dimensions of earthquake risk at the neighborhood scale.
+            fr: Le modèle national de risque sismique pour le Canada présente un cadre structuré d'indicateurs qui profilent les dimensions physiques, sociales et économiques du risque sismique à l'échelle du quartier.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/canada-srm2
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_psra_indicators_hexgrid_1km_uc_INDEX_VERSION
+              id_field: gridid_1
+
+    opendrr_psra_indicators_hexgrid_1km:
+        type: collection
+        title: 
+            en: The National Seismic Risk model for Canada (1km Hexagonal Grid)
+            fr: Le modèle national de risque sismique pour le Canada (Grille hexagonale de 1km)
+        description: 
+            en: The National Seismic Risk model for Canada introduces a structured framework of indicators that profile the physical, social and economic dimensions of earthquake risk at the neighborhood scale.
+            fr: Le modèle national de risque sismique pour le Canada présente un cadre structuré d'indicateurs qui profilent les dimensions physiques, sociales et économiques du risque sismique à l'échelle du quartier.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/canada-srm2
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_psra_indicators_hexgrid_1km_INDEX_VERSION
+              id_field: gridid_1
+
+    opendrr_psra_indicators_hexgrid_25km_uc:
+        type: collection
+        title: 
+            en: The National Seismic Risk model for Canada (Unclipped 25km Hexagonal Grid)
+            fr: Le modèle national de risque sismique pour le Canada (Grille hexagonale de 25km non écrêtée)
+        description: 
+            en: The National Seismic Risk model for Canada introduces a structured framework of indicators that profile the physical, social and economic dimensions of earthquake risk at the neighborhood scale.
+            fr: Le modèle national de risque sismique pour le Canada présente un cadre structuré d'indicateurs qui profilent les dimensions physiques, sociales et économiques du risque sismique à l'échelle du quartier.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/canada-srm2
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_psra_indicators_hexgrid_25km_uc_INDEX_VERSION
+              id_field: gridid_25
+
+    opendrr_psra_indicators_hexgrid_25km:
+        type: collection
+        title: 
+            en: The National Seismic Risk model for Canada (25km Hexagonal Grid)
+            fr: Le modèle national de risque sismique pour le Canada (Grille hexagonale de 25km)
+        description: 
+            en: The National Seismic Risk model for Canada introduces a structured framework of indicators that profile the physical, social and economic dimensions of earthquake risk at the neighborhood scale.
+            fr: Le modèle national de risque sismique pour le Canada présente un cadre structuré d'indicateurs qui profilent les dimensions physiques, sociales et économiques du risque sismique à l'échelle du quartier.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/canada-srm2
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_psra_indicators_hexgrid_25km_INDEX_VERSION
+              id_field: gridid_25
+
+    opendrr_psra_indicators_hexgrid_50km_uc:
+        type: collection
+        title: 
+            en: The National Seismic Risk model for Canada (Unclipped 50km Hexagonal Grid)
+            fr: Le modèle national de risque sismique pour le Canada (Grille hexagonale de 50km non écrêtée)
+        description: 
+            en: The National Seismic Risk model for Canada introduces a structured framework of indicators that profile the physical, social and economic dimensions of earthquake risk at the neighborhood scale.
+            fr: Le modèle national de risque sismique pour le Canada présente un cadre structuré d'indicateurs qui profilent les dimensions physiques, sociales et économiques du risque sismique à l'échelle du quartier.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/canada-srm2
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_psra_indicators_hexgrid_50km_uc_INDEX_VERSION
+              id_field: gridid_50
+
+    opendrr_psra_indicators_hexgrid_5km_uc:
+        type: collection
+        title: 
+            en: The National Seismic Risk model for Canada (Unclipped 5km Hexagonal Grid)
+            fr: Le modèle national de risque sismique pour le Canada (Grille hexagonale de 5km non écrêtée)
+        description: 
+            en: The National Seismic Risk model for Canada introduces a structured framework of indicators that profile the physical, social and economic dimensions of earthquake risk at the neighborhood scale.
+            fr: Le modèle national de risque sismique pour le Canada présente un cadre structuré d'indicateurs qui profilent les dimensions physiques, sociales et économiques du risque sismique à l'échelle du quartier.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/canada-srm2
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_psra_indicators_hexgrid_5km_uc_INDEX_VERSION
+              id_field: gridid_5
+
+    opendrr_psra_indicators_hexgrid_5km:
+        type: collection
+        title: 
+            en: The National Seismic Risk model for Canada (5km Hexagonal Grid)
+            fr: Le modèle national de risque sismique pour le Canada (Grille hexagonale de 5km)
+        description: 
+            en: The National Seismic Risk model for Canada introduces a structured framework of indicators that profile the physical, social and economic dimensions of earthquake risk at the neighborhood scale.
+            fr: Le modèle national de risque sismique pour le Canada présente un cadre structuré d'indicateurs qui profilent les dimensions physiques, sociales et économiques du risque sismique à l'échelle du quartier.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/canada-srm2
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_psra_indicators_hexgrid_5km_INDEX_VERSION
+              id_field: gridid_5
+
     opendrr_sauid_hexgrid:
         type: collection
         title: 
@@ -3698,7 +3957,7 @@ resources:
               data: ES_ENDPOINT/opendrr_sauid_hexgrid
               id_field: Sauid
 
-    opendrr_shakemap_scenario_extents_v1.4.0:
+    opendrr_shakemap_scenario_extents:
         type: collection
         title: 
             en: Spatial extent of earthquake scenarios
@@ -3727,5 +3986,5 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_shakemap_scenario_extents_v1.4.0
+              data: ES_ENDPOINT/opendrr_shakemap_scenario_extents_INDEX_VERSION
               id_field: scenario
