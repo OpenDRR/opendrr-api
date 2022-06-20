@@ -328,7 +328,7 @@ def main():
         utils.ESConnection(
             settings={"settings": {"number_of_shards": 1, "number_of_replicas": 0}}
         ),
-        view="opendrr_psra_canada_expected_loss_500yr",
+        view="opendrr_psra_canada_expected_loss_500yr_{}".format(version),
         sqlquerystring="SELECT * \
                     FROM results_psra_canada.psra_canada_expected_loss_500yr \
                     LIMIT {limit} \
