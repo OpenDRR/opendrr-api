@@ -868,6 +868,20 @@ post_process_psra_tables() {
   RUN run_psql psra_4.Create_psra_sauid_all_indicators_Canada.sql
 
   RUN run_psql psra_6.Create_psra_merge_into_national_indicators.sql
+  RUN run_psql psra_6a.eqri_calculation_sa.sql
+  RUN run_psql psra_6a1.eqri_calculation_csd.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_uc.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_uc.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_uc.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_uc.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_50km_uc.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_100km_uc.sql
+  RUN run_psql psra_6a3.Merge_eqri_calculations.sql
+
   RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_unclipped.sql
   RUN run_psql psra_7.Create_psra_national_hexgrid_clipped.sql
 }
