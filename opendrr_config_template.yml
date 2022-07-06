@@ -3988,3 +3988,35 @@ resources:
               name: Elasticsearch
               data: ES_ENDPOINT/opendrr_shakemap_scenario_extents_INDEX_VERSION
               id_field: scenario
+
+    opendrr_geometry_fsauid:
+        type: collection
+        title: 
+            en: Forward Sort Area Geometries
+            fr: Géométries de la zone de triage avant
+        description: 
+            en: Geospatial extents of Forward Sort Area
+            fr: Étendue géospatiale de la zone de tri préalable
+        keywords:
+            en: 
+            - base data
+            fr: 
+            - données de base
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/boundaries
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_geometry_fsauid_INDEX_VERSION
+              id_field: fid

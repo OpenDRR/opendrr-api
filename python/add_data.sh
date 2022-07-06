@@ -1015,6 +1015,7 @@ export_to_elasticsearch() {
     LOG "Creating PSRA indices in Elasticsearch"
     RUN python3 psra_postgres2es.py
     RUN python3 srcLoss_postgres2es.py
+    RUN python3 fsa_postgres2es.py
 
     LOG "Creating PSRA Kibana Index Patterns"
     RUN curl -X POST -H "Content-Type: application/json" "${KIBANA_ENDPOINT}/s/gsc-cgc/api/saved_objects/index-pattern/opendrr_psra_indicators_s" -H "kbn-xsrf: true" -d '{ "attributes": { "title":"opendrr_psra_indicators_s"}}'
