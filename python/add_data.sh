@@ -456,14 +456,14 @@ read_github_token() {
 # from the OpenDRR/model-factory repository
 get_model_factory_scripts() {
   # TODO: Make this more robust
-  curl -L -o model-factory.tar.gz https://github.com/OpenDRR/model-factory/archive/refs/tags/v1.4.3.tar.gz
-  tar -xf model-factory.tar.gz
-  # RUN git clone https://github.com/OpenDRR/model-factory.git --branch updates_june2022 --depth 1 || (cd model-factory ; RUN git pull)
+  # curl -L -o model-factory.tar.gz https://github.com/OpenDRR/model-factory/archive/refs/tags/v1.4.3.tar.gz
+  # tar -xf model-factory.tar.gz
+  RUN git clone https://github.com/OpenDRR/model-factory.git --branch updates_july2022 --depth 1 || (cd model-factory ; RUN git pull)
 
   # Copy model-factory scripts to working directory
   # TODO: Find ways to keep these scripts in their place without copying them all to WORKDIR
-  RUN cp model-factory-1.4.3/scripts/*.* .
-  # RUN cp model-factory/scripts/*.* .
+  # RUN cp model-factory-1.4.3/scripts/*.* .
+  RUN cp model-factory/scripts/*.* .
   #rm -rf model-factory
 }
 
@@ -569,9 +569,12 @@ import_census_boundaries() {
 
   CLEAN_UP opendrr-boundaries.sql opendrr-boundaries.sql.sha256sum
 
-  RUN run_psql Update_boundaries_table_clipped_hex.sql
-  RUN run_psql Update_boundaries_table_unclipped_hex.sql
-  RUN run_psql Update_boundaries_table_hexgrid_1km_union.sql
+  # RUN run_psql Update_boundaries_table_clipped_hex.sql
+  # RUN run_psql Update_boundaries_table_clipped_hex_900913.sql
+  # RUN run_psql Update_boundaries_table_unclipped_hex.sql
+  # RUN run_psql Update_boundaries_table_unclipped_hex_900913.sql
+  # RUN run_psql Update_boundaries_table_hexgrid_1km_union.sql
+  # RUN run_psql Update_boundaries_table_hexgrid_1km_union_900913.sql
 }
 
 OBSOLETE_FALLBACK_build_census_boundaries_from_gpkg_files() {
@@ -757,10 +760,13 @@ generate_indicators() {
   RUN run_psql Create_MH_risk_sauid_prioritization_Canada.sql
   # RUN run_psql Create_MH_risk_sauid_ALL.sql
   RUN run_psql Create_hexgrid_physical_exposure_aggregation_area_proxy.sql
+  RUN run_psql Create_hexgrid_physical_exposure_aggregation_area_proxy_900913.sql
   # RUN run_psql Create_hexbin_physical_exposure_hexbin_aggregation_centroid.sql
   RUN run_psql Create_hexgrid_MH_risk_sauid_prioritization_aggregation_area.sql
+  RUN run_psql Create_hexgrid_MH_risk_sauid_prioritization_aggregation_area_900913.sql
   # RUN run_psql Create_hexbin_MH_risk_sauid_prioritization_aggregation_centroid.sql
   RUN run_psql Create_hexgrid_social_vulnerability_aggregation_area_proxy.sql
+  RUN run_psql Create_hexgrid_social_vulnerability_aggregation_area_proxy_900913.sql
   # RUN run_psql Create_hexbin_social_vulnerability_aggregation_centroid.sql
 }
 
@@ -871,19 +877,31 @@ post_process_psra_tables() {
   RUN run_psql psra_6a.eqri_calculation_sa.sql
   RUN run_psql psra_6a1.eqri_calculation_csd.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_uc.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_uc_900913.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_900913.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_uc.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_uc_900913.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_900913.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_uc.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_uc_900913.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_900913.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_uc.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_uc_900913.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_900913.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_50km_uc.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_50km_uc_900913.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_100km_uc.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_100km_uc_900913.sql
   RUN run_psql psra_6a3.Merge_eqri_calculations.sql
 
   RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_unclipped.sql
+  RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_unclipped_900913.sql
   RUN run_psql psra_7.Create_psra_national_hexgrid_clipped.sql
+  RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_900913.sql
 }
 
 ############################################################################################
