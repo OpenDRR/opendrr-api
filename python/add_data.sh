@@ -502,62 +502,78 @@ wait_for_postgres() {
 ############################################################################################
 
 import_census_boundaries() {
-  LOG "## Importing Census Boundaries"
+  LOG "## Importing Census Boundaries (huge pre-populated database)"
 
-  INFO "Download opendrr-boundaries.sql (PostGIS database archive)"
+  INFO "Download opendrr-boundaries-db.7z.* (PostGIS database archive)"
 
-  local repo="OpenDRR/boundaries"
+  local boundaries_db_repo="OpenDRR/boundaries-db"
 
-  # Git branch or tag from which we want to fetch.
-  # Examples: "test_hexbin_unclipped", "v1.3.0"
-  local boundaries_branch="v1.4.0"
+  # Git branch or tag from which we want to fetch.  For example:
+  #  - "v1.4.4" (release assets)
+  #  - "main" (artifact, but may get disabled, see OpenDRR/boundaries-db for details.)
+  local boundaries_db_branch="v1.4.4"
 
-  if release_view=$(gh release view "${boundaries_branch}" -R "${repo}"); then
+  if release_view=$(gh release view "${boundaries_db_branch}" -R "${boundaries_db_repo}")
+  then
     # For released version, we download from release assets
-    INFO "... from release assets of ${repo} ${boundaries_branch}..."
+    INFO "... from release assets of ${boundaries_db_repo} ${boundaries_db_branch}..."
 
-    for i in $(echo "${release_view}" | grep "^asset:	opendrr-boundaries\.sql" | cut -f2); do
+    # TODO: Avoid repeatedly downloading database dump if local files match checksum
+    # RUN gh release download "${boundaries_db_branch}" -R "${boundaries_db_repo}" \
+    #   --pattern "opendrr-boundaries-db.7z.sha256sum"
+
+    RUN gh release download "${boundaries_db_branch}" -R "${boundaries_db_repo}" \
+      --pattern "opendrr-boundaries-db.dump.sha256sum"
+
+    # TODO: Check if opendrr-boundaries-db.dump exists, and skip download if it matches checksum
+
+    for i in $(echo "${release_view}" | grep "^asset:	opendrr-boundaries-db\.7z" | cut -f2); do
       INFO "Downloading ${i}..."
-      RUN gh release download "${boundaries_branch}" -R "${repo}" \
+      INFO "(This can be as fast as 5 minutes or as slow as 60 minutes!)"
+      RUN gh release download "${boundaries_db_branch}" -R "${boundaries_db_repo}" \
 	--pattern "${i}" >/dev/null &
       sleep 2
       pv -d "$(pidof gh)" || :
     done
 
-    if [[ -f opendrr-boundaries.sql.00 ]]; then
-      cat opendrr-boundaries.sql.[0-9][0-9] > opendrr-boundaries.sql
-    fi
-
   else
     # For a feature/topic branch, we download the artifact from the latest
     # action run that matches our criteria
 
-    INFO "... from artifact of ${repo} ${boundaries_branch} GitHub Action run..."
+    INFO "... from artifact of ${boundaries_db_repo} ${boundaries_db_branch} GitHub Action run..."
 
-    run_id=$(gh run list -R "${repo}" --limit 100 \
+    run_id=$(gh run list -R "${boundaries_db_repo}" --limit 100 \
       --json conclusion,databaseId,headBranch,name,status,workflowDatabaseId \
       --jq "first(.[] \
-                | select( .headBranch == \"${boundaries_branch}\" and \
-                          .name == \"Upload opendrr-boundaries.sql\" and \
+                | select( .headBranch == \"${boundaries_db_branch}\" and \
+                          .name == \"Upload database\" and \
                           .status == \"completed\" and \
                           .conclusion == \"success\")) \
             | .databaseId")
 
-    [[ -n $run_id ]] || ERROR "Action run for '${boundaries_branch}' not found."
-    INFO "Downloading artifact opendrr-boundaries-sql.zip from Run #${run_id}..."
+    [[ -n $run_id ]] || ERROR "Action run for '${boundaries_db_branch}' not found."
+
+    INFO "Downloading artifact opendrr-boundaries-db.zip from Run #${run_id}..."
     INFO "(This can be as fast as 5 minutes or as slow as 60 minutes!)"
-    RUN gh run download -R "${repo}" "${run_id}" \
-                        --name opendrr-boundaries-sql &
+    RUN gh run download -R "${boundaries_db_repo}" "${run_id}" \
+                        --name opendrr-boundaries-db &
     sleep 2
     pv -d "$(pidof gh)"
-    [[ -f opendrr-boundaries.sql ]] || ERROR "Unable to download opendrr-boundaries.sql"
+    [[ -f opendrr-boundaries-db.7z.001 ]] || ERROR "Unable to download opendrr-boundaries-db.7z.*"
   fi
 
-  RUN ls -l opendrr-boundaries.sql*
-  RUN sha256sum -c opendrr-boundaries.sql.sha256sum
-  CLEAN_UP opendrr-boundaries.sql.[0-9][0-9]
+  # By this point, whether we downloaded from release assets or from artifact,
+  # we should have opendrr-boundaries-db.7z.00[1-9] and opendrr-boundaries-db.dump.sha256sum
 
-  INFO "Import opendrr-boundaries.sql using pg_restore..."
+  RUN ls -l opendrr-boundaries-db.7z*
+
+  # TODO: Switch from 7zr ("p7zip" package) to 7zz ("7zip" package) once the latter is available
+  RUN 7zr x opendrr-boundaries-db.7z.001
+  RUN sha256sum -c opendrr-boundaries-db.dump.sha256sum
+
+  CLEAN_UP opendrr-boundaries-db.7z*
+
+  INFO "Import opendrr-boundaries-db.dump using pg_restore..."
 
   # Note: Do not use "--create" which would activate the SQL command
   #   CREATE DATABASE boundaries WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'English_United States.1252';
@@ -565,9 +581,9 @@ import_census_boundaries() {
   #   error: invalid locale name: "English_United States.1252"
   # in the Linux-based Docker image
   RUN pg_restore -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" \
-    -j 8 --clean --if-exists --verbose opendrr-boundaries.sql
+    -j 8 --clean --if-exists --verbose opendrr-boundaries-db.dump
 
-  CLEAN_UP opendrr-boundaries.sql opendrr-boundaries.sql.sha256sum
+  CLEAN_UP opendrr-boundaries-db.dump
 
   # RUN run_psql Update_boundaries_table_clipped_hex.sql
   # RUN run_psql Update_boundaries_table_clipped_hex_900913.sql
