@@ -31,7 +31,7 @@ server:
     bind:
         host: 0.0.0.0
         port: 5001
-    url: http://localhost:5001
+    url: https://geo-api.riskprofiler.ca
     mimetype: application/json; charset=UTF-8
     encoding: utf-8
     languages:
@@ -44,8 +44,8 @@ server:
     # path: /path/to/Jinja2/templates
     # static: /path/to/static/folder # css/js/img
     map:
-        url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, Points &copy; 2012 LINZ'
+        url: "https://{s}.tile.osm.org/{z}/{x}/{y}.png"
+        attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors, Points &copy; 2012 LINZ'
 #    manager:
 #        name: TinyDB
 #        connection: /tmp/pygeoapi-process-manager.db
@@ -2399,7 +2399,7 @@ resources:
               id_field: gridid_1
 
     opendrr_hexgrid_1km:
-            type: collection
+        type: collection
         title: 
             en: 1km Hexagonal Grid
             fr: Grille hexagonale de 10km
@@ -2431,7 +2431,7 @@ resources:
               id_field: fid
 
     opendrr_hexgrid_1km_unclipped:
-            type: collection
+        type: collection
         title: 
             en: 1km Hexagonal Grid
             fr: Grille hexagonale de 1km
@@ -4308,7 +4308,6 @@ resources:
               name: Elasticsearch
               data: ES_ENDPOINT/opendrr_geometry_fsauid_INDEX_VERSION
               id_field: fid
-
 
 
 
