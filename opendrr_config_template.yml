@@ -31,7 +31,7 @@ server:
     bind:
         host: 0.0.0.0
         port: 5001
-    url: http://localhost:5001
+    url: https://geo-api.riskprofiler.ca
     mimetype: application/json; charset=UTF-8
     encoding: utf-8
     languages:
@@ -44,8 +44,8 @@ server:
     # path: /path/to/Jinja2/templates
     # static: /path/to/static/folder # css/js/img
     map:
-        url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, Points &copy; 2012 LINZ'
+        url: "https://{s}.tile.osm.org/{z}/{x}/{y}.png"
+        attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors, Points &copy; 2012 LINZ'
 #    manager:
 #        name: TinyDB
 #        connection: /tmp/pygeoapi-process-manager.db
@@ -2398,10 +2398,10 @@ resources:
               data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_1km_uc_INDEX_VERSION
               id_field: gridid_1
 
-    opendrr_hexgrid_10km:
+    opendrr_hexgrid_1km:
         type: collection
         title: 
-            en: 10km Hexagonal Grid
+            en: 1km Hexagonal Grid
             fr: Grille hexagonale de 10km
         description:
             en: Clipped hexagonal geometry of Canada based on a x grid spacing of approximately 0.01 degrees.
@@ -2427,7 +2427,103 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_hexgrid_10km
+              data: ES_ENDPOINT/opendrr_hexgrid_1km_INDEX_VERSION
+              id_field: fid
+
+    opendrr_hexgrid_1km_unclipped:
+        type: collection
+        title: 
+            en: 1km Hexagonal Grid
+            fr: Grille hexagonale de 1km
+        description:
+            en: Unclipped hexagonal geometry of Canada based on a x grid spacing of approximately 0.01 degrees.
+            fr: Géométrie hexagonale tronquée du Canada basée sur un espacement de grille x d'environ 0,01 degré.
+        keywords:
+            en: 
+            - base data
+            fr: 
+            - données de base
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/boundaries
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_hexgrid_1km_unclipped_INDEX_VERSION
+              id_field: fid
+
+    opendrr_hexgrid_10km:
+        type: collection
+        title: 
+            en: 10km Hexagonal Grid
+            fr: Grille hexagonale de 10km
+        description:
+            en: Clipped hexagonal geometry of Canada based on a x grid spacing of approximately 0.1 degrees.
+            fr: Géométrie hexagonale tronquée du Canada basée sur un espacement de grille x d'environ 0,1 degré.
+        keywords:
+            en: 
+            - base data
+            fr: 
+            - données de base
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/boundaries
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_hexgrid_10km_INDEX_VERSION
+              id_field: fid
+
+    opendrr_hexgrid_10km_unclipped:
+        type: collection
+        title: 
+            en: 10km Hexagonal Grid
+            fr: Grille hexagonale de 10km
+        description:
+            en: Unclipped hexagonal geometry of Canada based on a x grid spacing of approximately 0.1 degrees.
+            fr: Géométrie hexagonale tronquée du Canada basée sur un espacement de grille x d'environ 0,1 degré.
+        keywords:
+            en: 
+            - base data
+            fr: 
+            - données de base
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/boundaries
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_hexgrid_10km_unclipped_INDEX_VERSION
               id_field: fid
 
     opendrr_hexgrid_25km:
@@ -2459,7 +2555,39 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_hexgrid_25km
+              data: ES_ENDPOINT/opendrr_hexgrid_25km_INDEX_VERSION
+              id_field: fid
+
+    opendrr_hexgrid_25km_unclipped:
+        type: collection
+        title: 
+            en: 25km Hexagonal Grid
+            fr: Grille hexagonale de 25km
+        description: 
+            en: Unclipped hexagonal geometry of Canada based on a x grid spacing of approximately 0.25 degrees.
+            fr: Géométrie hexagonale du Canada non écrêtée, basée sur un espacement de grille x d'environ 0,25 degré.
+        keywords:
+            en: 
+            - base data
+            fr: 
+            - données de base
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/boundaries
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_hexgrid_25km_unclipped_INDEX_VERSION
               id_field: fid
 
     opendrr_hexgrid_5km:
@@ -2491,7 +2619,103 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_hexgrid_5km
+              data: ES_ENDPOINT/opendrr_hexgrid_5km_INDEX_VERSION
+              id_field: fid
+
+    opendrr_hexgrid_5km_unclipped:
+        type: collection
+        title: 
+            en: 5km Hexagonal Grid
+            fr: Grille hexagonale de 5km
+        description:
+            en: Unclipped hexagonal geometry of Canada based on a x grid spacing of approximately 0.05 degrees.
+            fr: Géométrie hexagonale du Canada non écrêtée, basée sur un espacement de grille x d'environ 0,05 degré.
+        keywords:
+            en: 
+            - base data
+            fr: 
+            - données de base
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/boundaries
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_hexgrid_5km_unclipped_INDEX_VERSION
+              id_field: fid
+
+    opendrr_hexgrid_50km_unclipped:
+        type: collection
+        title: 
+            en: 50km Hexagonal Grid
+            fr: Grille hexagonale de 5km
+        description:
+            en: Unclipped hexagonal geometry of Canada based on a x grid spacing of approximately 0.5 degrees.
+            fr: Géométrie hexagonale du Canada non écrêtée, basée sur un espacement de grille x d'environ 0,5 degré.
+        keywords:
+            en: 
+            - base data
+            fr: 
+            - données de base
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/boundaries
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_hexgrid_50km_unclipped_INDEX_VERSION
+              id_field: fid
+
+    opendrr_hexgrid_100km_unclipped:
+        type: collection
+        title: 
+            en: 100km Hexagonal Grid
+            fr: Grille hexagonale de 100km
+        description:
+            en: Unclipped hexagonal geometry of Canada based on a x grid spacing of approximately 1.0 degrees.
+            fr: Géométrie hexagonale tronquée du Canada basée sur un espacement de grille x d'environ 1,0 degré.
+        keywords:
+            en: 
+            - base data
+            fr: 
+            - données de base
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/boundaries
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_hexgrid_100km_unclipped_INDEX_VERSION
               id_field: fid
 
     opendrr_nhsl_physical_exposure_indicators_b:
@@ -3572,7 +3796,39 @@ resources:
               name: Elasticsearch
               data: ES_ENDPOINT/opendrr_psra_canada_expected_loss_INDEX_VERSION
               id_field: fid
-    
+
+    opendrr_psra_canada_expected_loss_500yr:
+        type: collection
+        title: 
+            en: opendrr_psra_canada_expected_loss_500yr
+            fr: opendrr_psra_canada_expected_loss_500yr
+        description: 
+            en: opendrr_psra_canada_expected_loss_500yr
+            fr: opendrr_psra_canada_expected_loss_500yr
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/canada-srm2
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_psra_canada_expected_loss_500yr_INDEX_VERSION
+              id_field: fid
+
     opendrr_psra_indicators_csd:
         type: collection
         title: 
@@ -3954,7 +4210,39 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: ES_ENDPOINT/opendrr_sauid_hexgrid
+              data: ES_ENDPOINT/opendrr_sauid_hexgrid_INDEX_VERSION
+              id_field: Sauid
+
+    opendrr_sauid_hexgrid_unclipped:
+        type: collection
+        title: 
+            en: Settled Area Grid Reference
+            fr: Référence de grille de la zone habitée
+        description: 
+            en: Table referencing the centroid of each settled area id (SAUID) to the various HexGrid geometries (5opendrr_hexgrid_,10opendrr_hexgrid_,25km,50km,100km) used for aggregation purposes.
+            fr: Tableau référençant le centroïde de chaque identifiant de zone habitée (SAUID) aux différentes géométries HexGrid (5km,10km,25km,50km,100km) utilisées à des fins d'agrégation.
+        keywords:
+            en: 
+            - base data
+            fr: 
+            - données de base
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: https://github.com/OpenDRR/boundaries
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-141.003, 41.6755, -52.6174, 83.1139]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2020-08-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_sauid_hexgrid_unclipped_INDEX_VERSION
               id_field: Sauid
 
     opendrr_shakemap_scenario_extents:
@@ -4020,3 +4308,6 @@ resources:
               name: Elasticsearch
               data: ES_ENDPOINT/opendrr_geometry_fsauid_INDEX_VERSION
               id_field: fid
+
+
+
