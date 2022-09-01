@@ -511,7 +511,7 @@ import_census_boundaries() {
   # Git branch or tag from which we want to fetch.  For example:
   #  - "v1.4.4" (release assets)
   #  - "main" (artifact, but may get disabled, see OpenDRR/boundaries-db for details.)
-  local boundaries_db_branch="v1.4.4"
+  local boundaries_db_branch="v1.4.4-beta+20220831"
 
   if release_view=$(gh release view "${boundaries_db_branch}" -R "${boundaries_db_repo}")
   then
