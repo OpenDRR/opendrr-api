@@ -586,11 +586,11 @@ import_census_boundaries() {
   CLEAN_UP opendrr-boundaries-db.dump
 
   # RUN run_psql Update_boundaries_table_clipped_hex.sql
-  # RUN run_psql Update_boundaries_table_clipped_hex_900913.sql
+  # RUN run_psql Update_boundaries_table_clipped_hex_3857.sql
   # RUN run_psql Update_boundaries_table_unclipped_hex.sql
-  # RUN run_psql Update_boundaries_table_unclipped_hex_900913.sql
+  # RUN run_psql Update_boundaries_table_unclipped_hex_3857.sql
   # RUN run_psql Update_boundaries_table_hexgrid_1km_union.sql
-  # RUN run_psql Update_boundaries_table_hexgrid_1km_union_900913.sql
+  # RUN run_psql Update_boundaries_table_hexgrid_1km_union_3857.sql
 }
 
 OBSOLETE_FALLBACK_build_census_boundaries_from_gpkg_files() {
@@ -776,13 +776,13 @@ generate_indicators() {
   RUN run_psql Create_MH_risk_sauid_prioritization_Canada.sql
   # RUN run_psql Create_MH_risk_sauid_ALL.sql
   RUN run_psql Create_hexgrid_physical_exposure_aggregation_area_proxy.sql
-  RUN run_psql Create_hexgrid_physical_exposure_aggregation_area_proxy_900913.sql
+  RUN run_psql Create_hexgrid_physical_exposure_aggregation_area_proxy_3857.sql
   # RUN run_psql Create_hexbin_physical_exposure_hexbin_aggregation_centroid.sql
   RUN run_psql Create_hexgrid_MH_risk_sauid_prioritization_aggregation_area.sql
-  RUN run_psql Create_hexgrid_MH_risk_sauid_prioritization_aggregation_area_900913.sql
+  RUN run_psql Create_hexgrid_MH_risk_sauid_prioritization_aggregation_area_3857.sql
   # RUN run_psql Create_hexbin_MH_risk_sauid_prioritization_aggregation_centroid.sql
   RUN run_psql Create_hexgrid_social_vulnerability_aggregation_area_proxy.sql
-  RUN run_psql Create_hexgrid_social_vulnerability_aggregation_area_proxy_900913.sql
+  RUN run_psql Create_hexgrid_social_vulnerability_aggregation_area_proxy_3857.sql
   # RUN run_psql Create_hexbin_social_vulnerability_aggregation_centroid.sql
 }
 
@@ -893,31 +893,31 @@ post_process_psra_tables() {
   RUN run_psql psra_6a.eqri_calculation_sa.sql
   RUN run_psql psra_6a1.eqri_calculation_csd.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_uc.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_uc_900913.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_900913.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_uc.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_uc_900913.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_900913.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_uc.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_uc_900913.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_900913.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_uc.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_uc_900913.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_900913.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_50km_uc.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_50km_uc_900913.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_50km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_100km_uc.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_100km_uc_900913.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_100km_uc_3857.sql
   RUN run_psql psra_6a3.Merge_eqri_calculations.sql
 
   RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_unclipped.sql
-  RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_unclipped_900913.sql
+  RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_unclipped_3857.sql
   RUN run_psql psra_7.Create_psra_national_hexgrid_clipped.sql
-  RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_900913.sql
+  RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_3857.sql
 }
 
 ############################################################################################
