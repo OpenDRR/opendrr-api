@@ -128,7 +128,7 @@ RUN() {
 # CLEAN_UP deletes downloaded data files after they have been imported
 # if ADD_DATA_REDUCE_DISK_USAGE is true.
 CLEAN_UP() {
-  [[ "${ADD_DATA_REDUCE_DISK_USAGE,,}" =~ ^(true|1|y|yes|on)$ ]] || return
+  [[ "${ADD_DATA_REDUCE_DISK_USAGE,,}" =~ ^(true|1|y|yes|on)$ ]] || return 0
 
   # TODO: 1. Reject "*"; 2. Use safe-rm
   for i in "${@}"; do
