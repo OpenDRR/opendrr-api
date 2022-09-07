@@ -25,6 +25,10 @@ ENV_VAR_LIST=(
   loadRiskDynamics loadSocialFabric
 )
 
+ADD_DATA_PRINT_FUNCNAME=${ADD_DATA_PRINT_FUNCNAME:-true}
+ADD_DATA_PRINT_LINENO=${ADD_DATA_PRINT_LINENO:-true}
+ADD_DATA_REDUCE_DISK_USAGE=${ADD_DATA_REDUCE_DISK_USAGE:-true}
+
 ############################################################################################
 ############    Define helper and utility functions                             ############
 ############################################################################################
@@ -119,7 +123,7 @@ RUN() {
 # CLEAN_UP deletes downloaded data files after they have been imported
 # if ADD_DATA_REDUCE_DISK_USAGE is true.
 CLEAN_UP() {
-  [[ "${ADD_DATA_REDUCE_DISK_USAGE,,}" =~ ^(true|1|y|yes|on)$ ]] || return
+  [[ "${ADD_DATA_REDUCE_DISK_USAGE,,}" =~ ^(true|1|y|yes|on)$ ]] || return 0
 
   # TODO: 1. Reject "*"; 2. Use safe-rm
   for i in "${@}"; do
