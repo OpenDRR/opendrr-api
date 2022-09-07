@@ -44,8 +44,7 @@ is_dry_run() {
 
 # LOG prints log message which hides secrets and preserves quoting
 LOG() {
-  local lineno
-  local funcname
+  local i lineno funcname
 
   # Print blank line before a new section
   [[ $# == 1 ]] && [[ "$1" =~ ^#{1,2}[[:space:]] ]] && echo
@@ -53,14 +52,14 @@ LOG() {
   if [[ "${ADD_DATA_PRINT_LINENO,,}" =~ ^(true|1|y|yes|on)$ ]] || \
      [[ "${ADD_DATA_PRINT_FUNCNAME,,}" =~ ^(true|1|y|yes|on)$ ]]
   then
-    local i=0
+    i=0
     while [[ "${FUNCNAME[i]}" =~ ^(LOG|RUN|INFO|WARN)$ ]]; do
       (( i += 1 ))
     done
     lineno=:${BASH_LINENO[i-1]}
     funcname=:${FUNCNAME[i]}
   fi
-  echo -n "[add_data$lineno$funcname]"
+  echo -n "[${0##*/}$lineno$funcname]"
 
   for i in "$@"; do
     # Hide secrets
@@ -473,10 +472,7 @@ import_census_boundaries() {
 
     for i in $(echo "${release_view}" | grep "^asset:	opendrr-boundaries\.sql" | cut -f2); do
       INFO "Downloading ${i}..."
-      RUN gh release download "${boundaries_branch}" -R "${repo}" \
-	--pattern "${i}" >/dev/null &
-      sleep 2
-      pv -d "$(pidof gh)" || :
+      RUN gh release download "${boundaries_branch}" -R "${repo}" --pattern "${i}"
     done
 
     if [[ -f opendrr-boundaries.sql.00 ]]; then
