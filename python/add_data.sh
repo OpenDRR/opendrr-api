@@ -7,6 +7,7 @@
 #
 # Main Authors: Drew Rotheram-Clarke <drew.rotheram-clarke@canada.ca>
 #               Joost van Ulden <joost.vanulden@canada.ca>
+#               Anthony Fok <anthony.fok@nrcan-rncan.gc.ca>
 
 trap : TERM INT
 set -e
@@ -456,14 +457,14 @@ read_github_token() {
 # from the OpenDRR/model-factory repository
 get_model_factory_scripts() {
   # TODO: Make this more robust
-  # curl -L -o model-factory.tar.gz https://github.com/OpenDRR/model-factory/archive/refs/tags/v1.4.3.tar.gz
-  # tar -xf model-factory.tar.gz
-  RUN git clone https://github.com/OpenDRR/model-factory.git --branch updates_july2022 --depth 1 || (cd model-factory ; RUN git pull)
+  curl -L -o model-factory.tar.gz https://github.com/OpenDRR/model-factory/archive/refs/tags/v1.4.3.tar.gz
+  tar -xf model-factory.tar.gz
+  # RUN git clone https://github.com/OpenDRR/model-factory.git --branch updates_june2022 --depth 1 || (cd model-factory ; RUN git pull)
 
   # Copy model-factory scripts to working directory
   # TODO: Find ways to keep these scripts in their place without copying them all to WORKDIR
-  # RUN cp model-factory-1.4.3/scripts/*.* .
-  RUN cp model-factory/scripts/*.* .
+  RUN cp model-factory-1.4.3/scripts/*.* .
+  # RUN cp model-factory/scripts/*.* .
   #rm -rf model-factory
 }
 
@@ -497,293 +498,6 @@ wait_for_postgres() {
   done
 }
 
-############################################################################################
-############    Define "Process Exposure and Ancillary Data" functions          ############
-############################################################################################
-
-import_census_boundaries() {
-  LOG "## Importing Census Boundaries (huge pre-populated database)"
-
-  INFO "Download opendrr-boundaries-db.7z.* (PostGIS database archive)"
-
-  local boundaries_db_repo="OpenDRR/boundaries-db"
-
-  # Git tag from which we want to fetch release assets, e.g. "v1.4.4-beta+20220913"
-  local boundaries_db_tag="v1.4.4-beta+20220913"
-
-  if release_view=$(gh release view "${boundaries_db_tag}" -R "${boundaries_db_repo}")
-  then
-    # For released version, we download from release assets
-    INFO "... from release assets of ${boundaries_db_repo} ${boundaries_db_tag}..."
-
-    # TODO: Avoid repeatedly downloading database dump if local files match checksum
-    # RUN gh release download "${boundaries_db_tag}" -R "${boundaries_db_repo}" \
-    #   --pattern "opendrr-boundaries-db.7z.sha256sum"
-
-    RUN gh release download "${boundaries_db_tag}" -R "${boundaries_db_repo}" \
-      --pattern "opendrr-boundaries-db.dump.sha256sum"
-
-    # TODO: Check if opendrr-boundaries-db.dump exists, and skip download if it matches checksum
-
-    for i in $(echo "${release_view}" | grep "^asset:	opendrr-boundaries-db\.7z" | cut -f2); do
-      INFO "Downloading ${i}..."
-      INFO "(This can be as fast as 5 minutes or as slow as 60 minutes!)"
-      RUN gh release download "${boundaries_db_tag}" -R "${boundaries_db_repo}" \
-	--pattern "${i}" >/dev/null &
-      sleep 2
-      pv -d "$(pidof gh)" || :
-    done
-
-  else
-    # TODO: Deprecated: we no longer download GitHub artifact. To be removed soon.
-    #
-    # For a feature/topic branch, we download the artifact from the latest
-    # action run that matches our criteria
-
-    INFO "... from artifact of ${boundaries_db_repo} ${boundaries_db_tag} GitHub Action run..."
-
-    run_id=$(gh run list -R "${boundaries_db_repo}" --limit 100 \
-      --json conclusion,databaseId,headBranch,name,status,workflowDatabaseId \
-      --jq "first(.[] \
-                | select( .headBranch == \"${boundaries_db_tag}\" and \
-                          .name == \"Upload database\" and \
-                          .status == \"completed\" and \
-                          .conclusion == \"success\")) \
-            | .databaseId")
-
-    [[ -n $run_id ]] || ERROR "Action run for '${boundaries_db_tag}' not found."
-
-    INFO "Downloading artifact opendrr-boundaries-db.zip from Run #${run_id}..."
-    INFO "(This can be as fast as 5 minutes or as slow as 60 minutes!)"
-    RUN gh run download -R "${boundaries_db_repo}" "${run_id}" \
-                        --name opendrr-boundaries-db &
-    sleep 2
-    pv -d "$(pidof gh)"
-    [[ -f opendrr-boundaries-db.7z.001 ]] || ERROR "Unable to download opendrr-boundaries-db.7z.*"
-  fi
-
-  # By this point, whether we downloaded from release assets or from artifact,
-  # we should have opendrr-boundaries-db.7z.00[1-9] and opendrr-boundaries-db.dump.sha256sum
-
-  RUN ls -l opendrr-boundaries-db.7z*
-
-  RUN 7zz x opendrr-boundaries-db.7z.001
-  RUN sha256sum -c opendrr-boundaries-db.dump.sha256sum
-
-  CLEAN_UP opendrr-boundaries-db.7z*
-
-  INFO "Import opendrr-boundaries-db.dump using pg_restore..."
-
-  # Note: Do not use "--create" which would activate the SQL command
-  #   CREATE DATABASE boundaries WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'English_United States.1252';
-  # inside opendrr-boundaries.sql (generated on Windows), leading to
-  #   error: invalid locale name: "English_United States.1252"
-  # in the Linux-based Docker image
-  RUN pg_restore -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" \
-    -j 8 --clean --if-exists --verbose opendrr-boundaries-db.dump
-
-  CLEAN_UP opendrr-boundaries-db.dump
-
-  # RUN run_psql Update_boundaries_table_clipped_hex.sql
-  # RUN run_psql Update_boundaries_table_clipped_hex_3857.sql
-  # RUN run_psql Update_boundaries_table_unclipped_hex.sql
-  # RUN run_psql Update_boundaries_table_unclipped_hex_3857.sql
-  # RUN run_psql Update_boundaries_table_hexgrid_1km_union.sql
-  # RUN run_psql Update_boundaries_table_hexgrid_1km_union_3857.sql
-}
-
-OBSOLETE_FALLBACK_build_census_boundaries_from_gpkg_files() {
-  WARN "Unable to fetch opendrr-boundaries.sql"
-  WARN "Fallback to fetching boundaries CSV files via Git LFS:"
-  RUN git clone https://github.com/OpenDRR/boundaries.git --depth 1 || (cd boundaries ; RUN git pull)
-
-  # Create boundaries schema geometry tables from default GeoPackage files
-  for i in ADAUID CANADA CDUID CSDUID DAUID ERUID FSAUID PRUID SAUID; do
-    RUN run_ogr2ogr "Geometry_$i"
-  done
-
-  for i in HexGrid_1km_AB HexGrid_1km_BC HexGrid_1km_MB HexGrid_1km_NB \
-      HexGrid_1km_NL HexGrid_1km_NS HexGrid_1km_NT HexGrid_1km_NU \
-      HexGrid_1km_ON HexGrid_1km_PE HexGrid_1km_QC HexGrid_1km_SK \
-      HexGrid_1km_YT \
-      HexGrid_5km HexGrid_10km HexGrid_25km \
-      HexGrid_GlobalFabric \
-      SAUID_HexGrid SAUID_HexGrid_1km_intersect SAUID_HexGrid_5km_intersect \
-      SAUID_HexGrid_10km_intersect SAUID_HexGrid_25km_intersect \
-      SAUID_HexGrid_50km_intersect SAUID_HexGrid_100km_intersect \
-      SAUID_HexGrid_GlobalFabric_intersect \
-      HexGrid_1km_AB_unclipped HexGrid_1km_BC_unclipped HexGrid_1km_MB_unclipped HexGrid_1km_NB_unclipped \
-      HexGrid_1km_NL_unclipped HexGrid_1km_NS_unclipped HexGrid_1km_NT_unclipped HexGrid_1km_NU_unclipped \
-      HexGrid_1km_ON_unclipped HexGrid_1km_PE_unclipped HexGrid_1km_QC_unclipped HexGrid_1km_SK_unclipped \
-      HexGrid_1km_YT_unclipped \
-      HexGrid_5km_unclipped HexGrid_10km_unclipped HexGrid_25km_unclipped HexGrid_50km_unclipped HexGrid_100km_unclipped \
-      SAUID_HexGrid_1km_intersect_unclipped SAUID_HexGrid_5km_intersect_unclipped \
-      SAUID_HexGrid_10km_intersect_unclipped SAUID_HexGrid_25km_intersect_unclipped \
-      SAUID_HexGrid_50km_intersect_unclipped SAUID_HexGrid_100km_intersect_unclipped
-  do
-    RUN run_ogr2ogr "hexbin_4326/$i"
-  done
-
-  CLEAN_UP boundaries/
-}
-
-download_physical_exposure_model() {
-  # Physical Exposure
-  LOG "## Downloading Physical Exposure Model"
-
-  RUN fetch_csv openquake-inputs \
-    exposure/general-building-stock/BldgExpRef_CA_master_v3p2.csv
-  RUN run_psql Create_table_canada_exposure.sql
-
-  # RUN fetch_csv model-inputs \
-  #   exposure/building-inventory/metro-vancouver/PhysExpRef_MetroVan_v4.csv
-  # RUN run_psql Create_table_canada_site_exposure_ste.sql
-}
-
-download_vs30_model() {
-  # VS30
-  LOG "## Downloading VS30 Model"
-
-  RUN fetch_csv openquake-inputs \
-    earthquake/sites/regions/vs30_CAN_site_model_xref.csv
-
-  RUN fetch_csv openquake-inputs \
-    earthquake/sites/regions/site-vgrid_CA.csv
-
-  # Correct CRLF
-  is_dry_run || sed -i 's/\r//g' /usr/src/app/site-vgrid_CA.csv
-
-  RUN run_psql Create_table_vs_30_CAN_site_model.sql
-  RUN run_psql Create_table_vs_30_CAN_site_model_xref.sql
-}
-
-download_census_data() {
-  # Census Data
-  LOG "## Downloading Census Data"
-
-  RUN fetch_csv openquake-inputs \
-    exposure/census-ref-sauid/census-attributes-2016.csv
-  RUN run_psql Create_table_2016_census_v3.sql
-}
-
-download_sovi() {
-  LOG "## Downloading Sovi"
-  # Need to source tables
-  # RUN fetch_csv openquake-inputs \
-  #   social-vulnerability/social-vulnerability-census.csv
-  # RUN fetch_csv openquake-inputs \
-  #   social-vulnerability/social-vulnerability-index.csv
-  # RUN fetch_csv openquake-inputs \
-  #   social-vulnerability/sovi_thresholds_2021.csv
-  RUN fetch_csv openquake-inputs \
-    social-vulnerability/sovi_sauid_nov2021.csv
-
-  # RUN run_psql Create_table_sovi_index_canada_v2.sql
-  # RUN run_psql Create_table_sovi_census_canada.sql
-  # RUN run_psql Create_table_sovi_thresholds.sql
-  RUN run_psql Create_table_sovi_sauid.sql
-}
-
-download_luts() {
-  LOG "## Downloading LUTs"
-  RUN fetch_csv openquake-inputs \
-    exposure/general-building-stock/1.%20documentation/collapse_probability.csv
-  RUN run_psql Create_collapse_probability_table.sql
-
-  # RUN fetch_csv canada-srm2 \
-  #   blob/tieg_natmodel2021/sourceTypes.csv
-  RUN fetch_csv canada-srm2 \
-    sourceTypes.csv?ref=master
-}
-
-download_retrofit_costs() {
-  LOG "## Downloading Retrofit Costs"
-  RUN fetch_csv openquake-inputs \
-    exposure/general-building-stock/1. documentation/retrofit_costs.csv
-  RUN run_psql Create_retrofit_costs_table.sql
-}
-
-download_import_ghsl() {
-  LOG "## Downloading GHSL"
-  RUN fetch_csv openquake-inputs \
-    natural-hazards/mh-intensity-ghsl.csv
-  RUN run_psql Create_table_GHSL.sql
-}
-
-download_mh_intensity() {
-  LOG "## Downloading MH Intensity"
-  RUN fetch_csv openquake-inputs \
-    natural-hazards/HTi_sauid.csv
-}
-
-download_hazard_threat_thresholds() {
-  LOG "## Downloading Hazard Threat Thresholds"
-  RUN fetch_csv openquake-inputs \
-    natural-hazards/HTi_thresholds.csv
-  RUN fetch_csv openquake-inputs \
-    natural-hazards/hazard_threat_rating_thresholds.csv
-}
-
-post_process_mh_tables() {
-  RUN run_psql Create_table_mh_intensity_canada_v2.sql
-  RUN run_psql Create_table_mh_thresholds.sql
-  RUN run_psql Create_table_mh_rating_thresholds.sql
-  # RUN run_psql Create_MH_risk_sauid_prioritization_prereq_tables.sql
-  # RUN run_psql Create_MH_risk_sauid_prioritization_Canada.sql
-  # RUN run_psql Create_MH_risk_sauid_ALL.sql
-}
-
-copy_ancillary_tables() {
-  LOG '## Import ancillary tables (Python script to run psql \copy)'
-  RUN python3 copyAncillaryTables.py
-
-  # Clean up the following files (read from copyAncillaryTables.py):
-  # - /usr/src/app/BldgExpRef_CA_master_v3p2.csv
-  # - /usr/src/app/PhysExpRef_MetroVan_v4.csv
-  # - /usr/src/app/site-vgrid_CA.csv
-  # - /usr/src/app/vs30_CAN_site_model_xref.csv
-  # - /usr/src/app/census-attributes-2016.csv
-  # - /usr/src/app/sovi_sauid_nov2021.csv
-  # - /usr/src/app/collapse_probability.csv
-  # - /usr/src/app/mh-intensity-ghsl.csv
-  # - /usr/src/app/HTi_sauid.csv
-  # - /usr/src/app/HTi_thresholds.csv
-  # - /usr/src/app/hazard_threat_rating_thresholds.csv
-  mapfile -t used_csv_files \
-    < <(grep 'open.*csv' copyAncillaryTables.py | \
-        sed -n 's/^ *with open("\/usr\/src\/app\/\(.*\)").*/\1/p')
-  CLEAN_UP "${used_csv_files[@]}"
-}
-
-post_process_all_tables_update() {
-  LOG "## Perform update operations on all tables after data copied into tables"
-  RUN run_psql Create_all_tables_update.sql
-  # RUN run_psql Create_site_exposure_to_building_and_sauid.sql
-  # RUN run_psql Create_table_vs_30_BC_CAN_model_update_site_exposure.sql
-}
-
-generate_indicators() {
-  LOG "## Generate Indicators"
-  RUN run_psql Create_physical_exposure_building_indicators_PhysicalExposure.sql
-  RUN run_psql Create_physical_exposure_sauid_indicators_view_PhysicalExposure.sql
-  # RUN run_psql Create_physical_exposure_building_indicators_PhysicalExposure_ste.sql
-  # RUN run_psql Create_physical_exposure_sauid_indicators_view_PhysicalExposure_ste.sql
-  # RUN run_psql Create_physical_exposure_site_level_indicators_PhysicalExposure_ste.sql
-  RUN run_psql Create_risk_dynamics_indicators.sql
-  RUN run_psql Create_social_vulnerability_sauid_indicators_SocialFabric.sql
-  RUN run_psql Create_MH_risk_sauid_prioritization_prereq_tables.sql
-  RUN run_psql Create_MH_risk_sauid_prioritization_Canada.sql
-  # RUN run_psql Create_MH_risk_sauid_ALL.sql
-  RUN run_psql Create_hexgrid_physical_exposure_aggregation_area_proxy.sql
-  RUN run_psql Create_hexgrid_physical_exposure_aggregation_area_proxy_3857.sql
-  # RUN run_psql Create_hexbin_physical_exposure_hexbin_aggregation_centroid.sql
-  RUN run_psql Create_hexgrid_MH_risk_sauid_prioritization_aggregation_area.sql
-  RUN run_psql Create_hexgrid_MH_risk_sauid_prioritization_aggregation_area_3857.sql
-  # RUN run_psql Create_hexbin_MH_risk_sauid_prioritization_aggregation_centroid.sql
-  RUN run_psql Create_hexgrid_social_vulnerability_aggregation_area_proxy.sql
-  RUN run_psql Create_hexgrid_social_vulnerability_aggregation_area_proxy_3857.sql
-  # RUN run_psql Create_hexbin_social_vulnerability_aggregation_centroid.sql
-}
 
 ############################################################################################
 ############    Define "Process PSRA" functions                                 ############
@@ -892,31 +606,19 @@ post_process_psra_tables() {
   RUN run_psql psra_6a.eqri_calculation_sa.sql
   RUN run_psql psra_6a1.eqri_calculation_csd.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_uc.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_uc.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_uc.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_uc.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_50km_uc.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_50km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_100km_uc.sql
-  RUN run_psql psra_6a2.eqri_calculation_hexgrid_100km_uc_3857.sql
   RUN run_psql psra_6a3.Merge_eqri_calculations.sql
 
   RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_unclipped.sql
-  RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_unclipped_3857.sql
   RUN run_psql psra_7.Create_psra_national_hexgrid_clipped.sql
-  RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_3857.sql
 }
 
 ############################################################################################
@@ -1189,21 +891,8 @@ main() {
   RUN set_synchronous_commit off
 
 
-  LOG "# Process Exposure and Ancillary Data"
-  RUN import_census_boundaries
-  RUN download_physical_exposure_model
-  RUN download_vs30_model
-  RUN download_census_data
-  RUN download_sovi
-  RUN download_luts
-  # RUN download_retrofit_costs
-  RUN download_import_ghsl
-  RUN download_mh_intensity
-  RUN download_hazard_threat_thresholds
-  RUN post_process_mh_tables
-  RUN copy_ancillary_tables
-  RUN post_process_all_tables_update
-  RUN generate_indicators
+  LOG "# Restore exposure and ancillary database"
+  RUN import_exposure_ancillary_db
 
   LOG "# Process PSRA"
   RUN import_raw_psra_tables
