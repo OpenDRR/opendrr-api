@@ -722,7 +722,7 @@ generate_indicators() {
 export_exposure_and_ancillary_db() {
     # pg_dump dbname > outfile
     RUN pg_dump -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" \
-    -j 8 --clean --if-exists --verbose opendrr-exposure-ancillary.sql
+    --clean --if-exists --verbose -Fc -Z 9 -f opendrr-exposure-ancillary.dump
 }
 
 ############################################################################################

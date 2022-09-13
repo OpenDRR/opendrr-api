@@ -497,6 +497,47 @@ wait_for_postgres() {
   done
 }
 
+# import_exposure_ancillary_db pulls postgres dump of exposure model
+# and base layers and restores to empty database
+import_exposure_ancillary_db() {
+  LOG "Download exposure and base layer database dump and restore \
+  to postgres"
+  INFO "Download opendrr-exposure-ancillary.dump  (PostGIS database archive)"
+
+  local repo="OpenDRR/opendrr-api"
+
+  local base_branch="v1.4.3"
+
+  if release_view=$(gh release view "${base_branch}" -R "${repo}"); then
+    # For released version, we download from release assets
+    INFO "... from release assets of ${repo} ${base_branch}..."
+
+    for i in $(echo "${release_view}" | grep "^asset:	opendrr-exposure-ancillary\.7z" | cut -f2); do
+      INFO "Downloading ${i}..."
+      RUN gh release download "${boundaries_branch}" -R "${repo}" --pattern "${i}"
+    done
+
+    if [[ -f opendrr-exposure-ancillary.7z.001 ]]; then
+      7zz e opendrr-exposure-ancillary.7z.001
+      # cat opendrr-exposure-ancillary.7z.[0-9][0-9] > opendrr-exposure-ancillary.dump
+    fi
+
+  # RUN ls -l opendrr-exposure-ancillary.dump*
+  # RUN sha256sum -c opendrr-exposure-ancillary.dump.sha256sum
+  CLEAN_UP opendrr-exposure-ancillary.7z.[0-9][0-9][0-9]
+
+  INFO "Import opendrr-exposure-ancillary.dump using pg_restore..."
+
+  # Note: Do not use "--create" which would activate the SQL command
+  #   CREATE DATABASE boundaries WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'English_United States.1252';
+  # inside opendrr-boundaries.sql (generated on Windows), leading to
+  #   error: invalid locale name: "English_United States.1252"
+  # in the Linux-based Docker image
+  RUN pg_restore -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" \
+    -j 8 --clean --if-exists --verbose opendrr-exposure-ancillary.dump
+
+  CLEAN_UP opendrr-exposure-ancillary.dump #opendrr-exposure-ancillary.dump.sha256sum
+}
 
 ############################################################################################
 ############    Define "Process PSRA" functions                                 ############
@@ -893,17 +934,24 @@ main() {
   LOG "# Restore exposure and ancillary database"
   RUN import_exposure_ancillary_db
 
-  LOG "# Process PSRA"
-  RUN import_raw_psra_tables
-  RUN post_process_psra_tables
+  if [[ $processPSRA = true ]]; then
+    LOG "# Processing PSRA"
+    RUN import_raw_psra_tables
+    RUN post_process_psra_tables
+  else :
+    LOG "# Omitting PSRA Processing"
+  fi
 
-  LOG "# Process DSRA"
-  RUN import_earthquake_scenarios
-  RUN import_shakemap
-  RUN import_rupture_model
-  RUN create_scenario_risk_master_tables
-  RUN create_database_check
-
+  if [[ $processDSRA = true ]]; then
+    LOG "# Process DSRA"
+    RUN import_earthquake_scenarios
+    RUN import_shakemap
+    RUN import_rupture_model
+    RUN create_scenario_risk_master_tables
+    RUN create_database_check
+  else :
+    LOG "# Omitting DSRA Processing"
+  fi
 
   LOG "# Import data from PostGIS to Elasticsearch"
   RUN export_to_elasticsearch
