@@ -567,8 +567,7 @@ import_census_boundaries() {
 
   RUN ls -l opendrr-boundaries-db.7z*
 
-  # TODO: Switch from 7zr ("p7zip" package) to 7zz ("7zip" package) once the latter is available
-  RUN 7zr x opendrr-boundaries-db.7z.001
+  RUN 7zz x opendrr-boundaries-db.7z.001
   RUN sha256sum -c opendrr-boundaries-db.dump.sha256sum
 
   CLEAN_UP opendrr-boundaries-db.7z*
