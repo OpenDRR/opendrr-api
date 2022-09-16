@@ -508,21 +508,19 @@ import_census_boundaries() {
 
   local boundaries_db_repo="OpenDRR/boundaries-db"
 
-  # Git branch or tag from which we want to fetch.  For example:
-  #  - "v1.4.4" (release assets)
-  #  - "main" (artifact, but may get disabled, see OpenDRR/boundaries-db for details.)
-  local boundaries_db_branch="v1.4.4-beta+20220831"
+  # Git tag from which we want to fetch release assets, e.g. "v1.4.4-beta+20220913"
+  local boundaries_db_tag="v1.4.4-beta+20220913"
 
-  if release_view=$(gh release view "${boundaries_db_branch}" -R "${boundaries_db_repo}")
+  if release_view=$(gh release view "${boundaries_db_tag}" -R "${boundaries_db_repo}")
   then
     # For released version, we download from release assets
-    INFO "... from release assets of ${boundaries_db_repo} ${boundaries_db_branch}..."
+    INFO "... from release assets of ${boundaries_db_repo} ${boundaries_db_tag}..."
 
     # TODO: Avoid repeatedly downloading database dump if local files match checksum
-    # RUN gh release download "${boundaries_db_branch}" -R "${boundaries_db_repo}" \
+    # RUN gh release download "${boundaries_db_tag}" -R "${boundaries_db_repo}" \
     #   --pattern "opendrr-boundaries-db.7z.sha256sum"
 
-    RUN gh release download "${boundaries_db_branch}" -R "${boundaries_db_repo}" \
+    RUN gh release download "${boundaries_db_tag}" -R "${boundaries_db_repo}" \
       --pattern "opendrr-boundaries-db.dump.sha256sum"
 
     # TODO: Check if opendrr-boundaries-db.dump exists, and skip download if it matches checksum
@@ -530,28 +528,30 @@ import_census_boundaries() {
     for i in $(echo "${release_view}" | grep "^asset:	opendrr-boundaries-db\.7z" | cut -f2); do
       INFO "Downloading ${i}..."
       INFO "(This can be as fast as 5 minutes or as slow as 60 minutes!)"
-      RUN gh release download "${boundaries_db_branch}" -R "${boundaries_db_repo}" \
+      RUN gh release download "${boundaries_db_tag}" -R "${boundaries_db_repo}" \
 	--pattern "${i}" >/dev/null &
       sleep 2
       pv -d "$(pidof gh)" || :
     done
 
   else
+    # TODO: Deprecated: we no longer download GitHub artifact. To be removed soon.
+    #
     # For a feature/topic branch, we download the artifact from the latest
     # action run that matches our criteria
 
-    INFO "... from artifact of ${boundaries_db_repo} ${boundaries_db_branch} GitHub Action run..."
+    INFO "... from artifact of ${boundaries_db_repo} ${boundaries_db_tag} GitHub Action run..."
 
     run_id=$(gh run list -R "${boundaries_db_repo}" --limit 100 \
       --json conclusion,databaseId,headBranch,name,status,workflowDatabaseId \
       --jq "first(.[] \
-                | select( .headBranch == \"${boundaries_db_branch}\" and \
+                | select( .headBranch == \"${boundaries_db_tag}\" and \
                           .name == \"Upload database\" and \
                           .status == \"completed\" and \
                           .conclusion == \"success\")) \
             | .databaseId")
 
-    [[ -n $run_id ]] || ERROR "Action run for '${boundaries_db_branch}' not found."
+    [[ -n $run_id ]] || ERROR "Action run for '${boundaries_db_tag}' not found."
 
     INFO "Downloading artifact opendrr-boundaries-db.zip from Run #${run_id}..."
     INFO "(This can be as fast as 5 minutes or as slow as 60 minutes!)"
