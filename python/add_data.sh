@@ -29,7 +29,7 @@ ADD_DATA_PRINT_FUNCNAME=${ADD_DATA_PRINT_FUNCNAME:-true}
 ADD_DATA_PRINT_LINENO=${ADD_DATA_PRINT_LINENO:-true}
 ADD_DATA_REDUCE_DISK_USAGE=${ADD_DATA_REDUCE_DISK_USAGE:-true}
 
-DSRA_REPOSITORY=https://github.com/OpenDRR/earthquake-scenarios/tree/master/FINISHED
+DSRA_REPOSITORY=https://github.com/DamonU2/DSRA-processing/FINISHED?ref=test-run
 
 PT_LIST=(AB BC MB NB NL NS NT NU ON PE QC SK YT)
 # PT_LIST=(AB MB NB NL NS NT NU ON PE QC SK YT)
@@ -476,13 +476,18 @@ get_git_lfs_pointers_of_csv_files() {
   rm -rf "$base_dir"
   mkdir -p "$base_dir"
   ( cd "$base_dir" && \
-    for repo in canada-srm2 model-inputs openquake-inputs earthquake-scenarios; do
+    for repo in canada-srm2 model-inputs openquake-inputs; do
       RUN git clone --filter=blob:none --no-checkout "https://${GITHUB_TOKEN}@github.com/OpenDRR/${repo}.git"
       is_dry_run || \
         ( cd $repo && \
           git sparse-checkout set '*.csv' && \
           GIT_LFS_SKIP_SMUDGE=1 git checkout )
     done
+    RUN git clone --filter=blob:none --no-checkout "https://${GITHUB_TOKEN}@github.com/DamonU2/DSRA-processing.git"
+      is_dry_run || \
+        ( cd $repo && \
+          git sparse-checkout set '*.csv' && \
+          GIT_LFS_SKIP_SMUDGE=1 git checkout )
   )
 }
 
@@ -521,6 +526,7 @@ import_exposure_ancillary_db() {
       7zz e opendrr-exposure-ancillary.7z.001
       # cat opendrr-exposure-ancillary.7z.[0-9][0-9] > opendrr-exposure-ancillary.dump
     fi
+  fi
 
   # RUN ls -l opendrr-exposure-ancillary.dump*
   # RUN sha256sum -c opendrr-exposure-ancillary.dump.sha256sum
@@ -536,7 +542,7 @@ import_exposure_ancillary_db() {
   RUN pg_restore -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" \
     -j 8 --clean --if-exists --verbose opendrr-exposure-ancillary.dump
 
-  CLEAN_UP opendrr-exposure-ancillary.dump #opendrr-exposure-ancillary.dump.sha256sum
+  CLEAN_UP opendrr-exposure-ancillary.dump
 }
 
 ############################################################################################
@@ -670,7 +676,7 @@ import_earthquake_scenarios() {
   RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
     --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
     -o FINISHED.json \
-    -L https://api.github.com/repos/OpenDRR/earthquake-scenarios/contents/FINISHED
+    -L https://api.github.com/repos/DamonU2/DSRA-processing/contents/FINISHED?ref=test-run
 
   # s_lossesbyasset_ACM6p5_Beaufort_r1_299_b.csv → ACM6p5_Beaufort
   RUN mapfile -t EQSCENARIO_LIST < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*(?=_r1)")' FINISHED.json)
@@ -680,7 +686,7 @@ import_earthquake_scenarios() {
 
   LOG "## Importing scenario outputs into PostGIS"
   for eqscenario in "${EQSCENARIO_LIST[@]}"; do
-    RUN python3 DSRA_outputs2postgres_lfs.py --dsraModelDir=$DSRA_REPOSITORY --columnsINI=DSRA_outputs2postgres.ini --eqScenario="$eqscenario"
+    RUN python3 DSRA_outputs2postgres_lfs.py --dsraModelDir=$DSRA_REPOSITORY --dsraModelDirBranch=test-run --columnsINI=DSRA_outputs2postgres.ini --eqScenario="$eqscenario"
   done
 }
 
@@ -694,7 +700,7 @@ import_shakemap() {
     RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
       --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
       -o "$shakemap_filename" \
-      -L "$shakemap"
+      -L "${shakemap}?ref=test-run"
     is_dry_run || DOWNLOAD_URL=$(jq -r '.download_url' "$shakemap_filename")
     LOG "$DOWNLOAD_URL"
     RUN curl -o "$shakemap_filename" \
@@ -731,7 +737,7 @@ import_shakemap() {
 
 import_rupture_model() {
 LOG "## Importing Rupture Model"
-RUN python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/OpenDRR/earthquake-scenarios/tree/master/ruptures"
+RUN python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/DamonU2/DSRA-processing" --dsraRuptureBranch='test-run'
 
 LOG "## Generating indicator views"
   for item in "${EQSCENARIO_LIST_LONGFORM[@]}"; do
