@@ -1,4 +1,4 @@
-FROM ghcr.io/opendrr/python-env:1.2.1
+FROM ghcr.io/opendrr/python-env:1.3.0
 
 LABEL maintainer="Joost van Ulden <joost.vanulden@canada.ca>" 
 
