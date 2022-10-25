@@ -629,7 +629,7 @@ download_luts() {
 
   # RUN fetch_csv canada-srm2 \
   #   blob/tieg_natmodel2021/sourceTypes.csv
-  RUN fetch_csv canada-srm2 \
+  RUN fetch_csv seismic-risk-model \
     sourceTypes.csv?ref=master
 }
 

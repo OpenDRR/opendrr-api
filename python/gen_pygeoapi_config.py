@@ -40,7 +40,7 @@ def main():
         k_version = k + "_" + version
         if k_version not in indices:
             print("REMOVING TEMPLATE ENTRY FOR: " + k_version)
-            del lyrs[k_version]
+            # del lyrs[k_version]
         else:
             # write in the ES endpoint configured in the config.ini
             new = lyrs[k]["providers"][0]["data"].replace(
