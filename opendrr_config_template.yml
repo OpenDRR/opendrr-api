@@ -2398,6 +2398,1799 @@ resources:
               data: ES_ENDPOINT/opendrr_dsra_sim9p0_cascadiainterfacebestfault_shakemap_hexgrid_1km_uc_INDEX_VERSION
               id_field: gridid_1
 
+    opendrr_dsra_acm4p9_capilano5_indicators_b:
+        type: collection
+        title: 
+            en: Capilano 4.9 Scenario (Point)
+            fr: Scénario de la faille Cascadia (Point)
+        description: 
+            en: Scenario for a magnitude 5.3 shallow crustal earthquake based on a 10 percent in 50 years seismic hazard deaggregation and on Cassidy et al. 2020 Georgia strait fault documented in their paper titled Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia.
+            fr: Scénario pour un séisme de la croûte terrestre peu profonde de magnitude 5,3 basé sur une désagrégation de l'aléa sismique de 10 % sur 50 ans et sur la faille du détroit de Géorgie de Cassidy et al. 2020 documentée dans leur article intitulé Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-128.4312, 48.3089, -117.8296, 52.8579]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm4p9_capilano5_indicators_b_INDEX_VERSION
+              id_field: Sauid
+    
+    opendrr_dsra_acm4p9_capilano5_indicators_s:
+        type: collection
+        title: 
+            en: Capilano 4.9 Scenario (Settlement Area)
+            fr: Scénario de la faille Cascadia (Zone de peuplement)
+        description: 
+            en: Scenario for a magnitude 5.3 shallow crustal earthquake based on a 10 percent in 50 years seismic hazard deaggregation and on Cassidy et al. 2020 Georgia strait fault documented in their paper titled Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia
+            fr: Scénario pour un séisme de la croûte terrestre peu profonde de magnitude 5,3 basé sur une désagrégation de l'aléa sismique de 10 % sur 50 ans et sur la faille du détroit de Géorgie de Cassidy et al. 2020 documentée dans leur article intitulé Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-128.4312, 48.3089, -117.8296, 52.8579]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm4p9_capilano5_indicators_s_INDEX_VERSION
+              id_field: Sauid
+
+    opendrr_dsra_acm4p9_capilano5_indicators_csd:
+        type: collection
+        title: 
+            en: Capilano 4.9 Scenario (Census Subdivision)
+            fr: Scénario de la faille Cascadia (Subdivision du recensement)
+        description: 
+            en: Scenario for a magnitude 5.3 shallow crustal earthquake based on a 10 percent in 50 years seismic hazard deaggregation and on Cassidy et al. 2020 Georgia strait fault documented in their paper titled Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia
+            fr: Scénario pour un séisme de la croûte terrestre peu profonde de magnitude 5,3 basé sur une désagrégation de l'aléa sismique de 10 % sur 50 ans et sur la faille du détroit de Géorgie de Cassidy et al. 2020 documentée dans leur article intitulé Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-128.4312, 48.3089, -117.8296, 52.8579]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm4p9_capilano5_indicators_csd_INDEX_VERSION
+              id_field: csduid
+
+    opendrr_dsra_acm4p9_capilano5_shakemap:
+        type: collection
+        title: 
+            en: Capilano 4.9 Scenario Shake Map
+            fr: Carte des secousses du scénario de la faille Cascadia
+        description: 
+            en: Scenario for a magnitude 5.3 shallow crustal earthquake based on a 10 percent in 50 years seismic hazard deaggregation and on Cassidy et al. 2020 Georgia strait fault documented in their paper titled Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia
+            fr: Scénario pour un séisme de la croûte terrestre peu profonde de magnitude 5,3 basé sur une désagrégation de l'aléa sismique de 10 % sur 50 ans et sur la faille du détroit de Géorgie de Cassidy et al. 2020 documentée dans leur article intitulé Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-128.4312, 48.3089, -117.8296, 52.8579]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm4p9_capilano5_shakemap_INDEX_VERSION
+              id_field: SiteID
+
+    opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_100km_uc:
+        type: collection
+        title: 
+            en: Capilano 4.9 Scenario Shake Map 100km Hexbin (Unclipped)
+            fr: Carte des secousses du scénario de la faille Cascadia à 100km d'hexagone (Non décolletés)
+        description: 
+            en: Scenario for a magnitude 5.3 shallow crustal earthquake based on a 10 percent in 50 years seismic hazard deaggregation and on Cassidy et al. 2020 Georgia strait fault documented in their paper titled Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia
+            fr: Scénario pour un séisme de la croûte terrestre peu profonde de magnitude 5,3 basé sur une désagrégation de l'aléa sismique de 10 % sur 50 ans et sur la faille du détroit de Géorgie de Cassidy et al. 2020 documentée dans leur article intitulé Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-128.4312, 48.3089, -117.8296, 52.8579]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_100km_uc_INDEX_VERSION
+              id_field: gridid_100
+
+    opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_10km:
+        type: collection
+        title: 
+            en: Capilano 4.9 Scenario Shake Map 10km Hexbin
+            fr: Carte des secousses du scénario de la faille Cascadia à 10km d'hexagone
+        description: 
+            en: Scenario for a magnitude 5.3 shallow crustal earthquake based on a 10 percent in 50 years seismic hazard deaggregation and on Cassidy et al. 2020 Georgia strait fault documented in their paper titled Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia
+            fr: Scénario pour un séisme de la croûte terrestre peu profonde de magnitude 5,3 basé sur une désagrégation de l'aléa sismique de 10 % sur 50 ans et sur la faille du détroit de Géorgie de Cassidy et al. 2020 documentée dans leur article intitulé Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-128.4312, 48.3089, -117.8296, 52.8579]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_10km_INDEX_VERSION
+              id_field: gridid_10
+
+    opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_10km_uc:
+        type: collection
+        title: 
+            en: Capilano 4.9 Scenario Shake Map 10km Hexbin (Unclipped)
+            fr: Carte des secousses du scénario de la faille Cascadia à 10km d'hexagone (Non décolletés)
+        description: 
+            en: Scenario for a magnitude 5.3 shallow crustal earthquake based on a 10 percent in 50 years seismic hazard deaggregation and on Cassidy et al. 2020 Georgia strait fault documented in their paper titled Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia
+            fr: Scénario pour un séisme de la croûte terrestre peu profonde de magnitude 5,3 basé sur une désagrégation de l'aléa sismique de 10 % sur 50 ans et sur la faille du détroit de Géorgie de Cassidy et al. 2020 documentée dans leur article intitulé Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-128.4312, 48.3089, -117.8296, 52.8579]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_10km_uc_INDEX_VERSION
+              id_field: gridid_10
+    
+    opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_25km:
+        type: collection
+        title: 
+            en: Capilano 4.9 Scenario Shake Map 25km Hexbin
+            fr: Carte des secousses du scénario de la faille Cascadia à 25km d'hexagone
+        description: 
+            en: Scenario for a magnitude 5.3 shallow crustal earthquake based on a 10 percent in 50 years seismic hazard deaggregation and on Cassidy et al. 2020 Georgia strait fault documented in their paper titled Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia
+            fr: Scénario pour un séisme de la croûte terrestre peu profonde de magnitude 5,3 basé sur une désagrégation de l'aléa sismique de 10 % sur 50 ans et sur la faille du détroit de Géorgie de Cassidy et al. 2020 documentée dans leur article intitulé Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-128.4312, 48.3089, -117.8296, 52.8579]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_25km_INDEX_VERSION
+              id_field: gridid_25
+
+    opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_25km_uc:
+        type: collection
+        title: 
+            en: Capilano 4.9 Scenario Shake Map 25km Hexbin (Unclipped)
+            fr: Carte des secousses du scénario de la faille Cascadia à 25km d'hexagone (Non décolletés)
+        description: 
+            en: Scenario for a magnitude 5.3 shallow crustal earthquake based on a 10 percent in 50 years seismic hazard deaggregation and on Cassidy et al. 2020 Georgia strait fault documented in their paper titled Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia
+            fr: Scénario pour un séisme de la croûte terrestre peu profonde de magnitude 5,3 basé sur une désagrégation de l'aléa sismique de 10 % sur 50 ans et sur la faille du détroit de Géorgie de Cassidy et al. 2020 documentée dans leur article intitulé Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-128.4312, 48.3089, -117.8296, 52.8579]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_25km_uc_INDEX_VERSION
+              id_field: gridid_25
+
+    opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_50km_uc:
+        type: collection
+        title: 
+            en: Capilano 4.9 Scenario Shake Map 50km Hexbin (Unclipped)
+            fr: Carte des secousses du scénario de la faille Cascadia à 50km d'hexagone (Non décolletés)
+        description: 
+            en: Scenario for a magnitude 5.3 shallow crustal earthquake based on a 10 percent in 50 years seismic hazard deaggregation and on Cassidy et al. 2020 Georgia strait fault documented in their paper titled Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia
+            fr: Scénario pour un séisme de la croûte terrestre peu profonde de magnitude 5,3 basé sur une désagrégation de l'aléa sismique de 10 % sur 50 ans et sur la faille du détroit de Géorgie de Cassidy et al. 2020 documentée dans leur article intitulé Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-128.4312, 48.3089, -117.8296, 52.8579]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_50km_uc_INDEX_VERSION
+              id_field: gridid_50
+    
+    opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_5km:
+        type: collection
+        title: 
+            en: Capilano 4.9 Scenario Shake Map 5km Hexbin
+            fr: Carte des secousses du scénario de la faille Cascadia à 5km d'hexagone
+        description: 
+            en: Scenario for a magnitude 5.3 shallow crustal earthquake based on a 10 percent in 50 years seismic hazard deaggregation and on Cassidy et al. 2020 Georgia strait fault documented in their paper titled Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia
+            fr: Scénario pour un séisme de la croûte terrestre peu profonde de magnitude 5,3 basé sur une désagrégation de l'aléa sismique de 10 % sur 50 ans et sur la faille du détroit de Géorgie de Cassidy et al. 2020 documentée dans leur article intitulé Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-128.4312, 48.3089, -117.8296, 52.8579]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_5km_INDEX_VERSION
+              id_field: gridid_5
+
+    opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_5km_uc:
+        type: collection
+        title: 
+            en: Capilano 4.9 Scenario Shake Map 5km Hexbin (Unclipped)
+            fr: Carte des secousses du scénario de la faille Cascadia à 5km d'hexagone (Non décolletés)
+        description: 
+            en: Scenario for a magnitude 5.3 shallow crustal earthquake based on a 10 percent in 50 years seismic hazard deaggregation and on Cassidy et al. 2020 Georgia strait fault documented in their paper titled Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia
+            fr: Scénario pour un séisme de la croûte terrestre peu profonde de magnitude 5,3 basé sur une désagrégation de l'aléa sismique de 10 % sur 50 ans et sur la faille du détroit de Géorgie de Cassidy et al. 2020 documentée dans leur article intitulé Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-128.4312, 48.3089, -117.8296, 52.8579]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_5km_uc_INDEX_VERSION
+              id_field: gridid_5
+
+    opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_1km:
+        type: collection
+        title: 
+            en: Capilano 4.9 Scenario Shake Map 1km Hexbin
+            fr: Carte des secousses du scénario de la faille Cascadia à 1km d'hexagone
+        description: 
+            en: Scenario for a magnitude 5.3 shallow crustal earthquake based on a 10 percent in 50 years seismic hazard deaggregation and on Cassidy et al. 2020 Georgia strait fault documented in their paper titled Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia
+            fr: Scénario pour un séisme de la croûte terrestre peu profonde de magnitude 5,3 basé sur une désagrégation de l'aléa sismique de 10 % sur 50 ans et sur la faille du détroit de Géorgie de Cassidy et al. 2020 documentée dans leur article intitulé Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-128.4312, 48.3089, -117.8296, 52.8579]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_1km_INDEX_VERSION
+              id_field: gridid_1
+
+    opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_1km_uc:
+        type: collection
+        title: 
+            en: Capilano 4.9 Scenario Shake Map 1km Hexbin (Unclipped)
+            fr: Carte des secousses du scénario de la faille Cascadia à 1km d'hexagone (Non décolletés)
+        description: 
+            en: Scenario for a magnitude 5.3 shallow crustal earthquake based on a 10 percent in 50 years seismic hazard deaggregation and on Cassidy et al. 2020 Georgia strait fault documented in their paper titled Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia
+            fr: Scénario pour un séisme de la croûte terrestre peu profonde de magnitude 5,3 basé sur une désagrégation de l'aléa sismique de 10 % sur 50 ans et sur la faille du détroit de Géorgie de Cassidy et al. 2020 documentée dans leur article intitulé Characterization of Active Faulting Beneath the Strait of Georgia, British Columbia.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-128.4312, 48.3089, -117.8296, 52.8579]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm4p9_capilano5_shakemap_hexgrid_1km_uc_INDEX_VERSION
+              id_field: gridid_1
+
+    opendrr_dsra_acm7p4_burwashlanding_indicators_b:
+        type: collection
+        title: 
+            en: Burwash Landing 7.4 Scenario (Point)
+            fr: Débarcadère de Burwash 7.4 Scénario (Point)
+        description: 
+            en: Magnitude 7.4 rupture along the Denali Fault based on 10 percent in 50 years deaggregation and based on kinematics documented by Bostwick 1984 in their paper titled A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints based on paper by Wang et al 2015 titled Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+            fr: Rupture de magnitude 7,4 le long de la faille Denali basée sur une désagrégation de 10 % en 50 ans et sur la cinématique documentée par Bostwick 1984 dans leur article intitulé A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints basé sur l'article de Wang et al 2015 intitulé Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-140.9756, 60.0000, -131.1833, 64.6745]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm7p4_burwashlanding_indicators_b_INDEX_VERSION
+              id_field: Sauid
+    
+    opendrr_dsra_acm7p4_burwashlanding_indicators_s:
+        type: collection
+        title: 
+            en: Burwash Landing 7.4 Scenario (Settlement Area)
+            fr: Débarcadère de Burwash 7.4 Scénario (Zone de peuplement)
+        description: 
+            en: Magnitude 7.4 rupture along the Denali Fault based on 10 percent in 50 years deaggregation and based on kinematics documented by Bostwick 1984 in their paper titled A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints based on paper by Wang et al 2015 titled Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+            fr: Rupture de magnitude 7,4 le long de la faille Denali basée sur une désagrégation de 10 % en 50 ans et sur la cinématique documentée par Bostwick 1984 dans leur article intitulé A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints basé sur l'article de Wang et al 2015 intitulé Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-140.9756, 60.0000, -131.1833, 64.6745]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm7p4_burwashlanding_indicators_s_INDEX_VERSION
+              id_field: Sauid
+
+    opendrr_dsra_acm7p4_burwashlanding_indicators_csd:
+        type: collection
+        title: 
+            en: Burwash Landing 7.4 Scenario (Census Subdivision)
+            fr: Débarcadère de Burwash 7.4 Scénario (Subdivision du recensement)
+        description: 
+            en: Magnitude 7.4 rupture along the Denali Fault based on 10 percent in 50 years deaggregation and based on kinematics documented by Bostwick 1984 in their paper titled A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints based on paper by Wang et al 2015 titled Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+            fr: Rupture de magnitude 7,4 le long de la faille Denali basée sur une désagrégation de 10 % en 50 ans et sur la cinématique documentée par Bostwick 1984 dans leur article intitulé A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints basé sur l'article de Wang et al 2015 intitulé Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-140.9756, 60.0000, -131.1833, 64.6745]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm7p4_burwashlanding_indicators_csd_INDEX_VERSION
+              id_field: csduid
+
+    opendrr_dsra_acm7p4_burwashlanding_shakemap:
+        type: collection
+        title: 
+            en: Burwash Landing 7.4 Scenario Shake Map
+            fr: Carte des secousses du Débarcadère de Burwash 7.4 Scénario
+        description: 
+            en: Magnitude 7.4 rupture along the Denali Fault based on 10 percent in 50 years deaggregation and based on kinematics documented by Bostwick 1984 in their paper titled A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints based on paper by Wang et al 2015 titled Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+            fr: Rupture de magnitude 7,4 le long de la faille Denali basée sur une désagrégation de 10 % en 50 ans et sur la cinématique documentée par Bostwick 1984 dans leur article intitulé A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints basé sur l'article de Wang et al 2015 intitulé Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-140.9756, 60.0000, -131.1833, 64.6745]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm7p4_burwashlanding_shakemap_INDEX_VERSION
+              id_field: SiteID
+
+    opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_100km_uc:
+        type: collection
+        title: 
+            en: Burwash Landing 7.4 Scenario Shake Map 100km Hexbin (Unclipped)
+            fr: Carte des secousses du Débarcadère de Burwash 7.4 Scénario à 100km d'hexagone (Non décolletés)
+        description: 
+            en: Magnitude 7.4 rupture along the Denali Fault based on 10 percent in 50 years deaggregation and based on kinematics documented by Bostwick 1984 in their paper titled A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints based on paper by Wang et al 2015 titled Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+            fr: Rupture de magnitude 7,4 le long de la faille Denali basée sur une désagrégation de 10 % en 50 ans et sur la cinématique documentée par Bostwick 1984 dans leur article intitulé A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints basé sur l'article de Wang et al 2015 intitulé Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-140.9756, 60.0000, -131.1833, 64.6745]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_100km_uc_INDEX_VERSION
+              id_field: gridid_100
+
+    opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_10km:
+        type: collection
+        title: 
+            en: Burwash Landing 7.4 Scenario Shake Map 10km Hexbin
+            fr: Carte des secousses du Débarcadère de Burwash 7.4 Scénario à 10km d'hexagone
+        description: 
+            en: Magnitude 7.4 rupture along the Denali Fault based on 10 percent in 50 years deaggregation and based on kinematics documented by Bostwick 1984 in their paper titled A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints based on paper by Wang et al 2015 titled Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+            fr: Rupture de magnitude 7,4 le long de la faille Denali basée sur une désagrégation de 10 % en 50 ans et sur la cinématique documentée par Bostwick 1984 dans leur article intitulé A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints basé sur l'article de Wang et al 2015 intitulé Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-140.9756, 60.0000, -131.1833, 64.6745]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_10km_INDEX_VERSION
+              id_field: gridid_10
+
+    opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_10km_uc:
+        type: collection
+        title: 
+            en: Burwash Landing 7.4 Scenario Shake Map 10km Hexbin (Unclipped)
+            fr: Carte des secousses du Débarcadère de Burwash 7.4 Scénario à 10km d'hexagone (Non décolletés)
+        description: 
+            en: Magnitude 7.4 rupture along the Denali Fault based on 10 percent in 50 years deaggregation and based on kinematics documented by Bostwick 1984 in their paper titled A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints based on paper by Wang et al 2015 titled Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+            fr: Rupture de magnitude 7,4 le long de la faille Denali basée sur une désagrégation de 10 % en 50 ans et sur la cinématique documentée par Bostwick 1984 dans leur article intitulé A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints basé sur l'article de Wang et al 2015 intitulé Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-140.9756, 60.0000, -131.1833, 64.6745]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_10km_uc_INDEX_VERSION
+              id_field: gridid_10
+    
+    opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_25km:
+        type: collection
+        title: 
+            en: Burwash Landing 7.4 Scenario Shake Map 25km Hexbin
+            fr: Carte des secousses du Débarcadère de Burwash 7.4 Scénario à 25km d'hexagone
+        description: 
+            en: Magnitude 7.4 rupture along the Denali Fault based on 10 percent in 50 years deaggregation and based on kinematics documented by Bostwick 1984 in their paper titled A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints based on paper by Wang et al 2015 titled Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+            fr: Rupture de magnitude 7,4 le long de la faille Denali basée sur une désagrégation de 10 % en 50 ans et sur la cinématique documentée par Bostwick 1984 dans leur article intitulé A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints basé sur l'article de Wang et al 2015 intitulé Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-140.9756, 60.0000, -131.1833, 64.6745]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_25km_INDEX_VERSION
+              id_field: gridid_25
+
+    opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_25km_uc:
+        type: collection
+        title: 
+            en: Burwash Landing 7.4 Scenario Shake Map 25km Hexbin (Unclipped)
+            fr: Carte des secousses du Débarcadère de Burwash 7.4 Scénario à 25km d'hexagone (Non décolletés)
+        description: 
+            en: Magnitude 7.4 rupture along the Denali Fault based on 10 percent in 50 years deaggregation and based on kinematics documented by Bostwick 1984 in their paper titled A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints based on paper by Wang et al 2015 titled Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+            fr: Rupture de magnitude 7,4 le long de la faille Denali basée sur une désagrégation de 10 % en 50 ans et sur la cinématique documentée par Bostwick 1984 dans leur article intitulé A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints basé sur l'article de Wang et al 2015 intitulé Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-140.9756, 60.0000, -131.1833, 64.6745]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_25km_uc_INDEX_VERSION
+              id_field: gridid_25
+
+    opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_50km_uc:
+        type: collection
+        title: 
+            en: Burwash Landing 7.4 Scenario Shake Map 50km Hexbin (Unclipped)
+            fr: Carte des secousses du Débarcadère de Burwash 7.4 Scénario à 50km d'hexagone (Non décolletés)
+        description: 
+            en: Magnitude 7.4 rupture along the Denali Fault based on 10 percent in 50 years deaggregation and based on kinematics documented by Bostwick 1984 in their paper titled A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints based on paper by Wang et al 2015 titled Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+            fr: Rupture de magnitude 7,4 le long de la faille Denali basée sur une désagrégation de 10 % en 50 ans et sur la cinématique documentée par Bostwick 1984 dans leur article intitulé A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints basé sur l'article de Wang et al 2015 intitulé Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-140.9756, 60.0000, -131.1833, 64.6745]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_50km_uc_INDEX_VERSION
+              id_field: gridid_50
+    
+    opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_5km:
+        type: collection
+        title: 
+            en: Burwash Landing 7.4 Scenario Shake Map 5km Hexbin
+            fr: Carte des secousses du Débarcadère de Burwash 7.4 Scénario à 5km d'hexagone
+        description: 
+            en: Magnitude 7.4 rupture along the Denali Fault based on 10 percent in 50 years deaggregation and based on kinematics documented by Bostwick 1984 in their paper titled A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints based on paper by Wang et al 2015 titled Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+            fr: Rupture de magnitude 7,4 le long de la faille Denali basée sur une désagrégation de 10 % en 50 ans et sur la cinématique documentée par Bostwick 1984 dans leur article intitulé A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints basé sur l'article de Wang et al 2015 intitulé Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-140.9756, 60.0000, -131.1833, 64.6745]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_5km_INDEX_VERSION
+              id_field: gridid_5
+
+    opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_5km_uc:
+        type: collection
+        title: 
+            en: Burwash Landing 7.4 Scenario Shake Map 5km Hexbin (Unclipped)
+            fr: Carte des secousses du Débarcadère de Burwash 7.4 Scénario à 5km d'hexagone (Non décolletés)
+        description: 
+            en: Magnitude 7.4 rupture along the Denali Fault based on 10 percent in 50 years deaggregation and based on kinematics documented by Bostwick 1984 in their paper titled A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints based on paper by Wang et al 2015 titled Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+            fr: Rupture de magnitude 7,4 le long de la faille Denali basée sur une désagrégation de 10 % en 50 ans et sur la cinématique documentée par Bostwick 1984 dans leur article intitulé A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints basé sur l'article de Wang et al 2015 intitulé Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-140.9756, 60.0000, -131.1833, 64.6745]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_5km_uc_INDEX_VERSION
+              id_field: gridid_5
+
+    opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_1km:
+        type: collection
+        title: 
+            en: Burwash Landing 7.4 Scenario Shake Map 1km Hexbin
+            fr: Carte des secousses du Débarcadère de Burwash 7.4 Scénario à 1km d'hexagone
+        description: 
+            en: Magnitude 7.4 rupture along the Denali Fault based on 10 percent in 50 years deaggregation and based on kinematics documented by Bostwick 1984 in their paper titled A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints based on paper by Wang et al 2015 titled Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+            fr: Rupture de magnitude 7,4 le long de la faille Denali basée sur une désagrégation de 10 % en 50 ans et sur la cinématique documentée par Bostwick 1984 dans leur article intitulé A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints basé sur l'article de Wang et al 2015 intitulé Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-140.9756, 60.0000, -131.1833, 64.6745]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_1km_INDEX_VERSION
+              id_field: gridid_1
+
+    opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_1km_uc:
+        type: collection
+        title: 
+            en: Burwash Landing 7.4 Scenario Shake Map 1km Hexbin (Unclipped)
+            fr: Carte des secousses du Débarcadère de Burwash 7.4 Scénario à 1km d'hexagone (Non décolletés)
+        description: 
+            en: Magnitude 7.4 rupture along the Denali Fault based on 10 percent in 50 years deaggregation and based on kinematics documented by Bostwick 1984 in their paper titled A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints based on paper by Wang et al 2015 titled Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+            fr: Rupture de magnitude 7,4 le long de la faille Denali basée sur une désagrégation de 10 % en 50 ans et sur la cinématique documentée par Bostwick 1984 dans leur article intitulé A re-examination of the August 22, 1949 Queen Charlotte earthquake and depth constraints basé sur l'article de Wang et al 2015 intitulé Thermal Condition of the 27 October 2012 Mw 7.8 Haida Gwaii Subduction Earthquake at the Obliquely Convergent Queen Charlotte Margin.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-140.9756, 60.0000, -131.1833, 64.6745]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_acm7p4_burwashlanding_shakemap_hexgrid_1km_uc_INDEX_VERSION
+              id_field: gridid_1
+
+    opendrr_dsra_scm5p0_montreal_indicators_b:
+        type: collection
+        title: 
+            en: Montreal 5.0 Scenario (Point)
+            fr: Scénario de Montréal 5.0 (Point)
+        description: 
+            en: Montreal City scenario using the 1732 EQ epicentre, and assuming oblique-reverse slip on a rupture plane parallel to the Ile Bizard or Rapide-du-Cheval Blanc faults under current stress field based on slip tendency analysis by Rimando and Peace 2021
+            fr: Scénario de la ville de Montréal utilisant l'épicentre de 1732 EQ, et supposant un glissement oblique-inverse sur un plan de rupture parallèle aux failles de l'Ile Bizard ou du Rapide-du-Cheval Blanc dans un champ de contraintes actuel basé sur l'analyse de la tendance au glissement de Rimando et Peace 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-81.3056, 42.7876, -66.6002, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p0_montreal_indicators_b_INDEX_VERSION
+              id_field: Sauid
+    
+    opendrr_dsra_scm5p0_montreal_indicators_s:
+        type: collection
+        title: 
+            en: Montreal 5.0 Scenario (Settlement Area)
+            fr: Scénario de Montréal 5.0 (Zone de peuplement)
+        description: 
+            en: Montreal City scenario using the 1732 EQ epicentre, and assuming oblique-reverse slip on a rupture plane parallel to the Ile Bizard or Rapide-du-Cheval Blanc faults under current stress field based on slip tendency analysis by Rimando and Peace 2021
+            fr: Scénario de la ville de Montréal utilisant l'épicentre de 1732 EQ, et supposant un glissement oblique-inverse sur un plan de rupture parallèle aux failles de l'Ile Bizard ou du Rapide-du-Cheval Blanc dans un champ de contraintes actuel basé sur l'analyse de la tendance au glissement de Rimando et Peace 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-81.3056, 42.7876, -66.6002, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p0_montreal_indicators_s_INDEX_VERSION
+              id_field: Sauid
+
+    opendrr_dsra_scm5p0_montreal_indicators_csd:
+        type: collection
+        title: 
+            en: Montreal 5.0 Scenario (Census Subdivision)
+            fr: Scénario de Montréal 5.0 (Subdivision du recensement)
+        description: 
+            en: Montreal City scenario using the 1732 EQ epicentre, and assuming oblique-reverse slip on a rupture plane parallel to the Ile Bizard or Rapide-du-Cheval Blanc faults under current stress field based on slip tendency analysis by Rimando and Peace 2021
+            fr: Scénario de la ville de Montréal utilisant l'épicentre de 1732 EQ, et supposant un glissement oblique-inverse sur un plan de rupture parallèle aux failles de l'Ile Bizard ou du Rapide-du-Cheval Blanc dans un champ de contraintes actuel basé sur l'analyse de la tendance au glissement de Rimando et Peace 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-81.3056, 42.7876, -66.6002, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p0_montreal_indicators_csd_INDEX_VERSION
+              id_field: csduid
+
+    opendrr_dsra_scm5p0_montreal_shakemap:
+        type: collection
+        title: 
+            en: Montreal 5.0 Scenario Shake Map
+            fr: Carte des secousses du Scénario de Montréal 5.0
+        description: 
+            en: Montreal City scenario using the 1732 EQ epicentre, and assuming oblique-reverse slip on a rupture plane parallel to the Ile Bizard or Rapide-du-Cheval Blanc faults under current stress field based on slip tendency analysis by Rimando and Peace 2021
+            fr: Scénario de la ville de Montréal utilisant l'épicentre de 1732 EQ, et supposant un glissement oblique-inverse sur un plan de rupture parallèle aux failles de l'Ile Bizard ou du Rapide-du-Cheval Blanc dans un champ de contraintes actuel basé sur l'analyse de la tendance au glissement de Rimando et Peace 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-81.3056, 42.7876, -66.6002, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p0_montreal_shakemap_INDEX_VERSION
+              id_field: SiteID
+
+    opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_100km_uc:
+        type: collection
+        title: 
+            en: Montreal 5.0 Scenario Shake Map 100km Hexbin (Unclipped)
+            fr: Carte des secousses du Scénario de Montréal 5.0 à 100km d'hexagone (Non décolletés)
+        description: 
+            en: Montreal City scenario using the 1732 EQ epicentre, and assuming oblique-reverse slip on a rupture plane parallel to the Ile Bizard or Rapide-du-Cheval Blanc faults under current stress field based on slip tendency analysis by Rimando and Peace 2021
+            fr: Scénario de la ville de Montréal utilisant l'épicentre de 1732 EQ, et supposant un glissement oblique-inverse sur un plan de rupture parallèle aux failles de l'Ile Bizard ou du Rapide-du-Cheval Blanc dans un champ de contraintes actuel basé sur l'analyse de la tendance au glissement de Rimando et Peace 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-81.3056, 42.7876, -66.6002, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_100km_uc_INDEX_VERSION
+              id_field: gridid_100
+
+    opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_10km:
+        type: collection
+        title: 
+            en: Montreal 5.0 Scenario Shake Map 10km Hexbin
+            fr: Carte des secousses du Scénario de Montréal 5.0 à 10km d'hexagone
+        description: 
+            en: Montreal City scenario using the 1732 EQ epicentre, and assuming oblique-reverse slip on a rupture plane parallel to the Ile Bizard or Rapide-du-Cheval Blanc faults under current stress field based on slip tendency analysis by Rimando and Peace 2021
+            fr: Scénario de la ville de Montréal utilisant l'épicentre de 1732 EQ, et supposant un glissement oblique-inverse sur un plan de rupture parallèle aux failles de l'Ile Bizard ou du Rapide-du-Cheval Blanc dans un champ de contraintes actuel basé sur l'analyse de la tendance au glissement de Rimando et Peace 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-81.3056, 42.7876, -66.6002, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_10km_INDEX_VERSION
+              id_field: gridid_10
+
+    opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_10km_uc:
+        type: collection
+        title: 
+            en: Montreal 5.0 Scenario Shake Map 10km Hexbin (Unclipped)
+            fr: Carte des secousses du Scénario de Montréal 5.0 à 10km d'hexagone (Non décolletés)
+        description: 
+            en: Montreal City scenario using the 1732 EQ epicentre, and assuming oblique-reverse slip on a rupture plane parallel to the Ile Bizard or Rapide-du-Cheval Blanc faults under current stress field based on slip tendency analysis by Rimando and Peace 2021
+            fr: Scénario de la ville de Montréal utilisant l'épicentre de 1732 EQ, et supposant un glissement oblique-inverse sur un plan de rupture parallèle aux failles de l'Ile Bizard ou du Rapide-du-Cheval Blanc dans un champ de contraintes actuel basé sur l'analyse de la tendance au glissement de Rimando et Peace 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-81.3056, 42.7876, -66.6002, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_10km_uc_INDEX_VERSION
+              id_field: gridid_10
+    
+    opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_25km:
+        type: collection
+        title: 
+            en: Montreal 5.0 Scenario Shake Map 25km Hexbin
+            fr: Carte des secousses du Scénario de Montréal 5.0 à 25km d'hexagone
+        description: 
+            en: Montreal City scenario using the 1732 EQ epicentre, and assuming oblique-reverse slip on a rupture plane parallel to the Ile Bizard or Rapide-du-Cheval Blanc faults under current stress field based on slip tendency analysis by Rimando and Peace 2021
+            fr: Scénario de la ville de Montréal utilisant l'épicentre de 1732 EQ, et supposant un glissement oblique-inverse sur un plan de rupture parallèle aux failles de l'Ile Bizard ou du Rapide-du-Cheval Blanc dans un champ de contraintes actuel basé sur l'analyse de la tendance au glissement de Rimando et Peace 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-81.3056, 42.7876, -66.6002, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_25km_INDEX_VERSION
+              id_field: gridid_25
+
+    opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_25km_uc:
+        type: collection
+        title: 
+            en: Montreal 5.0 Scenario Shake Map 25km Hexbin (Unclipped)
+            fr: Carte des secousses du Scénario de Montréal 5.0 à 25km d'hexagone (Non décolletés)
+        description: 
+            en: Montreal City scenario using the 1732 EQ epicentre, and assuming oblique-reverse slip on a rupture plane parallel to the Ile Bizard or Rapide-du-Cheval Blanc faults under current stress field based on slip tendency analysis by Rimando and Peace 2021
+            fr: Scénario de la ville de Montréal utilisant l'épicentre de 1732 EQ, et supposant un glissement oblique-inverse sur un plan de rupture parallèle aux failles de l'Ile Bizard ou du Rapide-du-Cheval Blanc dans un champ de contraintes actuel basé sur l'analyse de la tendance au glissement de Rimando et Peace 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-81.3056, 42.7876, -66.6002, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_25km_uc_INDEX_VERSION
+              id_field: gridid_25
+
+    opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_50km_uc:
+        type: collection
+        title: 
+            en: Montreal 5.0 Scenario Shake Map 50km Hexbin (Unclipped)
+            fr: Carte des secousses du Scénario de Montréal 5.0 à 50km d'hexagone (Non décolletés)
+        description: 
+            en: Montreal City scenario using the 1732 EQ epicentre, and assuming oblique-reverse slip on a rupture plane parallel to the Ile Bizard or Rapide-du-Cheval Blanc faults under current stress field based on slip tendency analysis by Rimando and Peace 2021
+            fr: Scénario de la ville de Montréal utilisant l'épicentre de 1732 EQ, et supposant un glissement oblique-inverse sur un plan de rupture parallèle aux failles de l'Ile Bizard ou du Rapide-du-Cheval Blanc dans un champ de contraintes actuel basé sur l'analyse de la tendance au glissement de Rimando et Peace 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-81.3056, 42.7876, -66.6002, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_50km_uc_INDEX_VERSION
+              id_field: gridid_50
+    
+    opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_5km:
+        type: collection
+        title: 
+            en: Montreal 5.0 Scenario Shake Map 5km Hexbin
+            fr: Carte des secousses du Scénario de Montréal 5.0 à 5km d'hexagone
+        description: 
+            en: Montreal City scenario using the 1732 EQ epicentre, and assuming oblique-reverse slip on a rupture plane parallel to the Ile Bizard or Rapide-du-Cheval Blanc faults under current stress field based on slip tendency analysis by Rimando and Peace 2021
+            fr: Scénario de la ville de Montréal utilisant l'épicentre de 1732 EQ, et supposant un glissement oblique-inverse sur un plan de rupture parallèle aux failles de l'Ile Bizard ou du Rapide-du-Cheval Blanc dans un champ de contraintes actuel basé sur l'analyse de la tendance au glissement de Rimando et Peace 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-81.3056, 42.7876, -66.6002, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_5km_INDEX_VERSION
+              id_field: gridid_5
+
+    opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_5km_uc:
+        type: collection
+        title: 
+            en: Montreal 5.0 Scenario Shake Map 5km Hexbin (Unclipped)
+            fr: Carte des secousses du Scénario de Montréal 5.0 à 5km d'hexagone (Non décolletés)
+        description: 
+            en: Montreal City scenario using the 1732 EQ epicentre, and assuming oblique-reverse slip on a rupture plane parallel to the Ile Bizard or Rapide-du-Cheval Blanc faults under current stress field based on slip tendency analysis by Rimando and Peace 2021
+            fr: Scénario de la ville de Montréal utilisant l'épicentre de 1732 EQ, et supposant un glissement oblique-inverse sur un plan de rupture parallèle aux failles de l'Ile Bizard ou du Rapide-du-Cheval Blanc dans un champ de contraintes actuel basé sur l'analyse de la tendance au glissement de Rimando et Peace 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-81.3056, 42.7876, -66.6002, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_5km_uc_INDEX_VERSION
+              id_field: gridid_5
+
+    opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_1km:
+        type: collection
+        title: 
+            en: Montreal 5.0 Scenario Shake Map 1km Hexbin
+            fr: Carte des secousses du Scénario de Montréal 5.0 à 1km d'hexagone
+        description: 
+            en: Montreal City scenario using the 1732 EQ epicentre, and assuming oblique-reverse slip on a rupture plane parallel to the Ile Bizard or Rapide-du-Cheval Blanc faults under current stress field based on slip tendency analysis by Rimando and Peace 2021
+            fr: Scénario de la ville de Montréal utilisant l'épicentre de 1732 EQ, et supposant un glissement oblique-inverse sur un plan de rupture parallèle aux failles de l'Ile Bizard ou du Rapide-du-Cheval Blanc dans un champ de contraintes actuel basé sur l'analyse de la tendance au glissement de Rimando et Peace 2021..
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-81.3056, 42.7876, -66.6002, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_1km_INDEX_VERSION
+              id_field: gridid_1
+
+    opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_1km_uc:
+        type: collection
+        title: 
+            en: Montreal 5.0 Scenario Shake Map 1km Hexbin (Unclipped)
+            fr: Carte des secousses du Scénario de Montréal 5.0 à 1km d'hexagone (Non décolletés)
+        description: 
+            en: Montreal City scenario using the 1732 EQ epicentre, and assuming oblique-reverse slip on a rupture plane parallel to the Ile Bizard or Rapide-du-Cheval Blanc faults under current stress field based on slip tendency analysis by Rimando and Peace 2021
+            fr: Scénario de la ville de Montréal utilisant l'épicentre de 1732 EQ, et supposant un glissement oblique-inverse sur un plan de rupture parallèle aux failles de l'Ile Bizard ou du Rapide-du-Cheval Blanc dans un champ de contraintes actuel basé sur l'analyse de la tendance au glissement de Rimando et Peace 2021..
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-81.3056, 42.7876, -66.6002, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p0_montreal_shakemap_hexgrid_1km_uc_INDEX_VERSION
+              id_field: gridid_1
+
+    opendrr_dsra_scm5p5_ottawa_indicators_b:
+        type: collection
+        title: 
+            en: Ottawa 5.5 Scenario (Point)
+            fr: Scénario d'Ottawa 5.5 (Point)
+        description: 
+            en: Magnitude 5.5 Ottawa City rupture scenario using a 10 percent in 50 years seismic hazard deaggregation, and assuming oblique-reverse slip along or on a rupture plane parallel to the along the Gloucester fault under current stress field based on slip tendency analysis by Rimando and Peace 2021.
+            fr: Scénario de rupture d'une magnitude de 5,5 à Ottawa City en utilisant une désagrégation de l'aléa sismique de 10 % sur 50 ans et en supposant un glissement oblique-inverse le long de la faille de Gloucester ou sur un plan de rupture parallèle à celle-ci dans le champ de contraintes actuel, d'après l'analyse de la tendance au glissement effectuée par Rimando et Peace en 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-83.7807, 42.2492, -68.6766, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p5_ottawa_indicators_b_INDEX_VERSION
+              id_field: Sauid
+    
+    opendrr_dsra_scm5p5_ottawa_indicators_s:
+        type: collection
+        title: 
+            en: Ottawa 5.5 Scenario (Settlement Area)
+            fr: Scénario d'Ottawa 5.5 (Zone de peuplement)
+        description: 
+            en: Magnitude 5.5 Ottawa City rupture scenario using a 10 percent in 50 years seismic hazard deaggregation, and assuming oblique-reverse slip along or on a rupture plane parallel to the along the Gloucester fault under current stress field based on slip tendency analysis by Rimando and Peace 2021.
+            fr: Scénario de rupture d'une magnitude de 5,5 à Ottawa City en utilisant une désagrégation de l'aléa sismique de 10 % sur 50 ans et en supposant un glissement oblique-inverse le long de la faille de Gloucester ou sur un plan de rupture parallèle à celle-ci dans le champ de contraintes actuel, d'après l'analyse de la tendance au glissement effectuée par Rimando et Peace en 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-83.7807, 42.2492, -68.6766, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p5_ottawa_indicators_s_INDEX_VERSION
+              id_field: Sauid
+
+    opendrr_dsra_scm5p5_ottawa_indicators_csd:
+        type: collection
+        title: 
+            en: Ottawa 5.5 Scenario (Census Subdivision)
+            fr: Scénario d'Ottawa 5.5 (Subdivision du recensement)
+        description: 
+            en: Magnitude 5.5 Ottawa City rupture scenario using a 10 percent in 50 years seismic hazard deaggregation, and assuming oblique-reverse slip along or on a rupture plane parallel to the along the Gloucester fault under current stress field based on slip tendency analysis by Rimando and Peace 2021.
+            fr: Scénario de rupture d'une magnitude de 5,5 à Ottawa City en utilisant une désagrégation de l'aléa sismique de 10 % sur 50 ans et en supposant un glissement oblique-inverse le long de la faille de Gloucester ou sur un plan de rupture parallèle à celle-ci dans le champ de contraintes actuel, d'après l'analyse de la tendance au glissement effectuée par Rimando et Peace en 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-83.7807, 42.2492, -68.6766, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p5_ottawa_indicators_csd_INDEX_VERSION
+              id_field: csduid
+
+    opendrr_dsra_scm5p5_ottawa_shakemap:
+        type: collection
+        title: 
+            en: Ottawa 5.5 Scenario Shake Map
+            fr: Carte des secousses du Scénario d'Ottawa 5.5
+        description: 
+            en: Magnitude 5.5 Ottawa City rupture scenario using a 10 percent in 50 years seismic hazard deaggregation, and assuming oblique-reverse slip along or on a rupture plane parallel to the along the Gloucester fault under current stress field based on slip tendency analysis by Rimando and Peace 2021.
+            fr: Scénario de rupture d'une magnitude de 5,5 à Ottawa City en utilisant une désagrégation de l'aléa sismique de 10 % sur 50 ans et en supposant un glissement oblique-inverse le long de la faille de Gloucester ou sur un plan de rupture parallèle à celle-ci dans le champ de contraintes actuel, d'après l'analyse de la tendance au glissement effectuée par Rimando et Peace en 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-83.7807, 42.2492, -68.6766, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p5_ottawa_shakemap_INDEX_VERSION
+              id_field: SiteID
+
+    opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_100km_uc:
+        type: collection
+        title: 
+            en: Ottawa 5.5 Scenario Shake Map 100km Hexbin (Unclipped)
+            fr: Carte des secousses du Scénario d'Ottawa 5.5 à 100km d'hexagone (Non décolletés)
+        description: 
+            en: Magnitude 5.5 Ottawa City rupture scenario using a 10 percent in 50 years seismic hazard deaggregation, and assuming oblique-reverse slip along or on a rupture plane parallel to the along the Gloucester fault under current stress field based on slip tendency analysis by Rimando and Peace 2021.
+            fr: Scénario de rupture d'une magnitude de 5,5 à Ottawa City en utilisant une désagrégation de l'aléa sismique de 10 % sur 50 ans et en supposant un glissement oblique-inverse le long de la faille de Gloucester ou sur un plan de rupture parallèle à celle-ci dans le champ de contraintes actuel, d'après l'analyse de la tendance au glissement effectuée par Rimando et Peace en 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-83.7807, 42.2492, -68.6766, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_100km_uc_INDEX_VERSION
+              id_field: gridid_100
+
+    opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_10km:
+        type: collection
+        title: 
+            en: Ottawa 5.5 Scenario Shake Map 10km Hexbin
+            fr: Carte des secousses du Scénario d'Ottawa 5.5 à 10km d'hexagone
+        description: 
+            en: Magnitude 5.5 Ottawa City rupture scenario using a 10 percent in 50 years seismic hazard deaggregation, and assuming oblique-reverse slip along or on a rupture plane parallel to the along the Gloucester fault under current stress field based on slip tendency analysis by Rimando and Peace 2021.
+            fr: Scénario de rupture d'une magnitude de 5,5 à Ottawa City en utilisant une désagrégation de l'aléa sismique de 10 % sur 50 ans et en supposant un glissement oblique-inverse le long de la faille de Gloucester ou sur un plan de rupture parallèle à celle-ci dans le champ de contraintes actuel, d'après l'analyse de la tendance au glissement effectuée par Rimando et Peace en 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-83.7807, 42.2492, -68.6766, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_10km_INDEX_VERSION
+              id_field: gridid_10
+
+    opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_10km_uc:
+        type: collection
+        title: 
+            en: Ottawa 5.5 Scenario Shake Map 10km Hexbin (Unclipped)
+            fr: Carte des secousses du Scénario d'Ottawa 5.5 à 10km d'hexagone (Non décolletés)
+        description: 
+            en: Magnitude 5.5 Ottawa City rupture scenario using a 10 percent in 50 years seismic hazard deaggregation, and assuming oblique-reverse slip along or on a rupture plane parallel to the along the Gloucester fault under current stress field based on slip tendency analysis by Rimando and Peace 2021.
+            fr: Scénario de rupture d'une magnitude de 5,5 à Ottawa City en utilisant une désagrégation de l'aléa sismique de 10 % sur 50 ans et en supposant un glissement oblique-inverse le long de la faille de Gloucester ou sur un plan de rupture parallèle à celle-ci dans le champ de contraintes actuel, d'après l'analyse de la tendance au glissement effectuée par Rimando et Peace en 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-83.7807, 42.2492, -68.6766, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_10km_uc_INDEX_VERSION
+              id_field: gridid_10
+    
+    opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_25km:
+        type: collection
+        title: 
+            en: Ottawa 5.5 Scenario Shake Map 25km Hexbin
+            fr: Carte des secousses du Scénario d'Ottawa 5.5 à 25km d'hexagone
+        description: 
+            en: Magnitude 5.5 Ottawa City rupture scenario using a 10 percent in 50 years seismic hazard deaggregation, and assuming oblique-reverse slip along or on a rupture plane parallel to the along the Gloucester fault under current stress field based on slip tendency analysis by Rimando and Peace 2021.
+            fr: Scénario de rupture d'une magnitude de 5,5 à Ottawa City en utilisant une désagrégation de l'aléa sismique de 10 % sur 50 ans et en supposant un glissement oblique-inverse le long de la faille de Gloucester ou sur un plan de rupture parallèle à celle-ci dans le champ de contraintes actuel, d'après l'analyse de la tendance au glissement effectuée par Rimando et Peace en 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-83.7807, 42.2492, -68.6766, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_25km_INDEX_VERSION
+              id_field: gridid_25
+
+    opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_25km_uc:
+        type: collection
+        title: 
+            en: Ottawa 5.5 Scenario Shake Map 25km Hexbin (Unclipped)
+            fr: Carte des secousses du Scénario d'Ottawa 5.5 à 25km d'hexagone (Non décolletés)
+        description: 
+            en: Magnitude 5.5 Ottawa City rupture scenario using a 10 percent in 50 years seismic hazard deaggregation, and assuming oblique-reverse slip along or on a rupture plane parallel to the along the Gloucester fault under current stress field based on slip tendency analysis by Rimando and Peace 2021.
+            fr: Scénario de rupture d'une magnitude de 5,5 à Ottawa City en utilisant une désagrégation de l'aléa sismique de 10 % sur 50 ans et en supposant un glissement oblique-inverse le long de la faille de Gloucester ou sur un plan de rupture parallèle à celle-ci dans le champ de contraintes actuel, d'après l'analyse de la tendance au glissement effectuée par Rimando et Peace en 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-83.7807, 42.2492, -68.6766, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_25km_uc_INDEX_VERSION
+              id_field: gridid_25
+
+    opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_50km_uc:
+        type: collection
+        title: 
+            en: Ottawa 5.5 Scenario Shake Map 50km Hexbin (Unclipped)
+            fr: Carte des secousses du Scénario d'Ottawa 5.5 à 50km d'hexagone (Non décolletés)
+        description: 
+            en: Magnitude 5.5 Ottawa City rupture scenario using a 10 percent in 50 years seismic hazard deaggregation, and assuming oblique-reverse slip along or on a rupture plane parallel to the along the Gloucester fault under current stress field based on slip tendency analysis by Rimando and Peace 2021.
+            fr: Scénario de rupture d'une magnitude de 5,5 à Ottawa City en utilisant une désagrégation de l'aléa sismique de 10 % sur 50 ans et en supposant un glissement oblique-inverse le long de la faille de Gloucester ou sur un plan de rupture parallèle à celle-ci dans le champ de contraintes actuel, d'après l'analyse de la tendance au glissement effectuée par Rimando et Peace en 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-83.7807, 42.2492, -68.6766, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_50km_uc_INDEX_VERSION
+              id_field: gridid_50
+    
+    opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_5km:
+        type: collection
+        title: 
+            en: Ottawa 5.5 Scenario Shake Map 5km Hexbin
+            fr: Carte des secousses du Scénario d'Ottawa 5.5 à 5km d'hexagone
+        description: 
+            en: Magnitude 5.5 Ottawa City rupture scenario using a 10 percent in 50 years seismic hazard deaggregation, and assuming oblique-reverse slip along or on a rupture plane parallel to the along the Gloucester fault under current stress field based on slip tendency analysis by Rimando and Peace 2021.
+            fr: Scénario de rupture d'une magnitude de 5,5 à Ottawa City en utilisant une désagrégation de l'aléa sismique de 10 % sur 50 ans et en supposant un glissement oblique-inverse le long de la faille de Gloucester ou sur un plan de rupture parallèle à celle-ci dans le champ de contraintes actuel, d'après l'analyse de la tendance au glissement effectuée par Rimando et Peace en 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-83.7807, 42.2492, -68.6766, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_5km_INDEX_VERSION
+              id_field: gridid_5
+
+    opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_5km_uc:
+        type: collection
+        title: 
+            en: Ottawa 5.5 Scenario Shake Map 5km Hexbin (Unclipped)
+            fr: Carte des secousses du Scénario d'Ottawa 5.5 à 5km d'hexagone (Non décolletés)
+        description: 
+            en: Magnitude 5.5 Ottawa City rupture scenario using a 10 percent in 50 years seismic hazard deaggregation, and assuming oblique-reverse slip along or on a rupture plane parallel to the along the Gloucester fault under current stress field based on slip tendency analysis by Rimando and Peace 2021.
+            fr: Scénario de rupture d'une magnitude de 5,5 à Ottawa City en utilisant une désagrégation de l'aléa sismique de 10 % sur 50 ans et en supposant un glissement oblique-inverse le long de la faille de Gloucester ou sur un plan de rupture parallèle à celle-ci dans le champ de contraintes actuel, d'après l'analyse de la tendance au glissement effectuée par Rimando et Peace en 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-83.7807, 42.2492, -68.6766, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_5km_uc_INDEX_VERSION
+              id_field: gridid_5
+
+    opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_1km:
+        type: collection
+        title: 
+            en: Ottawa 5.5 Scenario Shake Map 1km Hexbin
+            fr: Carte des secousses du Scénario d'Ottawa 5.5 à 1km d'hexagone
+        description: 
+            en: Magnitude 5.5 Ottawa City rupture scenario using a 10 percent in 50 years seismic hazard deaggregation, and assuming oblique-reverse slip along or on a rupture plane parallel to the along the Gloucester fault under current stress field based on slip tendency analysis by Rimando and Peace 2021.
+            fr: Scénario de rupture d'une magnitude de 5,5 à Ottawa City en utilisant une désagrégation de l'aléa sismique de 10 % sur 50 ans et en supposant un glissement oblique-inverse le long de la faille de Gloucester ou sur un plan de rupture parallèle à celle-ci dans le champ de contraintes actuel, d'après l'analyse de la tendance au glissement effectuée par Rimando et Peace en 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-83.7807, 42.2492, -68.6766, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_1km_INDEX_VERSION
+              id_field: gridid_1
+
+    opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_1km_uc:
+        type: collection
+        title: 
+            en: Ottawa 5.5 Scenario Shake Map 1km Hexbin (Unclipped)
+            fr: Carte des secousses du Scénario d'Ottawa 5.5 à 1km d'hexagone (Non décolletés)
+        description: 
+            en: Magnitude 5.5 Ottawa City rupture scenario using a 10 percent in 50 years seismic hazard deaggregation, and assuming oblique-reverse slip along or on a rupture plane parallel to the along the Gloucester fault under current stress field based on slip tendency analysis by Rimando and Peace 2021.
+            fr: Scénario de rupture d'une magnitude de 5,5 à Ottawa City en utilisant une désagrégation de l'aléa sismique de 10 % sur 50 ans et en supposant un glissement oblique-inverse le long de la faille de Gloucester ou sur un plan de rupture parallèle à celle-ci dans le champ de contraintes actuel, d'après l'analyse de la tendance au glissement effectuée par Rimando et Peace en 2021.
+        keywords:
+            en:
+            - earthquake
+            fr: 
+            - tremblement de terre
+        links:
+            - type: text/html
+              rel: canonical
+              title: Information
+              href: http://www.riskprofiler.ca/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-83.7807, 42.2492, -68.6766, 50.4259]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2021-06-06
+                end: null # or empty (either means open ended)
+        providers:
+            - type: feature
+              name: Elasticsearch
+              data: ES_ENDPOINT/opendrr_dsra_scm5p5_ottawa_shakemap_hexgrid_1km_uc_INDEX_VERSION
+              id_field: gridid_1
+
+
     opendrr_hexgrid_10km:
         type: collection
         title: 
