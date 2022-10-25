@@ -29,7 +29,7 @@ ADD_DATA_PRINT_FUNCNAME=${ADD_DATA_PRINT_FUNCNAME:-true}
 ADD_DATA_PRINT_LINENO=${ADD_DATA_PRINT_LINENO:-true}
 ADD_DATA_REDUCE_DISK_USAGE=${ADD_DATA_REDUCE_DISK_USAGE:-true}
 
-DSRA_REPOSITORY=https://github.com/DamonU2/DSRA-processing/FINISHED?ref=test-run
+DSRA_REPOSITORY=https://github.com/OpenDRR/DSRA-processing/FINISHED?ref=six-new-scenarios-sep-2022
 
 PT_LIST=(AB BC MB NB NL NS NT NU ON PE QC SK YT)
 # PT_LIST=(AB MB NB NL NS NT NU ON PE QC SK YT)
@@ -184,6 +184,12 @@ run_ogr2ogr() {
 	  -nln "$nln"
 }
 
+download_luts() {
+  LOG "## Downloading LUTs"
+  RUN fetch_csv seismic-risk-model \
+    sourceTypes.csv?ref=master
+}
+
 # run_psql runs PostgreSQL queries from a given input SQL file.
 run_psql() {
   if [ "$#" -ne 1 ]; then
@@ -288,7 +294,7 @@ fetch_psra_csv_from_model() {
     RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
       --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
       -o "${PT}.json" \
-      -L "https://api.github.com/repos/OpenDRR/canada-srm2/contents/$model/output/${PT}?ref=master"
+      -L "https://api.github.com/repos/OpenDRR/seismic-risk-model/contents/$model/output/${PT}?ref=master"
 
     RUN mapfile -t DOWNLOAD_LIST < <(jq -r '.[].url | select(. | contains(".csv"))' "${PT}.json")
 
@@ -326,7 +332,7 @@ fetch_psra_csv_from_national_model() {
   RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
     --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
     -o "${PT}.json" \
-    -L "https://api.github.com/repos/OpenDRR/canada-srm2/contents/$model/output/Canada?ref=master"
+    -L "https://api.github.com/repos/OpenDRR/seismic-risk-model/contents/$model/output/Canada?ref=master"
 
   RUN mapfile -t DOWNLOAD_LIST < <(jq -r '.[].url | select(. | contains(".csv"))' "${PT}.json")
 
@@ -433,8 +439,8 @@ read_github_token() {
   tmpfile=$(mktemp)
   status_code=$(curl --write-out "%{http_code}" --silent --output "$tmpfile" \
     -H "Authorization: token ${GITHUB_TOKEN}" \
-    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/eDamage/output)
-  INFO "Access to OpenDRR/canada-srm2 returns HTTP status code $status_code"
+    -L https://api.github.com/repos/OpenDRR/seismic-risk-model/contents/eDamage/output)
+  INFO "Access to OpenDRR/seismic-risk-model returns HTTP status code $status_code"
 
   if [[ "$status_code" -ne 200 ]] ; then
     cat "$tmpfile"
@@ -443,7 +449,7 @@ read_github_token() {
         ERROR "Your GitHub token is invalid or has expired. Aborting..."
         ;;
       404)
-        ERROR "Your GitHub token was unable to access https://github.com/OpenDRR/canada-srm2. Please ensure the \"repo\" scope is enabled for the token. Aborting..."
+        ERROR "Your GitHub token was unable to access https://github.com/OpenDRR/seismic-risk-model. Please ensure the \"repo\" scope is enabled for the token. Aborting..."
         ;;
       *)
         ERROR "Unhandled error ($status_code): Please try again. Aborting..."
@@ -456,14 +462,14 @@ read_github_token() {
 # from the OpenDRR/model-factory repository
 get_model_factory_scripts() {
   # TODO: Make this more robust
-  curl -L -o model-factory.tar.gz https://github.com/OpenDRR/model-factory/archive/refs/tags/v1.4.3.tar.gz
-  tar -xf model-factory.tar.gz
-  # RUN git clone https://github.com/OpenDRR/model-factory.git --branch updates_june2022 --depth 1 || (cd model-factory ; RUN git pull)
+  # curl -L -o model-factory.tar.gz https://github.com/OpenDRR/model-factory/archive/refs/tags/v1.4.3.tar.gz
+  # tar -xf model-factory.tar.gz
+  RUN git clone https://github.com/OpenDRR/model-factory.git --branch reformat_add_data --depth 1 || (cd model-factory ; RUN git pull)
 
   # Copy model-factory scripts to working directory
   # TODO: Find ways to keep these scripts in their place without copying them all to WORKDIR
-  RUN cp model-factory-1.4.3/scripts/*.* .
-  # RUN cp model-factory/scripts/*.* .
+  # RUN cp model-factory-1.4.3/scripts/*.* .
+  RUN cp model-factory/scripts/*.* .
   #rm -rf model-factory
 }
 
@@ -476,14 +482,14 @@ get_git_lfs_pointers_of_csv_files() {
   rm -rf "$base_dir"
   mkdir -p "$base_dir"
   ( cd "$base_dir" && \
-    for repo in canada-srm2 model-inputs openquake-inputs; do
+    for repo in seismic-risk-model model-inputs openquake-inputs; do
       RUN git clone --filter=blob:none --no-checkout "https://${GITHUB_TOKEN}@github.com/OpenDRR/${repo}.git"
       is_dry_run || \
         ( cd $repo && \
           git sparse-checkout set '*.csv' && \
           GIT_LFS_SKIP_SMUDGE=1 git checkout )
     done
-    RUN git clone --filter=blob:none --no-checkout "https://${GITHUB_TOKEN}@github.com/DamonU2/DSRA-processing.git"
+    RUN git clone --filter=blob:none --no-checkout "https://${GITHUB_TOKEN}@github.com/OpenDRR/DSRA-processing.git"
       is_dry_run || \
         ( cd $repo && \
           git sparse-checkout set '*.csv' && \
@@ -556,7 +562,7 @@ import_raw_psra_tables() {
   RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
     --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
     -o output.json \
-    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/eDamage/output?ref=master
+    -L https://api.github.com/repos/OpenDRR/seismic-risk-model/contents/eDamage/output?ref=master
 
   # TODO: Compare PT_LIST with FETCHED_PT_LIST
   RUN mapfile -t FETCHED_PT_LIST < <(jq -r '.[].name' output.json)
@@ -676,7 +682,7 @@ import_earthquake_scenarios() {
   RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
     --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
     -o FINISHED.json \
-    -L https://api.github.com/repos/DamonU2/DSRA-processing/contents/FINISHED?ref=test-run
+    -L https://api.github.com/repos/OpenDRR/DSRA-processing/contents/FINISHED?ref=six-new-scenarios-sep-2022
 
   # s_lossesbyasset_ACM6p5_Beaufort_r1_299_b.csv → ACM6p5_Beaufort
   RUN mapfile -t EQSCENARIO_LIST < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*(?=_r1)")' FINISHED.json)
@@ -686,7 +692,11 @@ import_earthquake_scenarios() {
 
   LOG "## Importing scenario outputs into PostGIS"
   for eqscenario in "${EQSCENARIO_LIST[@]}"; do
-    RUN python3 DSRA_outputs2postgres_lfs.py --dsraModelDir=$DSRA_REPOSITORY --dsraModelDirBranch=test-run --columnsINI=DSRA_outputs2postgres.ini --eqScenario="$eqscenario"
+    RUN python3 DSRA_outputs2postgres_lfs.py \
+                  --dsraModelDir=https://github.com/OpenDRR/DSRA-processing/contents/FINISHED \
+                  --dsraModelDirBranch=six-new-scenarios-sep-2022 \
+                  --columnsINI=DSRA_outputs2postgres.ini \
+                  --eqScenario="$eqscenario"
   done
 }
 
@@ -700,7 +710,7 @@ import_shakemap() {
     RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
       --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
       -o "$shakemap_filename" \
-      -L "${shakemap}?ref=test-run"
+      -L "${shakemap}?ref=six-new-scenarios-sep-2022"
     is_dry_run || DOWNLOAD_URL=$(jq -r '.download_url' "$shakemap_filename")
     LOG "$DOWNLOAD_URL"
     RUN curl -o "$shakemap_filename" \
@@ -737,7 +747,9 @@ import_shakemap() {
 
 import_rupture_model() {
 LOG "## Importing Rupture Model"
-RUN python3 DSRA_ruptures2postgres.py --dsraRuptureDir="https://github.com/DamonU2/DSRA-processing" --dsraRuptureBranch='test-run'
+RUN python3 DSRA_ruptures2postgres.py \
+      --dsraRuptureDir="https://github.com/OpenDRR/DSRA-processing" \
+      --dsraRuptureBranch='six-new-scenarios-sep-2022'
 
 LOG "## Generating indicator views"
   for item in "${EQSCENARIO_LIST_LONGFORM[@]}"; do
@@ -939,6 +951,7 @@ main() {
 
   LOG "# Restore exposure and ancillary database"
   RUN import_exposure_ancillary_db
+  RUN download_luts
 
   if [[ $processPSRA = true ]]; then
     LOG "# Processing PSRA"
