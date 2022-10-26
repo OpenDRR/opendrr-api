@@ -413,14 +413,14 @@ read_github_token() {
 # from the OpenDRR/model-factory repository
 get_model_factory_scripts() {
   # TODO: Make this more robust
-  curl -L -o model-factory.tar.gz https://github.com/OpenDRR/model-factory/archive/refs/tags/v1.4.3.tar.gz
-  tar -xf model-factory.tar.gz
-  # RUN git clone https://github.com/OpenDRR/model-factory.git --branch updates_june2022 --depth 1 || (cd model-factory ; RUN git pull)
+  # curl -L -o model-factory.tar.gz https://github.com/OpenDRR/model-factory/archive/refs/tags/v1.4.3.tar.gz
+  # tar -xf model-factory.tar.gz
+  RUN git clone https://github.com/OpenDRR/model-factory.git --branch updates_july2022 --depth 1 || (cd model-factory ; RUN git pull)
 
   # Copy model-factory scripts to working directory
   # TODO: Find ways to keep these scripts in their place without copying them all to WORKDIR
-  RUN cp model-factory-1.4.3/scripts/*.* .
-  # RUN cp model-factory/scripts/*.* .
+  # RUN cp model-factory-1.4.3/scripts/*.* .
+  RUN cp model-factory/scripts/*.* .
   #rm -rf model-factory
 }
 
@@ -454,65 +454,82 @@ wait_for_postgres() {
   done
 }
 
-
 ############################################################################################
 ############    Define "Process Exposure and Ancillary Data" functions          ############
 ############################################################################################
 
 import_census_boundaries() {
-  LOG "## Importing Census Boundaries"
+  LOG "## Importing Census Boundaries (huge pre-populated database)"
 
-  INFO "Download opendrr-boundaries.sql (PostGIS database archive)"
+  INFO "Download opendrr-boundaries-db.7z.* (PostGIS database archive)"
 
-  local repo="OpenDRR/boundaries"
+  local boundaries_db_repo="OpenDRR/boundaries-db"
 
-  # Git branch or tag from which we want to fetch.
-  # Examples: "test_hexbin_unclipped", "v1.3.0"
-  local boundaries_branch="v1.4.0"
+  # Git tag from which we want to fetch release assets, e.g. "v1.4.4-beta+20220913"
+  local boundaries_db_tag="v1.4.4-beta+20220913"
 
-  if release_view=$(gh release view "${boundaries_branch}" -R "${repo}"); then
+  if release_view=$(gh release view "${boundaries_db_tag}" -R "${boundaries_db_repo}")
+  then
     # For released version, we download from release assets
-    INFO "... from release assets of ${repo} ${boundaries_branch}..."
+    INFO "... from release assets of ${boundaries_db_repo} ${boundaries_db_tag}..."
 
-    for i in $(echo "${release_view}" | grep "^asset:	opendrr-boundaries\.sql" | cut -f2); do
+    # TODO: Avoid repeatedly downloading database dump if local files match checksum
+    # RUN gh release download "${boundaries_db_tag}" -R "${boundaries_db_repo}" \
+    #   --pattern "opendrr-boundaries-db.7z.sha256sum"
+
+    RUN gh release download "${boundaries_db_tag}" -R "${boundaries_db_repo}" \
+      --pattern "opendrr-boundaries-db.dump.sha256sum"
+
+    # TODO: Check if opendrr-boundaries-db.dump exists, and skip download if it matches checksum
+
+    for i in $(echo "${release_view}" | grep "^asset:	opendrr-boundaries-db\.7z" | cut -f2); do
       INFO "Downloading ${i}..."
-      RUN gh release download "${boundaries_branch}" -R "${repo}" --pattern "${i}"
+      INFO "(This can be as fast as 5 minutes or as slow as 60 minutes!)"
+      RUN gh release download "${boundaries_db_tag}" -R "${boundaries_db_repo}" \
+	--pattern "${i}" >/dev/null &
+      sleep 2
+      pv -d "$(pidof gh)" || :
     done
 
-    if [[ -f opendrr-boundaries.sql.00 ]]; then
-      cat opendrr-boundaries.sql.[0-9][0-9] > opendrr-boundaries.sql
-    fi
-
-  else
+else
+    # TODO: Deprecated: we no longer download GitHub artifact. To be removed soon.
+    #
     # For a feature/topic branch, we download the artifact from the latest
     # action run that matches our criteria
 
-    INFO "... from artifact of ${repo} ${boundaries_branch} GitHub Action run..."
+    INFO "... from artifact of ${boundaries_db_repo} ${boundaries_db_tag} GitHub Action run..."
 
-    run_id=$(gh run list -R "${repo}" --limit 100 \
+    run_id=$(gh run list -R "${boundaries_db_repo}" --limit 100 \
       --json conclusion,databaseId,headBranch,name,status,workflowDatabaseId \
       --jq "first(.[] \
-                | select( .headBranch == \"${boundaries_branch}\" and \
-                          .name == \"Upload opendrr-boundaries.sql\" and \
+                | select( .headBranch == \"${boundaries_db_tag}\" and \
+                          .name == \"Upload database\" and \
                           .status == \"completed\" and \
                           .conclusion == \"success\")) \
             | .databaseId")
 
-    [[ -n $run_id ]] || ERROR "Action run for '${boundaries_branch}' not found."
-    INFO "Downloading artifact opendrr-boundaries-sql.zip from Run #${run_id}..."
+    [[ -n $run_id ]] || ERROR "Action run for '${boundaries_db_tag}' not found."
+
+    INFO "Downloading artifact opendrr-boundaries-db.zip from Run #${run_id}..."
     INFO "(This can be as fast as 5 minutes or as slow as 60 minutes!)"
-    RUN gh run download -R "${repo}" "${run_id}" \
-                        --name opendrr-boundaries-sql &
+    RUN gh run download -R "${boundaries_db_repo}" "${run_id}" \
+                        --name opendrr-boundaries-db &
     sleep 2
     pv -d "$(pidof gh)"
-    [[ -f opendrr-boundaries.sql ]] || ERROR "Unable to download opendrr-boundaries.sql"
+    [[ -f opendrr-boundaries-db.7z.001 ]] || ERROR "Unable to download opendrr-boundaries-db.7z.*"
   fi
 
-  RUN ls -l opendrr-boundaries.sql*
-  RUN sha256sum -c opendrr-boundaries.sql.sha256sum
-  CLEAN_UP opendrr-boundaries.sql.[0-9][0-9]
+  # By this point, whether we downloaded from release assets or from artifact,
+  # we should have opendrr-boundaries-db.7z.00[1-9] and opendrr-boundaries-db.dump.sha256sum
 
-  INFO "Import opendrr-boundaries.sql using pg_restore..."
+  RUN ls -l opendrr-boundaries-db.7z*
+
+  RUN 7zz x opendrr-boundaries-db.7z.001
+  RUN sha256sum -c opendrr-boundaries-db.dump.sha256sum
+
+  CLEAN_UP opendrr-boundaries-db.7z*
+
+  INFO "Import opendrr-boundaries-db.dump using pg_restore..."
 
   # Note: Do not use "--create" which would activate the SQL command
   #   CREATE DATABASE boundaries WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'English_United States.1252';
@@ -520,13 +537,16 @@ import_census_boundaries() {
   #   error: invalid locale name: "English_United States.1252"
   # in the Linux-based Docker image
   RUN pg_restore -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$DB_NAME" \
-    -j 8 --clean --if-exists --verbose opendrr-boundaries.sql
+    -j 8 --clean --if-exists --verbose opendrr-boundaries-db.dump
 
-  CLEAN_UP opendrr-boundaries.sql opendrr-boundaries.sql.sha256sum
+  CLEAN_UP opendrr-boundaries-db.dump
 
-  RUN run_psql Update_boundaries_table_clipped_hex.sql
-  RUN run_psql Update_boundaries_table_unclipped_hex.sql
-  RUN run_psql Update_boundaries_table_hexgrid_1km_union.sql
+  # RUN run_psql Update_boundaries_table_clipped_hex.sql
+  # RUN run_psql Update_boundaries_table_clipped_hex_3857.sql
+  # RUN run_psql Update_boundaries_table_unclipped_hex.sql
+  # RUN run_psql Update_boundaries_table_unclipped_hex_3857.sql
+  # RUN run_psql Update_boundaries_table_hexgrid_1km_union.sql
+  # RUN run_psql Update_boundaries_table_hexgrid_1km_union_3857.sql
 }
 
 OBSOLETE_FALLBACK_build_census_boundaries_from_gpkg_files() {
@@ -712,10 +732,14 @@ generate_indicators() {
   RUN run_psql Create_MH_risk_sauid_prioritization_Canada.sql
   # RUN run_psql Create_MH_risk_sauid_ALL.sql
   RUN run_psql Create_hexgrid_physical_exposure_aggregation_area_proxy.sql
+    RUN run_psql Create_hexgrid_physical_exposure_aggregation_area_proxy_3857.sql
   # RUN run_psql Create_hexbin_physical_exposure_hexbin_aggregation_centroid.sql
   RUN run_psql Create_hexgrid_MH_risk_sauid_prioritization_aggregation_area.sql
+    RUN run_psql Create_hexgrid_MH_risk_sauid_prioritization_aggregation_area_3857.sql
   # RUN run_psql Create_hexbin_MH_risk_sauid_prioritization_aggregation_centroid.sql
   RUN run_psql Create_hexgrid_social_vulnerability_aggregation_area_proxy.sql
+    RUN run_psql Create_hexgrid_social_vulnerability_aggregation_area_proxy_3857.sql
+  
   # RUN run_psql Create_hexbin_social_vulnerability_aggregation_centroid.sql
 }
 
