@@ -464,7 +464,7 @@ get_model_factory_scripts() {
   # TODO: Make this more robust
   # curl -L -o model-factory.tar.gz https://github.com/OpenDRR/model-factory/archive/refs/tags/v1.4.3.tar.gz
   # tar -xf model-factory.tar.gz
-  RUN git clone https://github.com/OpenDRR/model-factory.git --branch reformat_add_data --depth 1 || (cd model-factory ; RUN git pull)
+  RUN git clone https://github.com/OpenDRR/model-factory.git --branch updates_july2022 --depth 1 || (cd model-factory ; RUN git pull)
 
   # Copy model-factory scripts to working directory
   # TODO: Find ways to keep these scripts in their place without copying them all to WORKDIR
@@ -658,19 +658,31 @@ post_process_psra_tables() {
   RUN run_psql psra_6a.eqri_calculation_sa.sql
   RUN run_psql psra_6a1.eqri_calculation_csd.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_uc.sql
+    RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km.sql
+    RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_uc.sql
+    RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km.sql
+    RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_uc.sql
+    RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km.sql
+    RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_uc.sql
+    RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km.sql
+    RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_50km_uc.sql
+    RUN run_psql psra_6a2.eqri_calculation_hexgrid_50km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_100km_uc.sql
+    RUN run_psql psra_6a2.eqri_calculation_hexgrid_100km_uc_3857.sql
   RUN run_psql psra_6a3.Merge_eqri_calculations.sql
 
   RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_unclipped.sql
+    RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_unclipped_3857.sql
   RUN run_psql psra_7.Create_psra_national_hexgrid_clipped.sql
+    RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_3857.sql
 }
 
 ############################################################################################
