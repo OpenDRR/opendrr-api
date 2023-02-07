@@ -29,7 +29,8 @@ ADD_DATA_PRINT_FUNCNAME=${ADD_DATA_PRINT_FUNCNAME:-true}
 ADD_DATA_PRINT_LINENO=${ADD_DATA_PRINT_LINENO:-true}
 ADD_DATA_REDUCE_DISK_USAGE=${ADD_DATA_REDUCE_DISK_USAGE:-true}
 
-DSRA_REPOSITORY=https://github.com/OpenDRR/DSRA-processing/FINISHED?ref=six-new-scenarios-sep-2022
+DSRA_REPOSITORY=OpenDRR/DSRA-processing
+DSRA_BRANCH=six-new-scenarios-sep-2022
 
 PT_LIST=(AB BC MB NB NL NS NT NU ON PE QC SK YT)
 # PT_LIST=(AB MB NB NL NS NT NU ON PE QC SK YT)
@@ -489,7 +490,7 @@ get_git_lfs_pointers_of_csv_files() {
           git sparse-checkout set '*.csv' && \
           GIT_LFS_SKIP_SMUDGE=1 git checkout )
     done
-    RUN git clone --filter=blob:none --no-checkout "https://${GITHUB_TOKEN}@github.com/OpenDRR/DSRA-processing.git"
+    RUN git clone --filter=blob:none --no-checkout "https://${GITHUB_TOKEN}@github.com/${DSRA_REPOSITORY}.git"
       is_dry_run || \
         ( cd $repo && \
           git sparse-checkout set '*.csv' && \
@@ -517,7 +518,7 @@ import_exposure_ancillary_db() {
 
   local repo="OpenDRR/opendrr-api"
 
-  local base_branch="v1.4.3"
+  local base_branch="v1.4.4-alpha"
 
   if release_view=$(gh release view "${base_branch}" -R "${repo}"); then
     # For released version, we download from release assets
@@ -525,7 +526,7 @@ import_exposure_ancillary_db() {
 
     for i in $(echo "${release_view}" | grep "^asset:	opendrr-exposure-ancillary\.7z" | cut -f2); do
       INFO "Downloading ${i}..."
-      RUN gh release download "${boundaries_branch}" -R "${repo}" --pattern "${i}"
+      RUN gh release download "${base_branch}" -R "${repo}" --pattern "${i}"
     done
 
     if [[ -f opendrr-exposure-ancillary.7z.001 ]]; then
@@ -658,31 +659,31 @@ post_process_psra_tables() {
   RUN run_psql psra_6a.eqri_calculation_sa.sql
   RUN run_psql psra_6a1.eqri_calculation_csd.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_uc.sql
-    RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_uc_3857.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km.sql
-    RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_3857.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_1km_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_uc.sql
-    RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_uc_3857.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km.sql
-    RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_3857.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_5km_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_uc.sql
-    RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_uc_3857.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km.sql
-    RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_3857.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_10km_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_uc.sql
-    RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_uc_3857.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km.sql
-    RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_3857.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_25km_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_50km_uc.sql
-    RUN run_psql psra_6a2.eqri_calculation_hexgrid_50km_uc_3857.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_50km_uc_3857.sql
   RUN run_psql psra_6a2.eqri_calculation_hexgrid_100km_uc.sql
-    RUN run_psql psra_6a2.eqri_calculation_hexgrid_100km_uc_3857.sql
+  RUN run_psql psra_6a2.eqri_calculation_hexgrid_100km_uc_3857.sql
   RUN run_psql psra_6a3.Merge_eqri_calculations.sql
 
   RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_unclipped.sql
-    RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_unclipped_3857.sql
+  RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_unclipped_3857.sql
   RUN run_psql psra_7.Create_psra_national_hexgrid_clipped.sql
-    RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_3857.sql
+  RUN run_psql psra_7.Create_psra_national_hexgrid_clipped_3857.sql
 }
 
 ############################################################################################
@@ -694,7 +695,7 @@ import_earthquake_scenarios() {
   RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
     --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
     -o FINISHED.json \
-    -L https://api.github.com/repos/OpenDRR/DSRA-processing/contents/FINISHED?ref=six-new-scenarios-sep-2022
+    -L https://api.github.com/repos/${DSRA_REPOSITORY}/contents/FINISHED?ref=${DSRA_BRANCH}
 
   # s_lossesbyasset_ACM6p5_Beaufort_r1_299_b.csv → ACM6p5_Beaufort
   RUN mapfile -t EQSCENARIO_LIST < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*(?=_r1)")' FINISHED.json)
@@ -705,8 +706,8 @@ import_earthquake_scenarios() {
   LOG "## Importing scenario outputs into PostGIS"
   for eqscenario in "${EQSCENARIO_LIST[@]}"; do
     RUN python3 DSRA_outputs2postgres_lfs.py \
-                  --dsraModelDir=https://github.com/OpenDRR/DSRA-processing/contents/FINISHED \
-                  --dsraModelDirBranch=six-new-scenarios-sep-2022 \
+                  --dsraRepo=${DSRA_REPOSITORY} \
+                  --dsraRepoBranch=${DSRA_BRANCH} \
                   --columnsINI=DSRA_outputs2postgres.ini \
                   --eqScenario="$eqscenario"
   done
@@ -760,8 +761,8 @@ import_shakemap() {
 import_rupture_model() {
 LOG "## Importing Rupture Model"
 RUN python3 DSRA_ruptures2postgres.py \
-      --dsraRuptureDir="https://github.com/OpenDRR/DSRA-processing" \
-      --dsraRuptureBranch='six-new-scenarios-sep-2022'
+      --dsraRuptureRepo=${DSRA_REPOSITORY} \
+      --dsraRuptureBranch=${DSRA_BRANCH}
 
 LOG "## Generating indicator views"
   for item in "${EQSCENARIO_LIST_LONGFORM[@]}"; do
