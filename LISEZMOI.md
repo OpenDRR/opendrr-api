@@ -1,57 +1,56 @@
 # opendrr-api
-
-REST API for OpenDRR data
-[![GitHub Super-Linter](https://github.com/OpenDRR/opendrr-api/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
+[
+![GitHub Super-Linter](https://github.com/OpenDRR/opendrr-api/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
 ![GitHub](https://img.shields.io/github/license/OpenDRR/opendrr-api)
+
+API REST pour les données OpenDRR
 <img src="https://github.com/OpenDRR/documentation/blob/master/models/opendrr-stack.png" width="600">
 
-opendrr-api is a repository used in conjunction with the [model-factory](https://github.com/opendrr/model-factory/) repository. It contains python, shell, and dockerfile scripts to successfully implement a REST API for openDRR data which includes a PostGIS database, Elasticsearch, Kibana, and pygeoapi. The model-factory repository contains the necessary scripts to transform the opendrr source data into risk profile indicators that go into the PostGIS database.
+opendrr-api est un référentiel utilisé conjointement avec le référentiel [model-factory](https://github.com/opendrr/model-factory/). Il contient des scripts python, shell et dockerfile pour mettre en œuvre avec succès une API REST pour les données openDRR qui comprennent une base de données PostGIS, Elasticsearch, Kibana et pygeoapi. Le référentiel model-factory contient les scripts nécessaires pour transformer les données sources opendrr en indicateurs de profil de risque qui vont dans la base de données PostGIS.
 
  - **postgis/**
-	 - Scripts to setup the postGIS database.
+	 - Scripts pour configurer la base de données PostGIS.
 - **pygeoapi/**
-	- Scripts to setup pygeoapi.
+	- Scripts pour configurer pygeoapi.
 - **python/**
-	- Scripts to process opendrr source data, model-factory scripts, and load elasticsearch indexes.
+	- Scripts pour traiter les données sources d'opendrr, les scripts de model-factory, et charger les index d'elasticsearch.
 - docker-compose-run.yml, docker-compose.yml, opendrr-config_template.yml
-    - docker compose and opendrr config files
+    - fichiers de configuration de docker-compose et d'opendrr
 - requirements.txt
-	- list of modules and versions required to be installed.  `$ pip install -r requirements.txt`
+	- liste des modules et des versions qui doivent être installés.  `$ pip install -r requirements.txt`
 
-Refer to the [releases section](https://github.com/OpenDRR/opendrr-api/releases) for latest version changes.
+Référez-vous à la section [releases](https://github.com/OpenDRR/opendrr-api/releases) pour les derniers changements de version.
 
+### Comment construire votre propre pile - Configuration dans votre environnement local
 
+### 1. Prérequis
 
-## How to build your own stack - Setup in your local environment
+- [Docker engine](https://docs.docker.com/get-docker/) installé et en cours d'exécution
+- Téléchargez ou clonez ce dépôt dans votre environnement de développement local.
 
-### 1. Prerequisites
+### 2. Modifier les paramètres de l'environnement Docker
 
-- [Docker engine](https://docs.docker.com/get-docker/) installed and running
-- Download or clone this repository to your local development environment
+Faites une copie du fichier `sample.env` et renommez-le en `.env`. Apportez des modifications si nécessaire, sinon laissez les paramètres par défaut.
 
-### 2. Edit the Docker environment settings
+Les paramètres ci-dessous se trouvent dans le fichier .env et peuvent être ajustés à **'true'** ou **'false'** selon vos préférences. Par exemple, si vous souhaitez charger les données PSRA dans leur propre base de données PostGIS, Elasticsearch et Kibana, vous pouvez définir processPSRA et loadPsraModels sur 'true' et toutes les autres options sur 'false'. Le fait de spécifier les fonctionnalités qui sont uniquement nécessaires peut vous faire gagner du temps.
 
-Make a copy of the `sample.env` file and rename it to `.env`. Make changes if required otherwise leave the default settings.
-
-The settings below can be found in the .env file and can be adjusted to **'true'** or **'false'** depending on your preference. For example, if you want to load the PSRA data into their own PostGIS database, Elasticsearch, and Kibana, you can set processPSRA and loadPsraModels to 'true' and have all other options set to 'false'. Specifying the features that are only required can save you time.
-
-Processing the Earthquake Scenarios (DSRA) / Probabilistic Earthquake Risk (PSRA) source data:
+Traitement des données sources Scénarios sismiques (DSRA) / Risque sismique probabiliste (PSRA) :
 
     processDSRA=true
     processPSRA=true
 
-Loading the indexes into Elasticsearch and Kibana:
+Chargement des index dans Elasticsearch et Kibana :
 
     loadDsraScenario=true
     loadPsraModels=true
-    loadHazardThreat=false
+    loadHazardThreat=false (menace de danger)
     loadPhysicalExposure=true
     loadRiskDynamics=true
     loadSocialFabric=true
 
-### 3. Edit the Python container configuration
+### 3. Modifiez la configuration du conteneur Python
 
-Make a copy of `python/sample_config.ini` and rename it `config.ini`. Open this file in an editor, add the required [github_token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) and set the remaining parameters as follows:
+Faites une copie de `python/sample_config.ini` et renommez-la `config.ini`. Ouvrez ce fichier dans un éditeur, ajoutez le [github_token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) requis et définissez les paramètres restants comme suit :
 
     [auth]
     # Github Token for Private Repo Accesss
@@ -74,24 +73,24 @@ Make a copy of `python/sample_config.ini` and rename it `config.ini`. Open this 
     kibana_endpoint = localhost:5601
     # version of indices to be configured (i.e. v1.4.1)
     index_version = v1.4.4
-
-### 4. Run docker-compose
+    
+### 4. Exécutez docker-compose
 
     docker-compose up --build
 
-> NOTE: you will see errors thrown by the opendrr-api_pygeoapi-opendrr_1 container as the stack builds. These can be ignored.
+> NOTE : vous verrez des erreurs lancées par le conteneur opendrr-api_pygeoapi-opendrr_1 pendant la construction de la pile. Celles-ci peuvent être ignorées.
 
-Once the stack is built the user will need to verify that everything is working.
+Une fois la pile construite, l'utilisateur devra vérifier que tout fonctionne.
 
-> NOTE: you can stop the stack whenever you like with `Ctrl-C` or `docker-compose stop`. See below on how you can bring the stack back up without re-building.
+> NOTE : vous pouvez arrêter la pile quand vous le souhaitez avec `Ctrl-C` ou `docker-compose stop`. Voir ci-dessous comment vous pouvez remettre la pile en marche sans la recompiler.
 
-### 5. Verify that everything is working
+### 5. Vérifiez que tout fonctionne
 
-Check Elasticsearch to ensure that the indexes were created:
+Vérifiez Elasticsearch pour vous assurer que les index ont été créés :
 
 <http://localhost:9200/_cat/indices?v&pretty>
 
-You should see something similar to:
+Vous devriez voir quelque chose de similaire à :
 
     health status index ...
     green  open   afm7p2_lrdmf_scenario_shakemap_intensity_building
@@ -105,19 +104,19 @@ You should see something similar to:
     green  open   afm7p2_lrdmf_casualties_building
     green  open   .kibana_1
 
-You can explore the indexes in Elasticsearch using Kibana
+Vous pouvez explorer les index dans Elasticsearch à l'aide de Kibana.
 
 <http://localhost:5601>
 
-Check pygeoapi to make sure the collections can be accessed
+Vérifiez pygeoapi pour vous assurer que les collections sont accessibles.
 
 <http://localhost:5001/collections>
 
-Feature collections can be accessed as follows or by clicking on the links provided on the collections page
+Les collections de fonctionnalités sont accessibles comme suit ou en cliquant sur les liens fournis sur la page des collections.
 
 <http://localhost:5001/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?f=json&limit=1>
 
-You should see something similar to:
+Vous devriez voir quelque chose de similaire à :
 
     {
         "type": "FeatureCollection",
@@ -196,33 +195,33 @@ You should see something similar to:
         "timeStamp": "2020-08-18T22:46:10.513010Z"
         }
 
-## Interacting with the endpoints
+### Interagir avec les points de terminaison
 
-### Querying pygeoapi
+### Interroger pygeoapi
 
-Refer to the pygeoapi documentation for general guidance:
+Reportez-vous à la documentation de pygeoapi pour des conseils généraux :
 
 <!-- textlint-disable -->
 <http://localhost:5001/openapi?f=html>
 <!-- textlint-enable -->`
 
-> NOTE: querying is currently limited to spatial extent and exact value queries. For more complex querying use Elasticsearch (see below).
+> NOTE : l'interrogation est actuellement limitée à l'étendue spatiale et aux requêtes de valeur exacte. Pour des requêtes plus complexes, utilisez Elasticsearch (voir ci-dessous).
 
-#### To filter on a specfic attribute
+#### Pour filtrer sur un attribut spécifique
 
 <http://localhost:5001/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?sH_Mag=7.2>
 
-#### To filter using a bounding box
+#### Pour filtrer en utilisant une boîte de délimitation
 
 <http://localhost:5001/collections/afm7p2_lrdmf_scenario_shakemap_intensity_building/items?bbox=-119,48.8,-118.9,49.8&f=json>
 
-### Querying Elasticsearch
+### Interrogation d'Elasticsearch
 
-#### Range query
+#### Requête de plage
 
-<http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search?q=properties.sH_PGA:[0.047580+TO+0.047584]>
+<http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search?q=properties.sH_PGA :[0.047580+À+0.047584]>
 
-OR using curl:
+OU en utilisant curl :
 
     curl -XGET "http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search" -H 'Content-Type:
     application/json' -d'
@@ -237,11 +236,11 @@ OR using curl:
         }
     }'
 
-#### Specific value
+#### Valeur spécifique
 
 <http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search?q=properties.sH_PGA:0.047584>
 
-OR using curl:
+OU en utilisant curl :
 
     curl -XGET "http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search" -H 'Content-Type:
     application/json' -d'
@@ -253,7 +252,7 @@ OR using curl:
         }
     }'
 
-#### Bounding box query
+#### Requête de boîte englobante
 
     curl -XGET "http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search" -H 'Content-Type:
     application/json' -d'
@@ -277,7 +276,7 @@ OR using curl:
         }
     }'
 
-#### Nearest query
+#### Requête la plus proche
 
     curl -XGET "http://localhost:9200/nhsl_hazard_threat_all_indicators_s/_search" -H 'Content-Type:
     application/json' -d'
@@ -295,52 +294,52 @@ OR using curl:
       }
     }'
 
-## Interacting with the spatial database
+## Interaction avec la base de données spatiale
 
-The spatial database is implemented using PostGIS. You can connect to PostGIS using [pgAdmin](https://www.pgadmin.org/) with the connection parameters in your `.env` file. For example:
+La base de données spatiale est implémentée à l'aide de PostGIS. Vous pouvez vous connecter à PostGIS en utilisant [pgAdmin](https://www.pgadmin.org/) avec les paramètres de connexion dans votre fichier `.env`. Par exemple :
 
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: password
     POSTGRES_PORT: 5432
     DB_NAME: opendrr
 
-### Adding datasets to QGIS
+### Ajout de jeux de données à QGIS
 
-You have two options:
+Vous avez deux options :
 
-#### Connect to PostGIS
+#### Se connecter à PostGIS
 
-1. Add a "New Connection" by right clicking on the "PostGIS" data type in the browser
-2. Enter a name for your connection (i.e. "OpenDRR")
-3. Add the credentials as per your `.env` file (see above)
-4. Click the "OK" button
+1. Ajoutez une "Nouvelle connexion" en faisant un clic droit sur le type de données "PostGIS" dans le navigateur.
+2. Saisissez un nom pour votre connexion (par exemple, "OpenDRR").
+3. Ajoutez les informations d'identification selon votre fichier `.env` (voir ci-dessus).
+4. Cliquez sur le bouton "OK".
 
-#### Connect to OGC OpenAPI - Features
+#### Connexion à OGC OpenAPI - Caractéristiques
 
-1. Add a "New Connection" by right clicking on the "WFS / OGC API -Features" data type in the browser
-2. Enter a name for your connection (i.e. "OpenDRR")
-3. Enter `http://localhost:5001` in the URL field
-4. Select "OGC API - Features" in the "Version" dropdown
-4. Click the "OK" button
+1. Ajoutez une "Nouvelle connexion" en faisant un clic droit sur le type de données "WFS / OGC API -Features" dans le navigateur.
+2. Saisissez un nom pour votre connexion (par exemple, "OpenDRR").
+3. Entrez `http://localhost:5001` dans le champ URL.
+4. Sélectionnez "OGC API - Features" dans la liste déroulante "Version".
+4. Cliquez sur le bouton "OK".
 
-## Start/Stop the stack
+## Démarrer/arrêter la pile
 
-Once the stack is built you only need to re-build when there is new data. The `docker-compose-run.yml` script is an override that you can use to run the built stack - it doesn't create the python container that pulls the latest code and data from GitHub to populate the stack.
+Une fois que la pile est construite, vous n'avez besoin de la recompiler que lorsqu'il y a de nouvelles données. Le script `docker-compose-run.yml` est une surcharge que vous pouvez utiliser pour exécuter la pile construite - il ne crée pas le conteneur python qui tire le dernier code et les données de GitHub pour alimenter la pile.
 
-To start the stack:
+Pour démarrer la pile :
 
     docker-compose -f docker-compose-run.yml start
 
-To stop the stack:
+Pour arrêter la pile :
 
     docker-compose -f docker-compose-run.yml stop
 
-## Updating or rebuilding the stack
+## Mise à jour ou reconstruction de la pile
 
-Take the stack down and remove the volumes:
+Mettez la pile hors service et supprimez les volumes :
 
     docker-compose down -v
 
-Rebuild the stack:
+Reconstruisez la pile :
 
     docker-compose up --build
