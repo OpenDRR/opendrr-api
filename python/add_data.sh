@@ -469,7 +469,7 @@ get_model_factory_scripts() {
 
   # Copy model-factory scripts to working directory
   # TODO: Find ways to keep these scripts in their place without copying them all to WORKDIR
-  RUN cp model-factory-1.4.3/scripts/*.* .
+  RUN cp model-factory-1.4.4/scripts/*.* .
   # RUN cp model-factory/scripts/*.* .
   #rm -rf model-factory
 }
