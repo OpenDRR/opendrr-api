@@ -433,8 +433,8 @@ get_git_lfs_pointers_of_csv_files() {
   rm -rf "$base_dir"
   mkdir -p "$base_dir"
   ( cd "$base_dir" && \
-    for repo in seismic-risk-model model-inputs openquake-inputs earthquake-scenarios; do
-      RUN git clone --filter=blob:none --no-checkout "https://${GITHUB_TOKEN}@github.com/OpenDRR/${repo}.git"
+    for repo in OpenDRR/earthquake-scenarios OpenDRR/openquake-inputs OpenDRR/seismic-risk-model; do
+      RUN git clone --filter=blob:none --no-checkout "https://${GITHUB_TOKEN}@github.com/${repo}.git"
       is_dry_run || \
         ( cd $repo && \
           git sparse-checkout set '*.csv' && \
