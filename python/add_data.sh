@@ -442,11 +442,12 @@ read_github_token() {
   # TEST_PRIVATE_REPO is set to any private Git repository within the
   # OpenDRR organization, for testing the validity of the user's GitHub token
   TEST_PRIVATE_REPO=OpenDRR/DSRA-processing
+  TEST_PRIVATE_FILE=README.md
 
   tmpfile=$(mktemp)
   status_code=$(curl --write-out "%{http_code}" --silent --output "$tmpfile" \
     -H "Authorization: token ${GITHUB_TOKEN}" \
-    -L https://api.github.com/repos/${TEST_PRIVATE_REPO}/contents/eDamage/output)
+    -L https://api.github.com/repos/${TEST_PRIVATE_REPO}/contents/${TEST_PRIVATE_FILE})
   INFO "Access to test private repo ${TEST_PRIVATE_REPO} returns HTTP status code $status_code"
 
   if [[ "$status_code" -ne 200 ]] ; then
