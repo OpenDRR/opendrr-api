@@ -437,11 +437,15 @@ read_github_token() {
     WARN "Your GITHUB_TOKEN has a length of ${#GITHUB_TOKEN} characters, but 40 or above is expected."
   fi
 
+  # TEST_PRIVATE_REPO is set to any private Git repository within the
+  # OpenDRR organization, for testing the validity of the user's GitHub token
+  TEST_PRIVATE_REPO=OpenDRR/DSRA-processing
+
   tmpfile=$(mktemp)
   status_code=$(curl --write-out "%{http_code}" --silent --output "$tmpfile" \
     -H "Authorization: token ${GITHUB_TOKEN}" \
-    -L https://api.github.com/repos/OpenDRR/seismic-risk-model/contents/eDamage/output)
-  INFO "Access to OpenDRR/seismic-risk-model returns HTTP status code $status_code"
+    -L https://api.github.com/repos/${TEST_PRIVATE_REPO}/contents/eDamage/output)
+  INFO "Access to test private repo ${TEST_PRIVATE_REPO} returns HTTP status code $status_code"
 
   if [[ "$status_code" -ne 200 ]] ; then
     cat "$tmpfile"
@@ -450,7 +454,7 @@ read_github_token() {
         ERROR "Your GitHub token is invalid or has expired. Aborting..."
         ;;
       404)
-        ERROR "Your GitHub token was unable to access https://github.com/OpenDRR/seismic-risk-model. Please ensure the \"repo\" scope is enabled for the token. Aborting..."
+        ERROR "Your GitHub token was unable to access ${TEST_PRIVATE_REPO}. Please ensure the \"repo\" scope is enabled for the token. Aborting..."
         ;;
       *)
         ERROR "Unhandled error ($status_code): Please try again. Aborting..."
