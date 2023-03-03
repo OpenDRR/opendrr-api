@@ -29,8 +29,10 @@ ADD_DATA_PRINT_FUNCNAME=${ADD_DATA_PRINT_FUNCNAME:-true}
 ADD_DATA_PRINT_LINENO=${ADD_DATA_PRINT_LINENO:-true}
 ADD_DATA_REDUCE_DISK_USAGE=${ADD_DATA_REDUCE_DISK_USAGE:-true}
 
-DSRA_REPOSITORY=OpenDRR/DSRA-processing
-DSRA_BRANCH=six-new-scenarios-sep-2022
+DSRA_REPOSITORY=OpenDRR/earthquake-scenarios
+DSRA_BRANCH=master
+# DSRA_REPOSITORY=OpenDRR/DSRA-processing
+# DSRA_BRANCH=six-new-scenarios-sep-2022
 
 PT_LIST=(AB BC MB NB NL NS NT NU ON PE QC SK YT)
 # PT_LIST=(AB MB NB NL NS NT NU ON PE QC SK YT)
@@ -722,7 +724,7 @@ import_shakemap() {
     RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
       --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
       -o "$shakemap_filename" \
-      -L "${shakemap}?ref=six-new-scenarios-sep-2022"
+      -L "${shakemap}?ref=${DSRA_BRANCH}"
     is_dry_run || DOWNLOAD_URL=$(jq -r '.download_url' "$shakemap_filename")
     LOG "$DOWNLOAD_URL"
     RUN curl -o "$shakemap_filename" \
