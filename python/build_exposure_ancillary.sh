@@ -283,7 +283,7 @@ fetch_psra_csv_from_model() {
     RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
       --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
       -o "${PT}.json" \
-      -L "https://api.github.com/repos/OpenDRR/canada-srm2/contents/$model/output/${PT}?ref=master"
+      -L "https://api.github.com/repos/OpenDRR/seismic-risk-model/contents/$model/output/${PT}?ref=master"
 
     RUN mapfile -t DOWNLOAD_LIST < <(jq -r '.[].url | select(. | contains(".csv"))' "${PT}.json")
 
@@ -390,8 +390,8 @@ read_github_token() {
   tmpfile=$(mktemp)
   status_code=$(curl --write-out "%{http_code}" --silent --output "$tmpfile" \
     -H "Authorization: token ${GITHUB_TOKEN}" \
-    -L https://api.github.com/repos/OpenDRR/canada-srm2/contents/eDamage/output)
-  INFO "Access to OpenDRR/canada-srm2 returns HTTP status code $status_code"
+    -L https://api.github.com/repos/OpenDRR/seismic-risk-model/contents/eDamage/output)
+  INFO "Access to OpenDRR/seismic-risk-model returns HTTP status code $status_code"
 
   if [[ "$status_code" -ne 200 ]] ; then
     cat "$tmpfile"
@@ -400,7 +400,7 @@ read_github_token() {
         ERROR "Your GitHub token is invalid or has expired. Aborting..."
         ;;
       404)
-        ERROR "Your GitHub token was unable to access https://github.com/OpenDRR/canada-srm2. Please ensure the \"repo\" scope is enabled for the token. Aborting..."
+        ERROR "Your GitHub token was unable to access https://github.com/OpenDRR/seismic-risk-model. Please ensure the \"repo\" scope is enabled for the token. Aborting..."
         ;;
       *)
         ERROR "Unhandled error ($status_code): Please try again. Aborting..."
@@ -433,7 +433,7 @@ get_git_lfs_pointers_of_csv_files() {
   rm -rf "$base_dir"
   mkdir -p "$base_dir"
   ( cd "$base_dir" && \
-    for repo in canada-srm2 model-inputs openquake-inputs earthquake-scenarios; do
+    for repo in seismic-risk-model model-inputs openquake-inputs earthquake-scenarios; do
       RUN git clone --filter=blob:none --no-checkout "https://${GITHUB_TOKEN}@github.com/OpenDRR/${repo}.git"
       is_dry_run || \
         ( cd $repo && \
@@ -647,7 +647,7 @@ download_luts() {
     exposure/general-building-stock/1.%20documentation/collapse_probability.csv
   RUN run_psql Create_collapse_probability_table.sql
 
-  # RUN fetch_csv canada-srm2 \
+  # RUN fetch_csv seismic-risk-model \
   #   blob/tieg_natmodel2021/sourceTypes.csv
   RUN fetch_csv seismic-risk-model \
     sourceTypes.csv?ref=master
