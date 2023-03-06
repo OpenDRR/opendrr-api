@@ -3,14 +3,14 @@
 #
 # add_data.sh - Populate PostGIS database for Elasticsearch
 #
-# Copyright (C) 2020-2023 Government of Canada
+# Copyright (C) 2020-2022 Government of Canada
 #
-# Authors: Drew Rotheram-Clarke <drew.rotheram-clarke@canada.ca>
-#          Joost van Ulden <joost.vanulden@canada.ca>
-#          Anthony Fok <anthony.fok@canada.ca>
+# Main Authors: Drew Rotheram-Clarke <drew.rotheram-clarke@canada.ca>
+#               Joost van Ulden <joost.vanulden@canada.ca>
+#               Anthony Fok <anthony.fok@nrcan-rncan.gc.ca>
 
 trap : TERM INT
-set -e -u
+set -e
 
 ############################################################################################
 ############    Define global variables                                         ############
@@ -19,16 +19,12 @@ set -e -u
 # Needed variables (defined in .env for Docker Compose, or in a Amazon ECS task definition)
 ENV_VAR_LIST=(
   POSTGRES_USER POSTGRES_PASS POSTGRES_PORT POSTGRES_HOST DB_NAME
-  POPULATE_DB
-  KIBANA_ENDPOINT ES_ENDPOINT ES_USER ES_PASS
+  POPULATE_DB \
+  KIBANA_ENDPOINT ES_ENDPOINT ES_USER ES_PASS \
   loadDsraScenario loadPsraModels loadHazardThreat loadPhysicalExposure
   loadRiskDynamics loadSocialFabric
-  processDSRA processPSRA
-  # autoParseDSRA
-  # dsraScenarioList
 )
 
-ADD_DATA_DRY_RUN=${ADD_DATA_PRINT_FUNCNAME:-false}
 ADD_DATA_PRINT_FUNCNAME=${ADD_DATA_PRINT_FUNCNAME:-true}
 ADD_DATA_PRINT_LINENO=${ADD_DATA_PRINT_LINENO:-true}
 ADD_DATA_REDUCE_DISK_USAGE=${ADD_DATA_REDUCE_DISK_USAGE:-true}
@@ -79,7 +75,7 @@ LOG() {
 
   for i in "$@"; do
     # Hide secrets
-    [[ -v GITHUB_TOKEN ]] && i="${i//$GITHUB_TOKEN/***}"
+    i="${i//$GITHUB_TOKEN/***}"
     [[ ${POSTGRES_PASS,,} != password ]] && i="${i//$POSTGRES_PASS/***}"
     [[ ${ES_PASS,,} != password ]] && i="${i//$ES_PASS/***}"
     # Try to add quotes as appropriate
@@ -416,13 +412,11 @@ setup_eatmydata() {
 
 # check_environment_variables ensures required environment variables are defined,
 # either in Docker Compose .env file, or in Amazon ECS task definition.
-
 check_environment_variables() {
   LOG "## Check needed environment variables"
   for var in "${ENV_VAR_LIST[@]}"; do
-    if [[ -v $var ]] && [[ -n ${!var} ]]; then
-      INFO "$var = ${!var}"
-    else
+    INFO "$var = ${!var}"
+    if [[ -z ${!var} ]]; then
       if [[ "$var" =~ ^(ES_USER|ES_PASS)$ ]]; then
         WARN "Optional variable $var is not set.  Continuing..."
       else
@@ -499,7 +493,7 @@ get_git_lfs_pointers_of_csv_files() {
     for repo in ${DSRA_REPOSITORY} OpenDRR/openquake-inputs OpenDRR/seismic-risk-model; do
       RUN git clone --filter=blob:none --no-checkout "https://${GITHUB_TOKEN}@github.com/${repo}.git"
       is_dry_run || \
-        ( cd "$(basename "$repo")" && \
+        ( cd "$repo" && \
           git sparse-checkout set '*.csv' && \
           GIT_LFS_SKIP_SMUDGE=1 git checkout )
     done
@@ -974,7 +968,7 @@ main() {
   RUN import_exposure_ancillary_db
   RUN download_luts
 
-  if [[ $processPSRA == true ]]; then
+  if [[ $processPSRA = true ]]; then
     LOG "# Processing PSRA"
     RUN import_raw_psra_tables
     RUN post_process_psra_tables
@@ -982,7 +976,7 @@ main() {
     LOG "# Omitting PSRA Processing"
   fi
 
-  if [[ $processDSRA == true ]]; then
+  if [[ $processDSRA = true ]]; then
     LOG "# Process DSRA"
     RUN import_earthquake_scenarios
     RUN import_shakemap
