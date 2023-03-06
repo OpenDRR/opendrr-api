@@ -27,7 +27,7 @@
 #
 # =================================================================
 
-FROM postgis/postgis
+FROM postgis/postgis:15-3.3
 
 LABEL maintainer="Joost van Ulden <joost.vanulden@canada.ca>"
 
