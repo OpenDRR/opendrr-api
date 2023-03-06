@@ -493,7 +493,7 @@ get_git_lfs_pointers_of_csv_files() {
     for repo in ${DSRA_REPOSITORY} OpenDRR/openquake-inputs OpenDRR/seismic-risk-model; do
       RUN git clone --filter=blob:none --no-checkout "https://${GITHUB_TOKEN}@github.com/${repo}.git"
       is_dry_run || \
-        ( cd "$repo" && \
+        ( cd "$(basename "$repo")" && \
           git sparse-checkout set '*.csv' && \
           GIT_LFS_SKIP_SMUDGE=1 git checkout )
     done
