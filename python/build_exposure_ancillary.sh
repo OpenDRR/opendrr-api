@@ -1,13 +1,13 @@
 #!/bin/bash
 # SPDX-License-Identifier: MIT
 #
-# add_data.sh - Populate PostGIS database for Elasticsearch
+# build_exposure_ancillary.sh - Pre-populate PostGIS database
 #
-# Copyright (C) 2020-2022 Government of Canada
+# Copyright (C) 2020-2023 Government of Canada
 #
-# Main Authors: Drew Rotheram-Clarke <drew.rotheram-clarke@canada.ca>
-#               Joost van Ulden <joost.vanulden@canada.ca>
-#               Anthony Fok <anthony.fok@nrcan-rncan.gc.ca>
+# Authors: Drew Rotheram-Clarke <drew.rotheram-clarke@canada.ca>
+#          Joost van Ulden <joost.vanulden@canada.ca>
+#          Anthony Fok <anthony.fok@canada.ca>
 
 trap : TERM INT
 set -e
@@ -436,7 +436,7 @@ get_git_lfs_pointers_of_csv_files() {
     for repo in OpenDRR/earthquake-scenarios OpenDRR/openquake-inputs OpenDRR/seismic-risk-model; do
       RUN git clone --filter=blob:none --no-checkout "https://${GITHUB_TOKEN}@github.com/${repo}.git"
       is_dry_run || \
-        ( cd $repo && \
+        ( cd "$(basename "$repo")" && \
           git sparse-checkout set '*.csv' && \
           GIT_LFS_SKIP_SMUDGE=1 git checkout )
     done
