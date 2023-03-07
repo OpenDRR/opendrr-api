@@ -958,7 +958,8 @@ main() {
   RUN check_environment_variables
   RUN read_github_token
   RUN get_model_factory_scripts
-  RUN get_git_lfs_pointers_of_csv_files
+  # TODO: Use get_git_lfs_pointers_of_csv_files when CSV compression is implemented.
+  # RUN get_git_lfs_pointers_of_csv_files
   RUN wait_for_postgres
   # Speed up PostgreSQL operations
   RUN set_synchronous_commit off
