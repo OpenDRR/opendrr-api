@@ -53,11 +53,11 @@ Chargement des index dans Elasticsearch et Kibana :
 Faites une copie de `python/sample_config.ini` et renommez-la `config.ini`. Ouvrez ce fichier dans un éditeur, ajoutez le [github_token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) requis et définissez les paramètres restants comme suit :
 
     [auth]
-    # Github Token for Private Repo Accesss
-    github_token = a00049ba79152d03380c34652f2cb612
+    # Jeton GitHub pour l'accès au repo privé
+    github_token = ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     [rds]
-    # PostGIS Connection Details
+    # Détails de la connexion PostGIS
     postgres_host = db-opendrr
     postgres_port = 5432
     postgres_un = postgres
@@ -66,7 +66,7 @@ Faites une copie de `python/sample_config.ini` et renommez-la `config.ini`. Ouvr
     postgres_address = db-opendrr:5432/opendrr
 
     [es]
-    # Elasticsearch Connection Details
+    # Détails de la connexion Elasticsearch
     es_un = elastic
     es_pw = changeme
     es_endpoint = elasticsearch-opendrr:9200
