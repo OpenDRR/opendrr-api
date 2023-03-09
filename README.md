@@ -54,8 +54,8 @@ Loading the indexes into Elasticsearch and Kibana:
 Make a copy of `python/sample_config.ini` and rename it `config.ini`. Open this file in an editor, add the required [github_token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) and set the remaining parameters as follows:
 
     [auth]
-    # Github Token for Private Repo Accesss
-    github_token = a00049ba79152d03380c34652f2cb612
+    # GitHub Token for Private Repo Accesss
+    github_token = ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     [rds]
     # PostGIS Connection Details
