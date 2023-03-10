@@ -5,22 +5,22 @@ REST API for OpenDRR data
 ![GitHub](https://img.shields.io/github/license/OpenDRR/opendrr-api)
 <img src="https://github.com/OpenDRR/documentation/blob/master/models/opendrr-stack.png" width="600">
 
-opendrr-api is a repository used in conjunction with the [model-factory](https://github.com/opendrr/model-factory/) repository. It contains python, shell, and dockerfile scripts to successfully implement a REST API for openDRR data which includes a PostGIS database, Elasticsearch, Kibana, and pygeoapi. The model-factory repository contains the necessary scripts to transform the opendrr source data into risk profile indicators that go into the PostGIS database.
+opendrr-api is a repository used in conjunction with the [model-factory](https://github.com/opendrr/model-factory/) repository.
+It contains Python, Bash, and Dockerfile scripts to successfully implement a REST API for OpenDRR data which includes a PostGIS database, Elasticsearch, Kibana, and pygeoapi.
+The model-factory repository contains the necessary scripts to transform the OpenDRR source data into risk profile indicators that go into the PostGIS database.
 
- - **postgis/**
-	 - Scripts to setup the postGIS database.
+- **postgis/**
+  - Scripts to setup the postGIS database.
 - **pygeoapi/**
-	- Scripts to setup pygeoapi.
+  - Scripts to setup pygeoapi.
 - **python/**
-	- Scripts to process opendrr source data, model-factory scripts, and load elasticsearch indexes.
+  - Scripts to process opendrr source data, model-factory scripts, and load elasticsearch indexes.
 - docker-compose-run.yml, docker-compose.yml, opendrr-config_template.yml
-    - docker compose and opendrr config files
+  - docker compose and opendrr config files
 - requirements.txt
-	- list of modules and versions required to be installed.  `$ pip install -r requirements.txt`
+  - list of modules and versions required to be installed.  `$ pip install -r requirements.txt`
 
 Refer to the [releases section](https://github.com/OpenDRR/opendrr-api/releases) for latest version changes.
-
-
 
 ## How to build your own stack - Setup in your local environment
 
@@ -33,7 +33,9 @@ Refer to the [releases section](https://github.com/OpenDRR/opendrr-api/releases)
 
 Make a copy of the `sample.env` file and rename it to `.env`. Make changes if required otherwise leave the default settings.
 
-The settings below can be found in the .env file and can be adjusted to **'true'** or **'false'** depending on your preference. For example, if you want to load the PSRA data into their own PostGIS database, Elasticsearch, and Kibana, you can set processPSRA and loadPsraModels to 'true' and have all other options set to 'false'. Specifying the features that are only required can save you time.
+The settings below can be found in the .env file and can be adjusted to **'true'** or **'false'** depending on your preference.
+For example, if you want to load the PSRA data into their own PostGIS database, Elasticsearch, and Kibana, you can set processPSRA and loadPsraModels to 'true' and have all other options set to 'false'.
+Specifying the features that are only required can save you time.
 
 Processing the Earthquake Scenarios (DSRA) / Probabilistic Earthquake Risk (PSRA) source data:
 

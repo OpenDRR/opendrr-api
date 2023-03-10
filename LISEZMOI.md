@@ -1,27 +1,28 @@
 # opendrr-api
-[
-![GitHub Super-Linter](https://github.com/OpenDRR/opendrr-api/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
-![GitHub](https://img.shields.io/github/license/OpenDRR/opendrr-api)
 
 API REST pour les données OpenDRR
+[![GitHub Super-Linter](https://github.com/OpenDRR/opendrr-api/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
+![GitHub](https://img.shields.io/github/license/OpenDRR/opendrr-api)
 <img src="https://github.com/OpenDRR/documentation/blob/master/models/opendrr-stack.png" width="600">
 
-opendrr-api est un référentiel utilisé conjointement avec le référentiel [model-factory](https://github.com/opendrr/model-factory/). Il contient des scripts python, shell et dockerfile pour mettre en œuvre avec succès une API REST pour les données openDRR qui comprennent une base de données PostGIS, Elasticsearch, Kibana et pygeoapi. Le référentiel model-factory contient les scripts nécessaires pour transformer les données sources opendrr en indicateurs de profil de risque qui vont dans la base de données PostGIS.
+opendrr-api est un référentiel utilisé conjointement avec le référentiel [model-factory](https://github.com/opendrr/model-factory/).
+Il contient des scripts Python, Bash et Dockerfile pour mettre en œuvre avec succès une API REST pour les données OpenDRR qui comprennent une base de données PostGIS, Elasticsearch, Kibana et pygeoapi.
+Le référentiel model-factory contient les scripts nécessaires pour transformer les données sources OpenDRR en indicateurs de profil de risque qui vont dans la base de données PostGIS.
 
- - **postgis/**
-	 - Scripts pour configurer la base de données PostGIS.
+- **postgis/**
+  - Scripts pour configurer la base de données PostGIS.
 - **pygeoapi/**
-	- Scripts pour configurer pygeoapi.
+  - Scripts pour configurer pygeoapi.
 - **python/**
-	- Scripts pour traiter les données sources d'opendrr, les scripts de model-factory, et charger les index d'elasticsearch.
+  - Scripts pour traiter les données sources d'opendrr, les scripts de model-factory, et charger les index d'elasticsearch.
 - docker-compose-run.yml, docker-compose.yml, opendrr-config_template.yml
-    - fichiers de configuration de docker-compose et d'opendrr
+  - fichiers de configuration de docker-compose et d'opendrr
 - requirements.txt
-	- liste des modules et des versions qui doivent être installés.  `$ pip install -r requirements.txt`
+  - liste des modules et des versions qui doivent être installés.  `$ pip install -r requirements.txt`
 
 Référez-vous à la section [releases](https://github.com/OpenDRR/opendrr-api/releases) pour les derniers changements de version.
 
-### Comment construire votre propre pile - Configuration dans votre environnement local
+## Comment construire votre propre pile - Configuration dans votre environnement local
 
 ### 1. Prérequis
 
@@ -32,7 +33,9 @@ Référez-vous à la section [releases](https://github.com/OpenDRR/opendrr-api/r
 
 Faites une copie du fichier `sample.env` et renommez-le en `.env`. Apportez des modifications si nécessaire, sinon laissez les paramètres par défaut.
 
-Les paramètres ci-dessous se trouvent dans le fichier .env et peuvent être ajustés à **'true'** ou **'false'** selon vos préférences. Par exemple, si vous souhaitez charger les données PSRA dans leur propre base de données PostGIS, Elasticsearch et Kibana, vous pouvez définir processPSRA et loadPsraModels sur 'true' et toutes les autres options sur 'false'. Le fait de spécifier les fonctionnalités qui sont uniquement nécessaires peut vous faire gagner du temps.
+Les paramètres ci-dessous se trouvent dans le fichier .env et peuvent être ajustés à **'true'** ou **'false'** selon vos préférences.
+Par exemple, si vous souhaitez charger les données PSRA dans leur propre base de données PostGIS, Elasticsearch et Kibana, vous pouvez définir processPSRA et loadPsraModels sur 'true' et toutes les autres options sur 'false'.
+Le fait de spécifier les fonctionnalités qui sont uniquement nécessaires peut vous faire gagner du temps.
 
 Traitement des données sources Scénarios sismiques (DSRA) / Risque sismique probabiliste (PSRA) :
 
@@ -73,7 +76,7 @@ Faites une copie de `python/sample_config.ini` et renommez-la `config.ini`. Ouvr
     kibana_endpoint = localhost:5601
     # version of indices to be configured (i.e. v1.4.1)
     index_version = v1.4.4
-    
+
 ### 4. Exécutez docker-compose
 
     docker-compose up --build
@@ -219,7 +222,7 @@ Reportez-vous à la documentation de pygeoapi pour des conseils généraux :
 
 #### Requête de plage
 
-<http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search?q=properties.sH_PGA :[0.047580+À+0.047584]>
+<http://localhost:9200/afm7p2_lrdmf_scenario_shakemap_intensity_building/_search?q=properties.sH_PGA:[0.047580+TO+0.047584]>
 
 OU en utilisant curl :
 
