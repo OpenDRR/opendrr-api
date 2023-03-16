@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 # =================================================================
 #
 # Author: Joost van Ulden <joost.vanulden@canada.ca>
@@ -29,9 +30,9 @@
 
 FROM postgis/postgis:15-3.3
 
-LABEL maintainer="Joost van Ulden <joost.vanulden@canada.ca>"
-
-USER root
+LABEL org.opencontainers.image.authors="Joost van Ulden <joost.vanulden@canada.ca>, Anthony Fok <anthony.fok@canada.ca>"
+LABEL org.opencontainers.image.vendor="Government of Canada"
+LABEL org.opencontainers.image.licenses="MIT"
 
 COPY create_db.sh /docker-entrypoint-initdb.d/create_db.sh
 COPY schema.sql /schema.sql
