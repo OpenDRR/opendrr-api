@@ -19,10 +19,11 @@ set -e
 # Needed variables (defined in .env for Docker Compose, or in a Amazon ECS task definition)
 ENV_VAR_LIST=(
   POSTGRES_USER POSTGRES_PASS POSTGRES_PORT POSTGRES_HOST DB_NAME
-  POPULATE_DB \
-  KIBANA_ENDPOINT ES_ENDPOINT ES_USER ES_PASS \
+  POPULATE_DB
+  KIBANA_ENDPOINT ES_ENDPOINT ES_USER ES_PASS
   loadDsraScenario loadPsraModels loadHazardThreat loadPhysicalExposure
   loadRiskDynamics loadSocialFabric
+  processDSRA processPSRA
 )
 
 ADD_DATA_PRINT_FUNCNAME=${ADD_DATA_PRINT_FUNCNAME:-true}
@@ -819,7 +820,7 @@ export_to_elasticsearch() {
 
   LOG "## Load Probabilistic Model Indicators"
   # shellcheck disable=SC2154
-  if [ "$loadPsraModels" = true ]; then
+  if [[ $loadPsraModels == true ]]; then
     LOG "Creating PSRA indices in Elasticsearch"
     RUN python3 psra_postgres2es.py
     RUN python3 srcLoss_postgres2es.py
@@ -835,7 +836,7 @@ export_to_elasticsearch() {
 
   # Load Deterministic Model Indicators
   # shellcheck disable=SC2154
-  if [[ "$loadDsraScenario" = true ]]; then
+  if [[ $loadDsraScenario == true ]]; then
     for eqscenario in "${EQSCENARIO_LIST[@]}"; do
       LOG "Creating Elasticsearch indexes for DSRA"
       #RUN python3 dsra_postgres2es.py --eqScenario="$eqscenario" --dbview="indicators" --idField="building"
@@ -851,9 +852,9 @@ export_to_elasticsearch() {
   fi
 
   # Load Hazard Threat Views
-  # shellcheck disable=SC2154
   # 2021/09/21 DR - Keeping Hazard Threah and Risk Dynamics out of ES for the time being
-  # if [[ "$loadHazardThreat" = true ]]; then
+  # shellcheck disable=SC2154
+  # if [[ $loadHazardThreat == true ]]; then
   #   # All Indicators
   #   LOG "Creating Elasticsearch indexes for Hazard Threat"
   #   RUN python3 hazardThreat_postgres2es.py  --type="indicators" --aggregation="sauid" --geometry=geom_poly --idField="Sauid"
@@ -864,7 +865,7 @@ export_to_elasticsearch() {
 
   # Load physical exposure indicators
   # shellcheck disable=SC2154
-  if [[ $loadPhysicalExposure = true ]]; then
+  if [[ $loadPhysicalExposure == true ]]; then
     LOG "Creating Elasticsearch indexes for Physical Exposure"
     RUN python3 exposure_postgres2es.py
 
@@ -874,9 +875,9 @@ export_to_elasticsearch() {
   fi
 
   # Load Risk Dynamics Views
-  # shellcheck disable=SC2154
   # 2021/09/21 DR - Keeping Hazard Threah and Risk Dynamics out of ES for the time being
-  # if [[ $loadRiskDynamics = true ]]; then
+  # shellcheck disable=SC2154
+  # if [[ $loadRiskDynamics == true ]]; then
   #   LOG "Creating Elasticsearch indexes for Risk Dynamics"
   #   RUN python3 riskDynamics_postgres2es.py --type="indicators" --aggregation="sauid" --geometry=geom_point --idField="ghslID"
 
@@ -886,7 +887,7 @@ export_to_elasticsearch() {
 
   # Load Social Fabric Views
   # shellcheck disable=SC2154
-  if [[ $loadSocialFabric = true ]]; then
+  if [[ $loadSocialFabric == true ]]; then
     LOG "Creating Elasticsearch indexes for Social Fabric"
     RUN python3 socialFabric_postgres2es.py --aggregation="sauid" --geometry=geom_poly --sortfield="Sauid"
     RUN python3 socialFabric_postgres2es.py --aggregation="hexgrid_1km" --geometry=geom --sortfield="gridid_1"
@@ -911,7 +912,7 @@ export_to_elasticsearch() {
 
   # Load Hexgrid Geometries
   # shellcheck disable=SC2154
-  if [[ $loadHexGrid = true ]]; then
+  if [[ $loadHexGrid == true ]]; then
     LOG "Creating Elasticsearch indexes for Hexgrids"
     RUN python3 hexgrid_1km_postgres2es.py
     RUN python3 hexgrid_1km_unclipped_postgres2es.py
@@ -969,22 +970,24 @@ main() {
   RUN import_exposure_ancillary_db
   RUN download_luts
 
-  if [[ $processPSRA = true ]]; then
+  # shellcheck disable=SC2154
+  if [[ $processPSRA == true ]]; then
     LOG "# Processing PSRA"
     RUN import_raw_psra_tables
     RUN post_process_psra_tables
-  else :
+  else
     LOG "# Omitting PSRA Processing"
   fi
 
-  if [[ $processDSRA = true ]]; then
+  # shellcheck disable=SC2154
+  if [[ $processDSRA == true ]]; then
     LOG "# Process DSRA"
     RUN import_earthquake_scenarios
     RUN import_shakemap
     RUN import_rupture_model
     RUN create_scenario_risk_master_tables
     RUN create_database_check
-  else :
+  else
     LOG "# Omitting DSRA Processing"
   fi
 
