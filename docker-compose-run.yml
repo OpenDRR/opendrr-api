@@ -41,7 +41,13 @@ services:
     db-opendrr:
         image: opendrr-postgis
         build: ./postgis
-        shm_size: 1g
+
+        command: >
+            -c checkpoint_timeout=1d
+            -c max_wal_size=256GB
+            -c synchronous_commit=off
+
+        shm_size: '1gb'
  
         env_file:
             - .env

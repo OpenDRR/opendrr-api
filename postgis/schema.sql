@@ -1,5 +1,3 @@
-ALTER SYSTEM SET max_wal_size = '8GB';
-
 -- create initial source data schemas
 CREATE SCHEMA IF NOT EXISTS boundaries;
 CREATE SCHEMA IF NOT EXISTS census;
