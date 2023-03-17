@@ -43,8 +43,13 @@ services:
         build: ./postgis
 
         command: >
-            -c checkpoint_timeout=1d
-            -c max_wal_size=256GB
+            -c maintenance_work_mem=512MB
+            -c max_wal_size=16GB
+            -c wal_level=minimal
+            -c max_wal_senders=0
+            -c wal_compression=lz4
+            -c wal_recycle=off
+            -c checkpoint_timeout=30min
             -c synchronous_commit=off
 
         shm_size: '1gb'
