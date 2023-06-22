@@ -521,7 +521,7 @@ import_exposure_ancillary_db() {
 
   local repo="OpenDRR/opendrr-api"
 
-  local base_branch="v1.4.4-alpha"
+  local base_branch="v1.4.4"
 
   if release_view=$(gh release view "${base_branch}" -R "${repo}"); then
     # For released version, we download from release assets
