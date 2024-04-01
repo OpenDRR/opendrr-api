@@ -3,7 +3,7 @@
 #
 # add_data.sh - Populate PostGIS database for Elasticsearch
 #
-# Copyright (C) 2020-2022 Government of Canada
+# Copyright (C) 2020-2024 Government of Canada
 #
 # Main Authors: Drew Rotheram-Clarke <drew.rotheram-clarke@canada.ca>
 #               Joost van Ulden <joost.vanulden@canada.ca>
@@ -190,8 +190,11 @@ run_ogr2ogr() {
 
 download_luts() {
   LOG "## Downloading LUTs"
+  # sourceTypes.csv was moved to scripts/sourceTypes.csv on 2023-05-29
+  # on master branch, making into v1.1.0 release on 2023-09-12.
+  # See https://github.com/OpenDRR/seismic-risk-model/pull/92
   RUN fetch_csv seismic-risk-model \
-    sourceTypes.csv?ref=master
+    scripts/sourceTypes.csv?ref=master
 }
 
 # run_psql runs PostgreSQL queries from a given input SQL file.

@@ -647,10 +647,11 @@ download_luts() {
     exposure/general-building-stock/1.%20documentation/collapse_probability.csv
   RUN run_psql Create_collapse_probability_table.sql
 
-  # RUN fetch_csv seismic-risk-model \
-  #   blob/tieg_natmodel2021/sourceTypes.csv
+  # sourceTypes.csv was moved to scripts/sourceTypes.csv on 2023-05-29
+  # on master branch, making into v1.1.0 release on 2023-09-12.
+  # See https://github.com/OpenDRR/seismic-risk-model/pull/92
   RUN fetch_csv seismic-risk-model \
-    sourceTypes.csv?ref=master
+    scripts/sourceTypes.csv?ref=master
 }
 
 download_retrofit_costs() {
