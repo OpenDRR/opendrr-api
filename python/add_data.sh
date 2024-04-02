@@ -574,9 +574,18 @@ import_raw_psra_tables() {
   # TODO: Compare PT_LIST with FETCHED_PT_LIST
   RUN mapfile -t FETCHED_PT_LIST < <(jq -r '.[].name' output.json)
 
-  # LOG "### cDamage"
-  # RUN fetch_psra_csv_from_model cDamage
-
+  # Disable cDamage.  As @wkhchow noted in commit 922c409:
+  #   change cDamage reference to eDamage (cDamage will be removed eventually)
+  # See also https://github.com/OpenDRR/opendrr-api/pull/201 (May 2022)
+  #
+  # LOG "### cDamage_beta"
+  # INFO "cDamage was renamed to cDamage_beta as it is not part of the official release"
+  # INFO "See https://github.com/OpenDRR/seismic-risk-model/pull/92"
+  # RUN fetch_psra_csv_from_model cDamage_beta
+  # LOG "Rename cDamage_beta back to cDamage"
+  # RUN rm -rf cDamage
+  # RUN mv -v cDamage_beta cDamage
+  #
   # for PT in "${PT_LIST[@]}"; do
   #   ( cd "cDamage/$PT"
   #     RUN merge_csv cD_*dmg-mean_b0.csv "cD_${PT}_dmg-mean_b0.csv"
@@ -584,8 +593,13 @@ import_raw_psra_tables() {
   #   )
   # done
 
-  LOG "### cHazard"
-  RUN fetch_psra_csv_from_model cHazard
+  LOG "### cHazard_beta"
+  INFO "cHazard was renamed to cHazard_beta as it is not part of the official release"
+  INFO "See https://github.com/OpenDRR/seismic-risk-model/pull/92"
+  RUN fetch_psra_csv_from_model cHazard_beta
+  LOG "Rename cHazard_beta back to cHazard"
+  RUN rm -rf cHazard
+  RUN mv -v cHazard_beta cHazard
 
   # This was only needed when the cHazard data was divided by economic region
   # for PT in "${PT_LIST[@]}"; do
