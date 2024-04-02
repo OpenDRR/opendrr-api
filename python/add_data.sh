@@ -26,14 +26,16 @@ ENV_VAR_LIST=(
   processDSRA processPSRA
 )
 
-ADD_DATA_PRINT_FUNCNAME=${ADD_DATA_PRINT_FUNCNAME:-true}
-ADD_DATA_PRINT_LINENO=${ADD_DATA_PRINT_LINENO:-true}
-ADD_DATA_REDUCE_DISK_USAGE=${ADD_DATA_REDUCE_DISK_USAGE:-true}
+: "${ADD_DATA_PRINT_FUNCNAME:=true}"
+: "${ADD_DATA_PRINT_LINENO:=true}"
+: "${ADD_DATA_REDUCE_DISK_USAGE:=true}"
+: "${ADD_DATA_DRY_RUN:=false}"
 
-DSRA_REPOSITORY=OpenDRR/earthquake-scenarios
-DSRA_BRANCH=master
-# DSRA_REPOSITORY=OpenDRR/DSRA-processing
-# DSRA_BRANCH=six-new-scenarios-sep-2022
+: "${PSRA_REPO:=OpenDRR/seismic-risk-model}"
+: "${PSRA_REPO_REF:=master}"
+
+: "${DSRA_REPO:=OpenDRR/earthquake-scenarios}"
+: "${DSRA_REPO_REF:=master}"
 
 PT_LIST=(AB BC MB NB NL NS NT NU ON PE QC SK YT)
 # PT_LIST=(AB MB NB NL NS NT NU ON PE QC SK YT)
@@ -194,7 +196,7 @@ download_luts() {
   # on master branch, making into v1.1.0 release on 2023-09-12.
   # See https://github.com/OpenDRR/seismic-risk-model/pull/92
   RUN fetch_csv seismic-risk-model \
-    scripts/sourceTypes.csv?ref=master
+    scripts/sourceTypes.csv${PSRA_REPO_REF:+?ref=$PSRA_REPO_REF}
 }
 
 # run_psql runs PostgreSQL queries from a given input SQL file.
@@ -298,12 +300,10 @@ fetch_psra_csv_from_model() {
   model=$1
 
   for PT in "${PT_LIST[@]}"; do
-    RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
-      --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
-      -o "${PT}.json" \
-      -L "https://api.github.com/repos/OpenDRR/seismic-risk-model/contents/$model/output/${PT}?ref=master"
-
-    RUN mapfile -t DOWNLOAD_LIST < <(jq -r '.[].url | select(. | contains(".csv"))' "${PT}.json")
+    RUN readarray -t DOWNLOAD_LIST < <( \
+      gh api "repos/${PSRA_REPO}/contents/${model}/output/${PT}${PSRA_REPO_REF:+?ref=$PSRA_REPO_REF}" \
+        -q '.[].url | select(. | contains(".csv"))' \
+    )
 
     mkdir -p "$model/$PT"
     ( cd "$model/$PT"
@@ -322,8 +322,6 @@ fetch_psra_csv_from_model() {
         # (safe for cH_${PT}_hmaps_xref.csv)
         RUN sed -i -r $'1{/^(\xEF\xBB\xBF)?#,/d}' "$FILENAME"
       done
-      # TODO: Use a different for ${PT}.json, and keep for debugging
-      RUN rm -f "${PT}.json"
     )
   done
 }
@@ -336,12 +334,10 @@ fetch_psra_csv_from_national_model() {
   model=$1
   PT=Canada
 
-  RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
-    --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
-    -o "${PT}.json" \
-    -L "https://api.github.com/repos/OpenDRR/seismic-risk-model/contents/$model/output/Canada?ref=master"
-
-  RUN mapfile -t DOWNLOAD_LIST < <(jq -r '.[].url | select(. | contains(".csv"))' "${PT}.json")
+  RUN readarray -t DOWNLOAD_LIST < <( \
+    gh api "repos/${PSRA_REPO}/contents/${model}/output/Canada${PSRA_REPO_REF:+?ref=$PSRA_REPO_REF}" \
+      -q '.[].url | select(. | contains(".csv"))' \
+  )
 
   mkdir -p "$model/$PT"
   ( cd "$model/$PT"
@@ -360,8 +356,6 @@ fetch_psra_csv_from_national_model() {
       # (safe for cH_${PT}_hmaps_xref.csv)
       RUN sed -i -r $'1{/^(\xEF\xBB\xBF)?#,/d}' "$FILENAME"
     done
-    # TODO: Use a different for ${PT}.json, and keep for debugging
-    RUN rm -f "${PT}.json"
   )
 
 }
@@ -494,7 +488,7 @@ get_git_lfs_pointers_of_csv_files() {
   RUN rm -rf "$base_dir"
   RUN mkdir -p "$base_dir"
   ( cd "$base_dir" && \
-    for repo in ${DSRA_REPOSITORY} OpenDRR/openquake-inputs OpenDRR/seismic-risk-model; do
+    for repo in "${DSRA_REPO}" OpenDRR/openquake-inputs "${PSRA_REPO}"; do
       RUN git clone --filter=blob:none --no-checkout "https://${GITHUB_TOKEN}@github.com/${repo}.git"
       is_dry_run || \
         ( RUN cd "$(basename "$repo")" && \
@@ -565,14 +559,18 @@ import_exposure_ancillary_db() {
 import_raw_psra_tables() {
   LOG "## Importing Raw PSRA Tables"
 
-  LOG "### Get list of provinces & territories"
-  RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
-    --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
-    -o output.json \
-    -L https://api.github.com/repos/OpenDRR/seismic-risk-model/contents/eDamage/output?ref=master
-
-  # TODO: Compare PT_LIST with FETCHED_PT_LIST
-  RUN mapfile -t FETCHED_PT_LIST < <(jq -r '.[].name' output.json)
+  LOG "### Get list of provinces & territories from ${PSRA_REPO}"
+  RUN readarray -t FETCHED_PT_LIST < <( \
+    gh api "repos/${PSRA_REPO}/contents/eDamage/output${PSRA_REPO_REF:+?ref=$PSRA_REPO_REF}" \
+      -q '.[].name' \
+  )
+  if [[ "${PT_LIST[*]}" == "${FETCHED_PT_LIST[*]}" ]]; then
+    LOG "PT_LIST and FETCHED_PT_LIST are equal: (${PT_LIST[*]})"
+  else
+    WARN "PT_LIST and FETCHED_PT_LIST differ:"
+    WARN "Want: (${PT_LIST[*]})"
+    WARN "Got : (${FETCHED_PT_LIST[*]})"
+  fi
 
   # Disable cDamage.  As @wkhchow noted in commit 922c409:
   #   change cDamage reference to eDamage (cDamage will be removed eventually)
@@ -712,22 +710,19 @@ post_process_psra_tables() {
 
 import_earthquake_scenarios() {
   LOG "## Get list of earthquake scenarios"
-  RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
-    --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
-    -o FINISHED.json \
-    -L https://api.github.com/repos/${DSRA_REPOSITORY}/contents/FINISHED?ref=${DSRA_BRANCH}
+  gh api "repos/${DSRA_REPO}/contents/FINISHED${DSRA_REPO_REF:+?ref=$DSRA_REPO_REF}" > FINISHED.json
 
   # s_lossesbyasset_ACM6p5_Beaufort_r1_299_b.csv → ACM6p5_Beaufort
-  RUN mapfile -t EQSCENARIO_LIST < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*(?=_r1)")' FINISHED.json)
+  RUN readarray -t EQSCENARIO_LIST < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*(?=_r1)")' FINISHED.json)
 
   # s_lossesbyasset_ACM6p5_Beaufort_r1_299_b.csv → ACM6p5_Beaufort_r1_299_b.csv
-  RUN mapfile -t EQSCENARIO_LIST_LONGFORM < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*r1.*\\.csv")' FINISHED.json)
+  RUN readarray -t EQSCENARIO_LIST_LONGFORM < <(jq -r '.[].name | scan("(?<=s_lossesbyasset_).*r1.*\\.csv")' FINISHED.json)
 
   LOG "## Importing scenario outputs into PostGIS"
   for eqscenario in "${EQSCENARIO_LIST[@]}"; do
     RUN python3 DSRA_outputs2postgres_lfs.py \
-                  --dsraRepo=${DSRA_REPOSITORY} \
-                  --dsraRepoBranch=${DSRA_BRANCH} \
+                  --dsraRepo="${DSRA_REPO}" \
+                  --dsraRepoBranch="${DSRA_REPO_REF}" \
                   --columnsINI=DSRA_outputs2postgres.ini \
                   --eqScenario="$eqscenario"
   done
@@ -736,14 +731,14 @@ import_earthquake_scenarios() {
 import_shakemap() {
   LOG "## Importing Shakemap"
   # Make a list of Shakemaps in the repo and download the raw csv files
-  mapfile -t DOWNLOAD_URL_LIST < <(jq -r '.[].url | scan(".*s_shakemap_.*(?<!MMI)\\.csv")' FINISHED.json)
+  readarray -t DOWNLOAD_URL_LIST < <(jq -r '.[].url | scan(".*s_shakemap_.*(?<!MMI)\\.csv")' FINISHED.json)
   for shakemap in "${DOWNLOAD_URL_LIST[@]}"; do
     # Get the shakemap
     shakemap_filename=$( echo "$shakemap" | cut -f9- -d/ | cut -f1 -d?)
     RUN curl -H "Authorization: token ${GITHUB_TOKEN}" \
       --retry-all-errors --retry-delay 5 --retry-max-time 0 --retry 360 \
       -o "$shakemap_filename" \
-      -L "${shakemap}?ref=${DSRA_BRANCH}"
+      -L "${shakemap}${DSRA_REPO_REF:+?ref=$DSRA_REPO_REF}"
     is_dry_run || DOWNLOAD_URL=$(jq -r '.download_url' "$shakemap_filename")
     LOG "$DOWNLOAD_URL"
     RUN curl -o "$shakemap_filename" \
@@ -755,7 +750,7 @@ import_shakemap() {
   done
 
   # Run Create_table_shakemap_update.sql or Create_table_shakemap_update_ste.sql
-  RUN mapfile -t SHAKEMAP_LIST < <(jq -r '.[].name | scan("s_shakemap_.*\\.csv")' FINISHED.json)
+  RUN readarray -t SHAKEMAP_LIST < <(jq -r '.[].name | scan("s_shakemap_.*\\.csv")' FINISHED.json)
   for ((i=0;i<${#EQSCENARIO_LIST_LONGFORM[@]};i++)); do
     item=${EQSCENARIO_LIST_LONGFORM[i]}
     #echo ${EQSCENARIO_LIST_LONGFORM[i]}
@@ -781,8 +776,8 @@ import_shakemap() {
 import_rupture_model() {
 LOG "## Importing Rupture Model"
 RUN python3 DSRA_ruptures2postgres.py \
-      --dsraRuptureRepo=${DSRA_REPOSITORY} \
-      --dsraRuptureBranch=${DSRA_BRANCH}
+      --dsraRuptureRepo="${DSRA_REPO}" \
+      --dsraRuptureBranch="${DSRA_REPO_REF}"
 
 LOG "## Generating indicator views"
   for item in "${EQSCENARIO_LIST_LONGFORM[@]}"; do
