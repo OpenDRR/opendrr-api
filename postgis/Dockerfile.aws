@@ -28,7 +28,7 @@
 #
 # =================================================================
 
-FROM postgis/postgis:15-3.3
+FROM postgis/postgis:16-3.4
 
 LABEL org.opencontainers.image.authors="Joost van Ulden <joost.vanulden@canada.ca>, Anthony Fok <anthony.fok@canada.ca>"
 LABEL org.opencontainers.image.vendor="Government of Canada"
