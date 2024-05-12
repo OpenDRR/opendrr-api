@@ -9,7 +9,7 @@ future-annotations==1.0.0
 idna==3.3
 isodate==0.6.0
 itsdangerous==2.0.1
-Jinja2==3.0.3
+Jinja2==3.1.4
 jsonschema==4.4.0
 MarkupSafe==2.0.1
 mccabe==0.6.1
